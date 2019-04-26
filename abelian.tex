@@ -1,0 +1,733 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Abelian categories}
+\label{ch:abelian_categories}
+
+\section{Basics}
+\label{sec:basics}
+
+In this chapter we provide results without proof.
+
+A category is \emph{$\Ab$-enriched} if it is enriched over the symmetric monoidal category $(\Ab, \otimes_{Z})$. In an $\Ab$-enriched category with finite products, products agree with coproducts, and we call both direct sums. We call an $\Ab$-enriched category with finite direct sums an \emph{additive} category, and we call a functor between additive categories such that the maps
+\begin{equation*}
+  \Hom(A, B) \to \Hom(F(A), F(B))
+\end{equation*}
+are homomorphisms of abelian groups. A \emph{pre-abelian} category is an additive category such that every morphism has a kernel and a cokernel, and an \emph{abelian category} is a pre-abelian category such that every monic is the kernel of its cokernel, and every epic is the cokernel of its kernel.
+
+This immediately implies the following results.
+\begin{itemize}
+  \item Kernels are monic and cokernels are epic
+
+  \item Since the equalizer of $f$ and $g$ is the kernel of $f-g$, abelian categories have all finite limits, and dually colimits.
+\end{itemize}
+
+Given a morphism $f\colon A \to B$, the image $\im f = \ker\coker f$ and the coimage is $\coker \ker f$. From this data, we build the following commuting diagram.
+\begin{equation*}
+  \begin{tikzcd}
+    & \im f
+    \arrow[d, "i"]
+    \arrow[dr, "0"]
+    \\
+    A
+    \arrow[r, "f"]
+    & B
+    \arrow[r, "g"]
+    \arrow[d, "p"]
+    & C
+    \\
+    & \coker f
+    \arrow[ur]
+  \end{tikzcd}
+\end{equation*}
+This defines a morphism $\phi\colon \im f \to \ker g$. We say that the above is \emph{exact} if $\phi$ is an isomorphism.
+
+Additive functors from additive categories preserve direct sums.
+\begin{lemma}
+  \label{lemma:conditions_for_direct_sum}
+  Let $A$ and $B$ be objects in an additive category $\mathcal{A}$, and let $X$ be an object in $\mathcal{A}$ equipped with morphisms
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[dr, "i_{A}"]
+      && A
+      \\
+      & X
+      \arrow[ur, "\pi_{A}"]
+      \arrow[dr, swap, "\pi_{A}"]
+      \\
+      B
+      \arrow[ur, swap, "i_{B}"]
+      && B
+    \end{tikzcd}
+  \end{equation*}
+  such that the following equations hold.
+  \begin{gather*}
+    i_{A} \circ \pi_{A} + i_{B} \circ \pi_{B} = \id_{X} \\
+    \pi_{A} \circ i_{B} = 0 = \pi_{B} \circ i_{A} \\
+    \pi_{A} \circ i_{A} = \id_{A} \\
+    \pi_{B} \circ i_{B} = \id_{B} \\
+  \end{gather*}
+  Then the $\pi$s and $i$s exhibit $X \simeq A \oplus B$.
+\end{lemma}
+
+\begin{corollary}
+  Let $F\colon \mathcal{A} \to \mathcal{B}$ be an additive functor between additive categories. Then $F$ preserves direct sums in the sense that there is a natural isomorphism
+  \begin{equation*}
+    F(a \oplus b) \simeq F(a) \oplus F(b).
+  \end{equation*}
+\end{corollary}
+
+\section{Homological algebra in abelian categories}
+\label{sec:homological_algebra_in_abelian_categories}
+
+\subsection{The snake lemma and its compatriots}
+\label{ssc:the_snake_lemma_and_its_compatriots}
+
+\begin{lemma}
+  \label{lemma:splitting_lemma}
+  Consider the following exact sequence in an abelian category $\mathcal{A}$.
+\end{lemma}
+
+\begin{lemma}
+  \label{lemma:pullback_preserves_kernel}
+  Let $f\colon B \twoheadrightarrow C$ be an epimorphism, and let $g\colon D \to C$ be any morphism. Then the kernel of $f$ functions as the kernel of the pullback of $f$ along $g$, in the sense that we have the following commuting diagram in which the right-hand square is a pullback square.
+  \begin{equation*}
+    \begin{tikzcd}
+      \ker f'
+      \arrow[d, equals]
+      \arrow[r, "i"]
+      & S
+      \arrow[dr, phantom, "\ulcorner", very near start]
+      \arrow[r, "f'"]
+      \arrow[d, swap, "g'"]
+      & D
+      \arrow[d, "g"]
+      \\
+      \ker f
+      \arrow[r, swap, "\iota"]
+      & B
+      \arrow[r, twoheadrightarrow, swap, "f"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  Consider the following pullback square, where $f$ is an epimorphism.
+  \begin{equation*}
+    \begin{tikzcd}
+      S
+      \arrow[r, "f'"]
+      \arrow[d, swap, "g'"]
+      \arrow[dr, phantom, "\ulcorner", very near start]
+      & D
+      \arrow[d, "g"]
+      \\
+      B
+      \arrow[r, twoheadrightarrow, swap, "f"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+  Since we are in an abelian category, the pullback $f'$ is also an epimorphism. Denote the kernel of $f$ by $K$.
+
+  The claim is that $K$ also functions as the kernel of $f'$.
+    %\begin{equation*}
+    %  \begin{tikzcd}
+    %    & S
+    %    \arrow[r, "f'"]
+    %    \arrow[d, swap, "g'"]
+    %    & D
+    %    \arrow[d, "g"]
+    %    \\
+    %    K
+    %    \arrow[r, hookrightarrow, "\iota"]
+    %    & B
+    %    \arrow[r, twoheadrightarrow, swap, "f"]
+    %    & C
+    %  \end{tikzcd}
+    %\end{equation*}
+  Of course, in order for this statement to make sense we need a map $i\colon K \to S$. This is given to us by the universal property of the pullback as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      K
+      \arrow[drr, bend left, "0"]
+      \arrow[ddr, bend right, swap, "\iota"]
+      \arrow[dr, dashed, "\exists!i"]
+      \\
+      & S
+      \arrow[r]
+      \arrow[d]
+      & D
+      \arrow[d, "g"]
+      \\
+      & B
+      \arrow[r, twoheadrightarrow, swap, "f"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+  Next we need to verify that $(K, i)$ is actually the kernel of $f'$, i.e.\ satisfies the universal property. To this end, let $v\colon Q \to S$ be a map such that $f' \circ v = 0$. We need to find a unique factorization of $v$ through $K$.
+  \begin{equation*}
+    \begin{tikzcd}
+      & Q
+      \arrow[dr, "0"]
+      \arrow[d, "v"]
+      \arrow[dl, swap, dashed, "\exists! v'"]
+      \\
+      K
+      \arrow[r, "i"]
+      \arrow[dr, swap, "\iota"]
+      & S
+      \arrow[r, twoheadrightarrow, swap, "f'"]
+      \arrow[d, "g'"]
+      & D
+      \arrow[d, "g"]
+      \\
+      & B
+      \arrow[r, swap, "f"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+  By definition $f' \circ v = 0$. Thus,
+  \begin{align*}
+    f \circ g' \circ v &= g \circ f' \circ v \\
+    &= g \circ 0 \\
+    &= 0,
+  \end{align*}
+  so $g' \circ v$ factors uniquely through $K$ as $g' \circ v = \iota \circ v'$. It remains only to check that the triangle formed by $v'$ commutes, i.e.\ $v = v' \circ i$. To see this, consider the following diagram, where the bottom right square is the pullback from before.
+  \begin{equation*}
+    \begin{tikzcd}
+      Q
+      \arrow[drr, bend left, "0"]
+      \arrow[ddr, bend right, swap, "g' \circ v"]
+      \arrow[dr, dashed, "\exists!"]
+      \\
+      & S
+      \arrow[r, swap, "f'"]
+      \arrow[d, "g'"]
+      & D
+      \arrow[d, "g"]
+      \\
+      & B
+      \arrow[r, swap, "f"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+  By the universal property, there exists a unique map $Q \to S$ making this diagram commute. However, both $v$ and $i \circ v'$ work, so $v = i \circ v'$.
+
+  Thus we have shown that, in a precise sense, the kernel of an epimorphism functions as the kernel of its pullback, and we have the following commutative diagram, where the right hand square is a pullback.
+  \begin{equation*}
+    \begin{tikzcd}
+      \ker f'
+      \arrow[d, equals]
+      \arrow[r, "i"]
+      & S
+      \arrow[r, "f'"]
+      \arrow[d, "g'"]
+      & D
+      \arrow[d, "g"]
+      \\
+      \ker f
+      \arrow[r, swap, "\iota"]
+      & B
+      \arrow[r, twoheadrightarrow, swap, "f"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+\end{proof}
+At least in the case that $g$ is mono, when phrased in terms of elements, this result is more or less obvious; we can imagine the diagram above as follows.
+\begin{equation*}
+  \begin{tikzcd}
+    \left\{ \substack{\text{elements of pullback}\\\text{which map to $0$}} \right\}
+    \arrow[r, hookrightarrow]
+    \arrow[d, equals]
+    & \left\{ \substack{\text{elements of $B$}\\\text{which map to $C$}} \right\}
+    \arrow[r, twoheadrightarrow]
+    \arrow[d, hookrightarrow]
+    & D
+    \arrow[d, hookrightarrow]
+    \\
+    \left\{ \substack{\text{elements of $B$}\\\text{which map to $0$}} \right\}
+    \arrow[r, hookrightarrow]
+    & B
+    \arrow[r, twoheadrightarrow]
+    & C
+  \end{tikzcd}
+\end{equation*}
+
+\begin{theorem}[snake lemma]
+  \label{thm:snake_lemma}
+  Consider the following commutative diagram with exact rows.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[d, swap, "f"]
+      \arrow[r, "m"]
+      & B
+      \arrow[r, "e"]
+      \arrow[d, swap, "g"]
+      & C
+      \arrow[r]
+      \arrow[d, "h"]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & A'
+      \arrow[r, "m'"]
+      & B'
+      \arrow[r, "e'"]
+      & C'
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  This gives us an exact sequence
+  \begin{equation*}
+    0 \to \ker f \to \ker g \to \ker h \to \coker f \to \coker g \to \coker h \to 0.
+  \end{equation*}
+\end{theorem}
+\begin{proof}
+  We provide running commentary on the diagram below.
+  \begin{equation}
+    \label{eq:snakelemma}
+    \begin{tikzcd}
+      0
+      \arrow[r, dotted]
+      & \ker f
+      \arrow[r, dotted]
+      \arrow[d, hookrightarrow]
+      & \ker g
+      \arrow[r, dotted]
+      \arrow[d, hookrightarrow]
+      & \ker h
+      \arrow[d, hookrightarrow]
+      \\
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hookrightarrow, "m"]
+      \arrow[d, swap, "f"]
+      & B
+      \arrow[r, twoheadrightarrow, "e"]
+      \arrow[d, swap, "g"]
+      & C
+      \arrow[r]
+      \arrow[d, swap, "h"]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & A'
+      \arrow[r, hookrightarrow, swap, "m'"]
+      \arrow[d, twoheadrightarrow]
+      & B'
+      \arrow[r, twoheadrightarrow, swap, "e'"]
+      \arrow[d, twoheadrightarrow]
+      & C'
+      \arrow[d, twoheadrightarrow]
+      \arrow[r]
+      & 0
+      \\
+      & \coker f
+      \arrow[r, dotted]
+      \arrow[from=uuurr, out=-22, in=157, looseness=1.5, overlay, dashed]
+      & \coker g
+      \arrow[r, dotted]
+      & \coker h
+      \arrow[r, dotted]
+      & 0
+    \end{tikzcd}
+  \end{equation}
+
+  The dotted arrows come immediately from the universal property for kernels and cokernels, as do exactness at $\ker g$ and $\coker g$. The argument for kernels appeared on the previous homework sheet, and the argument for cokernels is dual. I omit them.
+
+  The only thing left is to define the dashed connecting homomorphism, and to prove exactness at $\ker h$ and $\coker f$.
+
+    %We define the connecting homomorphism using elements, which is justified by the Freyd-Mitchell embedding theorem.
+    %
+    %Let $c \in \ker h$. By exactness at $C$, we can find a preimage under $ m$, which we will call $b$. We map this to $B'$ with $g$. It may seem that we are now out of luck since $e'$ is not surjective, but not to worry---applying $ m'$ we find that
+    %\begin{equation*}
+    %   m'(g(b)) = h( m(b)) = 0,
+    %\end{equation*}
+    %since $b \in \ker  m$. Thus,
+    %\begin{equation*}
+    %  g(b) \in \ker m' = \im e',
+    %\end{equation*}
+    %so we get a (unique!) preimage $a \in A'$. We send this to its image in $\coker f$.
+    %\begin{equation*}
+    %  \begin{tikzcd}
+    %    && c
+    %    \arrow[d, mapsto]
+    %    \\
+    %    & b
+    %    \arrow[d, mapsto, "g"]
+    %    & c
+    %    \arrow[l, mapsto, swap, " m^{-1}"]
+    %    \\
+    %    a
+    %    \arrow[d, mapsto]
+    %    & g(b)
+    %    \arrow[l, mapsto, "e'^{-1}"]
+    %    \\
+    %    {[a]}
+    %  \end{tikzcd}
+    %\end{equation*}
+
+    %At first glance, this is not well-defined; we made a choice in picking $b$. However, it turns out that this choice doesn't matter, since the elements of $A$ we get from two different choices differ only by an element of the image of $f$, and thus are sent to the same element of the cokernel.
+    %
+    %To see this, suppose we had picked $b'$ such that $m'(b') = c$. Then certainly
+    %\begin{equation*}
+    %  m'(b - b') = c - c = 0,
+    %\end{equation*}
+    %so there is an $\tilde{a} \in A'$ such that
+    %\begin{equation*}
+    %  e'(\tilde{a}) = b - b'.
+    %\end{equation*}
+    %Define $a' = a-$
+
+  Extract from the data of \hyperref[eq:snakelemma]{Diagram~\ref*{eq:snakelemma}} the following diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      && \ker h
+      \arrow[d, hookrightarrow]
+      \\
+      A
+      \arrow[d, swap, "f"]
+      \arrow[r, hookrightarrow, "m"]
+      & B
+      \arrow[r, twoheadrightarrow, "e"]
+      \arrow[d, "g"]
+      & C
+      \arrow[d, "h"]
+      \\
+      A'
+      \arrow[r, hookrightarrow, swap, "m'"]
+      \arrow[d, twoheadrightarrow]
+      & B'
+      \arrow[r, swap, twoheadrightarrow, "e'"]
+      & C'
+      \\
+      \coker f
+    \end{tikzcd}
+  \end{equation*}
+  Take a pullback and a pushout, and using \hyperref[lemma:pullback_preserves_kernel]{Lemma~\ref*{lemma:pullback_preserves_kernel}} (and its dual), we find the following.
+  \begin{equation*}
+    \begin{tikzcd}
+      \ker u
+      \arrow[r, hookrightarrow, "a"]
+      \arrow[d, equals]
+      & S
+      \arrow[r, twoheadrightarrow, "u"]
+      \arrow[d, "r"]
+      & \ker h
+      \arrow[d, hookrightarrow]
+      \\
+      A
+      \arrow[d, swap, "f"]
+      \arrow[r, hookrightarrow, "m"]
+      & B
+      \arrow[r, twoheadrightarrow, "e"]
+      \arrow[d, "g"]
+      & C
+      \arrow[d, "h"]
+      \\
+      A'
+      \arrow[r, hookrightarrow, "m'"]
+      \arrow[d, twoheadrightarrow]
+      & B'
+      \arrow[r, twoheadrightarrow, "e'"]
+      \arrow[d, "s"]
+      & C'
+      \arrow[d, equals]
+      \\
+      \coker f
+      \arrow[r, hookrightarrow, swap, "v"]
+      & T
+      \arrow[r, twoheadrightarrow, swap, "b"]
+      & \coker v
+    \end{tikzcd}
+  \end{equation*}
+  Consider the map
+  \begin{equation*}
+    \delta_{0} =
+    \begin{tikzcd}
+      S
+      \arrow[r, "r"]
+      & B
+      \arrow[r, "g"]
+      & B'
+      \arrow[r, "s"]
+      & T
+    \end{tikzcd}.
+  \end{equation*}
+
+  By commutativity, $\delta \circ a = 0$, hence we get a map
+  \begin{equation*}
+    \delta_{1}\colon \ker h \to T.
+  \end{equation*}
+  Composing this with $b$ gives $0$, hence we get a map
+  \begin{equation*}
+    \delta\colon \coker f \to \ker h.
+  \end{equation*}
+\end{proof}
+
+\begin{theorem}[horseshoe lemma]
+  \label{thm:horseshoe_lemma}
+\end{theorem}
+
+\subsection{Projectives}
+\label{ssc:projectives}
+
+\begin{definition}[projective]
+  \label{def:projective}
+  An object $P$ in an abelian category $\mathcal{A}$ is said to be \defn{projective} if for every exact sequence $B \to C \to 0$ and every morphism $p\colon P \to C$, there exists a morphism $\tilde{p}\colon P \to B$ such that the folowing diagram commutes.
+  \begin{equation*}
+    \begin{tikzcd}
+      & P
+      \arrow[d, "p"]
+      \arrow[dl, swap, "\tilde{p}"]
+      \\
+      B
+      \arrow[r]
+      & C
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+\end{definition}
+
+\begin{proposition}
+  Let $R$ be a ring. A module $P$ is projective if and only if it is a direct summand of a free module, i.e.\ if there exists an $R$-module $M$ and a free $R$-module $F$ such that
+  \begin{equation*}
+    F \simeq P \oplus M.
+  \end{equation*}
+\end{proposition}
+\begin{proof}
+  First, suppose that $P$ is projective. We can always express $P$ in terms of a set of generators and relations. Denote by $F$ the free $R$-module over the generators, and consider the following short exact sequence.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \ker \pi
+      \arrow[r, hookrightarrow]
+      & F
+      \arrow[r, twoheadrightarrow, "\pi"]
+      & P
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  An easy consequence of the splitting lemma is that any short exact sequence with a projective in the final spot splits, so
+  \begin{equation*}
+    F \simeq P \oplus \ker \pi
+  \end{equation*}
+  as required.
+
+  Conversely, suppose that $P \oplus M \simeq F$, for $F$ free, and $P$ and $M$ arbitrary. Certainly, the following lifting problem has a solution (by lifting generators).
+  \begin{equation*}
+    \begin{tikzcd}
+      & P \oplus M
+      \arrow[d, "{(f, g)}"]
+      \arrow[dl, dashed, swap, "\exists {(j, k)}"]
+      \\
+      N
+      \arrow[r, twoheadrightarrow]
+      & M
+    \end{tikzcd}
+  \end{equation*}
+
+  In particular, this gives us the following solution to our lifting problem,
+  \begin{equation*}
+    \begin{tikzcd}
+      & P
+      \arrow[d, "f"]
+      \arrow[dl, dashed, swap, "\exists j"]
+      \\
+      N
+      \arrow[r, twoheadrightarrow]
+      & M
+    \end{tikzcd}
+  \end{equation*}
+  exhibiting $P$ as projective.
+\end{proof}
+
+
+\subsection{Exactness in abelian categories}
+\label{sss:exactness_in_abelian_categories}
+
+\begin{lemma}
+  \label{lemma:yoneda_reflects_exactness}
+  Let $\mathcal{A}$ be an abelian category, and let
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[r, "f"]
+      & B
+      \arrow[r, "g"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+  be objects and morphisms in $\mathcal{A}$. If for all $X$ the abelian groups and homomorphisms
+  \begin{equation*}
+    \begin{tikzcd}
+      \Hom_{\mathcal{A}}(X, A)
+      \arrow[r, "f_{*}"]
+      & \Hom_{\mathcal{A}}(X, B)
+      \arrow[r, "g_{*}"]
+      & \Hom_{\mathcal{A}}(X, C)
+    \end{tikzcd}
+  \end{equation*}
+  form an exact sequence of abelian groups, then $A \to B \to C$ is exact.
+\end{lemma}
+\begin{proof}
+  To see this, take $X = A$, giving the following sequence.
+  \begin{equation*}
+    \begin{tikzcd}
+      \Hom_{\mathcal{A}}(A, A)
+      \arrow[r, "f_{*}"]
+      & \Hom_{\mathcal{A}}(A, B)
+      \arrow[r, "g_{*}"]
+      & \Hom_{\mathcal{A}}(A, C)
+    \end{tikzcd}
+  \end{equation*}
+  Exactness implies that
+  \begin{equation*}
+    0 = (g_{*} \circ f_{*})(\id) = (g \circ f)(\id) = g \circ f,
+  \end{equation*}
+  so $\im f \subset \ker g$. Now take $X = \ker g$.
+  \begin{equation*}
+    \begin{tikzcd}
+      \Hom_{\mathcal{A}}(\ker g, A)
+      \arrow[r, "f_{*}"]
+      & \Hom_{\mathcal{A}}(\ker g, B)
+      \arrow[r, "g_{*}"]
+      & \Hom_{\mathcal{A}}(\ker g, C)
+    \end{tikzcd}
+  \end{equation*}
+  The canonical inclusion $\iota\colon \ker g \to B$ is mapped to zero under $g_{*}$, hence is mapped to under $f_{*}$ by some $\alpha\colon \ker g \to A$. That is, we have the following commuting triangle.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=small]
+      & A
+      \arrow[dr, "f"]
+      \\
+      \ker g
+      \arrow[ur, "\alpha"]
+      \arrow[rr, hookrightarrow, swap, "\iota"]
+      && B
+    \end{tikzcd}
+  \end{equation*}
+  Thus $\im \iota = \ker g \subset \im f$.
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:hom_functor_left_exact}
+  Let
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[r, "f"]
+      & B
+      \arrow[r, "g"]
+      & C
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  be an exact sequence, and let $X$ be any object. Then the sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \Hom(X, A)
+      \arrow[r, "f_{*}"]
+      & \Hom(X, B)
+      \arrow[r, "g_{*}"]
+      & \Hom(X, C)
+    \end{tikzcd}
+  \end{equation*}
+  is an exact sequence of abelian groups.
+\end{lemma}
+\begin{proof}
+  To see that $f_{*}$ is monic, suppose that $f_{*}\alpha = 0$ for some $\alpha\colon X \to A$. Then $f \circ \alpha = 0$, so $\alpha = 0$ by monomorphicity of $f$.
+
+  To see that $\im f_{*} \subseteq \ker g_{*}$, let there be some $\beta$ such that
+  \begin{equation*}
+    g_{*}f_{*}\beta = \beta \circ g \circ f = \beta \circ 0 = 0.
+  \end{equation*}
+  Now let $\gamma\colon X \to B$ such that $g_{*}\gamma = g \circ \gamma = 0$. Then, because $(A, f)$ functions as a kernel for $g$, we get a factorization
+  \begin{equation*}
+    \gamma = f \circ \alpha = f_{*}\alpha
+  \end{equation*}
+  so $\ker g_{*} \subseteq \im f_{*}$.
+\end{proof}
+
+
+
+\begin{definition}[exact functor]
+  \label{def:exact_functor}
+  Let $F\colon \mathcal{A} \to \mathcal{B}$ be an additive functor, and let
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[r, "f"]
+      & B
+      \arrow[r, "g"]
+      & C
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  be an exact sequence. We use the following terminology.
+  \begin{itemize}
+    \item We call $F$ \defn{left exact} if
+      \begin{equation*}
+        \begin{tikzcd}
+          0
+          \arrow[r]
+          & F(A)
+          \arrow[r, "f"]
+          & F(B)
+          \arrow[r, "g"]
+          & F(C)
+        \end{tikzcd}
+      \end{equation*}
+      is exact
+
+    \item We call $F$ \defn{right exact} if
+      \begin{equation*}
+        \begin{tikzcd}
+          F(A)
+          \arrow[r, "f"]
+          & F(B)
+          \arrow[r, "g"]
+          & F(C)
+          \arrow[r]
+          & 0
+        \end{tikzcd}
+      \end{equation*}
+      is exact
+
+    \item We call $F$ \defn{exact} if it is both left exact and right exact.
+  \end{itemize}
+\end{definition}
+
+\begin{example}
+  By \hyperref[lemma:hom_functor_left_exact]{Lemma~\ref*{lemma:hom_functor_left_exact}}, the hom functor $\Hom(A, -)\colon \mathcal{A} \to \Ab$ is left exact. It turns out that $\Hom(-, A)$ is also a left exact functor $\mathcal{A}\op \to \Ab$. It may seem that this should be right exact, but not so! There are two instances of contravariance which cancel each other: the contravariance of the hom functor itself, and the contravariance of\dots to be continued.
+\end{example}
+
+\begin{theorem}
+  Let
+  \begin{equation*}
+    L : \mathcal{A} \longleftrightarrow \mathcal{B} : R
+  \end{equation*}
+  be an adjunction of additive functors between abelian categories. Then $F$
+\end{theorem}
+
+\end{document}
