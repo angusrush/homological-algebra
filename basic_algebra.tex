@@ -5,5 +5,200 @@
 \chapter{Basic algebra}
 \label{ch:basic_algebra}
 
+Strictly speaking, this chapter shouldn't need to exist, but my algebra knowledge is pretty hopeless so I'll be putting stuff I should know already here.
+
+\section{Exactness}
+\label{sec:_exactness}
+
+\begin{proposition}
+  \label{prop:hom_functor_left_exact}
+  Let $R$ be a ring, and $M$ a left $R$-module. Then both the hom functors
+  \begin{equation*}
+    \Hom(M, -),\qquad \Hom(-, M)
+  \end{equation*}
+  are left exact.
+\end{proposition}
+\begin{proof}
+  Let
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hookrightarrow, "f"]
+      & B
+      \arrow[r, twoheadrightarrow, "g"]
+      & C
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  be an exact sequence. First, we show that $\Hom(M, A)$ is exact, i.e.\ that
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \Hom(M, A)
+      \arrow[r, "f_{*}"]
+      & \Hom(M, B)
+      \arrow[r, "g_{*}"]
+      & \Hom(M, C)
+    \end{tikzcd}
+  \end{equation*}
+  is an exact sequence of abelian groups.
+
+  First, we show that $f_{*}$ is injective. To see this, let $\alpha\colon M \to A$ such that $f_{*}(\alpha) = 0$. By definition, $f_{*}(\alpha) = f \circ \alpha$, and 
+  \begin{equation*}
+    f \circ \alpha = 0 \implies \alpha = 0
+  \end{equation*}
+  because $f$ is a monomorphism.
+
+  Similarly, $\im f \subseteq \ker g$ because
+  \begin{equation*}
+    (g_{*} \circ f_{*})(\beta) = g \circ f \circ \beta = 0.
+  \end{equation*}
+
+  It remains only to check that $\ker g \subseteq \im f$. To this end, let $\gamma\colon M \to B$ such that $g_{*}\gamma = 0$.
+  \begin{equation*}
+    \begin{tikzcd}
+      && M
+      \arrow[d, swap, "\gamma"]
+      \arrow[dr, "0"]
+      \arrow[dl, swap, dashed, "\exists!\delta"]
+      \\
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hookrightarrow, "f"]
+      & B
+      \arrow[r, twoheadrightarrow, "g"]
+      & C
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  Then $\im \gamma \subset \ker g = \im f$, so $\gamma$ factors through $A$; that is to say, there exists a $\delta\colon M \to A$ such that $f_{*}\delta = \gamma$.
+\end{proof}
+
+\section{Tensor products}
+\label{sec:tensor_products}
+
+\begin{definition}[tensor product]
+  \label{def:tensor_product}
+  Let $R$ be a (not necessarily commutative) ring $M$ a right $R$-module, and $N$ a left $R$-module. The \defn{tensor product} $M \otimes_{R} N$ satisfies the following universal property\dots
+\end{definition}
+
+Even for modules over non-commutative rings, we have the following version of tensor-hom adjunction.
+\begin{proposition}
+  Let $R$ be a ring, $M$ a right $R$-module, and $N$ a left $R$-module. There is an adjunction
+  \begin{equation*}
+    - \otimes_{R} N : \mathbf{Mod}\mhyp R \longleftrightarrow \mathbf{Ab} : \Hom_{\mathbf{Ab}}(N, -).
+  \end{equation*}
+\end{proposition}
+\begin{proof}
+  We show that there is a natural bijection
+  \begin{equation*}
+    \Hom_{\Ab}(M \otimes_{R} N, P) \simeq \Hom_{\Ab}(M, \Hom_{\modR}(N, P)).
+  \end{equation*}
+\end{proof}
+
+\section{Projective and injective modules}
+\label{sec:projective_and_injective_modules}
+
+\begin{definition}[projective, injective module]
+  \label{def:projective_injective_module}
+  Let $R$ be a ring. An $R$-module $M$ is said to be \defn{projective} if the functor $\Hom(P, -)$ is exact, and \defn{injective} if the functor $\Hom(-, P)$ is exact.
+\end{definition}
+
+We know (from \hyperref[prop:hom_functor_left_exact]{Proposition~\ref*{prop:hom_functor_left_exact}}) that the hom functor is left exact in both slots. Therefore, we have the following immediate classification of projective objects.
+
+\begin{proposition}
+  An $R$-module $P$ in is projective if and only if for every for every epimorphism $g\colon B \twoheadrightarrow C$ and every morphism $p\colon P \to C$, there exists a morphism $\tilde{p}\colon P \to B$ such that the folowing diagram commutes.
+  \begin{equation*}
+    \begin{tikzcd}
+      & P
+      \arrow[d, "p"]
+      \arrow[dl, swap, dashed, "\exists\tilde{p}"]
+      \\
+      B
+      \arrow[r, twoheadrightarrow, swap, "g"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+
+  Similarly, a module $Q$ is injective if for every monomorphism $A \hookrightarrow B$ and map $g\colon A \to Q$, there exists a homomorphism $\tilde{q}$ such that the following diagram commutes.
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[r, hookrightarrow, "f"]
+      \arrow[d, swap, "p"]
+      & B
+      \arrow[dl, dashed, "\exists\tilde{p}"]
+      \\
+      Q
+    \end{tikzcd}
+  \end{equation*}
+
+\end{proposition}
+\begin{proof}
+  In the projective case, this condition precisely encodes the condition that $f_{*}$ is an epimorphism; in the projective case, 
+\end{proof}
+
+\begin{proposition}
+  \label{prop:projectives_are_direct_summands_of_free}
+  Let $R$ be a ring. A module $P$ is projective if and only if it is a direct summand of a free module, i.e.\ if there exists an $R$-module $M$ and a free $R$-module $F$ such that
+  \begin{equation*}
+    F \simeq P \oplus M.
+  \end{equation*}
+\end{proposition}
+\begin{proof}
+  First, suppose that $P$ is projective. We can always express $P$ in terms of a set of generators and relations. Denote by $F$ the free $R$-module over the generators, and consider the following short exact sequence.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \ker \pi
+      \arrow[r, hookrightarrow]
+      & F
+      \arrow[r, twoheadrightarrow, "\pi"]
+      & P
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  An easy consequence of the splitting lemma is that any short exact sequence with a projective in the final spot splits, so
+  \begin{equation*}
+    F \simeq P \oplus \ker \pi
+  \end{equation*}
+  as required.
+
+  Conversely, suppose that $P \oplus M \simeq F$, for $F$ free, and $P$ and $M$ arbitrary. Certainly, the following lifting problem has a solution (by lifting generators).
+  \begin{equation*}
+    \begin{tikzcd}
+      & P \oplus M
+      \arrow[d, "{(f, g)}"]
+      \arrow[dl, dashed, swap, "\exists {(j, k)}"]
+      \\
+      N
+      \arrow[r, twoheadrightarrow]
+      & M
+    \end{tikzcd}
+  \end{equation*}
+
+  In particular, this gives us the following solution to our lifting problem,
+  \begin{equation*}
+    \begin{tikzcd}
+      & P
+      \arrow[d, "f"]
+      \arrow[dl, dashed, swap, "\exists j"]
+      \\
+      N
+      \arrow[r, twoheadrightarrow]
+      & M
+    \end{tikzcd}
+  \end{equation*}
+  exhibiting $P$ as projective.
+\end{proof}
+
 
 \end{document}
