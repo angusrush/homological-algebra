@@ -1,0 +1,544 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Tor and Ext}
+\label{ch:applications}
+
+\section{The \texorpdfstring{$\Tor$}{Tor} functor}
+\label{sec:tor}
+
+Let $R$ be a ring, and $N$ a right $R$-module. There is an adjunction
+\begin{equation*}
+  - \otimes_{R} N : \modR \leftrightarrow \Ab : \Hom(N, -).
+\end{equation*}
+Thus, the functor $- \otimes_{R} N$ preserves colimits, hence by \hyperref[prop:exact_if_preserve_limits_conditions]{Proposition~\ref*{prop:exact_if_preserve_limits_conditions}}, is right exact. Thus, we may form the left derived functor.
+
+\begin{definition}[\texorpdfstring{$\Tor$}{Tor} functor]
+  \label{def:tor_functor}
+  The left derived functor of $- \otimes_{R} N$, is called the \defn{Tor functor} and denoted
+  \begin{equation*}
+    \Tor_{i}^{R}(-, N).
+  \end{equation*}
+\end{definition}
+
+\begin{example}
+  Let $R$ be a ring, and let $r \in R$. Assume that left multiplication by $r$ is injective, and consider the right $R$-module $R/rR$. We have the short exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & R
+      \arrow[r, hookrightarrow, "r\cdot"]
+      & R
+      \arrow[r, twoheadrightarrow, "\pi"]
+      & R/rR
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  exhibiting
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & R
+      \arrow[r, "r\cdot"]
+      & R
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  as a free resolution of $R/rR$. Thus we can calculate
+  \begin{equation*}
+    \Tor^{R}_{i}(R/rR, N) \simeq H_{i}
+    \left(
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & R \otimes_{R} N
+      \arrow[r, "r\cdot"]
+      & R \otimes_{R} N
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+    \right)
+  \end{equation*}
+  That is, we have
+  \begin{equation*}
+    \Tor^{R}_{i}(R/rR, N) \simeq
+    \begin{cases}
+      N/rN, & n = 0 \\
+      _{r}N, & n = 1 \\
+      0, &\text{otherwise}.
+    \end{cases}
+  \end{equation*}
+\end{example}
+
+There is a worrying asymmetry to our definition of $\Tor$. The tensor product is `morally' symmetric; that is, it should not matter whether we derive the first factor or the second. It turns out that $\Tor$ respects this.
+
+\begin{proposition}
+  The functor $\Tor$ is balanced; that is,
+  \begin{equation*}
+    L_{i} \Hom(M, -)(N) \simeq L_{i} \Hom(-, N)(M).
+  \end{equation*}
+\end{proposition}
+\begin{proof}
+  Let $P_{\bullet} \to M$ and $P'_{\bullet} \to N$ be projective resolutions. We need to show that
+  \begin{equation*}
+    H_{i}(P_{\bullet} \otimes_{R} N)_{\bullet} \simeq H_{i}(M \otimes_{R} P'_{\bullet})_{\bullet}.
+  \end{equation*}
+
+  To see this, consider the following double complex (with factors of $-1$ added as necessary to acutally make it a double complex).
+  \begin{equation*}
+    \begin{tikzcd}
+      && \
+      \arrow[ddddd, no head, dotted]
+      \\
+      & M \otimes_{R} P'_{1}
+      \arrow[d]
+      && P_{0} \otimes_{R} P'_{1}
+      \arrow[ll, dashed]
+      \arrow[d]
+      & P_{1} \otimes_{R} P'_{1}
+      \arrow[l]
+      \arrow[d]
+      \\
+      & M \otimes_{R} P'_{0}
+      \arrow[dd, dashed]
+      && P_{0} \otimes_{R} P'_{0}
+      \arrow[ll, dashed]
+      \arrow[dd, dashed]
+      & P_{1} \otimes_{R} P'_{0}
+      \arrow[l]
+      \arrow[dd, dashed]
+      \\
+      \
+      \arrow[rrrrr, dotted, no head]
+      &&&&& \
+      \\
+      & M \otimes_{R} N
+      && P_{0} \otimes_{R} N
+      \arrow[ll, dashed]
+      & P_{1} \otimes_{R} N
+      \arrow[l]
+      \\
+      && \
+    \end{tikzcd}
+  \end{equation*}
+
+  \begin{equation*}
+    \begin{tikzcd}
+      \cdots
+      \arrow[r]
+      & P_{\bullet} \otimes P'_{2}
+      \arrow[r]
+      & P_{\bullet} \otimes P'_{1}
+      \arrow[r]
+      & P_{\bullet} \otimes P'_{0}
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  Since each $P'_{i}$ is projective, $- \otimes_{R} P'_{i}$ is exact, so the rows above the dotted line are resolutions of $M \otimes_{R} P'_{j}$. Similarly, the columns to the right of the dotted line are resolutions of $P_{i} \otimes_{R} N$.
+
+  This means that the part of the double complex above the dotted line is a double complex whose rows are resolutions; thus,
+  \begin{equation*}
+    \Tot(P_{\bullet} \otimes_{R} P'_{\bullet}) \simeq M \otimes_{R} P'_{\bullet}.
+  \end{equation*}
+
+  Similarly, the part of the double complex to the right of the dotted line has resolutions as its columns, implying that
+  \begin{equation*}
+    \Tot(P_{\bullet} \otimes_{R} P'_{\bullet}) \simeq P_{\bullet} \otimes_{R} N.
+  \end{equation*}
+  Thus, taking homology, we have
+  \begin{equation*}
+    H_{i}(P_{\bullet} \otimes_{R} N) \simeq H_{i}(\Tot(P_{\bullet} \otimes_{R} P'_{\bullet})) \simeq H_{i} (M \otimes_{R} P'_{\bullet}).
+  \end{equation*}
+\end{proof}
+
+
+\section{Ext and extensions}
+\label{sec:ext_and_extensions}
+
+\section{Group (co)homology}
+\label{sec:group_co_homology}
+
+Given a group $G$, a \defn{$G$-module} is a functor $\mathbf{B}G \to \Ab$. More generally, the category of such $G$-modules is the category $\mathbf{Fun}(\mathbf{B}G, \Ab)$. We will denote this category by $G\mhyp\Mod$.
+
+More explicitly, a $G$-module consists of an abelian group $M$, and a left $G$-action on $M$. However, since we are in $\Ab$, we have more structure immediately available to us: we can define for $n \in \Z$, $g \in G$ and $a \in M$,
+\begin{equation*}
+  (ng)a = n(ga),
+\end{equation*}
+and, extending by linearity, a $\Z G$-module structure on $M$.
+
+Because of the equivalence $G\mhyp\Mod \simeq \Z G\mhyp\Mod$, we know that $G\mhyp\Mod$ has enough projectives.
+
+Note that there is a canonical functor $\triv\colon \Ab \to \mathbf{Fun}(\mathbf{B}G, \Ab)$ which takes an abelian group to the associated constant functor.
+\begin{proposition}
+  The functor $\triv$ has left adjoint
+  \begin{equation*}
+    (-)_{G}\colon M \mapsto M_{G} = M/\left\langle g\cdot m - m \mid g \in G, m \in M \right\rangle
+  \end{equation*}
+  and right adjoint
+  \begin{equation*}
+    (-)^{G}\colon M \mapsto M^{G} = \{m \in M \mid g\cdot m = m\}.
+  \end{equation*}
+  That is, there is an adjoint triple
+  \begin{equation*}
+    (-)_{G} \longleftrightarrow \triv \longleftrightarrow (-)^{G}
+  \end{equation*}
+\end{proposition}
+\begin{proof}
+  In each case, we exhibit a hom-set adjunction. In the first case, we need a natural isomorphism
+  \begin{equation*}
+    \Hom_{\Ab}(M_{G}, A) \equiv \Hom_{G\mhyp\Mod}(M, \triv A).
+  \end{equation*}
+  Starting on the left with a homomorphism $\alpha\colon M_{G} \to A$, the universal property for quotients allows us to replace it by a homomorphism $\hat{\alpha}\colon M \to A$ such that $\hat{\alpha}(g\cdot m - g) = 0$ for all $m \in M$ and $g \in G$; that is to say, a homomorphism $\hat{\alpha}\colon M \to A$ such that
+  \begin{equation}
+    \label{eq:g_linear_map_to_triv}
+    \hat{\alpha}(g\cdot m) = \hat{\alpha}(m).
+  \end{equation}
+  However, in this form it is clear that we may view $\hat{\alpha}$ as a $G$-linear map $M \to \triv A$. In fact, $G$-linear maps $M \to \triv A$ are precisely those satisfying \hyperref[eq:g_linear_map_to_triv]{Equation~\ref*{eq:g_linear_map_to_triv}}, showing that this is really an isomorphism.
+
+  The other case is similar.
+\end{proof}
+
+\begin{definition}[invariants, coinvariants]
+  \label{def:invariants_coinvariants}
+  For a $G$-module $M$, we call $M^{G}$ the \defn{invariants} of $M$ and $M_{G}$ the \defn{coinvariants}.
+\end{definition}
+
+Note that we actually have a fairly good handle on invariants and coinvariants.
+
+\begin{lemma}
+  \label{lemma:invariants_and_coinvariants_in_terms_of_tensor_and_hom}
+  We have the formulae
+  \begin{equation*}
+    (-)^{G} \simeq \Hom_{\Z G\mhyp\Mod}(\Z, -)
+  \end{equation*}
+  and
+  \begin{equation*}
+    (-)_{G} \simeq \Z \otimes_{\Z G} -.
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  A $\Z G$-linear map $\Z \to M$ picks out an element of $M$ on which $G$ acts trivially.
+
+  Consider the element
+  \begin{equation*}
+    1 \otimes(m - g\cdot m) \in \Z \otimes_{\Z G} M.
+  \end{equation*}
+  By $\Z G$-linearity, this is equal to $1 \otimes m - 1 \otimes m = 0$.
+\end{proof}
+
+This tells us immediately that the invariants functor $(-)^{G}$ is left exact, and the coinvariant functor $(-)_{G}$ is right. We could have discovered this by explicit investigation, and formed the right and left derived hom functors. However, this would have required picking resolutions for each object under consideration, which would have been messy. By the balancedness of $\Tor$ and $\Ext$, we can simply pick a resolution of $\Z$ as a $\Z G$-module and get on with our lives.\footnote{In the case of invariants (which correspond to $\Ext$), we need to pick a resolution of $\Z$ as a \emph{left} $\Z G$-module, and in the case of coinvariants (corresponding to $\Tor$), we need to pick a resolution of $\Z$ as a \emph{right} $\Z G$-module.}
+
+\begin{example}
+  Let $T \cong \Z$ be an infinite cyclic group with a single generator $t$. Then
+  \begin{equation*}
+    \Z T \cong \Z[t, t^{-1}],
+  \end{equation*}
+  and we have an exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \Z T
+      \arrow[r, "t-1"]
+      & \Z T
+      \arrow[r]
+      & \Z
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  giving a free resolution of $\Z$ as a $\Z T$-module.
+\end{example}
+
+In general, our life is not so easy. Fortunately, we still have, for any group $G$, a general construction of a free resolution of $\Z$ as a left $\Z G$-module, known as the \emph{bar construction.}
+
+\begin{definition}[bar complex]
+  \label{def:bar_complex}
+  Let $G$ be a group. The \defn{bar complex} of $G$ is the chain complex defined level-wise to be the free $\Z G$-module
+  \begin{equation*}
+    B_{n} = \bigoplus_{(g_{i}) \in (G \smallsetminus \{e\})^{n}} \Z G[g_{1} | \cdots | g_{n}],
+  \end{equation*}
+  where $[g_{1} | \cdots | g_{n}]$ is simply a symbol denoting to the basis element corresponding to $(g_{1}, \dots, g_{n})$. The differential is defined by
+  \begin{equation*}
+    d([g_{1} | \cdots | g_{n}]) = g_{1}[g_{2} | \cdots | g_{n}] + \sum_{i = 1}^{n - 1} (-1)^{i} [g_{1} | \cdots | g_{i}g_{i+1} | \cdots | g_{n}] + (-1)^{n}[g_{1} | \cdots | g_{n-1}].
+  \end{equation*}
+\end{definition}
+
+This is in fact a chain complex; the verification of this is identical to the verification of the simplicial identities. First, we note that we can write
+\begin{equation*}
+  d_{n} = d_{0} + \sum_{i = 1}^{n-1} (-1)^{i} d_{i} + (-1)^{n}d_{n},
+\end{equation*}
+where the $d_{i}$ satisfy the simplicial identities
+\begin{equation*}
+  d_{i}d_{j} = d_{j-1}d_{i},\qquad i < j.
+\end{equation*}
+Thus, we have
+\begin{align*}
+  d_{n} \circ d_{n-1} &= \left( \sum_{j = 0}^{n-1}(-1)^{j}d^{j} \right) \circ \left( \sum_{i = 0}^{n}(-1)^{i}d^{i} \right) \\
+  &= \sum\sum (-1)^{i+j} d^{j} \circ d^{i} \\
+  &= \sum_{0 \leq j < i \leq n} (-1)^{i+j} d^{j} \circ d^{i} + \sum_{0 \leq i \leq j \leq n-1} (-1)^{i+j} d^{j} \circ d^{i} \\
+  &= \sum_{0 \leq j < i \leq n} (-1)^{i+j} d^{i-1} \circ d^{j} + \sum_{0 \leq i \leq j \leq n-1} (-1)^{i+j} d^{j} \circ d^{i} \\
+  &= 0.
+\end{align*}
+
+\begin{proposition}
+  For any group $G$, the bar construction gives a free resolution of $\Z$ as a (left) $\Z G$-module.
+\end{proposition}
+\begin{proof}
+  We need to show that the sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      \cdots
+      \arrow[r]
+      & B_{2}
+      \arrow[r]
+      & B_{1}
+      \arrow[r]
+      & B_{0}
+      \arrow[r, "\epsilon"]
+      & \Z
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  is exact, where $\epsilon$ is the augmentation map.
+
+  We do this by considering the above as a sequence of $\Z$-modules, and providing a $\Z$-linear homotopy between the identity and the zero map.
+  \begin{equation*}
+    \begin{tikzcd}
+      B_{2}
+      \arrow[r]
+      \arrow[d, "\id"]
+      & B_{1}
+      \arrow[r]
+      \arrow[d, "\id"]
+      \arrow[dl, dashed, "h_{1}"]
+      & B_{0}
+      \arrow[r, "\epsilon"]
+      \arrow[d, "\id"]
+      \arrow[dl, dashed, "h_{0}"]
+      & \Z
+      \arrow[r]
+      \arrow[d, "\id"]
+      \arrow[dl, dashed, "h_{-1}"]
+      & 0
+      \\
+      B_{2}
+      \arrow[r]
+      & B_{1}
+      \arrow[r]
+      & B_{0}
+      \arrow[r, swap, "\epsilon"]
+      & \Z
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  We define
+  \begin{equation*}
+    h_{-1}\colon \Z \to B_{0};\qquad n \mapsto n[\cdot].
+  \end{equation*}
+  and, for $n \geq 0$,
+  \begin{equation*}
+    h_{n}\colon B_{n} \mapsto B_{n+1};\qquad g[g_{1}|\cdots|g_{n}] \mapsto [g|g_{1}|\cdots|g_{n}].
+  \end{equation*}
+
+  We then have
+  \begin{equation*}
+    \epsilon \circ h_{-1}\colon n \mapsto n[\cdot] \mapsto n,
+  \end{equation*}
+  and doing the butterfly
+  \begin{equation*}
+    \begin{tikzcd}
+      B_{n}
+      \arrow[r, "d_{n}"]
+      & B_{n-1}
+      \arrow[dl, dashed, "h_{n-1}"]
+      \\
+      B_{n}
+    \end{tikzcd}
+    \quad + \quad
+    \begin{tikzcd}
+      & B_{n}
+      \arrow[dl, dashed, "h_{n}"]
+      \\
+      B_{n+1}
+      \arrow[r, swap, "d_{n+1}"]
+      & B_{n}
+    \end{tikzcd}
+  \end{equation*}
+  gives us in one direction
+  \begin{equation*}
+    \begin{tikzcd}
+      g[g_{1}|\cdots|g_{n}]
+      \arrow[r, mapsto]
+      & \substack{
+        \displaystyle gg_{1}[g_{2}|\cdots|g_{n}] \\
+        \displaystyle {}+ \sum_{i = 1}^{n-1} (-1)^{i} g [g_{1}|\cdots|g_{i}g_{i+1}|\cdots|g_{n}] \\
+        \displaystyle {}+ (-1)^{n} g[g_{1}|\cdots|g_{n-1}]
+      }
+      \arrow[dl, mapsto]
+      \\
+      \substack{
+        \displaystyle [gg_{1}|\cdots|g_{n}] \\
+        \displaystyle {}+ \sum_{i = 1}^{n-1} (-1)^{i} [gg_{1}|\cdots| g_{i} g_{i+1} | \cdots | g_{n}] \\
+        \displaystyle {}+ (-1)^{n} [gg_{1}|\cdots|g_{n}]
+      }
+    \end{tikzcd}
+  \end{equation*}
+  and in the other
+  \begin{equation*}
+    \begin{tikzcd}
+      & g[g_{1}|\cdots|g_{n}]
+      \arrow[dl, mapsto]
+      \\
+      {[g|g_{1}|\cdots|g_{n}]}
+      \arrow[r, mapsto]
+      & \substack{
+        \displaystyle g[g_{1}|\cdots|g_{n}] \\
+        \displaystyle {}- [gg_{1}|g_{2}|\cdots|g_{n}] \\
+        \displaystyle {}- \sum_{i = 1}^{n-1} [gg_{1}|\cdots|g_{i}g_{i+1}|\cdots|g_{n}] \\
+        \displaystyle {}- (-1)^{n} [gg_{1}|\cdots|g_{n-1}]
+      }
+    \end{tikzcd}.
+  \end{equation*}
+  The sum of these is simply $g[g_{1}|\cdots|g_{n}]$, i.e.\ we have
+  \begin{equation*}
+    h \circ d + d \circ h = \id.
+  \end{equation*}
+  This proves exactness as desired.
+\end{proof}
+
+Note that we immediately get a free resolution of $\Z G$ as a \emph{right} $\Z G$ by mirroring the construction above.
+
+Thus, we have the following general formulae:
+\begin{equation*}
+  H^{i}(G, A) = H^{i}\left(
+  \begin{tikzcd}
+    0
+    \arrow[r]
+    & \Hom_{\Z G}(B_{0}, A)
+    \arrow[r, "(d_{1})^{*}"]
+    & \Hom_{\Z G}(B_{1}, A)
+    \arrow[r, "(d_{2})^{*}"]
+    & \cdots
+  \end{tikzcd}
+  \right)
+\end{equation*}
+and
+\begin{equation*}
+  H_{i}(G, A) = H_{i}\left(
+  \begin{tikzcd}
+    \cdots
+    \arrow[r]
+    & B_{1} \otimes_{\Z G} A
+    \arrow[r]
+    & B_{0} \otimes_{\Z G} A
+    \arrow[r]
+    & 0
+  \end{tikzcd}
+  \right)
+\end{equation*}
+
+The story so far is as follows.
+\begin{enumerate}
+  \item We fixed a group $G$ and considered the category $G\mhyp\Mod$ of functors $\mathbf{B}G \to \Ab$.
+
+  \item We noticed that picking out the constant functor gave us a canonical functor $\Ab \to G\mhyp\Mod$, and that taking left- and right adjoints to this gave us interesting things.
+    \begin{itemize}
+      \item The right adjoint $(-)^{G}$ applied to a $G$-module $A$ gave us the subgroup of $A$ stabilized by $G$.
+
+      \item The left adjoint $(-)_{G}$ applied to a $G$-module $A$ gave us the $A$ modulo the stabilized subgroup.
+    \end{itemize}
+
+  \item Due to adjointness, these functors have interesting exactness properties, leading us to derive them.
+    \begin{itemize}
+      \item Since $(-)_{G}$ is left adjoint, it is right exact, and we can take the left derived functors $L_{i}(-)_{G}$.
+
+      \item Since $(-)^{G}$ is right adjoint, it is left exact, and we can take the right derived functors $R^{i}(-)^{G}$.
+    \end{itemize}
+
+  \item We denote
+    \begin{equation*}
+      L_{i}(-)_{G} = H_{i}(G, -),\qquad R^{i}(-)^{G} = H^{i}(G, -),
+    \end{equation*}
+    and call them \emph{group homology} and \emph{group cohomology} respectively.
+
+  \item We notice that, taking $\Z$ as a trivial $\Z G$-module, we have
+    \begin{equation*}
+      A_{G} \equiv \Z \otimes_{\Z G} A,\qquad A^{G} \equiv \Hom_{\Z G}(\Z, A),
+    \end{equation*}
+    and thus that
+    \begin{equation*}
+      H_{i}(G, A) = \Tor^{\Z G}_{i}(\Z, A),\qquad H^{i}(G, A) = \Ext_{\Z G}^{i}(\Z, A).
+    \end{equation*}
+
+    This means that (by balancedness of $\Tor$ and $\Ext$) we can compute group homology and cohomology by taking a resolution of $\Z$ as a free $\Z G$-module, rather than having to take resolutions of $A$ for all $A$. The bar complex gave us such a resolution.
+\end{enumerate}
+
+\begin{example}
+  Let $G$ be a group, and consider $\Z$ as a free $\Z G$-module. Let us compute $H_{1}(G, \Z)$ and $H^{1}(G, \Z)$.
+
+  To compute $H_{1}(G, \Z)$, consider the sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      \cdots
+      \arrow[r, "d_{2} \otimes \id_{\Z}"]
+      & \bigoplus_{g \in G \smallsetminus \{1\}} [g]\Z G \otimes_{\Z G} \Z
+      \arrow[d, equals]
+      \arrow[r, "d_{1} \otimes \id_{\Z}"]
+      & {[\cdot]} \Z G \otimes_{\Z G} \Z
+      \arrow[r]
+      \arrow[d, equals]
+      & 0
+      \\
+      \cdots
+      \arrow[r]
+      & \bigoplus [g]\Z
+      \arrow[r]
+      & {[\cdot]} \Z
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  The differential $d_{1} \otimes \id_{\Z}$ acts on $[g]$ by sending it to
+  \begin{equation*}
+    [\cdot]g - [\cdot] = [\cdot] - [\cdot],
+  \end{equation*}
+  i.e.\ everything is a cycle. The differential $d_{2}$ sends
+  \begin{equation*}
+    [g|h] \mapsto [g]h - [gh] + [h] = [g] + [h] - [gh],
+  \end{equation*}
+  i.e.\ the terms $[gh]$ and $[g] + [h]$ are identitfied. Thus, $H_{1}(G, \Z)$ is simply the abelianization of $G$.
+
+  To compute $H^{1}(G, \Z)$, consider the sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \Hom_{\Z G}(\Z G[\cdot], \Z)
+      \arrow[r, "(d_{1})^{*}"]
+      & \Hom_{\Z G}(\bigoplus_{g \in G \smallsetminus \{1\}} \Z G[g], \Z)
+      \arrow[r, "(d_{2})^{*}"]
+      & \cdots
+    \end{tikzcd}.
+  \end{equation*}
+  Notice immediately that since the hom functor preserves direct sums in the first slot, we have
+  \begin{align*}
+    \Hom_{\Z G}\left( \bigoplus_{(g_{i}) \in (G \smallsetminus \{1\})^{n}}  \Z G[g_{1}|\cdots|g_{n}], \Z \right) &\cong \bigoplus_{(g_{i}) \in (G \smallsetminus \{1\})^{n}} \Hom_{\Z G}\left(  \Z G[g_{1}|\cdots|g_{n}], \Z \right) \\
+    &\cong \bigoplus_{(g_{i}) \in (G \smallsetminus \{1\})^{n}}  \Z[g_{1}|\cdots|g_{n}].
+  \end{align*}
+  This notation deserves some explanation; recall that the symbols $[g_{1}|\cdots|g_{n}]$ are merely visual aids, reminding us where we are and how the differential acts. The differential
+  \begin{equation*}
+    (d_{n})^{*}\colon [g_{1}| \cdots | g_{n}].
+  \end{equation*}
+  In the low cases we have the sequence
+\end{example}
+
+\end{document}
