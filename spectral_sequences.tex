@@ -1,0 +1,391 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Spectral sequences}
+\label{ch:spectral_sequences}
+
+\section{Motivation}
+\label{sec:motivation}
+
+Let $E_{\bullet,\bullet}$ be a first-quadrant double complex. As we saw in \hyperref[sec:double_complexes]{Section~\ref*{sec:double_complexes}}, computing the homology of the total complex of such a double complex is in general difficult with no further information, for example exactness of rows or columns. Spectral sequences provide a means of calculating, among other things, the homology of the total complex such a double complex.
+
+They do this via a series of successive `approximations'. One starts with a first-quadrant double complex $E_{\bullet,\bullet}$.
+\begin{equation*}
+  \begin{tikzcd}
+    & \
+    \arrow[dddddd, leftarrow, dotted, at start, "q"]
+    & \vdots
+    \arrow[d]
+    & \vdots
+    \arrow[d]
+    & \vdots
+    \arrow[d]
+    & \vdots
+    \arrow[d]
+    \\
+    && E_{0,3}
+    \arrow[d, swap, "d^{v}"]
+    & E_{1,3}
+    \arrow[l, swap, "d^{h}"]
+    \arrow[d, swap, "d^{v}"]
+    & E_{2,3}
+    \arrow[l, swap, "d^{h}"]
+    \arrow[d, swap, "d^{v}"]
+    & E_{3,3}
+    \arrow[l, swap, "d^{h}"]
+    \arrow[d, swap, "d^{v}"]
+    & \cdots
+    \arrow[l]
+    \\
+    && E_{0,2}
+    \arrow[d, swap, "d^{v}"]
+    & E_{1,2}
+    \arrow[l, swap, "d^{h}"]
+    \arrow[d, swap, "d^{v}"]
+    & E_{2,2}
+    \arrow[l, swap, "d^{h}"]
+    \arrow[d, swap, "d^{v}"]
+    & E_{3,2}
+    \arrow[l, swap, "d^{h}"]
+    \arrow[d, swap, "d^{v}"]
+    & \cdots
+    \arrow[l]
+    \\
+    && E_{0,1}
+    \arrow[d, swap, "d^{v}"]
+    & E_{1,1}
+    \arrow[l, swap, "d^{h}"]
+    \arrow[d, swap, "d^{v}"]
+    & E_{2,1}
+    \arrow[l, swap, "d^{h}"]
+    \arrow[d, swap, "d^{v}"]
+    & E_{3,1}
+    \arrow[l, swap, "d^{h}"]
+    \arrow[d, swap, "d^{v}"]
+    & \cdots
+    \arrow[l]
+    \\
+    && E_{0,0}
+    & E_{1,0}
+    \arrow[l, swap, "d^{h}"]
+    & E_{2,0}
+    \arrow[l, swap, "d^{h}"]
+    & E_{3,0}
+    \arrow[l, swap, "d^{h}"]
+    & \cdots
+    \arrow[l]
+    \\
+    \
+    \arrow[rrrrrr, dotted, at end, "p"]
+    &&&&&& \
+    \\
+    & \
+  \end{tikzcd}
+\end{equation*}
+One first forgets the data of the horizontal differentials (or equivalently, sets them to zero). To avoid confusion, one adds a subscript, denoting this new double complex by $E^{0}_{\bullet,\bullet}$
+\begin{equation*}
+  \begin{tikzcd}
+    & \
+    \arrow[dddddd, leftarrow, dotted, at start, "q"]
+    & \vdots
+    \arrow[d]
+    & \vdots
+    \arrow[d]
+    & \vdots
+    \arrow[d]
+    & \vdots
+    \arrow[d]
+    \\
+    && E^{0}_{0,3}
+    \arrow[d, swap, "d^{v}"]
+    & E^{0}_{1,3}
+    \arrow[d, swap, "d^{v}"]
+    & E^{0}_{2,3}
+    \arrow[d, swap, "d^{v}"]
+    & E^{0}_{3,3}
+    \arrow[d, swap, "d^{v}"]
+    \\
+    && E^{0}_{0,2}
+    \arrow[d, swap, "d^{v}"]
+    & E^{0}_{1,2}
+    \arrow[d, swap, "d^{v}"]
+    & E^{0}_{2,2}
+    \arrow[d, swap, "d^{v}"]
+    & E^{0}_{3,2}
+    \arrow[d, swap, "d^{v}"]
+    \\
+    && E^{0}_{0,1}
+    \arrow[d, swap, "d^{v}"]
+    & E^{0}_{1,1}
+    \arrow[d, swap, "d^{v}"]
+    & E^{0}_{2,1}
+    \arrow[d, swap, "d^{v}"]
+    & E^{0}_{3,1}
+    \arrow[d, swap, "d^{v}"]
+    \\
+    && E^{0}_{0,0}
+    & E^{0}_{1,0}
+    & E^{0}_{2,0}
+    & E^{0}_{3,0}
+    \\
+    \
+    \arrow[rrrrrr, dotted, at end, "p"]
+    &&&&&& \
+    \\
+    & \
+  \end{tikzcd}
+\end{equation*}
+One then takes homology of the corresponding vertical complexes, replacing $E^{0}_{p, q}$ by the homology $H_{q}(E^{0}_{p,\bullet})$. To ease notation, one writes
+\begin{equation*}
+  H_{q}(E^{0}_{p, \bullet}) = E^{1}_{p, q}.
+\end{equation*}
+The functoriality of $H_{q}$ means that the maps $H_{q}(d^{h})$ act as differentials for the rows.
+\begin{equation*}
+  \begin{tikzcd}
+    & \
+    \arrow[dddddd, leftarrow, dotted, at start, "q"]
+    \\
+    && E^{1}_{0,3}
+    & E^{1}_{1,3}
+    \arrow[l, swap, "H_{3}(d^{h})"]
+    & E^{1}_{2,3}
+    \arrow[l, swap, "H_{3}(d^{h})"]
+    & E^{1}_{3,3}
+    \arrow[l, swap, "H_{3}(d^{h})"]
+    & \cdots
+    \arrow[l]
+    \\
+    && E^{1}_{0,2}
+    & E^{1}_{1,2}
+    \arrow[l, swap, "H_{2}(d^{h})"]
+    & E^{1}_{2,2}
+    \arrow[l, swap, "H_{2}(d^{h})"]
+    & E^{1}_{3,2}
+    \arrow[l, swap, "H_{2}(d^{h})"]
+    & \cdots
+    \arrow[l]
+    \\
+    && E^{1}_{0,1}
+    & E^{1}_{1,1}
+    \arrow[l, swap, "H_{1}(d^{h})"]
+    & E^{1}_{2,1}
+    \arrow[l, swap, "H_{1}(d^{h})"]
+    & E^{1}_{3,1}
+    \arrow[l, swap, "H_{1}(d^{h})"]
+    & \cdots
+    \arrow[l]
+    \\
+    && E^{1}_{0,0}
+    & E^{1}_{1,0}
+    \arrow[l, swap, "H_{0}(d^{h})"]
+    & E^{1}_{2,0}
+    \arrow[l, swap, "H_{0}(d^{h})"]
+    & E^{1}_{3,0}
+    \arrow[l, swap, "H_{0}(d^{h})"]
+    & \cdots
+    \arrow[l]
+    \\
+    \
+    \arrow[rrrrrr, dotted, at end, "p"]
+    &&&&&& \
+    \\
+    & \
+  \end{tikzcd}
+\end{equation*}
+We now write $E^{2}_{p,q}$ for the horizontal homology $H_{p}(E^{1}_{\bullet, q})$.
+
+The claim is that the terms $E^{r}_{p,q}$ are pieces of a successive approximation of the homology of the total complex $\Tot(E)$. In the particularly simple case that $E_{\bullet,\bullet}$ consists of only two nonzero adjacent columns, we have already succeeded in computing the total homology, at least up to an extension problem.
+\begin{proposition}
+  Let $E$ be a double complex where all but two adjacent columns are zero; that is, let $E$ be a diagram consisting of two chain complexes and a morphism between them, padded by zeroes on either side.
+  \begin{equation*}
+    \begin{tikzcd}
+      \vdots
+      \arrow[d]
+      & \vdots
+      \arrow[d]
+      \\
+      D_{3}
+      \arrow[d, swap, "d^{D}_{3}"]
+      & C_{3}
+      \arrow[l, swap, "f_{3}"]
+      \arrow[d, "-d^{C}_{3}"]
+      \\
+      D_{2}
+      \arrow[d, swap, "d^{D}_{2}"]
+      & C_{2}
+      \arrow[l, swap, "f_{2}"]
+      \arrow[d, "-d^{C}_{2}"]
+      \\
+      D_{1}
+      \arrow[d, swap, "d^{D}_{1}"]
+      & C_{1}
+      \arrow[l, swap, "f_{1}"]
+      \arrow[d, "-d^{C}_{1}"]
+      \\
+      D_{0}
+      \arrow[d, swap, "d^{D}_{0}"]
+      & C_{0}
+      \arrow[d, "-d^{C}_{0}"]
+      \arrow[l, swap, "f_{0}"]
+      \\
+      D_{-1}
+      \arrow[d]
+      & C_{-1}
+      \arrow[l, swap, "f_{-1}"]
+      \arrow[d]
+      \\
+      \vdots
+      & \vdots
+    \end{tikzcd}
+  \end{equation*}
+  Note that we have multiplied the diferentials of $C$ by $-1$ so that we have a double complex.
+
+  Fix some $n \in \Z$, and let $q = n - p$.
+
+  Let $T = \Tot(E)$; that is, let $T = \Cone(f)$. Then we have a short exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & E^{2}_{p-1,q+1}
+      \arrow[r, hook]
+      & H_{p+q}(T)
+      \arrow[r, two heads]
+      & E^{2}_{p,q}
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+\end{proposition}
+\begin{proof}
+  Recall that $\Cone(f)$ fits into the following short exact seqence,
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & C_{\bullet}
+      \arrow[r, hook]
+      & D_{\bullet}
+      \arrow[r, two heads]
+      & \Cone(f)_{\bullet}
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  and that this gives us the following long exact sequence on homology.
+  \begin{equation*}
+    \begin{tikzcd}
+      & \cdots
+      \arrow[r]
+      & H_{n+1}(\Cone(f))
+      \\
+      H_{n}(C_{\bullet})
+      \arrow[r, "H_{n}(f)"]
+      \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
+      & H_{n}(D_{\bullet})
+      \arrow[r, "H_{n}(p)"]
+      & H_{n}(\Cone(f)_{\bullet})
+      \\
+      H_{n-1}(C_{\bullet})
+      \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
+      \arrow[r]
+      & \cdots
+    \end{tikzcd}
+  \end{equation*}
+  Through image-kernel factorization, we get the following short exact sequence.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \coker(H_{n}(f))
+      \arrow[r, hook]
+      & H_{n}(\Cone(f))
+      \arrow[r, two heads]
+      & \ker(H_{n-1}(f))
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+
+  This is precisely the second page of the above computation.
+\end{proof}
+
+Of course, in a general situation we will not be so lucky. Let us examine the terms
+\begin{equation*}
+  E^{2}_{p,q} = H_{p}(E^{1}_{\bullet, q}).
+\end{equation*}
+
+First, some notation. We will define in the obvious way $Z^{r}_{p, q}$ and $B^{r}_{p, q}$ so that
+\begin{equation*}
+  E^{r}_{p, q} = Z^{r}_{p, q}/B^{r}_{p, q};
+\end{equation*}
+that is, we have
+\begin{equation*}
+  Z^{r}_{p, q} \subset E^{r-1}_{p, q},\qquad B^{r}_{p, q} \subset E^{r-1}_{p, q}.
+\end{equation*}
+
+\begin{proposition}
+  There is an isomorphism
+  \begin{equation*}
+    E^{2}_{p, q} \cong U/V,
+  \end{equation*}
+  where
+  \begin{equation*}
+    U = \{(a, b) \subset E_{p-1, q+1} \times E_{p, q} \mid d^{v}a + d^{h}b = d^{v}b = 0 \}
+  \end{equation*}
+  and
+  \begin{equation*}
+    V = \left\langle \substack{(a, 0)\colon d^{v}a = 0\\ (d^{h}x, d^{v}x)\colon x \in E_{p, q+1}\\ (0, d^{h}c)\colon c \in E_{p+1, q}, d^{v}c = 0} \right\rangle.
+  \end{equation*}
+\end{proposition}
+\begin{proof}
+  First we construct a homomorphism
+  \begin{equation*}
+    \phi\colon U \to E^{2}_{p, q}.
+  \end{equation*}
+  Define
+  \begin{equation*}
+    \phi^{0}\colon U \to E^{0}_{p, q};\qquad (a, b) \mapsto b.
+  \end{equation*}
+  Since by assumption $d^{v}b = 0$ we know that $\im \phi^{0} \subset \ker d^{v}$, so $\phi^{0}$ descends to $\ker d^{v}$, and therefore to a map
+  \begin{equation*}
+    \phi^{1}\colon U \to E^{1}_{p,q};\qquad (a, b) \mapsto b + B^{1}_{p, q}.
+  \end{equation*}
+  Since
+  \begin{equation*}
+    H_{q}(d^{h})(b + B^{1}_{p, q}) = d^{v}(-a) + B^{1}_{p-1, q} = 0 + B^{1}_{p-1, q},
+  \end{equation*}
+  we have that $\im \phi^{1} \subset \ker H_{q}(d^{h})$, so the map $\phi^{1}$ descends to $\ker H_{q}(d^{h})$, and therefore to a map
+  \begin{equation*}
+    \phi\colon U \to E^{2}_{p, q};\qquad (a, b) \mapsto (b + B^{1}_{p, q}) + B^{2}_{p, q}.
+  \end{equation*}
+
+  Next, we show that $\phi$ is surjective. Let
+  \begin{equation*}
+    \underbrace{(\overbrace{x}^{\in Z^{1}_{p, q}} + B^{1}_{p, q})}_{\in Z^{2}_{p, q}} + B^{2}_{p, q} \in E^{2}_{p, q}.
+  \end{equation*}
+  \begin{itemize}
+    \item The fact that $x \in Z^{1}_{p, q}$ means that $d^{v}x = 0$.
+
+    \item The fact that $x + B^{1}_{p, q} \in Z^{2}_{p, q}$ means that $H_{q}(d^{h})x = [0]$, i.e.\ that $d^{h} x \in B^{1}_{p-1,q}$.
+  \end{itemize}
+\end{proof}
+
+%First note that by definition, we can write
+%\begin{align*}
+%  E^{1}_{p, q} &= \frac{\ker d^{v}}{\im d^{v}} \\
+%  &= \frac{\{x \in E_{p,q} \mid d^{v}x = 0\}}{\{d^{v} y \mid y \in E_{p, q-1}\}}.
+%\end{align*}
+%
+%We would like to calculate
+%\begin{equation*}
+%  E^{2}_{p, q} = \frac{\ker(H_{q}(d^{h}))}{\im(H_{q}(d^{h}))}.
+%\end{equation*}
+%
+%The kernel $\ker H_{q}(d^{h})$ is simply a subobject of $E^{1}_{p, q}$. Specifically, it consists of those $[x] \in E^{1}_{p, q}$ such that $[d^{h}x] = [0]$; such an $[x]$ is represented by $x \in E_{p, q}$ such that $d^{h}x = d^{v}a$ for some $a \in E_{p-1,q+1}$. Therefore, we can write
+%\begin{equation*}
+%  \ker(H_{q}(d^{h})) = \frac{\{(x, a) \in E_{p, q} \times E_{p-1,q+1}\}}{\{d^{v}y = 0, y \in E_{p, q+1};\ \}}
+%\end{equation*}
+
+\end{document}

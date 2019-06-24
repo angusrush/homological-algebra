@@ -514,8 +514,11 @@ By \hyperref[eg:compute_homology_in_trivial_situation]{Example~\ref*{eg:compute_
   Let $A$ be an object in an abelian category. A \defn{resolution} of $A$ consists of a chain complex $C_{\bullet}$ together with a quasi-isomorphism $C_{\bullet} \to \iota(A)$.
 \end{definition}
 
-\section{The snake lemma and its compatriots}
-\label{ssc:the_snake_lemma_and_its_compatriots}
+\section{Diagram lemmas}
+\label{sec:diagram_lemmas}
+
+\subsection{The splitting lemma}
+\label{ssc:the_splitting_lemma}
 
 \begin{lemma}[Splitting lemma]
   \label{lemma:splitting_lemma}
@@ -544,6 +547,9 @@ By \hyperref[eg:compute_homology_in_trivial_situation]{Example~\ref*{eg:compute_
     \item $B$ is a direct sum $A \oplus C$ with the obvious canonical injections and projections.
   \end{itemize}
 \end{lemma}
+
+\subsection{The snake lemma}
+\label{ssc:the_snake_lemma}
 
 \begin{lemma}
   \label{lemma:pullback_preserves_kernel}
@@ -965,6 +971,8 @@ There is another version of the snake lemma which does not have the first and la
   \end{equation*}
 \end{theorem}
 
+\subsection{The long exact sequence on homology}
+\label{ssc:the_long_exact_sequence_on_homology}
 
 \begin{corollary}
   \label{cor:long_exact_sequence_on_homology}
@@ -1085,34 +1093,115 @@ There is another version of the snake lemma which does not have the first and la
 
 \begin{lemma}
   \label{lemma:connecting_homomorphism_is_functorial}
-  Let $\mathcal{A}$ be an abelian category, and let $f$ be a morphism of short exact sequences as below.
+  Let $\mathcal{A}$ be an abelian category, and let $f$ be a morphism of short exact sequences in $\Ch(\mathcal{A})$ as below.
   \begin{equation*}
     \begin{tikzcd}
       0
       \arrow[r]
-      & A'
+      & A'_{\bullet}
+      \arrow[r, "\alpha_{\bullet}"]
+      \arrow[d, "f'_{\bullet}"]
+      & A_{\bullet}
+      \arrow[r, "\alpha'_{\bullet}"]
+      \arrow[d, "f_{\bullet}"]
+      & A''_{\bullet}
       \arrow[r]
-      \arrow[d, "f'"]
-      & A
-      \arrow[r]
-      \arrow[d, "f"]
-      & A''
-      \arrow[r]
-      \arrow[d, "f''"]
+      \arrow[d, "f''_{\bullet}"]
       & 0
       \\
       0
       \arrow[r]
-      & B'
-      \arrow[r]
-      & B
-      \arrow[r]
-      & B''
+      & B'_{\bullet}
+      \arrow[r, swap, "\beta_{\bullet}"]
+      & B_{\bullet}
+      \arrow[r, swap, "\beta'_{\bullet}"]
+      & B''_{\bullet}
       \arrow[r]
       & 0
     \end{tikzcd}
   \end{equation*}
+
+  This gives us the following morphism of long exact sequences on homology.
+  \begin{equation*}
+    \begin{tikzcd}
+      \cdots
+      \arrow[r]
+      & H_{n}(A)
+      \arrow[r, "H_{n}(\alpha')"]
+      \arrow[d, swap, "H_{n}(f)"]
+      & H_{n}(A'')
+      \arrow[r, "\delta"]
+      \arrow[d, "H_{n}(f'')"]
+      & H_{n-1}(A')
+      \arrow[r, "H_{n-1}(\alpha)"]
+      \arrow[d, "H_{n}(f')"]
+      & H_{n-1}(A)
+      \arrow[d, "H_{n}(f)"]
+      \arrow[r]
+      & \cdots
+      \\
+      \cdots
+      \arrow[r]
+      & H_{n}(B)
+      \arrow[r, "H_{n}(\beta')"]
+      & H_{n}(B'')
+      \arrow[r, "\delta"]
+      & H_{n-1}(B')
+      \arrow[r, "H_{n-1}(\beta)"]
+      & H_{n-1}(B)
+      \arrow[r]
+      & \cdots
+    \end{tikzcd}
+  \end{equation*}
+  In particular, the connecting morphism $\delta$ is functorial.
 \end{lemma}
+
+\subsection{The five lemma}
+\label{ssc:the_five_lemma}
+
+\begin{lemma}[four lemmas]
+  \label{lemma:four_lemmas}
+  Let
+  \begin{equation*}
+    \begin{tikzcd}
+      B
+      \arrow[r]
+      \arrow[d, two heads]
+      & C
+      \arrow[r]
+      \arrow[d]
+      & D
+      \arrow[r]
+      \arrow[d, two heads]
+      & E
+      \arrow[d, hook]
+      \\
+      B'
+      \arrow[r]
+      & C'
+      \arrow[r]
+      & D'
+      \arrow[r]
+      & E'
+    \end{tikzcd}
+  \end{equation*}
+  be a commutative diagram with exact rows, with monomorphisms and epimorphisms as marked. Then 
+\end{lemma}
+
+\begin{theorem}[five lemma]
+  \label{thm:five_lemma}
+
+\end{theorem}
+
+\subsection{The nine lemma}
+\label{ssc:the_nine_lemma}
+
+\begin{theorem}[nine lemma]
+  \label{thm:nine_lemma}
+\end{theorem}
+
+\chapter{Homological algebra in abelian categories}
+\label{ch:homological_algebra_in_abelian_categories}
 
 \section{Exactness in abelian categories}
 \label{sss:exactness_in_abelian_categories}
@@ -2054,7 +2143,7 @@ We can embed any abelian category $\mathcal{A}$ into the corresponding category 
   \end{tikzcd}
 \end{equation*}
 
-Equivalently, we recover our category $A$ by taking zeroth homology.
+Equivalently, we recover our category $\mathcal{A}$ by taking zeroth homology.
 \begin{equation*}
   \begin{tikzcd}
     \mathcal{A}
@@ -2064,7 +2153,7 @@ Equivalently, we recover our category $A$ by taking zeroth homology.
   \end{tikzcd}
 \end{equation*}
 
-However, we notice that there are much better-behaved embeddings of $\mathcal{A}$ into $\Ch(\mathcal{A})$ such that we recover $\mathcal{A}$ when taking zeroth homology. For example, taking projective resolutions of objects and lifting morphisms using \hyperref[prop:can_lift_morphisms_to_projective_resolutions]{Proposition~\ref*{prop:can_lift_morphisms_to_projective_resolutions}} will do the trick, although this is not in general well-defined; one can take many different projective resolutions, and lift morphisms in many different ways. There is no reason to expect these to assemble themselves functorially.
+However, we notice that there are much better-behaved embeddings of $\mathcal{A}$ into $\Ch(\mathcal{A})$ such that we recover $\mathcal{A}$ when taking zeroth homology. For example, taking projective resolutions of objects and lifting morphisms using \hyperref[prop:can_lift_morphisms_to_projective_resolutions]{Proposition~\ref*{prop:can_lift_morphisms_to_projective_resolutions}} will do the trick. Unfortunately, this is not in general uniquely defined: one can take many different projective resolutions, and lift morphisms in many different ways. There is no reason to expect these data to assemble themselves functorially.
 
 However, if we were to modify $\Ch(\mathcal{A})$ in such a way that all quasi-isomorphisms became bona-fide isomorphisms, then we would have this functoriality, thanks to \hyperref[prop:additive_functors_from_derived_category_squash_homotopies]{Proposition~\ref*{prop:additive_functors_from_derived_category_squash_homotopies}}.
 
