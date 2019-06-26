@@ -8,9 +8,9 @@
 \section{Motivation}
 \label{sec:motivation}
 
-Let $E_{\bullet,\bullet}$ be a first-quadrant double complex. As we saw in \hyperref[sec:double_complexes]{Section~\ref*{sec:double_complexes}}, computing the homology of the total complex of such a double complex is in general difficult with no further information, for example exactness of rows or columns. Spectral sequences provide a means of calculating, among other things, the homology of the total complex such a double complex.
+Let $E_{\bullet,\bullet}$ be a first-quadrant double complex. As we saw in \hyperref[sec:double_complexes]{Section~\ref*{sec:double_complexes}}, computing the homology of the total complex of such a double complex is in general difficult with no further information, for example exactness of rows or columns. Spectral sequences provide a means of calculating, among other things, the building blocks of the homology of the total complex such a double complex.
 
-They do this via a series of successive `approximations'. One starts with a first-quadrant double complex $E_{\bullet,\bullet}$.
+They do this via a series of successive approximations. One starts with a first-quadrant double complex $E_{\bullet,\bullet}$.
 \begin{equation*}
   \begin{tikzcd}
     & \
@@ -336,7 +336,7 @@ that is, we have
   \end{equation*}
   and
   \begin{equation*}
-    V = \left\langle \substack{(a, 0)\colon d^{v}a = 0\\ (d^{h}x, d^{v}x)\colon x \in E_{p, q+1}\\ (0, d^{h}c)\colon c \in E_{p+1, q}, d^{v}c = 0} \right\rangle.
+    V = \left\langle \substack{(a, 0)\colon d^{v}a = 0\\ (d^{h}x, d^{v}x)\colon x \in E_{p, q+1}\\ (0, d^{h}c)\colon c \in E_{p+1, q}, d^{v}c = 0} \right\rangle \subseteq U.
   \end{equation*}
 \end{proposition}
 \begin{proof}
@@ -348,7 +348,11 @@ that is, we have
   \begin{equation*}
     \phi^{0}\colon U \to E^{0}_{p, q};\qquad (a, b) \mapsto b.
   \end{equation*}
-  Since by assumption $d^{v}b = 0$ we know that $\im \phi^{0} \subset \ker d^{v}$, so $\phi^{0}$ descends to $\ker d^{v}$, and therefore to a map
+  Since by assumption $d^{v}b = 0$ we have that
+  \begin{equation*}
+    d^{v}\phi^{0}(a, b) = d^{v}b = 0,
+  \end{equation*}
+  which is to say that $\im \phi^{0} \subset \ker d^{v}$, so $\phi^{0}$ descends to $\ker d^{v}$, and therefore to a map
   \begin{equation*}
     \phi^{1}\colon U \to E^{1}_{p,q};\qquad (a, b) \mapsto b + B^{1}_{p, q}.
   \end{equation*}
@@ -361,16 +365,53 @@ that is, we have
     \phi\colon U \to E^{2}_{p, q};\qquad (a, b) \mapsto (b + B^{1}_{p, q}) + B^{2}_{p, q}.
   \end{equation*}
 
-  Next, we show that $\phi$ is surjective. Let
+  Next, we show that $\phi$ is surjective. Pick some $\tilde{y} \in E^{2}_{p, q}$. 
   \begin{equation*}
-    \underbrace{(\overbrace{x}^{\in Z^{1}_{p, q}} + B^{1}_{p, q})}_{\in Z^{2}_{p, q}} + B^{2}_{p, q} \in E^{2}_{p, q}.
+    \tilde{y} = \underbrace{(\overbrace{y}^{\in Z^{1}_{p, q}} + B^{1}_{p, q})}_{\in Z^{2}_{p, q}} + B^{2}_{p, q} \in E^{2}_{p, q}.
   \end{equation*}
-  \begin{itemize}
-    \item The fact that $x \in Z^{1}_{p, q}$ means that $d^{v}x = 0$.
+  The fact that $y \in Z^{1}_{p, q}$ means that $d^{v}y = 0$. Thus, if we can find some $x \in E_{p+1, q-1}$ such that
+  \begin{equation*}
+    d^{v}x + d^{h}y = 0,
+  \end{equation*}
+  then $(x, y)$ will lie in $U$ and $\phi(x, y) = \tilde{y}$, so we will be done.
 
-    \item The fact that $x + B^{1}_{p, q} \in Z^{2}_{p, q}$ means that $H_{q}(d^{h})x = [0]$, i.e.\ that $d^{h} x \in B^{1}_{p-1,q}$.
+  The fact that $y + B^{1}_{p, q} \in Z^{2}_{p, q}$ means that $H_{q}(d^{h})(y + B^{1}_{p, 1}) = 0 + B^{1}_{p-1, q}$, i.e.\ that $d^{h} y \in B^{1}_{p-1,q}$. Thus, there exists $-x \in E_{p-1, q+1}$ such that
+  \begin{equation*}
+    d^{v}(-x) = d^{h}y.
+  \end{equation*}
+  Thus, we have found our $(x, y) \in U$, so $\phi$ is surjective.
+
+  We will be done if we can show that $\ker \phi = V$.
+
+  The following calculations show that $V \subset \ker \phi$.
+  \begin{itemize}
+    \item $\phi(a, 0) = (0 + B^{1}_{p, q}) + B^{2}_{p, q}$.
+
+    \item $\phi(d^{h}x, d^{v}x) = (d^{v}x + B^{1}_{p, q}) + B^{2}_{p, q} = (0 + B^{1}_{p, q}) + B^{2}_{p, q}$.
+
+    \item $\phi(0, d^{h}c) = (d^{h}c + B^{1}_{p, q}) + B^{2}_{p, q} = H_{q}(d^{h})(c + B^{1}_{p+1, q}) + B^{2}_{p, q} = [0] + B^{2}_{p, q}$.
   \end{itemize}
+
+  Now, let $(x, y) \in \ker \phi$. How in the hell...?
 \end{proof}
+
+\begin{definition}[filtration]
+  \label{def:filtration}
+  Let $C_{\bullet}$ be a chain complex. A \defn{filtration} of $C_{\bullet}$ is a chain of monomorphisms of subcomplexes $F_{p}C_{\bullet} \subset$ of $C_{\bullet}$.
+  \begin{equation*}
+    \begin{tikzcd}
+      \cdots
+      \arrow[r, hook]
+      & F_{p-1}C_{\bullet} 
+      \arrow[r, hook]
+      & F_{p}C_{\bullet}
+      \arrow[r, hook]
+      & F_{p+1}C_{\bullet}
+      \arrow[r, hook]
+      & \cdots
+    \end{tikzcd}
+  \end{equation*}
+\end{definition}
 
 %First note that by definition, we can write
 %\begin{align*}

@@ -1392,6 +1392,8 @@ At this point, we define some terminology.
     \item If $X^{n} \cong Y^{n}$, then $H_{q}(X) \cong H_{q}(Y)$ for all $q < n$.
 
     \item If $X$ has no $q$-cells, then $H_{q}(X) \cong 0$.
+
+    \item In particular, for an $n$-dimensional CW-complex $X$ (\hyperref[def:skeleton]{Definition~\ref*{def:skeleton}}), $H_{q}(X) = 0$ for $q > n$.
   \end{enumerate}
 \end{corollary}
 \begin{proof}
@@ -1403,6 +1405,233 @@ At this point, we define some terminology.
   \end{enumerate}
 \end{proof}
 
+\begin{definition}[cellular chain complex]
+  \label{def:cellular_chain_complex}
+  Let $X$ be a CW complex. The \defn{cellular chain complex} of $X$ is defined level-wise by
+  \begin{equation*}
+    C_{n}(X) = H_{n}(X^{n}, X^{n-1}),
+  \end{equation*}
+  with boundary operator $d_{n}$ given by the following composition
+  \begin{equation*}
+    \begin{tikzcd}
+      H_{n}(X^{n}, X^{n-1})
+      \arrow[r, "\delta"]
+      & H_{n-1}(X^{n-1})
+      \arrow[r, "\varrho"]
+      & H_{n-1}(X^{n-1}, X^{n-2})
+    \end{tikzcd}
+  \end{equation*}
+  where $\varrho$ is induced by the projection
+  \begin{equation*}
+    S_{n-1}(X^{n-1}) \to S_{n-1}(X^{n-1}, X^{n-2}).
+  \end{equation*}
+\end{definition}
 
+This is a bona fide differential, since
+\begin{equation*}
+  d^{2} = \varrho \circ \delta \circ \varrho \circ \delta,
+\end{equation*}
+and $\delta \circ \varrho$ is a composition in the long exact sequence on the pair $(X^{n}, X^{n-1})$.
+
+\begin{theorem}[comparison of cellular and singular homology]
+  Let $X$ be a CW complex. Then there is an isomorphism
+  \begin{equation*}
+    \Upsilon_{n}\colon H_{n}(C_{\bullet}(X), d) \cong H_{n}(X).
+  \end{equation*}
+\end{theorem}
+
+\begin{example}[complex projective space]
+  Consider the complex projective space $\C P^{n}$. We know that $\C P^{0} = \mathrm{pt}$, and from the homogeneous coordinates
+  \begin{equation*}
+    [x_{0} : \cdots | x_{n}]
+  \end{equation*}
+  on $\C P^{n}$, we have a decomposition
+  \begin{equation*}
+    \C P^{n} \cong \C^{n} \cup \C P^{n-2}.
+  \end{equation*}
+
+  Inductively, we find a decomposition
+  \begin{equation*}
+    \C P^{n} \cong \C^{n} \cup \C^{n-1} \cup \cdots \cup \C^{0},
+  \end{equation*}
+  giving us a cell decomposition
+  \begin{equation*}
+    \C P^{2n} \cong \R^{2n} \cup \R^{2n-2} \cup \cdots \cup \R^{0}.
+  \end{equation*}
+  This is a CW complex because
+
+  The cellular chain complex is as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      & 2n
+      & 2n-1
+      & 2n-2
+      & \cdots
+      & 1
+      & 0
+      \\
+      & \Z
+      \arrow[r]
+      & 0
+      \arrow[r]
+      & \Z
+      \arrow[r]
+      & \cdots
+      \arrow[r]
+      & 0
+      \arrow[r]
+      & \Z
+    \end{tikzcd}
+  \end{equation*}
+  The differentials are all zero. Thus, we have
+  \begin{equation*}
+    H_{k}(\C P^{n}) =
+    \begin{cases}
+      \Z, &k = 2i,\ 0 \leq i \leq n \\
+      0, & \text{otherwise}.
+    \end{cases}
+  \end{equation*}
+\end{example}
+
+\begin{example}[real projective space]
+  As in the complex case, appealing to homogeneous coordinates gives a cell decomposition
+  \begin{equation*}
+    \R P^{n} \cong \R^{n} \cup \R^{n-1} \cup \cdots \cup \R^{0}.
+  \end{equation*}
+
+  The cellular chain complex is thus as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      & n
+      & n-1
+      & n-2
+      & \cdots
+      & 1
+      & 0
+      \\
+      & \Z
+      \arrow[r]
+      & \Z
+      \arrow[r]
+      & \Z
+      \arrow[r]
+      & \cdots
+      \arrow[r]
+      & \Z
+      \arrow[r]
+      & \Z
+    \end{tikzcd}
+  \end{equation*}
+
+  Unlike the complex case, we don't know how the differentials behave, so we can't calculate the homology directly.
+\end{example}
+
+\section{Homology with coefficients}
+\label{sec:homology_with_coefficients}
+
+\begin{definition}[homology with coefficients]
+  \label{def:homology_with_coefficients}
+  Let $G$ be an abelian group, and $X$ a topological space. The \defn{singular chain complex of $X$ with coefficients in $G$} is the chain complex
+  \begin{equation*}
+    S(X; G) = S(X) \otimes_{\Z} G.
+  \end{equation*}
+
+  The \defn{$n$th singular homology of $X$ with coefficients in $G$} is the $n$th homology
+  \begin{equation*}
+    H_{n}(X; G) = H_{n}(S(X; G)).
+  \end{equation*}
+\end{definition}
+
+We can relate homology with integral coefficients (i.e.\ standard homology) and homology with coefficients in $G$.
+
+\begin{theorem}
+  \label{thm:topological_universal_coefficient_theorem}
+  For every topological space $X$ there is a short exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & H_{n}(X) \otimes G
+      \arrow[r, hook]
+      & H_{n}(X; G)
+      \arrow[r, two heads]
+      & \Tor(H_{n-1}(X), G)
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+  Furthermore, this sequence splits non-canonicaly, telling us that
+  \begin{equation*}
+    H_{n}(X; G) \cong (H_{n}(X) \otimes G) \oplus \Tor^{\Z}_{1}(H_{n-1}(X), G).
+  \end{equation*}
+\end{theorem}
+\begin{proof}
+  REF to be updated with UCT.
+\end{proof}
+
+\section{The topological Künneth formula}
+\label{sec:the_topological_kunneth_formula}
+
+\begin{theorem}[topological Künneth formula]
+  For any topological spaces $X$ and $Y$, we have the following short exact sequence.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=small]
+      0
+      \arrow[r]
+      & \bigoplus_{p + q = n} H_{p}(X) \otimes H_{q}(X)
+      \arrow[r, hook]
+      & H_{n}(X \times Y)
+      \arrow[r, two heads]
+      & \bigoplus_{p + q = n-1} \Tor(H_{p}(X), H_{q}(Y))
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+\end{theorem}
+
+\section{Singular cohomology}
+\label{sec:singular_cohomology}
+
+\begin{definition}[singular cohomology]
+  \label{def:singular_cohomology}
+  Let $G$ be an abelian group. The \defn{singular cochain complex of $X$ with coefficients in $G$} is the cochain complex
+  \begin{equation*}
+    S^{\bullet}(X; G) = \Hom(S_{\bullet}, G)
+  \end{equation*}
+\end{definition}
+
+We will denote the evaluation map $\Hom(A, G) \otimes A \to G$ using angle brackets $\langle \cdot,\cdot \rangle$. In this form, it is usually called the \emph{Kroenecker pairing.}
+
+\begin{lemma}
+  \label{lemma:kroenecker_pairing_descends_to_homology}
+  The Kroenecker pairing
+  \begin{equation*}
+    \langle \cdot,\cdot \rangle\colon C^{n}(X; G) \otimes C_{n}(X) \to G
+  \end{equation*}
+  descends to a map on homology
+  \begin{equation*}
+    \langle \cdot,\cdot \rangle\colon H^{n}(C^{\bullet}) \otimes H_{n}(C_{\bullet}) \to G.
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  Let $\alpha\colon C_{n} \to G$ be a cocycle and $a \in C_{n}$ a cycle, and let $d b \in C_{n}$ be a boundary. Then
+  \begin{align*}
+    \langle \alpha, a + db \rangle &= \langle \alpha, a \rangle + \langle \alpha, db \rangle \\
+    &= \langle \alpha, a \rangle + \langle \delta \alpha, b \rangle \\
+    &= \langle \alpha, a \rangle.
+  \end{align*}
+
+  Furthermore, if $\delta \beta \in C^{n}$ is a cocycle, then
+  \begin{align*}
+    \langle \alpha + \delta \beta, a \rangle &= \langle \alpha, a \rangle + \langle \delta \beta, a \rangle \\
+    &= \langle \alpha, a \rangle + \langle \beta, d a \rangle \\
+    &= \langle \alpha, a \rangle
+  \end{align*}
+\end{proof}
+
+Via $\otimes$-hom adjunction, we get a map
+\begin{equation*}
+  \kappa\colon H^{n}(C^{\bullet}) \to \Hom(H_{n}(C_{\bullet}), G).
+\end{equation*}
 
 \end{document}
