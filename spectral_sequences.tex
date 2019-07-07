@@ -84,7 +84,8 @@ They do this via a series of successive approximations. One starts with a first-
   \end{tikzcd}
 \end{equation*}
 One first forgets the data of the horizontal differentials (or equivalently, sets them to zero). To avoid confusion, one adds a subscript, denoting this new double complex by $E^{0}_{\bullet,\bullet}$
-\begin{equation*}
+\begin{equation}
+  \label{eq:spectral_seq_example_0}
   \begin{tikzcd}
     & \
     \arrow[dddddd, leftarrow, dotted, at start, "q"]
@@ -135,13 +136,14 @@ One first forgets the data of the horizontal differentials (or equivalently, set
     \\
     & \
   \end{tikzcd}
-\end{equation*}
+\end{equation}
 One then takes homology of the corresponding vertical complexes, replacing $E^{0}_{p, q}$ by the homology $H_{q}(E^{0}_{p,\bullet})$. To ease notation, one writes
 \begin{equation*}
   H_{q}(E^{0}_{p, \bullet}) = E^{1}_{p, q}.
 \end{equation*}
 The functoriality of $H_{q}$ means that the maps $H_{q}(d^{h})$ act as differentials for the rows.
-\begin{equation*}
+\begin{equation}
+  \label{eq:spectral_seq_example_1}
   \begin{tikzcd}
     & \
     \arrow[dddddd, leftarrow, dotted, at start, "q"]
@@ -192,12 +194,13 @@ The functoriality of $H_{q}$ means that the maps $H_{q}(d^{h})$ act as different
     \\
     & \
   \end{tikzcd}
-\end{equation*}
+\end{equation}
 We now write $E^{2}_{p,q}$ for the horizontal homology $H_{p}(E^{1}_{\bullet, q})$.
 
-The claim is that the terms $E^{r}_{p,q}$ are pieces of a successive approximation of the homology of the total complex $\Tot(E)$. In the particularly simple case that $E_{\bullet,\bullet}$ consists of only two nonzero adjacent columns, we have already succeeded in computing the total homology, at least up to an extension problem.
-\begin{proposition}
-  Let $E$ be a double complex where all but two adjacent columns are zero; that is, let $E$ be a diagram consisting of two chain complexes and a morphism between them, padded by zeroes on either side.
+The claim is that the terms $E^{r}_{p,q}$ are pieces of a successive approximation of the homology of the total complex $\Tot(E)$. We will prove this claim much later. However, in the particularly simple case that $E_{\bullet,\bullet}$ consists of only two nonzero adjacent columns, we have already succeeded in computing the total homology, at least up to an extension problem.
+\begin{example}
+  \label{eg:cone_spectral_sequence}
+  Let $E$ be a double complex where all but two adjacent columns are zero; that is, let $E$ be a diagram consisting of two chain complexes $E_{0,\bullet}$ and $E_{1, \bullet}$ and a morphism $f\colon E_{1, \bullet} \to E_{0, \bullet}$, padded by zeroes on either side.
   \begin{equation*}
     \begin{tikzcd}
       \vdots
@@ -205,33 +208,33 @@ The claim is that the terms $E^{r}_{p,q}$ are pieces of a successive approximati
       & \vdots
       \arrow[d]
       \\
-      D_{3}
-      \arrow[d, swap, "d^{D}_{3}"]
-      & C_{3}
+      E_{0,3}
+      \arrow[d, swap, "d^{0}_{3}"]
+      & E_{1,3}
       \arrow[l, swap, "f_{3}"]
-      \arrow[d, "-d^{C}_{3}"]
+      \arrow[d, "-d^{1}_{3}"]
       \\
-      D_{2}
-      \arrow[d, swap, "d^{D}_{2}"]
-      & C_{2}
+      E_{0,2}
+      \arrow[d, swap, "d^{0}_{2}"]
+      & E_{1,2}
       \arrow[l, swap, "f_{2}"]
-      \arrow[d, "-d^{C}_{2}"]
+      \arrow[d, "-d^{1}_{2}"]
       \\
-      D_{1}
-      \arrow[d, swap, "d^{D}_{1}"]
-      & C_{1}
+      E_{0,1}
+      \arrow[d, swap, "d^{0}_{1}"]
+      & E^{1,1}
       \arrow[l, swap, "f_{1}"]
-      \arrow[d, "-d^{C}_{1}"]
+      \arrow[d, "-d^{1}_{1}"]
       \\
-      D_{0}
-      \arrow[d, swap, "d^{D}_{0}"]
-      & C_{0}
-      \arrow[d, "-d^{C}_{0}"]
+      E_{0,0}
+      \arrow[d, swap, "d^{0}_{0}"]
+      & E_{1,0}
+      \arrow[d, "-d^{1}_{0}"]
       \arrow[l, swap, "f_{0}"]
       \\
-      D_{-1}
+      E_{-0,1}
       \arrow[d]
-      & C_{-1}
+      & E_{-1,1}
       \arrow[l, swap, "f_{-1}"]
       \arrow[d]
       \\
@@ -239,34 +242,20 @@ The claim is that the terms $E^{r}_{p,q}$ are pieces of a successive approximati
       & \vdots
     \end{tikzcd}
   \end{equation*}
-  Note that we have multiplied the diferentials of $C$ by $-1$ so that we have a double complex.
+  Note that we have multiplied the diferentials of $E_{1, \bullet}$ by $-1$ so that we have a double complex. This does not enter into the discussion.
 
   Fix some $n \in \Z$, and let $q = n - p$.
 
-  Let $T = \Tot(E)$; that is, let $T = \Cone(f)$. Then we have a short exact sequence
-  \begin{equation*}
-    \begin{tikzcd}
-      0
-      \arrow[r]
-      & E^{2}_{p-1,q+1}
-      \arrow[r, hook]
-      & H_{p+q}(T)
-      \arrow[r, two heads]
-      & E^{2}_{p,q}
-      \arrow[r]
-      & 0
-    \end{tikzcd}
-  \end{equation*}
-\end{proposition}
-\begin{proof}
+  Let $T = \Tot(E)$; that is, let $T = \Cone(f)$.
+
   Recall that $\Cone(f)$ fits into the following short exact seqence,
   \begin{equation*}
     \begin{tikzcd}
       0
       \arrow[r]
-      & C_{\bullet}
+      & E_{\bullet, 1}
       \arrow[r, hook]
-      & D_{\bullet}
+      & E_{\bullet, 0}
       \arrow[r, two heads]
       & \Cone(f)_{\bullet}
       \arrow[r]
@@ -280,14 +269,14 @@ The claim is that the terms $E^{r}_{p,q}$ are pieces of a successive approximati
       \arrow[r]
       & H_{n+1}(\Cone(f))
       \\
-      H_{n}(C_{\bullet})
+      H_{n}(E_{\bullet,1})
       \arrow[r, "H_{n}(f)"]
       \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
-      & H_{n}(D_{\bullet})
+      & H_{n}(E_{\bullet, 0})
       \arrow[r, "H_{n}(p)"]
       & H_{n}(\Cone(f)_{\bullet})
       \\
-      H_{n-1}(C_{\bullet})
+      H_{n-1}(E_{\bullet,1})
       \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
       \arrow[r]
       & \cdots
@@ -308,125 +297,819 @@ The claim is that the terms $E^{r}_{p,q}$ are pieces of a successive approximati
     \end{tikzcd}
   \end{equation*}
 
-  This is precisely the second page of the above computation.
-\end{proof}
+  This is precisely the second page of the above computation; that is, we have a short exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & E^{2}_{p-1,q+1}
+      \arrow[r, hook]
+      & H_{p+q}(T)
+      \arrow[r, two heads]
+      & E^{2}_{p,q}
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+\end{example}
 
-Of course, in a general situation we will not be so lucky. Let us examine the terms
+\section{Homology spectral sequences}
+\label{sec:homology_spectral_sequences}
+
+\subsection{Notation and terminology}
+\label{ssc:notation_and_terminology}
+
+\begin{definition}[homology spectral sequence]
+  \label{def:homology_spectral_sequence}
+  Let $\mathcal{A}$ be an abelian category. A \defn{homology spectral sequence starting at $E^{a}$} in $\mathcal{A}$ consists of the following data.
+  \begin{enumerate}
+    \item A family $E^{r}_{p,q}$ of objects of $\mathcal{A}$, defined for all integers $p$, $q$, and $r \geq a$.
+
+    \item Maps
+      \begin{equation*}
+        d^{r}_{p,q}\colon E^{r}_{p,q} \to E^{r}_{p-r,q+r+1}
+      \end{equation*}
+      that are differentials in the sense that $d^{r} \circ d^{r} = 0$.
+
+    \item Isomorphisms
+      \begin{equation*}
+        E^{r+1}_{p,q} \cong \ker (d^{r}_{p,q})/\im(d^{r}_{p+r,q-r+1})
+      \end{equation*}
+      between $E^{r+1}_{p,q}$ and the homology at the corresponding position of the $E^{r}$
+  \end{enumerate}
+
+  We denote such a spectral sequence by $E$. A morphism $E' \to E$ is a family of maps
+  \begin{equation*}
+    f^{r}_{p,q}\colon E'^{r}_{p,q} \to E^{r}_{p, q}
+  \end{equation*}
+  such that $d^{r}f^{r} = f^{r}d^{r}$ such that $f^{r+1}_{p,q}$ is induced on homology by $f^{r}_{p,q}$.
+\end{definition}
+
+For each $r$, a spectral sequence $E$ has a two-dimensional array of objects $E^{r}_{p,q}$. For a given $r$, one calls the objects $E^{r}_{p,q}$ the $r$th \emph{page} of the spectral sequence $E$.
+
+We have already seen an example of the first two pages of a spectral sequence (in \hyperref[eq:spectral_seq_example_0]{Diagram~\ref*{eq:spectral_seq_example_0}} and \hyperref[eq:spectral_seq_example_1]{Diagram~\ref*{eq:spectral_seq_example_1}}). Schematically, the differentials on the zeroth page point down.
 \begin{equation*}
-  E^{2}_{p,q} = H_{p}(E^{1}_{\bullet, q}).
+  E^{0}\colon
+  \begin{tikzcd}[row sep=small, column sep=small]
+    & \
+    \arrow[dddddd, leftarrow, dotted, at start]
+    & \vdots
+    \arrow[d]
+    & \vdots
+    \arrow[d]
+    & \vdots
+    \arrow[d]
+    & \vdots
+    \arrow[d]
+    \\
+    && \bullet
+    \arrow[d]
+    & \bullet
+    \arrow[d]
+    & \bullet
+    \arrow[d]
+    & \bullet
+    \arrow[d]
+    \\
+    && \bullet
+    \arrow[d]
+    & \bullet
+    \arrow[d]
+    & \bullet
+    \arrow[d]
+    & \bullet
+    \arrow[d]
+    \\
+    && \bullet
+    \arrow[d]
+    & \bullet
+    \arrow[d]
+    & \bullet
+    \arrow[d]
+    & \bullet
+    \arrow[d]
+    \\
+    && \bullet
+    & \bullet
+    & \bullet
+    & \bullet
+    \\
+    \
+    \arrow[rrrrrr, dotted, at end]
+    &&&&&& \
+    \\
+    & \
+  \end{tikzcd}
+\end{equation*}
+The differentials on the first page point to the left.
+\begin{equation*}
+  E^{1}\colon\qquad
+  \begin{tikzcd}[row sep=small, column sep=small]
+    & \
+    \arrow[dddddd, leftarrow, dotted, at start]
+    \\
+    && \bullet
+    & \bullet
+    \arrow[l]
+    & \bullet
+    \arrow[l]
+    & \bullet
+    \arrow[l]
+    & \cdots
+    \arrow[l]
+    \\
+    && \bullet
+    & \bullet
+    \arrow[l]
+    & \bullet
+    \arrow[l]
+    & \bullet
+    \arrow[l]
+    & \cdots
+    \arrow[l]
+    \\
+    && \bullet
+    & \bullet
+    \arrow[l]
+    & \bullet
+    \arrow[l]
+    & \bullet
+    \arrow[l]
+    & \cdots
+    \arrow[l]
+    \\
+    && \bullet
+    & \bullet
+    \arrow[l]
+    & \bullet
+    \arrow[l]
+    & \bullet
+    \arrow[l]
+    & \cdots
+    \arrow[l]
+    \\
+    \
+    \arrow[rrrrrr, dotted, at end]
+    &&&&&& \
+    \\
+    & \
+  \end{tikzcd}
+\end{equation*}
+As $r$ increases, the arrows rotate clockwise. The second page looks like this.
+\begin{equation*}
+  E^{2}\colon\qquad
+  \begin{tikzcd}[row sep=small, column sep=small]
+    & \
+    \arrow[dddddd, leftarrow, dotted, at start]
+    & \vdots
+    & \vdots
+    & \vdots
+    & \vdots
+    \\
+    && \bullet
+    & \bullet
+    & \bullet
+    \arrow[ull]
+    & \bullet
+    \arrow[ull]
+    & \cdots
+    \\
+    && \bullet
+    & \bullet
+    & \bullet
+    \arrow[ull]
+    & \bullet
+    \arrow[ull]
+    & \cdots
+    \arrow[ull]
+    \\
+    && \bullet
+    & \bullet
+    & \bullet
+    \arrow[ull]
+    & \bullet
+    \arrow[ull]
+    & \cdots
+    \arrow[ull]
+    \\
+    && \bullet
+    & \bullet
+    & \bullet
+    \arrow[ull]
+    & \bullet
+    \arrow[ull]
+    & \cdots
+    \arrow[ull]
+    \\
+    \
+    \arrow[rrrrrr, dotted, at end]
+    &&&&&& \
+    \\
+    & \
+  \end{tikzcd}
+\end{equation*}
+The third page looks like this.
+\begin{equation*}
+  E^{3}\colon\qquad
+  \begin{tikzcd}[row sep=small, column sep=small]
+    & \
+    \arrow[dddddd, leftarrow, dotted, at start]
+    & \vdots
+    & \vdots
+    & \vdots
+    & \vdots
+    \\
+    && \bullet
+    & \bullet
+    & \bullet
+    & \bullet
+    & \cdots
+    \\
+    && \bullet
+    & \bullet
+    & \bullet
+    & \bullet
+    \arrow[uulll]
+    & \cdots
+    \\
+    && \bullet
+    & \bullet
+    & \bullet
+    & \bullet
+    \arrow[uulll]
+    & \cdots
+    \arrow[uulll]
+    \\
+    && \bullet
+    & \bullet
+    & \bullet
+    & \bullet
+    \arrow[uulll]
+    & \cdots
+    \arrow[uulll]
+    \\
+    \
+    \arrow[rrrrrr, dotted, at end]
+    &&&&&& \
+    \\
+    & \
+  \end{tikzcd}
 \end{equation*}
 
-First, some notation. We will define in the obvious way $Z^{r}_{p, q}$ and $B^{r}_{p, q}$ so that
-\begin{equation*}
-  E^{r}_{p, q} = Z^{r}_{p, q}/B^{r}_{p, q};
-\end{equation*}
-that is, we have
-\begin{equation*}
-  Z^{r}_{p, q} \subset E^{r-1}_{p, q},\qquad B^{r}_{p, q} \subset E^{r-1}_{p, q}.
-\end{equation*}
+\subsection{Stabilization and convergence}
+\label{ssc:stabilization_and_convergence}
 
-\begin{proposition}
-  There is an isomorphism
-  \begin{equation*}
-    E^{2}_{p, q} \cong U/V,
-  \end{equation*}
-  where
-  \begin{equation*}
-    U = \{(a, b) \subset E_{p-1, q+1} \times E_{p, q} \mid d^{v}a + d^{h}b = d^{v}b = 0 \}
-  \end{equation*}
-  and
-  \begin{equation*}
-    V = \left\langle \substack{(a, 0)\colon d^{v}a = 0\\ (d^{h}x, d^{v}x)\colon x \in E_{p, q+1}\\ (0, d^{h}c)\colon c \in E_{p+1, q}, d^{v}c = 0} \right\rangle \subseteq U.
-  \end{equation*}
-\end{proposition}
-\begin{proof}
-  First we construct a homomorphism
-  \begin{equation*}
-    \phi\colon U \to E^{2}_{p, q}.
-  \end{equation*}
-  Define
-  \begin{equation*}
-    \phi^{0}\colon U \to E^{0}_{p, q};\qquad (a, b) \mapsto b.
-  \end{equation*}
-  Since by assumption $d^{v}b = 0$ we have that
-  \begin{equation*}
-    d^{v}\phi^{0}(a, b) = d^{v}b = 0,
-  \end{equation*}
-  which is to say that $\im \phi^{0} \subset \ker d^{v}$, so $\phi^{0}$ descends to $\ker d^{v}$, and therefore to a map
-  \begin{equation*}
-    \phi^{1}\colon U \to E^{1}_{p,q};\qquad (a, b) \mapsto b + B^{1}_{p, q}.
-  \end{equation*}
-  Since
-  \begin{equation*}
-    H_{q}(d^{h})(b + B^{1}_{p, q}) = d^{v}(-a) + B^{1}_{p-1, q} = 0 + B^{1}_{p-1, q},
-  \end{equation*}
-  we have that $\im \phi^{1} \subset \ker H_{q}(d^{h})$, so the map $\phi^{1}$ descends to $\ker H_{q}(d^{h})$, and therefore to a map
-  \begin{equation*}
-    \phi\colon U \to E^{2}_{p, q};\qquad (a, b) \mapsto (b + B^{1}_{p, q}) + B^{2}_{p, q}.
-  \end{equation*}
 
-  Next, we show that $\phi$ is surjective. Pick some $\tilde{y} \in E^{2}_{p, q}$. 
-  \begin{equation*}
-    \tilde{y} = \underbrace{(\overbrace{y}^{\in Z^{1}_{p, q}} + B^{1}_{p, q})}_{\in Z^{2}_{p, q}} + B^{2}_{p, q} \in E^{2}_{p, q}.
-  \end{equation*}
-  The fact that $y \in Z^{1}_{p, q}$ means that $d^{v}y = 0$. Thus, if we can find some $x \in E_{p+1, q-1}$ such that
-  \begin{equation*}
-    d^{v}x + d^{h}y = 0,
-  \end{equation*}
-  then $(x, y)$ will lie in $U$ and $\phi(x, y) = \tilde{y}$, so we will be done.
+We have so far placed no conditions on $E^{r}_{p,q}$. However, we will confine our study of certain classes of spectral sequences.
 
-  The fact that $y + B^{1}_{p, q} \in Z^{2}_{p, q}$ means that $H_{q}(d^{h})(y + B^{1}_{p, 1}) = 0 + B^{1}_{p-1, q}$, i.e.\ that $d^{h} y \in B^{1}_{p-1,q}$. Thus, there exists $-x \in E_{p-1, q+1}$ such that
-  \begin{equation*}
-    d^{v}(-x) = d^{h}y.
-  \end{equation*}
-  Thus, we have found our $(x, y) \in U$, so $\phi$ is surjective.
-
-  We will be done if we can show that $\ker \phi = V$.
-
-  The following calculations show that $V \subset \ker \phi$.
+\begin{definition}[bounded, first quadrant]
+  \label{def:bounded_first_quadrant}
+  Let $E$ be a spectral sequence starting at $E^{a}$.
   \begin{itemize}
-    \item $\phi(a, 0) = (0 + B^{1}_{p, q}) + B^{2}_{p, q}$.
+    \item We say that $E$ is \defn{bounded} if each $n \in \Z$, there are only finitely many terms of total degree $n$ on the $a$th page, i.e.\ terms of the form $E^{a}_{p, q}$ for $n = p+q$.
 
-    \item $\phi(d^{h}x, d^{v}x) = (d^{v}x + B^{1}_{p, q}) + B^{2}_{p, q} = (0 + B^{1}_{p, q}) + B^{2}_{p, q}$.
-
-    \item $\phi(0, d^{h}c) = (d^{h}c + B^{1}_{p, q}) + B^{2}_{p, q} = H_{q}(d^{h})(c + B^{1}_{p+1, q}) + B^{2}_{p, q} = [0] + B^{2}_{p, q}$.
+    \item We say that $E$ is \defn{first-quadrant} if $E^{a}_{p,q} = 0$ for $p < 0$ and $q < 0$.
   \end{itemize}
+\end{definition}
+Clearly, every first-quadrant spectral sequence is bounded.
 
-  Now, let $(x, y) \in \ker \phi$. How in the hell...?
-\end{proof}
+Note that if a spectral sequence is bounded, then
+
+We get $E^{r+1}_{p,q}$ by taking the homology of a complex on the $r$th page. If $E$ is a first-quadrant spectral sequence, then for $r > \max(p,q+1)$, the differential entering $E^{r}_{p,q}$ comes from the fourth quadrant (hence from a zero object), and the differential leaving it lands in the second quadrant (also a zero object). Thus, $E^{r+1}_{p,q} = E^{r}_{p,q}$.
+
+\begin{definition}[stabilize]
+  \label{def:stabilize}
+  A spectral sequence starting at $E^{a}$ is said to \defn{stabilize} at position $(p,q)$ if there exists some $r \geq a$ such that $E^{r'}_{p,q} = E^{r}_{p,q}$ for all $r' \geq r$. In this case, we write $E^{\infty}_{p,q}$ for the stable value at position $(p,q)$.
+\end{definition}
+
+By the argument above, each position in a first-quadrant spectral sequence eventually stabilizes. We will mostly be interested in first-quadrant spectral sequences. However, boundedness is (clearly!) sufficient to guarantee stabilization.
+
+Suppose one has been given a bounded spectral sequence, which we now know eventually stabilizes at each position. We would like to get some useful information out of such a spectral sequence.
 
 \begin{definition}[filtration]
   \label{def:filtration}
-  Let $C_{\bullet}$ be a chain complex. A \defn{filtration} of $C_{\bullet}$ is a chain of monomorphisms of subcomplexes $F_{p}C_{\bullet} \subset$ of $C_{\bullet}$.
+  Let $C_{\bullet}$ be a chain complex. A \defn{filtration} $F$ of $C_{\bullet}$ is a chain of inclusions of subcomplexes $F_{p}C_{\bullet}$ of $C_{\bullet}$.
   \begin{equation*}
-    \begin{tikzcd}
       \cdots
-      \arrow[r, hook]
-      & F_{p-1}C_{\bullet} 
-      \arrow[r, hook]
-      & F_{p}C_{\bullet}
-      \arrow[r, hook]
-      & F_{p+1}C_{\bullet}
-      \arrow[r, hook]
-      & \cdots
-    \end{tikzcd}
+      \subset
+      F_{p-1}C_{\bullet}
+      \subset
+      F_{p}C_{\bullet}
+      \subset
+      F_{p+1}C_{\bullet}
+      \subset
+      \cdots
+      \subset C_{\bullet}
   \end{equation*}
 \end{definition}
 
-%First note that by definition, we can write
-%\begin{align*}
-%  E^{1}_{p, q} &= \frac{\ker d^{v}}{\im d^{v}} \\
-%  &= \frac{\{x \in E_{p,q} \mid d^{v}x = 0\}}{\{d^{v} y \mid y \in E_{p, q-1}\}}.
-%\end{align*}
-%
-%We would like to calculate
-%\begin{equation*}
-%  E^{2}_{p, q} = \frac{\ker(H_{q}(d^{h}))}{\im(H_{q}(d^{h}))}.
-%\end{equation*}
-%
-%The kernel $\ker H_{q}(d^{h})$ is simply a subobject of $E^{1}_{p, q}$. Specifically, it consists of those $[x] \in E^{1}_{p, q}$ such that $[d^{h}x] = [0]$; such an $[x]$ is represented by $x \in E_{p, q}$ such that $d^{h}x = d^{v}a$ for some $a \in E_{p-1,q+1}$. Therefore, we can write
-%\begin{equation*}
-%  \ker(H_{q}(d^{h})) = \frac{\{(x, a) \in E_{p, q} \times E_{p-1,q+1}\}}{\{d^{v}y = 0, y \in E_{p, q+1};\ \}}
-%\end{equation*}
+\begin{definition}[bounded convergence]
+  \label{def:bounded_convergence}
+  Let $E$ be a bounded spectral sequence starting at $E^{a}$ in an abelian category $\mathcal{A}$, and let $\{H_{i}\}_{i \in Z}$ be a collection of objects in $\mathcal{A}$, each equipped with a finite filtration
+  \begin{equation*}
+    0 = F_{s}H_{n} \subset \cdots \subset F_{p-1}H_{n} \subset F_{p}H_{n} \subset \cdots \subset F_{t}H_{n} = H_{n}.
+  \end{equation*}
+  We say that $E$ \defn{converges} to $\{H_{i}\}_{i \in \Z}$ if we are given isomorphisms
+  \begin{equation*}
+    E^{\infty}_{p,q} \cong F_{p}H_{p+q}/F_{p-1}H_{p+q}.
+  \end{equation*}
+
+  We express this convergence by writing
+  \begin{equation*}
+    E^{a}_{p,q} \Rightarrow H_{p+q}.
+  \end{equation*}
+\end{definition}
+
+\begin{example}
+  Consider the spectral sequence $E$ starting at $E^{0}$ from \hyperref[eg:cone_spectral_sequence]{Example~\ref*{eg:cone_spectral_sequence}}. This is certainly bounded, and stabilizes at each position $(p, q)$ after the second page; that is, we have
+  \begin{equation*}
+    E^{\infty}_{p,q} = E^{2}_{p,q}.
+  \end{equation*}
+
+  The exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & E^{2}_{p-1,q+1}
+      \arrow[r, hook]
+      & H_{p+q}(T)
+      \arrow[r, two heads]
+      & E^{2}_{p,q}
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  gives us, in a wholly unsatisfying and trivial way, a filtration
+  \begin{equation*}
+    \begin{tikzcd}
+      F_{-1}H_{n}
+      \arrow[d, equals]
+      & F_{0}H_{n}
+      \arrow[d, equals]
+      & F_{1}H_{n}
+      \arrow[d, equals]
+      \\
+      0
+      \arrow[r, hook]
+      & E^{2}_{0, n}
+      \arrow[r, hook]
+      & H_{n}
+    \end{tikzcd}
+  \end{equation*}
+  of $H_{n}$. The claim is that
+  \begin{equation*}
+    E^{0}_{p,q} \Rightarrow H_{p+q}.
+  \end{equation*}
+
+  In order to check this, we have to check that
+  \begin{equation*}
+    E^{2}_{p,q} \cong F_{p}H_{p+q}/F_{p-1}H_{p+q}
+  \end{equation*}
+  for all $p$, $q$. The only non-trivial cases are when $p = 0$ or $1$. When $p = 0$, we have
+  \begin{align*}
+    E^{\infty}_{0, n} &\overset{!}{\cong} F_{0}H_{n}/F_{-1}H_{n} \\
+    &\cong E^{2}_{0,n}/ 0 \\
+    &\cong E^{2}_{0,n}, \\
+  \end{align*}
+  and when $p = 1$ we have
+  \begin{align*}
+    E^{\infty}_{1, n} &\overset{!}{\cong} F_{1}H_{n+1}/F_{0}H_{n+1} \\
+    &\cong H_{n+1}/ E^{2}_{0,n+1} \\
+    &\cong E^{2}_{1,n} \\
+  \end{align*}
+  as required.
+\end{example}
+
+\subsection{The spectral sequence of a filtered complex}
+\label{ssc:the_spectral_sequence_of_a_filtered_complex}
+
+\begin{theorem}
+  A filtration $F$ of a chain complex $C_{\bullet}$ naturally determines a spectral sequence starting with
+  \begin{equation*}
+    E^{0}_{p,q} = F_{p}C_{p+q}/F_{p-1}C_{p+q},\qquad E^{1}_{p,q} = H_{p+1}(E^{0}_{p,
+    \bullet})
+  \end{equation*}
+\end{theorem}
+\begin{proof}
+  We construct explicitly the spectral sequence above .Let $C_{\bullet}$ be a chain complex, and $F$ a filtration. We will use the following notation.
+  \begin{itemize}
+    \item We will denote by $\eta_{p}$ the quotient
+      \begin{equation*}
+        \eta_{p}\colon F_{p}C \twoheadrightarrow F_{p}C/F_{p-1}C.
+      \end{equation*}
+      coming from the short exact sequence
+      \begin{equation*}
+        \begin{tikzcd}
+          0
+          \arrow[r]
+          & F_{p-1}C
+          \arrow[r, hook]
+          & F_{p}C
+          \arrow[r, two heads]
+          & F_{p}C/F_{p-1}C
+          \arrow[r]
+          & 0
+        \end{tikzcd}
+      \end{equation*}
+
+    \item We will denote by $A^{r}_{p}$ the subobject
+      \begin{equation*}
+        A^{r}_{p} = \{c \in F_{p}C\colon dc \in F_{p-r}C\} \subset F_{p}C
+      \end{equation*}
+      of those elements whose differentials survive $r$ many levels of the grading.
+
+    \item We will denote by $Z^{r}_{p}$ the image
+      \begin{equation*}
+        Z^{r}_{p} = \eta_{p}(A^{r}_{p}).
+      \end{equation*}
+
+    \item We will denote by $B^{r}_{p}$ the image
+      \begin{equation*}
+        B^{r}_{p} = \eta_{p}(d(a^{r-1}_{p+r-1})).
+      \end{equation*}
+  \end{itemize}
+
+  Examining the definitions, we see that we have the following inclusion.
+  \begin{equation*}
+    \begin{tikzcd}
+      dA^{r-1}_{p+r-1}
+      \arrow[r, equals]
+      \arrow[d, hook]
+      & \{dc \mid c \in F_{p+r-1},\ dc \in F_{p}C\}
+      \arrow[d, hook]
+      \\
+      dA^{r}_{p+r}
+      \arrow[r, equals]
+      & \{dc \mid c \in F_{p+r},\ dc \in F_{p}C\}
+    \end{tikzcd}
+  \end{equation*}
+
+  Both of these are subobjects of $F_{p}C$; by applying $\eta_{p}$ and taking a sharp look at the definition of the $B$s, we find an inclusion
+  \begin{equation*}
+    B^{r}_{p} \subset B^{r+1}_{p}.
+  \end{equation*}
+  Working inductively, we are left with the following sequence of inclusions.
+  \begin{equation*}
+    0 = B^{0}_{p} \subset B^{1}_{p} \subset \cdots \subset B^{r}_{p} \subset \cdots
+  \end{equation*}
+  Defining $B^{\infty}_{p} = \bigcup_{r} B^{r}_{p}$, we can crown our sequence of inclusions as follows.
+  \begin{equation*}
+    0 = B^{0}_{p} \subset B^{1}_{p} \subset \cdots \subset B^{\infty}_{p}.
+  \end{equation*}
+
+  Again examining definitions, we find the following inclusion.
+  \begin{equation*}
+    \begin{tikzcd}
+      A^{r}_{p}
+      \arrow[r, equals]
+      \arrow[d, hook]
+      & \{c \in F_{p}C \mid dc \in F_{p-r}C\}
+      \arrow[d, hook]
+      \\
+      A^{r+1}_{p}
+      \arrow[r, equals]
+      & \{c \in F_{p}C \mid dc \in F_{p-r-1}C\}
+    \end{tikzcd}
+  \end{equation*}
+  As before, applying $\eta_{p}$ and working inductively gives us a chain
+  \begin{equation*}
+    \cdots \subset Z^{r}_{p} \subset \cdots \subset Z^{1}_{p} \subset Z^{0}_{p} = E^{0}_{p}
+  \end{equation*}
+  and defining $Z^{\infty}_{p} = \bigcap_{r} Z^{r}_{p}$ gives us
+  \begin{equation*}
+    Z^{\infty}_{p} \subset \cdots \subset Z^{1}_{p} \subset Z^{0}_{p} = E^{0}_{p},
+  \end{equation*}
+
+  But we should not rest on our laurels. Instead, note that for each $r$, $r'$, we have an inclusion
+  \begin{equation*}
+    \begin{tikzcd}
+      dA^{r-1}_{p+r-1}
+      \arrow[r, equals]
+      \arrow[d, hook]
+      & \{dc \mid c \in F_{p+r-1},\ dc \in F_{p}C\}
+      \arrow[d, hook]
+      \\
+      A^{r'}_{p}
+      \arrow[r, equals]
+      & \{c \in F_{p}C \mid dc \in F_{p-r'}C\}
+    \end{tikzcd}
+  \end{equation*}
+  since $d^{2} = 0$. Thus, we can graft our chains of inclusions as follows.
+  \begin{equation*}
+    0 = B^{0}_{p} \subset B^{1}_{p} \subset \cdots \subset B^{\infty}_{p} \subset Z^{\infty}_{p} \subset \cdots \subset Z^{1}_{p} \subset Z^{0}_{p} = E^{0}_{p}.
+  \end{equation*}
+
+  We defined
+  \begin{equation*}
+    Z^{r}_{p} = \eta_{p}(A^{r}_{p}).
+  \end{equation*}
+  Recall that $\eta_{p}$ was defined to be the canoncal projection corresponding to a short exact sequence. Taking subobjects (where the left-hand square is a pullback), we find the following monomorphism of short exact sequences.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & F_{p-1}C \cap A^{p}_{r}
+      \arrow[r, hook]
+      \arrow[d, hook]
+      & A^{p}_{r}
+      \arrow[r, two heads]
+      \arrow[d, hook]
+      & Z^{p}_{r}
+      \arrow[r]
+      \arrow[d, hook]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & F_{p-1}C
+      \arrow[r, hook]
+      & F_{p}C
+      \arrow[r, two heads]
+      & F_{p}C/F_{p-1}C
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  Rewriting the definitions, we find that
+  \begin{equation*}
+    F_{p-1}C \cap A^{p}_{r} = \{c \in F_{p-1}C \mid dc \in F_{p-r}C\} = A^{r-1}_{p-1},
+  \end{equation*}
+  so
+  \begin{equation*}
+    Z^{r}_{p} \cong A^{r}_{p}/A^{r-1}_{p-1}.
+  \end{equation*}
+  We now define
+  \begin{equation*}
+    E^{r}_{p} = \frac{Z^{r}_{p}}{B^{r}_{p}}.
+  \end{equation*}
+
+  We can write
+  \begin{equation*}
+    \frac{Z^{r}_{p}}{B^{r}_{p}} \cong \frac{A^{r}_{p} + F_{p-1}C}{d(A^{r-1}_{p+r-1}) + F_{p-1}C} \cong \frac{A^{r}_{p}}{d(A^{r-1}_{p+r-1}) + A^{r-1}_{p-1}}.
+  \end{equation*}
+  I don't understand this step, and I don't have time to do the rest.
+\end{proof}
+
+\begin{theorem}
+  \leavevmode
+  \begin{itemize}
+    \item Let $C_{\bullet}$ be a chain complex, and $F$ a bounded filtration on $C_{\bullet}$.
+  \end{itemize}
+\end{theorem}
+
+\subsection{The spectral sequence of a double complex}
+\label{ssc:the_spectral_sequence_of_a_double_complex}
+
+\section{Hyper-derived functors}
+\label{sec:hyper_derived_functors}
+
+Consider abelian categories and right exact functors as follows.
+\begin{equation*}
+  \begin{tikzcd}
+    \mathcal{C}
+    \arrow[r, "F"]
+    & \mathcal{D}
+    \arrow[r, "G"]
+    & \mathcal{E}
+  \end{tikzcd}
+\end{equation*}
+
+One might wonder about the relationship between $LF$, $LG$, and $L(G \circ F)$.
+
+The problem is that we don't know how to make sense of the composition $LG \circ LF$, since $LF$ lands in $\Ch^{\geq 0}(\mathcal{A})$ rather than $\mathcal{A}$; derived functors go from an abelian category to a category of chain complexes.
+
+\subsection{Cartan-Eilenberg resolutions}
+\label{ssc:cartan_eilenberg_resolutions}
+
+\begin{definition}[Cartan-Eilenberg resolution]
+  \label{def:cartan_eilenberg_resolution}
+  Let $\mathcal{A}$ be an abelian category with enough projectives, and let $A \in \Ch^{+}(\mathcal{A})$. A \defn{Cartan-Eilenberg resolution} of $A$ is an upper-half-plane double complex $(P_{\bullet,\bullet}, d^{h}, d^{v})$, equipped with an augmentation map
+  \begin{equation*}
+    \epsilon\colon P_{\bullet, 0} \to A_{\bullet}
+  \end{equation*}
+  such that the following criteria are satsfied.
+  \begin{enumerate}
+    \item $B(P_{p,_{\bullet}}, d^{h}) \simto B(A_{p}, d^{A})$ is a projective resolution.
+
+    \item $H(P_{p,_{\bullet}}, d^{h}) \simto H(A_{p}, d^{A})$ is a projective resolution.
+
+    \item $A_{p} \cong 0 \implies P_{p,\bullet} = 0$.
+  \end{enumerate}
+\end{definition}
+Here, $B(P_{p,\bullet}, d^{h})$ are the horizontal boundaries of the chain complex $(P_{p,\bullet}, d^{h})$, and
+\begin{equation*}
+  H(P_{p,\bullet}, d^{h}) \cong \frac{Z(P_{p,\bullet}, d^{h})}{B(P_{p,\bullet}, d^{h})}
+\end{equation*}
+is defined similarly.
+
+\begin{equation*}
+  \begin{tikzcd}
+    & \vdots
+    \arrow[d]
+    & \vdots
+    \arrow[d]
+    && \vdots
+    \arrow[d]
+    & \vdots
+    \arrow[d]
+    \\
+    & 0
+    \arrow[r, leftarrow]
+    \arrow[d]
+    & P_{-r,1}
+    \arrow[r, leftarrow]
+    \arrow[d]
+    & \cdots
+    \arrow[r, leftarrow]
+    & P_{0,1}
+    \arrow[r, leftarrow]
+    \arrow[d]
+    & P_{1,1}
+    \arrow[r, leftarrow]
+    \arrow[d]
+    & \cdots
+    \\
+    & 0
+    \arrow[r, leftarrow]
+    \arrow[dd, dashed]
+    & P_{-r,0}
+    \arrow[r, leftarrow]
+    \arrow[dd, dashed]
+    & \cdots
+    \arrow[r, leftarrow]
+    & P_{0,0}
+    \arrow[r, leftarrow]
+    \arrow[dd, dashed]
+    & P_{1,0}
+    \arrow[r, leftarrow]
+    \arrow[dd, dashed]
+    & \cdots
+    \\
+    \
+    \arrow[rrrrrrr, dotted, no head]
+    &&&&&&& \
+    \\
+    & 0
+    \arrow[r, leftarrow]
+    & A_{-r}
+    \arrow[r, leftarrow]
+    & \cdots
+    \arrow[r, leftarrow]
+    & A_{0}
+    \arrow[r, leftarrow]
+    & A_{1}
+    \arrow[r, leftarrow]
+    & \cdots
+  \end{tikzcd}
+\end{equation*}
+
+\begin{proposition}
+  We also have that the following are projective resolutions.
+  \begin{enumerate}
+    \item $Z(P_{p,\bullet}, d^{h}) \simto Z(A_{p}, d^{A})$
+
+    \item $P_{p,\bullet} \simto A_{p}$
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  \leavevmode
+  \begin{enumerate}
+    \item We have essentially by definition the following short exact sequence.
+      \begin{equation*}
+        \begin{tikzcd}
+          0
+          \arrow[r]
+          & B(P_{p, \bullet}, d^{h})
+          \arrow[r, hook]
+          & Z(P_{p, \bullet}, d^{h})
+          \arrow[r, two heads]
+          & H(P_{p, \bullet}, d^{h})
+          \arrow[r]
+          & 0
+        \end{tikzcd}
+      \end{equation*}
+      The outer terms are projective because they are the terms of projective resolutions, so $Z(P_{p,\bullet}, d^{h})$ is also projective.
+
+      LES on homology implies
+      \begin{equation*}
+        Z(P_{p,\bullet}, d^{h}) \simto Z(A_{p}, d^{A})
+      \end{equation*}
+      is a projective resolution.
+
+    \item
+  \end{enumerate}
+\end{proof}
+
+\begin{proposition}
+  Every chain complex $A_{\bullet}$ has a Cartan-Eilenberg resolution $P_{\bullet,\bullet} \simto A_{\bullet}$.
+\end{proposition}
+\begin{proof}
+  We construct a Cartan-Eilenberg resolution $P_{\bullet,\bullet}$ explicitly. Pick projective resolutions
+  \begin{equation*}
+    P^{B}_{p,\bullet} \to B(A_{p}, d^{h}),\qquad B^{H}_{p,\bullet} \simto H(A_{p}, d^{h}).
+  \end{equation*}
+  By the horseshoe lemma, we can find a projective resolution $P^{Z}_{p,\bullet} \simto Z(A_{p}, d^{h})$ fitting into the following exact sequence.
+  \begin{equation}
+    \label{eq:cartan_eilenberg_resolution_ses_1}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & P^{B}_{p,\bullet}
+      \arrow[r, hook]
+      \arrow[d, "\simeq"]
+      & P^{Z}_{p,\bullet}
+      \arrow[r, two heads]
+      \arrow[d, "\simeq"]
+      & P^{H}_{p,\bullet}
+      \arrow[r]
+      \arrow[d, "\simeq"]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & B(A_{p}, d^{h})
+      \arrow[r, hook]
+      & Z(A_{p}, d^{h})
+      \arrow[r, two heads]
+      & H(A_{p}, d^{h})
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation}
+  Playing the same game again, we find a projective resolution of $A_{p}$.
+  \begin{equation}
+    \label{eq:cartan_eilenberg_resolution_ses_2}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & P^{Z}_{p,\bullet}
+      \arrow[r, hook]
+      \arrow[d, "\simeq"]
+      & P^{A}_{p,\bullet}
+      \arrow[r, two heads]
+      \arrow[d, "\simeq"]
+      & P^{B}_{p-1,\bullet}
+      \arrow[r]
+      \arrow[d, "\simeq"]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & Z(A_{p}, d^{h})
+      \arrow[r, hook]
+      & A(A_{p}, d^{h})
+      \arrow[r, two heads]
+      & B(A_{p-1}, d^{h})
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation}
+  We then define our Cartan-Eilenberg resolution to be the double complex whose $p$th column is $(P^{A}_{p,\bullet}, (-1)^{p}d^{P^{A}})$, and whose horizontal differentials are given by the composition
+  \begin{equation}
+    \label{eq:cartan_eilenberg_resolution_horizontal_differentials}
+    \begin{tikzcd}
+      P^{A}_{p, \bullet}
+      \arrow[r]
+      \arrow[d, "\simeq"]
+      & P^{B}_{p-1, \bullet}
+      \arrow[r]
+      \arrow[d, "\simeq"]
+      & P^{Z}_{p-1, \bullet}
+      \arrow[r]
+      \arrow[d, "\simeq"]
+      & P^{A}_{p-1, \bullet}
+      \arrow[d, "\simeq"]
+      \\
+      A_{p}
+      \arrow[r, "d^{A}"]
+      & B_{p-1}
+      \arrow[r, hook]
+      & Z_{p-1}
+      \arrow[r, hook]
+      & A_{p-1}
+    \end{tikzcd}
+  \end{equation}
+
+  In this case, all the criteria are satisfied by definition.
+\end{proof}
+
+\begin{proposition}
+  Let $A_{\bullet}$ and $A'_{\bullet}$ be bounded-below chain complexes, and let $P_{\bullet,\bullet} \simto A_{\bullet}$ and $P'_{\bullet,\bullet} \simto A'_{\bullet}$ be Cartan-Eilenberg resolutions. Then any morphism of chain complexes $f\colon A_{\bullet} \to A'_{\bullet}$ can be lifted to a morphism $P^{A}_{\bullet,\bullet} \to P^{B}_{\bullet,\bullet}$ of double complex.
+\end{proposition}
+\begin{proof}
+  We get
+\end{proof}
+
+\begin{proposition}
+  Let $P^{A}_{\bullet,\bullet}$ be a Cartan-Eilenberg resolution of $A_{\bullet}$. Then the canonical map
+  \begin{equation*}
+    \Tot(P^{A}_{\bullet,\bullet}) \to A
+  \end{equation*}
+  is a quasi-isomorphism
+\end{proposition}
+\begin{proof}
+  Spectral sequence with vertical filtration.
+\end{proof}
 
 \end{document}

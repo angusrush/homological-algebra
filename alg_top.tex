@@ -2,8 +2,8 @@
 
 \begin{document}
 
-\chapter{Algebraic topology}
-\label{ch:algebraic_topology}
+\chapter{Homology}
+\label{ch:homology}
 
 \section{Basic definitions and examples}
 \label{sec:basic_definitions}
@@ -14,7 +14,7 @@ We assume a basic knowledge of simplicial sets just to get the ball rolling.
   \label{def:singular_complex_homology}
   Let $X$ be a topological space. The \defn{singular chain complex} $C_{\bullet}(X)$ is defined level-wise by
   \begin{equation*}
-    C_{n}(X) = N(\mathcal{F}(\Sing(X)))
+    C_{n}(X) = M(\mathcal{F}(\Sing(X)))
   \end{equation*}
   where $\mathcal{F}$ denotes the free group functor and $M$ is the Moore functor (\hyperref[def:moore_complex]{Definition~\ref*{def:moore_complex}}). That is, it has differentials
   \begin{equation*}
@@ -1401,7 +1401,7 @@ At this point, we define some terminology.
   \begin{enumerate}
     \item This follows immediately from \hyperref[lemma:homology_of_inclusion_of_n_skeleton]{Lemma~\ref*{lemma:homology_of_inclusion_of_n_skeleton}}.
 
-    \item 
+    \item
   \end{enumerate}
 \end{proof}
 
@@ -1441,22 +1441,23 @@ and $\delta \circ \varrho$ is a composition in the long exact sequence on the pa
 \end{theorem}
 
 \begin{example}[complex projective space]
+  \label{eg:homology_of_complex_projective_space}
   Consider the complex projective space $\C P^{n}$. We know that $\C P^{0} = \mathrm{pt}$, and from the homogeneous coordinates
   \begin{equation*}
     [x_{0} : \cdots | x_{n}]
   \end{equation*}
   on $\C P^{n}$, we have a decomposition
   \begin{equation*}
-    \C P^{n} \cong \C^{n} \cup \C P^{n-2}.
+    \C P^{n} \cong \C^{n} \sqcup \C P^{n-2}.
   \end{equation*}
 
   Inductively, we find a decomposition
   \begin{equation*}
-    \C P^{n} \cong \C^{n} \cup \C^{n-1} \cup \cdots \cup \C^{0},
+    \C P^{n} \cong \C^{n} \sqcup \C^{n-1} \sqcup \cdots \sqcup \C^{0},
   \end{equation*}
   giving us a cell decomposition
   \begin{equation*}
-    \C P^{2n} \cong \R^{2n} \cup \R^{2n-2} \cup \cdots \cup \R^{0}.
+    \C P^{2n} \cong \R^{2n} \sqcup \R^{2n-2} \sqcup \cdots \sqcup \R^{0}.
   \end{equation*}
   This is a CW complex because
 
@@ -1496,7 +1497,7 @@ and $\delta \circ \varrho$ is a composition in the long exact sequence on the pa
 \begin{example}[real projective space]
   As in the complex case, appealing to homogeneous coordinates gives a cell decomposition
   \begin{equation*}
-    \R P^{n} \cong \R^{n} \cup \R^{n-1} \cup \cdots \cup \R^{0}.
+    \R P^{n} \cong \R^{n} \sqcup \R^{n-1} \sqcup \cdots \sqcup \R^{0}.
   \end{equation*}
 
   The cellular chain complex is thus as follows.
@@ -1544,7 +1545,7 @@ and $\delta \circ \varrho$ is a composition in the long exact sequence on the pa
 
 We can relate homology with integral coefficients (i.e.\ standard homology) and homology with coefficients in $G$.
 
-\begin{theorem}
+\begin{theorem}[topological universal coefficient thoerem for homology]
   \label{thm:topological_universal_coefficient_theorem}
   For every topological space $X$ there is a short exact sequence
   \begin{equation*}
@@ -1578,16 +1579,113 @@ We can relate homology with integral coefficients (i.e.\ standard homology) and 
     \begin{tikzcd}[column sep=small]
       0
       \arrow[r]
-      & \bigoplus_{p + q = n} H_{p}(X) \otimes H_{q}(X)
+      & \bigoplus\limits_{p + q = n} H_{p}(X) \otimes H_{q}(X)
       \arrow[r, hook]
       & H_{n}(X \times Y)
       \arrow[r, two heads]
-      & \bigoplus_{p + q = n-1} \Tor(H_{p}(X), H_{q}(Y))
+      & \bigoplus\limits_{p + q = n-1} \Tor(H_{p}(X), H_{q}(Y))
       \arrow[r]
       & 0
     \end{tikzcd}
   \end{equation*}
 \end{theorem}
+
+\section{The Eilenberg-Steenrod axioms}
+\label{sec:the_eilenberg_steenrod_axioms}
+
+Denote by $T$ the functor
+\begin{equation*}
+  T\colon \Pair \to \Pair;\qquad (X, A) \mapsto (A,\emptyset);\qquad (f\colon (X, A) \to (Y, B)) \mapsto f|_{A}.
+\end{equation*}
+
+\begin{definition}[homology theory]
+  \label{def:homology_theory}
+  Let $A$ be an abelian group. A \defn{homology theory with coefficients in $A$} is a sequence of functors 
+  \begin{equation*}
+    H_{n}\colon \Pair \to \Ab,\qquad n \geq 0
+  \end{equation*}
+  together with natural transformations
+  \begin{equation*}
+    \delta\colon H_{n} \Rightarrow H_{n-1} \circ T
+  \end{equation*}
+  satisfying the following conditions.
+  \begin{enumerate}
+    \item \textbf{Homotopy:} Homotopic maps induce the same maps on homology; that is, 
+      \begin{equation*}
+        f \sim g \implies H_{n}(f) = H_{n}(g) \qquad\text{for all } f, g, n.
+      \end{equation*}
+
+    \item \textbf{Excision:} If $(X, A)$ is a pair with $U \subset X$ such that $\bar{U} \subset \mathring{A}$, then the inclusion $i\colon (X\smallsetminus U, A \smallsetminus U) \hookrightarrow (X, A)$ induces an isomorphism
+      \begin{equation*}
+        H_{n}(i)\colon H_{n}(X\smallsetminus U, A\smallsetminus U) \cong H_{n}(X, A)
+      \end{equation*}
+      for all $n$.
+
+    \item \textbf{Dimension:} We have 
+      \begin{equation*}
+        H_{n}(\pt) =
+        \begin{cases}
+          A, &n = 0 \\
+          0, &\text{otherwise}.
+        \end{cases}
+      \end{equation*}
+
+    \item \textbf{Additivity:} If $X = \coprod_{\alpha} X_{\alpha}$ is a disjoint union of topological spaces, then
+      \begin{equation*}
+        H_{n}(X) = \bigoplus_{\alpha} H_{n}(X_{\alpha}).
+      \end{equation*}
+
+    \item \textbf{Exactness:} Each pair $(X, A)$ induces a long exact sequence on homology.
+  \end{enumerate}
+\end{definition}
+
+We have seen that singular homology satisfies all of these axioms, and hence is a homology theory.
+
+\chapter{Cohomology}
+\label{ch:cohomology}
+
+\section{Axiomatic description of a cohomology theory}
+\label{sec:axiomatic_description_of_a_cohomology_theory}
+
+There are dual axioms to the Eilenberg-Steenrod axioms (introduced in \hyperref[def:homology_theory]{Definition~\ref*{def:homology_theory}}) which govern cohomology theories.
+
+\begin{definition}[cohomology theory]
+  \label{def:cohomology_theory}
+  Let $A$ be an abelian group. A \defn{cohomology theory with coefficients in $A$} is a series of functors
+  \begin{equation*}
+    H^{n}\colon \Pair\op \to \Ab;\qquad n \geq 0
+  \end{equation*}
+  together with natural transformations
+  \begin{equation*}
+    \partial\colon H^{n} \circ T\op \Rightarrow H^{n+1}
+  \end{equation*}
+  satisfying the following conditions.
+  \begin{enumerate}
+    \item \textbf{Homotopy:} If $f$ and $g$ are homotopic maps of pairs, then $H^{n}(f) = H^{n}(g)$ for all $n$.
+
+    \item \textbf{Excision:} If $(X, A)$ is a pair with $U \subset X$ such that $\bar{U} \subset \mathring{A}$, then the inclusion $i\colon (X\smallsetminus U, A \smallsetminus U) \hookrightarrow (X, A)$ induces an isomorphism
+      \begin{equation*}
+        H^{n}(i)\colon (X, A) \cong H^{n}(X \smallsetminus U, A \smallsetminus U)
+      \end{equation*}
+      for all $n$.
+
+    \item \textbf{Dimension:} We have 
+      \begin{equation*}
+        H^{n}(\pt) =
+        \begin{cases}
+          A, &n = 0 \\
+          0, &\text{otherwise}.
+        \end{cases}
+      \end{equation*}
+
+    \item \textbf{Additivity:} If $X = \coprod_{\alpha} X_{\alpha}$ is a disjoint union of topological spaces, then
+      \begin{equation*}
+        H^{n}(X) = \prod_{\alpha} H^{n}(X_{\alpha}).
+      \end{equation*}
+
+    \item \textbf{Exactness:} Each pair $(X, A)$ induces a long exact sequence on cohomology.
+  \end{enumerate}
+\end{definition}
 
 \section{Singular cohomology}
 \label{sec:singular_cohomology}
@@ -1604,7 +1702,7 @@ We will denote the evaluation map $\Hom(A, G) \otimes A \to G$ using angle brack
 
 \begin{lemma}
   \label{lemma:kroenecker_pairing_descends_to_homology}
-  The Kroenecker pairing
+  Let $C_{\bullet}$ be a chain complex. The evaluation map (also known as the \emph{Kroenecker pairing})
   \begin{equation*}
     \langle \cdot,\cdot \rangle\colon C^{n}(X; G) \otimes C_{n}(X) \to G
   \end{equation*}
@@ -1614,7 +1712,7 @@ We will denote the evaluation map $\Hom(A, G) \otimes A \to G$ using angle brack
   \end{equation*}
 \end{lemma}
 \begin{proof}
-  Let $\alpha\colon C_{n} \to G$ be a cocycle and $a \in C_{n}$ a cycle, and let $d b \in C_{n}$ be a boundary. Then
+  Let $\alpha\colon C_{n} \to G \in C^{n}$ be a cocycle and $a \in C_{n}$ a cycle, and let $d b \in C_{n}$ be a boundary. Then
   \begin{align*}
     \langle \alpha, a + db \rangle &= \langle \alpha, a \rangle + \langle \alpha, db \rangle \\
     &= \langle \alpha, a \rangle + \langle \delta \alpha, b \rangle \\
@@ -1633,5 +1731,110 @@ Via $\otimes$-hom adjunction, we get a map
 \begin{equation*}
   \kappa\colon H^{n}(C^{\bullet}) \to \Hom(H_{n}(C_{\bullet}), G).
 \end{equation*}
+
+
+
+\begin{theorem}[universal coefficient theorem for singular cohomology]
+  Let $X$ be a topological space. There is a split exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \Ext(H_{n-1}(X), G)
+      \arrow[r, hook]
+      & H^{n}(X; G)
+      \arrow[r, two heads]
+      & \Hom(H_{n}(X), G)
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+\end{theorem}
+
+\begin{example}
+  We have seen (in \hyperref[eg:homology_of_complex_projective_space]{Example~\ref*{eg:homology_of_complex_projective_space}}) that the homology of $\C P^{n}$ is
+  \begin{equation*}
+    H_{k}(\C P^{n}) =
+    \begin{cases}
+      \Z, &0 \leq k \leq 2n,\ k \text{ even},\\
+      0, &\text{otherwise}.
+    \end{cases}
+  \end{equation*}
+
+  Thus, for $0 \leq k \leq n$, $k$ even, we find
+  \begin{align*}
+    H^{k}(\C P^{n}; \Z) &\cong \Ext^{1}(0, \Z) \oplus \Hom(\Z,\Z) \\
+    &\cong \Z.
+  \end{align*}
+  For $k$ odd with $0 \leq k \leq n$, we have
+  \begin{align*}
+    H^{k}(\C P^{n}; \Z) &\cong \Ext^{1}(\Z, \Z) \oplus \Hom(0,\Z) \\
+    &\cong 0.
+  \end{align*}
+
+  For $k > n$, we get $H^{k}(\C P^{n}; \Z) = 0$.
+\end{example}
+
+\section{The cap product}
+\label{sec:the_cap_product}
+
+\begin{definition}[front, rear face]
+  \label{def:front_rear_face}
+  Let $a\colon \Delta^{n} \to X$ be a singular $n$-simplex, and let $0 \leq q \leq n$.
+  \begin{itemize}
+    \item The \defn{$(n-q)$-dimensional front face} of $a$ is given by
+      \begin{equation*}
+        F^{n-q}(a) =
+        \begin{tikzcd}
+          \Delta^{n-q} 
+          \arrow[r, "i"]
+          & \Delta^{tn}
+          \arrow[r, "a"]
+          & X
+        \end{tikzcd},
+      \end{equation*}
+      where $i$ is induced by the inclusion
+      \begin{equation*}
+        \{0, \ldots, n-q\} \hookrightarrow \{1, \ldots, n \};\qquad k \mapsto k.
+      \end{equation*}
+
+    \item The \defn{$q$-dimensional rear face} of $a$ is given by
+      \begin{equation*}
+        R^{q}(a) =
+        \begin{tikzcd}
+          \Delta^{q}
+          \arrow[r, "r"]
+          & \Delta^{n}
+          \arrow[r, "a"]
+          & X
+        \end{tikzcd},
+      \end{equation*}
+      where $r$ is the map
+      \begin{equation*}
+        \{0, \ldots q\} \to \{0, \ldots, n\};\qquad k \mapsto n-q+k.
+      \end{equation*}
+  \end{itemize}
+\end{definition}
+
+The cap product is a map
+\begin{equation*}
+  \frown\colon S^{q}(X, A; R) \otimes S_{n}(X, A; R) \to S_{n-q}(X; R).
+\end{equation*}
+
+The idea is simple. An element $\alpha \in S^{q}(X, A; R)$ is simply a map $\alpha\colon S_{q}(X, A) \to R$. While this cannot act directly on singular $n$-simplices, we can split an $n$-simplex up into its $(n-q)$-dimensional front face and its $q$-dimensional rear face and have $\alpha$ act on only the rear face.
+
+\begin{definition}[cap product]
+  \label{def:cap_product}
+  The \defn{cap product} is the map
+  \begin{equation*}
+    \frown\colon S^{q}(X, A; R) \otimes S_{n}(X, A; R) \to S_{n-q}(X; R); \qquad \alpha \otimes a \otimes r \mapsto F^{n-q}(a) \otimes \langle \alpha, R^{q}(a) \rangle r.
+  \end{equation*}
+\end{definition}
+
+Of course, we need to check that this is well-defined, i.e.\ that for $b \in S_{n}(A) \subset S_{n}(X)$, we have $\alpha \frown b = 0$. We compute
+\begin{equation*}
+  \alpha \frown b = F^{n-1}(b) \otimes \langle \alpha, R^{q}(b) \rangle.
+\end{equation*}
+Since $b \in S_{n}(A)$, we certainly have that $R^{q}(b) \in S_{n}(A)$. But then $\langle\alpha, R^{q}(b)\rangle = 0$ by definition of relative cohomology.
 
 \end{document}

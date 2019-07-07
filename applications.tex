@@ -329,7 +329,7 @@ Let $\mathcal{C}$ and $\mathcal{D}$ be categories, and
 \end{equation*}
 an adjunction with unit $\eta\colon \id_{\mathcal{C}} \to RL$ and counit $\epsilon\colon LR \to \id_{\mathcal{D}}$.
 
-Recall that this data gives a comonad in $\mathcal{D}$, i.e.\ a comonoid internal to the category $\End(\mathcal{D})$, or equivalently, a monoid $M$ internal to the category $\End(\mathcal{D})\op$.
+Recall that this data gives a comonad in $\mathcal{D}$, i.e.\ a comonoid internal to the category $\End(\mathcal{D})$, or equivalently, a monoid $LR$ internal to the category $\End(\mathcal{D})\op$.
 \begin{equation*}
   \begin{tikzcd}
     LRLR
@@ -408,7 +408,9 @@ In the case that the category $\mathcal{D}$ is abelian, we can form the chain co
 \subsection{Group cohomology}
 \label{ssc:group_cohomology}
 
-One would like to be able to apply the techniques of homological algebra to the study of groups. Unfortunately, the category $\mathbf{Grp}$ is not very nicely behaved. Out of any group $G$, one can form the group ring $\Z G$. This is a minor improvement, but the category $\mathbf{Ring}$ is also not abelian. In order to study groups using homological techiques, it will therefore be profitable to work instead with modules over the group ring $\Z G$; as a category of modules, it is abelian.
+One would like to be able to apply the techniques of homological algebra to the study of groups. Unfortunately, the category $\mathbf{Grp}$ is not very nicely behaved; in particular it is not abelian.
+
+Out of any group $G$, one can form the group ring $\Z G$. This is a minor improvement, but the category $\mathbf{Ring}$ is also not abelian. In order to study groups using homological techiques, it will therefore be profitable to work instead with modules over the group ring $\Z G$; as a category of modules, it is abelian.
 
 Given a group $G$, a \defn{$G$-module} is a functor $\mathbf{B}G \to \Ab$. More generally, the category of such $G$-modules is the category $\mathbf{Fun}(\mathbf{B}G, \Ab)$. We will denote this category by $G\mhyp\Mod$.
 
