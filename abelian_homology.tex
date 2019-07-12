@@ -1,0 +1,1662 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Homological algebra in abelian categories}
+\label{ch:homological_algebra_in_abelian_categories}
+
+\section{Exact functors}
+\label{sec:exact_functors}
+
+\begin{definition}[exact functor]
+  \label{def:exact_functor}
+  Let $F\colon \mathcal{A} \to \mathcal{B}$ be an additive functor, and let
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[r, "f"]
+      & B
+      \arrow[r, "g"]
+      & C
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  be an exact sequence. We use the following terminology.
+  \begin{itemize}
+    \item We call $F$ \defn{left exact} if
+      \begin{equation*}
+        \begin{tikzcd}
+          0
+          \arrow[r]
+          & F(A)
+          \arrow[r, "f"]
+          & F(B)
+          \arrow[r, "g"]
+          & F(C)
+        \end{tikzcd}
+      \end{equation*}
+      is exact
+
+    \item We call $F$ \defn{right exact} if
+      \begin{equation*}
+        \begin{tikzcd}
+          F(A)
+          \arrow[r, "f"]
+          & F(B)
+          \arrow[r, "g"]
+          & F(C)
+          \arrow[r]
+          & 0
+        \end{tikzcd}
+      \end{equation*}
+      is exact
+
+    \item We call $F$ \defn{exact} if it is both left exact and right exact.
+  \end{itemize}
+\end{definition}
+
+\begin{example}
+  We showed in \hyperref[prop:hom_functor_left_exact]{Lemma~\ref*{prop:hom_functor_left_exact}} that both hom functors $\Hom(A, -)$ and $\Hom(-, B)$ are left exact.
+\end{example}
+
+According to the Yoneda lemma, to check that two objects are isomorphic it suffices to check that their images under the Yoneda embedding are isomorphic. In the context of abelian categories, the following result shows that we can also check the exactness of a sequence by checking the exactness of the image of the sequence under the Yoneda embedding.
+
+\begin{lemma}
+  \label{lemma:yoneda_reflects_exactness}
+  Let $\mathcal{A}$ be an abelian category, and let
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[r, "f"]
+      & B
+      \arrow[r, "g"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+  be objects and morphisms in $\mathcal{A}$. If for all $X$ the abelian groups and homomorphisms
+  \begin{equation*}
+    \begin{tikzcd}
+      \Hom_{\mathcal{A}}(X, A)
+      \arrow[r, "f_{*}"]
+      & \Hom_{\mathcal{A}}(X, B)
+      \arrow[r, "g_{*}"]
+      & \Hom_{\mathcal{A}}(X, C)
+    \end{tikzcd}
+  \end{equation*}
+  form an exact sequence of abelian groups, then $A \to B \to C$ is exact.
+\end{lemma}
+\begin{proof}
+  To see this, take $X = A$, giving the following sequence.
+  \begin{equation*}
+    \begin{tikzcd}
+      \Hom_{\mathcal{A}}(A, A)
+      \arrow[r, "f_{*}"]
+      & \Hom_{\mathcal{A}}(A, B)
+      \arrow[r, "g_{*}"]
+      & \Hom_{\mathcal{A}}(A, C)
+    \end{tikzcd}
+  \end{equation*}
+  Exactness implies that
+  \begin{equation*}
+    0 = (g_{*} \circ f_{*})(\id) = (g \circ f)(\id) = g \circ f,
+  \end{equation*}
+  so $\im f \subset \ker g$. Now take $X = \ker g$.
+  \begin{equation*}
+    \begin{tikzcd}
+      \Hom_{\mathcal{A}}(\ker g, A)
+      \arrow[r, "f_{*}"]
+      & \Hom_{\mathcal{A}}(\ker g, B)
+      \arrow[r, "g_{*}"]
+      & \Hom_{\mathcal{A}}(\ker g, C)
+    \end{tikzcd}
+  \end{equation*}
+  The canonical inclusion $\iota\colon \ker g \to B$ is mapped to zero under $g_{*}$, hence is mapped to under $f_{*}$ by some $\alpha\colon \ker g \to A$. That is, we have the following commuting triangle.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=small]
+      & A
+      \arrow[dr, "f"]
+      \\
+      \ker g
+      \arrow[ur, "\alpha"]
+      \arrow[rr, hookrightarrow, swap, "\iota"]
+      && B
+    \end{tikzcd}
+  \end{equation*}
+  Thus $\im \iota = \ker g \subset \im f$.
+\end{proof}
+
+\begin{proposition}
+  \label{prop:exact_if_preserve_limits_conditions}
+  Let $F\colon \mathcal{A} \to \mathcal{B}$ be a functor between abelian categories.
+  \begin{itemize}
+    \item If $F$ preserves finite limits, then $F$ is left exact.
+
+    \item If $F$ preserves finite colimits, then $F$ is right exact.
+  \end{itemize}
+\end{proposition}
+\begin{proof}
+  Let $f\colon A \to B$ be a morphism in an abelian category. The universal property for the kernel of $f$ is equivalent to the following: $(K, \iota)$ is a kernel of $f$ if and only if the following diagram is a pullback.
+  \begin{equation*}
+    \begin{tikzcd}
+      K
+      \arrow[r]
+      \arrow[d, swap, "\iota"]
+      & 0
+      \arrow[d]
+      \\
+      A
+      \arrow[r, swap, "f"]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+  Any functor between abelian categories which preserves limits must in particular preserve pullbacks. Any such functor also sends initial objects to initial objects, and since initial objects are zero objects, such a functor preserves zero objects. Thus, any complete functor between abelian categories takes kernels to kernels.
+
+  Dually, any functor which preserves colimits preserves cokernels.
+
+  Next, note that the exactness of the sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[r, "f"]
+      & B
+      \arrow[r, "g"]
+      & C
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  is equivalent to the following three conditions.
+  \begin{enumerate}
+    \item Exactness at $A$ means that $f$ is mono, i.e.\ $0 \to A$ is a kernel of $f$.
+
+    \item Exactness at $B$ means that $\im f = \ker g$.
+      \begin{itemize}
+        \item If $f$ is mono, this is equivalent to demanding that $(A, f)$ is a kernel of $g$.
+
+        \item If $g$ is epi, this is equivalent to demanding that $(C, g)$ is a cokernel of $f$.
+      \end{itemize}
+
+    \item Exactness at $C$ means that $g$ is epi, i.e.\ $C \to 0$ is a cokernel of $g$.
+  \end{enumerate}
+  Any functor $G$ which is a right adjoint preserves limits. By the above reasoning, $G$ certainly preserves zero objects and kernels. Thus, $G$ preserves the first two conditions, which means precisely that $G$ is left exact.
+
+  Dually, any functor $F$ which is a left adjoint preserves colimits, hence zero objects and cokernels. Thus, $F$ preserves the last two conditions, which means that $F$ is right exact.
+\end{proof}
+
+Note that the previous theorem makes no demand that $F$ be additive, which may seem surprising; after all, by  \hyperref[def:exact_functor]{Definition~\ref*{def:exact_functor}}, only exact funcotors are allowed the honor of being called additive. However, it turns out that a functor which preserves either finite limits or finite colimits is always additive. To see this, note that by applying any functor which is either left or right exact to a split exact sequence gives a split exact sequence.
+
+This is often useful when trying to check the exactness of a functor which is a left or right adjoint, by the following proposition.
+
+\begin{lemma}
+  \label{cor:hom_functor_left_exact}
+  Let
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[r, "f"]
+      & B
+      \arrow[r, "g"]
+      & C
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  be an exact sequence, and let $X$ be any object. Then the sequence
+  \begin{corollary}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \Hom(X, A)
+      \arrow[r, "f_{*}"]
+      & \Hom(X, B)
+      \arrow[r, "g_{*}"]
+      & \Hom(X, C)
+    \end{tikzcd}
+  \end{corollary}
+  is an exact sequence of abelian groups.
+\end{lemma}
+\begin{proof}
+  The hom functor
+\end{proof}
+
+\section{Chain Homotopies}
+\label{sec:chain_homotopies}
+
+\begin{definition}[chain homotopy]
+  \label{def:chain_homotopy}
+  Let $f_{\bullet}$, $g_{\bullet}\colon C_{\bullet} \to D_{\bullet}$ be morphisms of chain complexes. A \defn{chain homotopy}
+\end{definition}
+
+\begin{lemma}
+  \label{lemma:additive_functors_preserve_homotopy}
+  Let $f_{\bullet}$, $g_{\bullet}\colon C_{\bullet} \to D_{\bullet}$ be a homotopic chain complexes via a homotopy $h$, and let $F$ be an additive functor. Then $F(h)$ is a homotopy between $F(f_{\bullet})$ and $F(g_{\bullet})$.
+\end{lemma}
+\begin{proof}
+  We have
+  \begin{equation*}
+    df + fd = h,
+  \end{equation*}
+  so
+  \begin{equation*}
+    F(d)F(f) + F(f)F(d) = F(h).
+  \end{equation*}
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:homotopy_equivalence_relation}
+  Homotopy of morphisms is an equivalence relation.
+\end{lemma}
+\begin{proof}
+  \leavevmode
+  \begin{itemize}
+    \item Reflexivity: the zero morphism provides a homotopy between $f \sim f$.
+
+    \item Symmetry: If $f \overset{h}{\sim} g$, then $g \overset{-h}{\sim} f$
+
+    \item Transitivity: If $f \overset{h}{\sim} f'$ and $f' \overset{h'}{\sim} f''$, then $f \overset{h + h'}{\sim} f''$.
+  \end{itemize}
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:homotopy_respects_composition}
+  Homotopy respects composition. That is, let $f \overset{h}{\sim} g$ be homotopic morphisms, and let $r$ be another morphism with appropriate domain and codomain.
+  \begin{itemize}
+    \item $f \circ r \overset{hr}{\sim} g \circ r$
+
+    \item $r \circ f \overset{rh}{\sim} r \circ g$.
+  \end{itemize}
+\end{lemma}
+\begin{proof}
+  Obvious.
+\end{proof}
+
+\begin{definition}[homotopy category]
+  \label{def:homotopy_category}
+  Let $\mathcal{A}$ be an abelian category. The \defn{homotopy category} $\mathcal{K}(\mathcal{A})$, is the category whose objects are those of $\Ch(\mathcal{A})$, and whose morphisms are equivalence classes of morphisms in $\mathcal{A}$ up to homotopy.
+\end{definition}
+
+\begin{lemma}
+  \label{lemma:homotopy_category_is_additive}
+  The homotopy category $\mathcal{K}(\mathcal{A})$ is an additive category, and the quotienting functor $\Ch(\mathcal{A}) \to \mathcal{K}(\mathcal{A})$ is an additive functor.
+\end{lemma}
+\begin{proof}
+  Trivial.
+\end{proof}
+
+In fact, the homotopy category satisfies the following universal property.
+
+\begin{proposition}
+  Let $F\colon \Ch(\mathcal{A}) \to \mathcal{C}$ be an additive functor such that $\mathcal{F}(f)$ is an isomorphism for all quasi-isomorphisms $f$. Then there exists a unique functor $\mathcal{K}(\mathcal{A}) \to \mathcal{C}$ making the following diagram commute.
+\end{proposition}
+
+\begin{proposition}
+  \label{prop:additive_functors_from_derived_category_squash_homotopies}
+  Let $\mathcal{F}\colon \Ch(\mathcal{A}) \to \mathcal{B}$ be an additive functor which takes quasi-isomorphisms to isomorphisms. Then for homotopic morphisms $f \sim g$ in $\Ch(\mathcal{A})$, we have $F(f) = F(g)$.
+\end{proposition}
+
+\section{Projectives and injectives}
+\label{ssc:projectives_and_injectives}
+
+\begin{definition}[projective, injective]
+  \label{def:projective_injective}
+  An object $P$ in an abelian category is said to be \defn{projective} if the functor $\Hom(P, -)$ is exact, and \defn{injective} if $\Hom(-, Q)$ is exact.
+\end{definition}
+
+Since the hom functor $\Hom(A, -)$ is left exact for every $A$, it is very easy to see that an object $P$ in an abelian category $\mathcal{A}$ is projective if for every epimorphism $f\colon B \to C$ and every morphism $p\colon P \to C$, there exists a morphism $\tilde{p}\colon P \to B$ such that the following diagram commutes.
+\begin{equation*}
+  \begin{tikzcd}
+    & P
+    \arrow[d, "p"]
+    \arrow[dl, dashed, swap, "\exists\tilde{p}"]
+    \\
+    B
+    \arrow[r, twoheadrightarrow, swap, "f"]
+    & C
+  \end{tikzcd}
+\end{equation*}
+
+Dually, $Q$ is injective if for every monomorphism $g\colon A \to B$ and every morphism $q\colon A \to Q$ there exists a morphism $\tilde{q}\colon B \to Q$ such that the following diagram commutes.
+\begin{equation*}
+  \begin{tikzcd}
+    A
+    \arrow[r, hookrightarrow, "g"]
+    \arrow[d, swap, "q"]
+    & B
+    \arrow[dl, dashed, "\exists \tilde{q}"]
+    \\
+    Q
+  \end{tikzcd}
+\end{equation*}
+
+\begin{definition}[enough projectives]
+  \label{def:enough_projectives}
+  Let $\mathcal{A}$ be an abelian category. We say that $\mathcal{A}$ has \defn{enough projectives} if for every object $M$ there exists a projective object $P$ and an epimorphism $P \twoheadrightarrow M$.
+\end{definition}
+
+\begin{proposition}
+  Let
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hookrightarrow]
+      & B
+      \arrow[r, twoheadrightarrow, "f"]
+      & P
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  be a short exact sequence with $P$ projective. Then the sequence splits.
+\end{proposition}
+\begin{proof}
+  We can add another copy of $P$ artfully as follows.
+\begin{equation*}
+    \begin{tikzcd}
+      &&& P
+      \arrow[d, "\id"]
+      \\
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hookrightarrow]
+      & B
+      \arrow[r, twoheadrightarrow, "f"]
+      & P
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  By definition, we get a morphism $P \to B$ making the triangle commute.
+  \begin{equation*}
+    \begin{tikzcd}
+      &&& P
+      \arrow[d, "\id"]
+      \arrow[dl, swap, "\exists g"]
+      \\
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hookrightarrow]
+      & B
+      \arrow[r, twoheadrightarrow, swap, "f"]
+      & P
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  But this says precisely that $f \circ g = \id_{P}$, i.e.\ the sequence splits from the right. The result follows from the splitting lemma (\hyperref[lemma:splitting_lemma]{Lemma~\ref*{lemma:splitting_lemma}}).
+\end{proof}
+
+\begin{corollary}
+  Let $F$ be an additive functor, and let
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hookrightarrow]
+      & B
+      \arrow[r, twoheadrightarrow, "f"]
+      & P
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  be an exact sequence with $P$ projective. Then $F$ applied to the sequence gives an exact sequence.
+\end{corollary}
+\begin{proof}
+  Applying $F$ to a split sequence gives a split sequence, and all split sequences are exact.
+\end{proof}
+
+\begin{corollary}
+  The category $\Rmod$ has enough projectives.
+\end{corollary}
+\begin{proof}
+  By \hyperref[prop:projectives_are_direct_summands_of_free]{Proposition~\ref*{prop:projectives_are_direct_summands_of_free}}, free modules are projective, and every module is a quotient of a free module.
+\end{proof}
+
+\begin{proposition}
+  Let $\mathcal{A}$ be an abelian category with enough projectives. Then every object $A \in \mathcal{A}$ has a projective resolution.
+
+  Dually, any abelian category with enough injectives has injective resolutions.
+\end{proposition}
+\begin{proof}
+  We provide running commentary on the following diagram.
+\end{proof}
+
+\begin{definition}[projective, injective resolution]
+  \label{def:projective_injective_resolution}
+  Let $\mathcal{A}$ be an abelian category, and let $A \in \mathcal{A}$. A \defn{projective resolution} of $A$ is a quasi-isomorphism $P_{\bullet} \to \iota(A)$, where $P_{\bullet}$ is a complex of projectives. Similarly, an \defn{injective resolution} is a quasi-isomorphism $\iota(A) \to Q_{\bullet}$ where $Q_{\bullet}$ is a complex of injectives.
+\end{definition}
+
+\begin{lemma}
+  \label{lemma:projective_resolution_epimorphism}
+  Let $f\colon P_{\bullet} \to \iota(M)$ be a projective resolution. Then $f\colon P_{0} \to M$ is an epimorphism.
+\end{lemma}
+\begin{proof}
+  We know that $H_{0}(f)\colon H_{0}(P) \to H_{0}(\iota (M))$ is an isomorphism. But $H_{0}(\iota(m)) \simeq \iota_{M}$, and that
+\end{proof}
+
+In fact, we can say more.
+
+\begin{lemma}
+  \label{lemma:equivalent_characterization_of_projective_resolution}
+  Let $f_{\bullet}\colon P_{\bullet} \to \iota(A)$ be a chain map. Then $f$ is a projective resolution if and only if the sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      \
+      \arrow[r, dotted, no head]
+      & P_{2}
+      \arrow[r]
+      & P_{1}
+      \arrow[r]
+      & P_{0}
+      \arrow[r, "f_{0}"]
+      & A
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  is exact.
+\end{lemma}
+
+\begin{theorem}[extended horseshoe lemma]
+  \label{thm:extended_horseshoe_lemma}
+  Let $\mathcal{A}$ be an abelian category with enough projectives, and let $P'_{\bullet} \to M'$ and $P''_{\bullet} \to M''$ be projective resolutions. Then given an exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & M'
+      \arrow[r, "f"]
+      & M
+      \arrow[r, "g"]
+      & M''
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  there is a projective resolution $P_{\bullet} \to M$ and maps $\tilde{f}$ and $\tilde{g}$ such that the following diagram has exact rows and commutes.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & P'_{\bullet}
+      \arrow[r, "\tilde{f}"]
+      \arrow[d]
+      & P_{\bullet}
+      \arrow[r, "\tilde{g}"]
+      \arrow[d]
+      & P''_{\bullet}
+      \arrow[r]
+      \arrow[d]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & M'
+      \arrow[r, swap, "f"]
+      & M
+      \arrow[r, swap, "\tilde{g}"]
+      & M''
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+
+  Furthermore, given a morphism $M \to N$
+\end{theorem}
+\begin{proof}
+  We construct $P_{\bullet}$ inductively. We have specified data of the following form.
+  \begin{equation*}
+    \begin{tikzcd}
+      \
+      & \
+      \arrow[d, dotted, no head]
+      & \
+      & \
+      \arrow[d, dotted, no head]
+      & \
+      \\
+      0
+      \arrow[r]
+      & P'_{1}
+      \arrow[d]
+      && P''_{1}
+      \arrow[r]
+      \arrow[d]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & P'_{0}
+      \arrow[d]
+      && P''_{0}
+      \arrow[r]
+      \arrow[d]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & M'
+      \arrow[r, "f"]
+      & M
+      \arrow[r, "g"]
+      & M''
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  We define $P_{0} = P'_{0} \oplus P''_{0}$. We get the maps to and from $P_{0}$ from the canonical injection and projection respectively.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & P'_{0}
+      \arrow[r, "\iota"]
+      \arrow[dr, dashed, swap, "f \circ p'_{0}"]
+      \arrow[d, swap, "p'"]
+      & P'_{0} \oplus P''_{0}
+      \arrow[r, "\pi"]
+      \arrow[d, dotted, "p"]
+      & P''_{0}
+      \arrow[r]
+      \arrow[d, "p''"]
+      \arrow[dl, dashed, "\exists q"]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & M'
+      \arrow[r, swap, "f"]
+      & M
+      \arrow[r, swap, "g"]
+      & M''
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  We get the (dashed) map $P'_{0} \to M$ by composition, and the (dashed) map $P''_{0} \to M$ by projectivity of $P''_{0}$ (since by \hyperref[lemma:projective_resolution_epimorphism]{Lemma~\ref*{lemma:projective_resolution_epimorphism}} $p''$ is an epimorphism). From these the universal property for coproducts gives us the (dotted) map $p\colon P'_{0} \oplus P''_{0} \to M$.
+
+  At this point, the innocent reader may believe that we are in the clear, and indeed many books leave it at this. Not so! We don't know that the diagram formed in this way commutes. In fact it does not; there is nothing in the world that tells us that $q \circ \pi = p$.
+
+  However, this is but a small transgression, since the \emph{squares} which are formed still commute. To see this, note that we can write
+  \begin{equation*}
+    p = f \circ p'_{0} \circ \pi_{P_{0}'} + q \circ \pi;
+  \end{equation*}
+  composing this with
+
+  The snake lemma guarantees that the sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      \coker p' \simeq 0
+      \arrow[r]
+      & \coker p
+      \arrow[r]
+      & 0 \simeq \coker p''
+    \end{tikzcd}
+  \end{equation*}
+  is exact, hence that $p$ is an epimorphism.
+
+  One would hope that we could now repeat this process to build further levels of $P_{\bullet}$. Unfortunately, this doesn't work because we have no guarantee that $d^{P''}_{1}$ is an epimorphism, so we can't use the projectiveness of $P''_{1}$ to produce a lift. We have to be clever.
+
+  The trick is to add an auxiliary row of kernels; that is, to expand the relevant portion of our diagram as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & P'_{1}
+      \arrow[d, swap, "p_{1}'"]
+      && P''_{1}
+      \arrow[r]
+      \arrow[d, "p_{1}''"]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & \ker p'
+      \arrow[r]
+      \arrow[d]
+      & \ker p
+      \arrow[r]
+      \arrow[d]
+      & \ker p''
+      \arrow[r]
+      \arrow[d]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & P'_{0}
+      \arrow[r]
+      & P_{0}
+      \arrow[r]
+      & P''_{0}
+      \arrow[r]
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  The maps $p'_{1}$ and $p''_{1}$ come from the exactness of $P'_{\bullet}$ and $P''_{\bullet}$. In fact, they are epimorphisms, because they are really cokernel maps in disguise. That means that we are in the same situation as before, and are justified in saying ``we proceed inductively''.
+\end{proof}
+
+\begin{proposition}
+  \label{prop:can_lift_morphisms_to_projective_resolutions}
+  Let $\mathcal{A}$ be an abelian category, let $M$ and $M'$ be objects of $\mathcal{A}$, and
+  \begin{equation*}
+    P_{\bullet} \to M \qquad\text{and}\qquad P'_{\bullet} \to M'
+  \end{equation*}
+  be projective resolutions. Then for every morphism $f\colon M \to M'$ there exists a lift $\tilde{f}\colon P_{\bullet} \to P'_{\bullet}$ making the diagram
+  \begin{equation*}
+    \begin{tikzcd}
+      P_{\bullet}
+      \arrow[r, "\tilde{f}_{\bullet}"]
+      \arrow[d]
+      & P'_{\bullet}
+      \arrow[d]
+      \\
+      \iota M
+      \arrow[r, swap, "\iota f"]
+      & \iota M'
+    \end{tikzcd}
+  \end{equation*}
+  commute, which is unique up to homotopy.
+\end{proposition}
+\begin{proof}
+  We construct a lift inductively.
+\end{proof}
+
+\begin{corollary}
+  \label{cor:projective_resolution_functor}
+  For any abelian category with enough projectives, there are projective resolution functors $\mathcal{A} \to \mathcal{K}(\Ch_{\geq 0}\mathcal{A})$.
+\end{corollary}
+
+\section{Mapping cones}
+\label{sec:mapping_cones}
+
+\begin{definition}[shift functor]
+  \label{def:shift_functor}
+  For any chain complex $C_{\bullet}$ and any $k \in \Z$, define the \defn{$k$-shifted chain complex} $C_{\bullet}[k]$ by
+  \begin{equation*}
+    C[k]_{i} = C_{k+i};\qquad d^{C[k]}_{i} = (-1)^{k}d^{C}_{i+k}.
+  \end{equation*}
+\end{definition}
+
+\begin{definition}[mapping cone]
+  \label{def:mapping_cone}
+  Let $f\colon C_{\bullet} \to D_{\bullet}$ be a chain map. Define a new complex $\cone(f)$ as follows.
+  \begin{itemize}
+    \item For each $n$, define
+      \begin{equation*}
+        \cone(f)_{n} = C_{n-1} \oplus D_{n}.
+      \end{equation*}
+
+    \item Define $d^{\cone(f)}_{n}$ by
+      \begin{equation*}
+        d^{\cone(f)}_{n} =
+        \begin{pmatrix}
+          -d^{C}_{n-1} & 0 \\
+          -f_{n-1} & d^{D}_{n}
+        \end{pmatrix},
+      \end{equation*}
+      which is shorthand for
+      \begin{equation*}
+        d^{\cone(f)}_{n}(x_{n-1}, y_{n}) = (-d^{C}_{n-1}x_{n-1}, d^{D}_{n}y_{n} - f_{n-1}x_{n-1}).
+      \end{equation*}
+  \end{itemize}
+\end{definition}
+
+\begin{lemma}
+  \label{lemma:cone_fits_into_ses}
+  The complex $\cone(f)$ naturally fits into a short exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & C_{\bullet}
+      \arrow[r, "\iota"]
+      & \cone(f)_{\bullet}
+      \arrow[r, "\pi"]
+      & D_{\bullet}
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  We need to specify $\iota$ and $\pi$. The morphism $\iota$ is the usual injection; the morphism $\pi$ is given by minus the usual projection.
+\end{proof}
+
+\begin{corollary}
+  \label{cor:cone_controls_quasi_isomorphism}
+  Let $f_{\bullet}\colon C_{\bullet} \to D_{\bullet}$ be a morphism of chain complexes. Then $f$ is a quasi-isomorphism if and only if $\cone(f)$ is an exact complex.
+\end{corollary}
+\begin{proof}
+  By \hyperref[cor:long_exact_sequence_on_homology]{Corollary~\ref*{cor:long_exact_sequence_on_homology}}, we get a long exact sequence
+  \begin{equation*}
+    \cdots \to  H_{n}(X) \overset{\delta}{\to} H_{n}(Y) \to H_{n}(\cone(f)) \to H_{n-1}(X) \to \cdots.
+  \end{equation*}
+
+  We still need to check that $\delta = H_{n}(f)$. This is not hard to see (although I'm missing a sign somewhere); picking $x \in \ker d^{X}$, the zig-zag defining $\delta$ goes as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      && x
+      \arrow[d, mapsto]
+      \\
+      & (x, 0)
+      \arrow[r, mapsto]
+      \arrow[d, mapsto]
+      & -x
+      \\
+      f(x)
+      \arrow[r, mapsto]
+      \arrow[d, mapsto]
+      & (0, f(x))
+      \\
+      {[f(x)]}
+    \end{tikzcd}
+  \end{equation*}
+  If $\cone(f)$ is exact, then we get a very short exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & H_{n}(X)
+      \arrow[r, "H_{n}(f)"]
+      & H_{n}(Y)
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  implying that $H_{n}(f)$ must be an isomorphism. Conversely, if $H_{n}(f)$ is an isomorphism for all $n$, then the maps to and from $H_{n}(\cone(f))$ must be the zero maps, implying $H_{n}(\cone(f)) = 0$ by exactness.
+\end{proof}
+
+\begin{proposition}
+  Let $\mathcal{A}$ be an abelian category, and let $C_{\bullet}$ be a chain complex in $\mathcal{A}$. Let $P_{\bullet}$ be a bounded below chain complex of projectives. Then any quasi-isomorphism $g\colon P_{\bullet} \to C_{\bullet}$ has a quasi-inverse.
+\end{proposition}
+\begin{proof}
+  First we show that any morphism from a projective, bounded below complex into an exact complex is homotopic to zero. We do so by constructing a homotopy.
+  \begin{equation*}
+    \begin{tikzcd}
+      \
+      \arrow[r, dotted, no head]
+      & P_{1}
+      \arrow[r]
+      \arrow[d]
+      & P_{0}
+      \arrow[r]
+      \arrow[d]
+      \arrow[dl, dashed, swap, "h_{1}"]
+      & 0
+      \arrow[d]
+      \arrow[dl, dashed, swap, "h_{0}"]
+      \arrow[r, dotted, no head]
+      &\
+      \\
+      \
+      \arrow[r, dotted, no head]
+      & C_{1}
+      \arrow[r]
+      & C_{0}
+      \arrow[r]
+      & C_{-1}
+      \arrow[r, dotted, no head]
+      &\
+    \end{tikzcd}
+  \end{equation*}
+  Consider the following solid commuting diagram, where $K$ is the kernel of $d^{C}_{1}$ and $r = f_{1} - h_{0} \circ d^{P}_{1}$ is \emph{not} the map $f_{1}$.
+  \begin{equation*}
+    \begin{tikzcd}
+      && P_{1}
+      \arrow[dd, "r"]
+      \arrow[ddrr, "0"]
+      \arrow[dl, dashed, "\exists!"]
+      \arrow[ddll, dashed, bend right, swap, "\exists h_{1}"]
+      \\
+      & K
+      \arrow[dr, hookrightarrow]
+      \\
+      C_{2}
+      \arrow[ur, twoheadrightarrow]
+      \arrow[rr, swap, "d^{C}_{2}"]
+      && C_{1}
+      \arrow[rr, swap, "d^{C}_{1}"]
+      && C_{0}
+    \end{tikzcd}
+  \end{equation*}
+  Because
+  \begin{align*}
+    d^{C}_{1} \circ r &= d^{C}_{1} \circ f_{1} - d^{C}_{1} \circ h_{0} \circ d^{P}_{1} \\
+    &= d^{C}_{1} \circ f_{1} - d^{C}_{1} \circ f_{1} \\
+    &= 0,
+  \end{align*}
+  the morphism $r$ factors through $K$. This gives us a morphism from a projective onto the target of an epimorphism, which we can lift to the source. This is what we call $h_{1}$.
+
+  It remains to check that $h_{1}$ is a homotopy from $f$ to $0$. Plugging in, we find
+  \begin{align*}
+    d^{C}_{2} \circ h_{1} + h_{0} \circ d^{P}_{1} &= r + h_{0} \circ d^{P}_{1} \\
+    &= f_{1}
+  \end{align*}
+  as required.
+
+  Iterating this process, we get a homotopy between $0$ and $f$.
+
+  Now let $f\colon C_{\bullet} \to P_{\bullet}$ be a quasi-isomorphism, where $P_{\bullet}$ is a bounded-below projective complex. Since $f$ is a quasi-isomorphism, $\cone(f)$ is exact, which means that $\iota\colon P \to \cone(f)$ is homotopic to the zero morphism.
+  \begin{equation*}
+    \begin{tikzcd}
+      P_{i+1}
+      \arrow[r, "d^{P}_{i+1}"]
+      \arrow[d, bend left, "\iota_{i+1}"]
+      \arrow[d, bend right, swap, "0"]
+      & P_{i}
+      \arrow[r, "d^{P}_{i}"]
+      \arrow[d, bend left, "\iota_{i}"]
+      \arrow[d, bend right, swap, "0"]
+      \arrow[dl, dashed, swap, "\tilde{h}_{i}"]
+      & P_{i-1}
+      \arrow[d, bend left, "\iota_{i-1}"]
+      \arrow[d, bend right, swap, "0"]
+      \arrow[dl, dashed, swap, "\tilde{h}_{i-1}"]
+      \\
+      C_{i} \oplus P_{i+1}
+      \arrow[r, swap, "d^{\cone(f)}_{i+1}"]
+      & C_{i-1} \oplus P_{i}
+      \arrow[r, swap, "d^{\cone(f)}_{i}"]
+      & C_{i-2} \oplus P_{i-1}
+    \end{tikzcd}
+  \end{equation*}
+  That is, there exist $\tilde{h}_{i}\colon P_{i} \to \cone(f)_{i+1}$ such that
+  \begin{equation}
+    \label{eq:cone_identity}
+    d^{\cone f}_{i+1} \circ \tilde{h}_{i} + \tilde{h}_{i-1} \circ d^{P}_{i} = \iota.
+  \end{equation}
+
+  Writing $\tilde{h}_{i}$ in components as $\tilde{h}_{i} = (\beta_{i}, \gamma_{i})$, where
+  \begin{equation*}
+    \beta_{i}\colon P_{i} \to C_{i}\qquad\text{and}\qquad \gamma_{i}\colon P_{i-1} \to P_{i},
+  \end{equation*}
+  we find what looks tantalizingly like a chain map $\beta_{\bullet}\colon P_{\bullet} \to C_{\bullet}$. Indeed, writing \hyperref[eq:cone_identity]{Equation~\ref*{eq:cone_identity}} in components, we find the following.
+  \begin{align*}
+    \begin{pmatrix}
+      -d^{C}_{i} & 0 \\
+      -f_{i} & d^{P}_{i+1}
+    \end{pmatrix}
+    \begin{pmatrix}
+      \beta_{i} \\
+      \gamma_{i}
+    \end{pmatrix}
+    +
+    \begin{pmatrix}
+      \beta_{i-1} \\
+      \gamma_{i-1}
+    \end{pmatrix}
+    \begin{pmatrix}
+      d^{P}_{i}
+    \end{pmatrix}
+    &=
+    \begin{pmatrix}
+      0 \\
+      \id_{P_{i}}
+    \end{pmatrix}
+    \\
+    \begin{pmatrix}
+      -d^{C}_{i} \circ \beta_{i} + \beta_{i-1} \circ d^{P}_{i} \\
+      -f_{i} \circ \beta_{i} + d^{P}_{i+1} \circ \gamma_{i} + \gamma_{i-1} \circ d^{P}_{i}
+    \end{pmatrix}
+    &=
+    \begin{pmatrix}
+      0 \\
+      \id_{P_{i}}
+    \end{pmatrix}
+  \end{align*}
+  The first line tells us that $\beta$ is a chain map. The second line tells us that\footnote{Actually, it doesn't tell us this, but I suspect that it would if I were a little better at algebra.}
+  \begin{equation*}
+    d^{P}_{i+1} \circ \gamma_{i} + \gamma_{i-1} \circ d^{P}_{i} = \id_{P_{i}} - f_{i} \circ \beta_{i},
+  \end{equation*}
+  i.e.\ that $\gamma$ is a homotopy $\id_{P_{i}} \sim f_{i} \circ \beta_{i}$. But homology collapses homotopic maps, so
+  \begin{equation*}
+    H_{n}(\id_{P_{i}}) = H_{n}(f_{i}) \circ H_{n}(\beta_{i}),
+  \end{equation*}
+  which imples that
+  \begin{equation*}
+    H_{n}(\beta_{i}) = H_{n}(f_{i})^{-1}.
+  \end{equation*}
+\end{proof}
+
+\section{Localization at weak equivalences: a love story}
+\label{sec:localization_at_weak_equivalences_a_love_story}
+
+We can embed any abelian category $\mathcal{A}$ into the corresponding category $\Ch(\mathcal{A})$ of chain complexes via inclusion into degree zero. This is obviously a lossless procedure, in the sense that we recover $\mathcal{A}$ by restricting to degree $0$.
+\begin{equation*}
+  \begin{tikzcd}
+    \mathcal{A}
+    \arrow[r, bend left, "\iota"]
+    & \Ch(\mathcal{A})
+    \arrow[l, bend left, "(-)_{0}"]
+  \end{tikzcd}
+\end{equation*}
+
+Equivalently, we recover our category $\mathcal{A}$ by taking zeroth homology.
+\begin{equation*}
+  \begin{tikzcd}
+    \mathcal{A}
+    \arrow[r, bend left, "\iota"]
+    & \Ch(\mathcal{A})
+    \arrow[l, bend left, "H_{0}"]
+  \end{tikzcd}
+\end{equation*}
+
+However, we notice that there are much better-behaved embeddings of $\mathcal{A}$ into $\Ch(\mathcal{A})$ such that we recover $\mathcal{A}$ when taking zeroth homology. For example, taking projective resolutions of objects and lifting morphisms using \hyperref[prop:can_lift_morphisms_to_projective_resolutions]{Proposition~\ref*{prop:can_lift_morphisms_to_projective_resolutions}} will do the trick. Unfortunately, this is not in general uniquely defined: one can take many different projective resolutions, and lift morphisms in many different ways. There is no reason to expect these data to assemble themselves functorially.
+
+However, if we were to modify $\Ch(\mathcal{A})$ in such a way that all quasi-isomorphisms became bona-fide isomorphisms, then we would have this functoriality, thanks to \hyperref[prop:additive_functors_from_derived_category_squash_homotopies]{Proposition~\ref*{prop:additive_functors_from_derived_category_squash_homotopies}}.
+
+Thus we find ourselves in a common situation: we have a category $\Ch(\mathcal{A})$, and identified a collection of morphisms inside this category which we would like to view as weak equivalences, namely the quasi-isomorphisms. In an ideal world, we would simply promote quasi-isomorphisms to bona fide isomorphisms. That is, we would like to form the localization
+\begin{equation*}
+  \Ch(\mathcal{A}) \to \Ch(\mathcal{A})[\{\text{quasi-isomorphisms}\}^{-1}].
+\end{equation*}
+
+Unfortunately, localization is not at all a trivial process, and one can get hurt if one is not careful. For that reason, actually constructing the above localization and then working with it is not a profitable approach to take.
+
+However, note that we can get what we want by making a more draconian identification: collapsing all homotopy equivalences. Homotopy equivalence is friendlier than quasi-isomorphism in the sense that one can take the quotient by it; that is, there is a well-defined additive functor
+\begin{equation*}
+  \Ch(\mathcal{A}) \twoheadrightarrow \mathcal{K}(\mathcal{A})
+\end{equation*}
+which is the identity on objects and sends morphisms to their equivalence classes modulo homotopy; this sends precisely homotopy equivalences to isomorphisms. In fact, this is universal in the sense that every other additive functor sending quasi-isomorphisms to isomorphisms factors through it. In particular, the functor
+\begin{equation*}
+  \Ch(\mathcal{A}) \to \Ch(\mathcal{A})[\{\text{quasi-isomorphisms}^{-1}\}]
+\end{equation*}
+factors through it.
+
+But now we are in a really wonderful position, as long as $\mathcal{A}$ has enough projectives: we can (by REF we have already proved) find a projective resolution functor
+\begin{equation*}
+  P\colon \mathcal{A} \to \mathcal{K}^{+}(\mathcal{A}).
+\end{equation*}
+In fact, this functor is an equivalence of categories.
+
+\section{Homological \texorpdfstring{$\delta$}{delta}-functors and derived functors}
+\label{sec:homological_delta_functors}
+
+We have noticed that we can
+
+\begin{definition}[derived functor]
+  \label{def:derived_functor}
+  Let $F\colon \mathcal{A} \to \mathcal{B}$ be a functor between abelian categories.
+  \begin{itemize}
+    \item If $F$ is right exact and $\mathcal{A}$ has enough projectives, we declare the \defn{left derived functor} to be the cohomological $\delta$-functor $\{L_{n}F\}$ defined by
+      \begin{equation*}
+        L_{n}F =
+        \begin{tikzcd}
+          \mathcal{A}
+          \arrow[r, "P"]
+          & \mathcal{K}(\Ch_{\geq 0}(\mathcal{A}))
+          \arrow[r, "F"]
+          & \mathcal{K}(\Ch_{\geq 0}(\mathcal{B}))
+          \arrow[r, "H_{n}"]
+          & \mathcal{B}
+        \end{tikzcd}
+      \end{equation*}
+      where $P\colon \mathcal{A} \to \mathcal{K}(\Ch_{\geq 0}(\mathcal{A}))$ is a projective resolution functor.
+
+    \item If $F$ is left exact and $\mathcal{A}$ has enough injectives, we define the \defn{right derived functor} to be the cohomological $\delta$-functor
+      \begin{equation*}
+        R^{n}F(X) = H^{n} \circ F \circ Q
+      \end{equation*}
+      where $Q$ is an injective resolution functor.
+  \end{itemize}
+\end{definition}
+
+It may seem that we still have something left to prove; after all, we have not shown that the result of our composition is independant of the projective/injective resolution functor we used. However,
+
+Because $\{H_{n}\}$ is a homological $\delta$-functor, it is trivial that ${L_{n}F}$ is a homological delta-functor. Note that it really does extend $F$ in the following sense.
+
+\begin{proposition}
+  Let $F\colon \mathcal{A} \to \mathcal{B}$ be a right exact functor between abelian categories. We have that
+  \begin{equation*}
+    L_{0}F \simeq F.
+  \end{equation*}
+\end{proposition}
+\begin{proof}
+  Let $P_{\bullet} \to X$ be a projective resolution. By \hyperref[lemma:equivalent_characterization_of_projective_resolution]{Lemma~\ref*{lemma:equivalent_characterization_of_projective_resolution}}, the following sequence is exact.
+  \begin{equation*}
+    \begin{tikzcd}
+      P_{2}
+      \arrow[r]
+      & P_{1}
+      \arrow[r, "f"]
+      & P_{0}
+      \arrow[r, twoheadrightarrow]
+      & X
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  Since $F$ is right exact, the following sequence is exact.
+  \begin{equation*}
+    \begin{tikzcd}
+      F(P_{2})
+      \arrow[r]
+      & F(P_{1})
+      \arrow[r, "F(f)"]
+      & F(P_{0})
+      \arrow[r, twoheadrightarrow]
+      & F(X)
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  This tells us that $F(X) \simeq \coker(F(f))$. But
+  \begin{equation*}
+    \coker(H(f)) \simeq H_{0}(P_{\bullet}) = L_{0}F(X).
+  \end{equation*}
+
+  Similarly, on morphisms
+\end{proof}
+
+\begin{definition}[homological \texorpdfstring{$\delta$}{delta}-functor]
+  \label{def:homological_delta_functor}
+  A \defn{homological $\delta$-functor} between abelian categories $\mathcal{A}$ and $\mathcal{B}$ consists of the following data.
+  \begin{enumerate}
+    \item For each $n \in \Z$, an additive functor
+      \begin{equation*}
+        T_{n}\colon \mathcal{A} \to \mathcal{B}.
+      \end{equation*}
+
+    \item For every short exact sequence
+      \begin{equation*}
+        \begin{tikzcd}
+          0
+          \arrow[r]
+          & A
+          \arrow[r]
+          & B
+          \arrow[r]
+          & C
+          \arrow[r]
+          & 0
+        \end{tikzcd}
+      \end{equation*}
+      in $\mathcal{A}$ and for each $n \in \Z$, a morphism
+      \begin{equation*}
+        \delta_{n}\colon T_{n}(C) \to T_{n-1}(A).
+      \end{equation*}
+  \end{enumerate}
+  This data is subject to the following conditions.
+  \begin{enumerate}
+    \item For $n < 0$, we have $T_{n} = 0$.
+
+    \item For every short exact sequence as above, there is a long exact sequence
+      \begin{equation*}
+        \begin{tikzcd}
+          & \cdots
+          \arrow[r]
+          & T_{n+1}(C)
+          \\
+          T_{n}(A)
+          \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
+          \arrow[r, "T_{n}(f)"]
+          & T_{n}(B)
+          \arrow[r, "T_{n}(g)"]
+          & T_{n}(C)
+          \\
+          T_{n-1}(A)
+          \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
+          \arrow[r, "T_{n-1}(f)"]
+          & T_{n-1}(B)
+          \arrow[r, "T_{n-1}(g)"]
+          & T_{n-1}(C)
+          \\
+          T_{n-2}(A)
+          \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
+          \arrow[r]
+          & \cdots
+        \end{tikzcd}
+      \end{equation*}
+
+    \item For every morphism of short exact sequences
+      \begin{equation*}
+        \begin{tikzcd}
+          0
+          \arrow[r]
+          & A
+          \arrow[r]
+          \arrow[d, swap, "f"]
+          & B
+          \arrow[r]
+          \arrow[d, "g"]
+          & C
+          \arrow[r]
+          \arrow[d, "h"]
+          & 0
+          \\
+          0
+          \arrow[r]
+          & A'
+          \arrow[r]
+          & B'
+          \arrow[r]
+          & C'
+          \arrow[r]
+          & 0
+        \end{tikzcd}
+      \end{equation*}
+      and every $n$, the diagram
+      \begin{equation*}
+        \begin{tikzcd}
+          T_{n}(C)
+          \arrow[r, "\delta_{n}"]
+          \arrow[d, swap, "T_{n}(h)"]
+          & T_{n-1}(A)
+          \arrow[d, "T_{n}(f)"]
+          \\
+          T_{n}(C')
+          \arrow[r, swap, "\delta_{n}"]
+          & T_{n-1}(A')
+        \end{tikzcd}
+      \end{equation*}
+      commutes; that is, a morphism of short exact sequences leads to a morphism of long exact sequences.
+  \end{enumerate}
+\end{definition}
+
+This seems like an inelegant definition, and indeed it is.
+
+\begin{definition}[cohomological \texorpdfstring{$\delta$}{delta}-functors]
+  \label{def:cohomological_delta_functors}
+  Dual to \hyperref[def:homological_delta_functor]{Definition~\ref*{def:homological_delta_functor}}.
+\end{definition}
+
+\begin{example}
+  The prototypical example of a homological $\delta$-functor is homology: the collection $H_{n}\colon \Ch(\mathcal{A}) \to \mathcal{A}$, together with the collection of connecting homomorphisms, is a homological delta-functor. In fact, the most interesting homological delta functors called \emph{derived functors,} come from homology.
+\end{example}
+
+
+\section{Double complexes}
+\label{sec:double_complexes}
+
+\begin{definition}[double complex]
+  \label{def:double_complex}
+  Let $\mathcal{A}$ be an abelian category. A \defn{double complex} in $\mathcal{A}$ consists of an array $M_{i,j}$ of objects together with, for every $i$ and $j \in \Z$, morphisms
+  \begin{equation*}
+    d^{h}_{i,j}\colon M_{i,j} \to M_{i-1,j},\qquad d^{v}_{i,j}\colon M_{i,j} \to M_{i, j-1}
+  \end{equation*}
+  subject to the following conditions.
+  \begin{itemize}
+    \item $(d^{h})^{2} = 0$
+
+    \item $(d^{v})^{2} = 0$
+
+    \item $d^{h} \circ d^{v} + d^{v} \circ d^{h} = 0$
+  \end{itemize}
+
+\end{definition}
+
+That is, for a double complex the squares anticommute rather than commute.
+\begin{equation*}
+  \begin{tikzcd}
+    M_{i-1,j}
+    & M_{i, j}
+    \\
+    M_{i-1,j-1}
+    & M_{i, j-1}
+  \end{tikzcd}
+\end{equation*}
+
+We say that a double complex is $M_{\bullet,\bullet}$ is \emph{first-quadrant} if $M_{i,j} = 0$ for $i$, $j < 0$.
+
+Given any complex of complexes
+\begin{equation*}
+  \left( \begin{tikzcd}
+    \cdots
+    \arrow[r]
+    & M_{1,\bullet}
+    \arrow[r]
+    & M_{0,\bullet}
+    \arrow[r]
+    & M_{-1,\bullet}
+    \arrow[r]
+    & \cdots
+  \end{tikzcd} \right)
+  \in \Ch(\Ch(\mathcal{A})),
+\end{equation*}
+one can construct a double complex by multiplying the differentials in every other row or column by $-1$.
+
+\begin{definition}[total complex]
+  \label{def:total_complex}
+  Let $M_{\bullet, \bullet}$ be a first-quadrant\footnote{This restriction is not strictly necessary, but then one has to deal with infinite direct sums, and hence must decide whether one wants the direct sum or the direct product. We only need first-quadrant double complexes, so all of our sums will be finite.} double complex. The \defn{total complex} $\Tot(M)_{\bullet}$ is defined level-wise by
+  \begin{equation*}
+    \Tot(M)_{n}  = \bigoplus_{i + j = n} M_{i,j},
+  \end{equation*}
+  with differential given by $d_{\Tot} = d + \delta$.
+\end{definition}
+
+\begin{lemma}
+  \label{lemma:total_complex_is_complex}
+  The total complex really is a complex, i.e.
+  \begin{equation*}
+    d_{\Tot} \circ d_{\Tot} = 0.
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  Hand-wavily, we have
+  \begin{equation*}
+    d_{\Tot} \circ d_{\Tot} = (d + \delta) \circ (d + \delta) = d^{2} + d \circ \delta + \delta \circ d + \delta^{2} = 0.
+  \end{equation*}
+\end{proof}
+
+\begin{theorem}
+  \label{thm:conditions_total_complex_exact}
+  Let $M_{i,j}$ be a first-quadrant double complex. Then if either the rows $M_{\bullet, j}$ or the columns $M_{i, \bullet}$ are exact, then the total complex $\Tot(M)_{\bullet}$ is exact.
+\end{theorem}
+\begin{proof}
+  Let $M_{i,j}$ be a first-quadrant double complex, without loss of generality with exact rows.
+  \begin{equation*}
+    \begin{tikzcd}
+      M_{3,0}
+      \arrow[d, swap, "d_{3,0}"]
+      \\
+      M_{2,0}
+      \arrow[d, swap, "d_{2,0}"]
+      & M_{2,1}
+      \arrow[l, swap, "\delta_{2,1}"]
+      \arrow[d, "d_{2,1}"]
+      \\
+      M_{1,0}
+      \arrow[d, swap, "d_{1,0}"]
+      & M_{1,1}
+      \arrow[l, swap, "\delta_{1,1}"]
+      \arrow[d, "d_{1,1}"]
+      & M_{1,2}
+      \arrow[l, swap, "\delta_{1,2}"]
+      \arrow[d, "d_{1,2}"]
+      \\
+      M_{0,0}
+      & M_{0,1}
+      \arrow[l, "\delta_{0,1}"]
+      & M_{0,2}
+      \arrow[l, "\delta_{0,2}"]
+      & M_{0,3}
+      \arrow[l, "\delta_{0,3}"]
+    \end{tikzcd}
+  \end{equation*}
+  We want to show that the total complex
+  \begin{equation*}
+    \begin{tikzcd}
+      M_{3,0} \oplus M_{2,1} \oplus M_{1,2} \oplus M_{0,3}
+      \arrow[d]
+      &=
+      & \Tot(M)_{3}
+      \arrow[d]
+      \\
+      M_{2,0} \oplus M_{1,1} \oplus M_{0,2}
+      \arrow[d]
+      &=
+      & \Tot(M)_{2}
+      \arrow[d]
+      \\
+      M_{1,0} \oplus M_{0,1}
+      \arrow[d]
+      &=
+      & \Tot(M)_{1}
+      \arrow[d]
+      \\
+      M_{0,0}
+      \arrow[d]
+      &=
+      & \Tot(M)_{0}
+      \arrow[d]
+      \\
+      0
+      && 0
+    \end{tikzcd}
+  \end{equation*}
+  is exact.
+
+  The construction is inductive on the degree of the total complex. At level 0 there is nothing to show; the morphism $d^{\Tot}_{1}$ is manifestly surjective since $\delta_{0,1}$ is. Since numbers greater than $1$ are for all intents and purposes interchangable, we construct the inductive step for $n = 2$.
+
+  We have a triple $m = (m_{2,0}, m_{1,1}, m_{0,2}) \in \Tot(M)_{2}$ which maps to 0 under $d^{\Tot}_{2}$; that is,
+  \begin{equation*}
+    d_{2,0}m_{2,0} + \delta_{1,1}m_{1,1} = 0,\qquad d_{11} m_{1,1} + \delta_{0,2} m_{0,2} = 0.
+  \end{equation*}
+
+  Our goal is to find
+  \begin{equation*}
+    n = (n_{3,0}, n_{2,1}, n_{1,2}, n_{0,3}) \in \Tot(M)_{3}
+  \end{equation*}
+  such that $d^{\Tot}_{3}n = m$.
+
+  We make our lives easier by choosing $n_{3,0} = 0$. By exactness, we can always $n_{2,1}$ such that $\delta n_{2,1} = m_{2,0}$. Thus, by anti-commutativity,
+  \begin{equation*}
+    d \delta n_{2,1} = -\delta d n_{2,1}.
+  \end{equation*}
+  But $\delta n_{2,1} = m_{2,0} = -\delta m_{1,1}$, so
+  \begin{equation*}
+    \delta(m_{1,1} - d n_{2,1}) = 0.
+  \end{equation*}
+  This means that $m_{1,1} - dn_{2,1} \in \ker \delta$, i.e.\ that there exists $n_{1,2}$ such that $\delta n_{1,2} = m_{1,1} - dn_{2,1}$. Thus
+  \begin{equation*}
+    d \delta n_{1,2} = d m_{1,1} = -\delta m_{0,2}.
+  \end{equation*}
+  But
+  \begin{equation*}
+    d \delta n_{1,2} = -\delta d n_{1,2},
+  \end{equation*}
+  so
+  \begin{equation*}
+    \delta(m_{0,2} - d n_{1,2}) = 0.
+  \end{equation*}
+
+  Now we repeat this process, finding $n_{1,2}$ such that
+  \begin{equation*}
+    \delta n_{1,2} = m_{1,1} - d n_{2,1},
+  \end{equation*}
+  and $n_{0,3}$ such that
+  \begin{equation*}
+    \delta n_{0,3} = m_{0,2} - d n_{1,2}.
+  \end{equation*}
+  Then
+  \begin{align*}
+    d^{\Tot}(n_{3,0} + n_{2,1} + n_{1,2} + n_{0,3}) &= 0 + (d + \delta) n_{2,1} + (d + \delta)n_{1,2} + (d + \delta) n_{0,3} \\
+    &= 0 + 0 + m_{2,0} + d n_{2,1} + (m_{1,1} - dn_{2,1}) + d n_{1,2} + (m_{0,2} - d n_{1,2}) + 0 \\
+    &= m_{2,0} + m_{1,1} + m_{0,2}
+  \end{align*}
+  as required.
+\end{proof}
+
+Consider any morphism $\alpha$ in $\Ch_{\geq 0}(\Ch_{\geq 0}(\mathcal{A}))$ to a complex concentrated in degree 0. We can view this in two ways.
+\begin{itemize}
+  \item As a chain
+    \begin{equation*}
+      \begin{tikzcd}
+        C_{2,\bullet}
+        \arrow[r]
+        & C_{1,\bullet}
+        \arrow[r]
+        & C_{0,\bullet}
+        \arrow[r, "\alpha"]
+        & D_{\bullet}
+      \end{tikzcd}
+    \end{equation*}
+    hence (by inserting appropriate minus signs) a double complex $C^{D}_{\bullet,\bullet}$;
+
+  \item As a morphism between double complexes, hence between totalizations
+    \begin{equation*}
+      \Tot(\alpha)_{\bullet}\colon \Tot(C)_{\bullet} \to \Tot(D)_{\bullet}.
+    \end{equation*}
+\end{itemize}
+
+\begin{lemma}
+  \label{lemma:total_complex_is_cone_of_quasi_isomorphism}
+  These two points of view agree in the sense that
+  \begin{equation*}
+    \Tot(C^{D}) = \Cone(\Tot(\alpha)).
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  Write down the definitions.
+\end{proof}
+
+\begin{theorem}
+  \label{thm:resolutions_in_double_complexes_are_resolutions_of_total_complex}
+  Let $A_{\bullet} \in \Ch_{\geq 0}(\mathcal{A})$, and let
+  \begin{equation*}
+    \begin{tikzcd}
+      \cdots
+      \arrow[r]
+      \arrow[d]
+      & M_{2, \bullet}
+      \arrow[r]
+      \arrow[d]
+      & M_{1, \bullet}
+      \arrow[r]
+      \arrow[d]
+      & M_{0, \bullet}
+      \arrow[d, "\alpha_{\bullet}"]
+      \\
+      \cdots
+      \arrow[r]
+      & 0
+      \arrow[r]
+      & 0
+      \arrow[r]
+      & A_{\bullet}
+    \end{tikzcd}
+  \end{equation*}
+  be a resolution of $A_{\bullet}$. Then $\Tot(M)$ is quasi-isomorphic to $A$.
+\end{theorem}
+\begin{proof}
+  The sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      \cdots
+      \arrow[r]
+      & M_{2,\bullet}
+      \arrow[r]
+      & M_{1,\bullet}
+      \arrow[r]
+      & M_{0,\bullet}
+      \arrow[r]
+      & A_{\bullet}
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  is exact. By \hyperref[thm:conditions_total_complex_exact]{Theorem~\ref*{thm:conditions_total_complex_exact}}, the total complex $\Tot(M^{A})$ is exact. But by \hyperref[lemma:total_complex_is_cone_of_quasi_isomorphism]{Lemma~\ref*{lemma:total_complex_is_cone_of_quasi_isomorphism}} the total complex is equivalently the cone of $\alpha_{\bullet}$. However, we have seen (in \hyperref[cor:cone_controls_quasi_isomorphism]{Corollary~\ref*{cor:cone_controls_quasi_isomorphism}}) that exactness of $\cone(\alpha_{\bullet})$ means that $\alpha_{\bullet}$ is a quasi-isomorphism.
+\end{proof}
+
+\begin{corollary}
+  Let
+  \begin{equation*}
+    \begin{tikzcd}
+      \cdots
+      \arrow[r]
+      & M_{2,\bullet}
+      \arrow[r]
+      & M_{1,\bullet}
+      \arrow[r]
+      & M_{0,\bullet}
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  be a complex in $\Ch_{\geq 0}(\Ch_{\geq 0}(\mathcal{A}))$ such that $H_{0}(M_{i, \bullet}) = 0$ for $i \neq 0$. Then $\Tot(M)$ is quasi-isomorphic to the sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      \cdots
+      \arrow[r]
+      & H_{0}(M_{2,\bullet})
+      \arrow[r]
+      & H_{0}(M_{1,\bullet})
+      \arrow[r]
+      & H_{0}(M_{0,\bullet})
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+\end{corollary}
+\begin{proof}
+  For each $i$ we can write
+  \begin{equation*}
+    H_{0}(M_{i, \bullet}) = \coker d^{M_{i}}_{1}.
+  \end{equation*}
+  In particular, we have a double complex
+  \begin{equation*}
+    \begin{tikzcd}
+      M_{0,3}
+      \arrow[d]
+      & M_{1,3}
+      \arrow[d]
+      \arrow[l]
+      & M_{2,3}
+      \arrow[d]
+      \arrow[l]
+      & M_{3,3}
+      \arrow[d]
+      \arrow[l]
+      \\
+      M_{0,2}
+      \arrow[d]
+      & M_{1,2}
+      \arrow[d]
+      \arrow[l]
+      & M_{2,2}
+      \arrow[d]
+      \arrow[l]
+      & M_{3,2}
+      \arrow[d]
+      \arrow[l]
+      \\
+      M_{0,1}
+      \arrow[d]
+      & M_{1,1}
+      \arrow[d]
+      \arrow[l]
+      & M_{2,1}
+      \arrow[d]
+      \arrow[l]
+      & M_{3,1}
+      \arrow[d]
+      \arrow[l]
+      \\
+      M_{0,0}
+      \arrow[d]
+      & M_{1,0}
+      \arrow[l]
+      \arrow[d]
+      & M_{2,0}
+      \arrow[l]
+      \arrow[d]
+      & M_{3,0}
+      \arrow[l]
+      \arrow[d]
+      \\
+      H_{0}(M_{0,\bullet})
+      \arrow[d]
+      & H_{0}(M_{1,\bullet})
+      \arrow[d]
+      \arrow[l]
+      & H_{0}(M_{2,\bullet})
+      \arrow[d]
+      \arrow[l]
+      & H_{0}(M_{3,\bullet})
+      \arrow[l]
+      \arrow[d]
+      \\
+      0
+      & 0
+      & 0
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  Flipping along the main diagonal, we have the following resolution.
+  \begin{equation*}
+    \begin{tikzcd}
+      M_{\bullet, 2}
+      \arrow[r]
+      & M_{\bullet, 1}
+      \arrow[r]
+      & M_{\bullet, 0}
+      \arrow[r]
+      & H_{0}(M_{\bullet, \bullet})
+    \end{tikzcd}
+  \end{equation*}
+
+  Now \hyperref[thm:resolutions_in_double_complexes_are_resolutions_of_total_complex]{Theorem~\ref*{thm:resolutions_in_double_complexes_are_resolutions_of_total_complex}} gives us the result we want.
+\end{proof}
+
+\section{Tensor-hom adjunction for chain complexes}
+\label{sec:tensor_hom_adjunction_for_chain_complexes}
+
+In a general abelian category, there is no notion of a tensor product. However, many interesting abelian categories carry tensor products, and we would like to be able to talk about them. In this section, we let $\mathcal{A}$ be an abelian category and let
+\begin{equation*}
+  -\otimes -\colon \mathcal{A}\op \otimes \mathcal{A} \to \mathcal{H},
+\end{equation*}
+be an additive functor, where $\mathcal{H}$ is some abelian category equipped with an exact functor to $\Ab$. Further suppose that
+
+\begin{definition}[tensor product of chain complexes]
+  \label{def:tensor_product_of_chain_complexes}
+  Let $C_{\bullet}$, $D_{\bullet}$ be chain complexes in $\mathcal{A}$. We define the \defn{tensor product} of $C_{\bullet}$ and $D_{\bullet}$ by
+  \begin{equation*}
+    (C \otimes D)_{\bullet} = \Tot(C_{\bullet} \otimes D_{\bullet}),
+  \end{equation*}
+  where $\Tot(C_{\bullet} \otimes D_{\bullet})$ is the totalization of the double complex $C_{\bullet} \otimes D_{\bullet}$.
+\end{definition}
+
+\begin{definition}[internal hom]
+  \label{def:internal_hom}
+  Let $\mathcal{A}$ be an abelian category with an internal hom functor (for example, a category of modules over a commutative ring), and let $C_{\bullet}$, $D_{\bullet}$ be chain complexes in $\mathcal{A}$. We have
+\end{definition}
+
+\section{The Künneth formula}
+\label{sec:the_kunneth_formula}
+
+This section takes place in $\Rmod$, where $R$ is a PID. For example, everything we are saying holds in $\Ab$.
+
+\begin{lemma}
+  \label{lemma:stepping_stone_to_kunneth}
+  Let $C_{\bullet}$ be a chain complex of free $R$-modules with trivial differential, and let $C'_{\bullet}$ be an arbitrary chain complex. Then there is an isomorphism
+  \begin{equation*}
+    \lambda\colon \bigoplus_{p + q = n} H_{p}(C_{\bullet}) \otimes H_{q}(C'_{\bullet}) \cong H_{n}(C_{\bullet} \otimes C'_{\bullet}).
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  We write
+  \begin{equation*}
+    Z_{p} = Z_{p}(C_{\bullet}),\qquad B_{p} = B_{p}(C_{\bullet}),\qquad Z'_{p} = Z_{p}(C'_{\bullet}),\qquad B'_{p} = B_{p}(C'_{\bullet}),
+  \end{equation*}
+  The sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & Z_{q}'
+      \arrow[r, hook]
+      & C_{q}'
+      \arrow[r, two heads]
+      & B_{q-1}'
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  is exact by definition, and since $Z_{p} = C_{p}$ is by assumption free, the sequence
+
+  By definition, $Z_{p} = C_{p}$ is free. Thus the sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & Z_{p} \otimes Z_{q}'
+      \arrow[r, hook]
+      & Z_{p} \otimes C_{q}'
+      \arrow[r, two heads]
+      & Z_{p} \otimes B_{q-1}'
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  is exact.
+
+  The differential of the tensor product complex $C_{\bullet} \otimes C'_{\bullet}$ is
+  \begin{align*}
+    d^{\mathrm{tot}}_{n} &= \sum_{i = 0}^{n} d^{C}_{i} \otimes \id_{C_{n-i}} + (-1)^{i} \id_{C_{i}} \otimes d^{C'}_{n-i} \\
+    &= \sum_{i = 0}^{n} (-1)^{i}\id_{C_{i}} \otimes d^{C}_{n-i}.
+  \end{align*}
+  Since $C_{i}$ is by assumption free, tensoring with it doesn't change homology, and we have
+  \begin{equation*}
+    Z_{n}(C_{\bullet} \otimes C'_{\bullet}) = \bigoplus_{p + q = n} Z_{p} \otimes Z'_{q},
+  \end{equation*}
+  and
+  \begin{equation*}
+    Z_{n}(C_{\bullet} \otimes C'_{\bullet}) = \bigoplus_{p + q = n} Z_{p} \otimes Z'_{q},
+  \end{equation*}
+
+\end{proof}
+
+\end{document}
