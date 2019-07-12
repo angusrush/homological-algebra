@@ -79,6 +79,7 @@ Thus, the functor $- \otimes_{R} N$ preserves colimits, hence by \hyperref[prop:
 There is a worrying asymmetry to our definition of $\Tor$. The tensor product is, morally speaking, symmetric; that is, it should not matter whether we derive the first factor or the second. Pleasingly, $\Tor$ respects this.
 
 \begin{proposition}
+  \label{prop:tor_balanced}
   The functor $\Tor$ is balanced; that is,
   \begin{equation*}
     L_{i} \Hom(M, -)(N) \simeq L_{i} \Hom(-, N)(M).
@@ -161,6 +162,365 @@ There is a worrying asymmetry to our definition of $\Tor$. The tensor product is
 
 \section{Ext and extensions}
 \label{sec:ext_and_extensions}
+
+We know that $\Hom(N, -)\colon \Rmod \to \Ab$ is left exact, so we may form right derived functors.
+
+\begin{definition}[Ext functor]
+  \label{def:ext_functor}
+  Let $R$ be a ring, and $N \in \Rmod$ an $R$-module. The right derived functors
+  \begin{equation*}
+    R^{i}\Hom(N, -)\colon \Rmod \to \Ab
+  \end{equation*}
+  are called the \defn{Ext functors}, and denoted
+  \begin{equation*}
+    R^{i} \Hom(N, -) = \Ext_{R}^{i}(N, -).
+  \end{equation*}
+\end{definition}
+
+An argument very similar to that given for $\Tor$ in \hyperref[prop:tor_balanced]{Proposition~\ref*{prop:tor_balanced}} shows that $\Ext$ is balanced; that is, when computing
+\begin{equation*}
+  \Ext^{i}_{R}(M, N),
+\end{equation*}
+it doesn't matter whether we take an injective resolution of $N$ or a projective resolution of $M$; we will get the same result either way. Rather than spelling this out in detail, we will wait for \hyperref[ch:spectral_sequences]{Chapter~\ref*{ch:spectral_sequences}}, where a spectral sequences argument gives the result almost immediately.
+
+There turns out to be a deep connection between the $\Ext$ groups and extensions.
+
+\begin{definition}[extension]
+  \label{def:extension}
+  Let $A$ and $B$ be $R$-modules. An \defn{extension} of $A$ by $B$ is a short exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      \xi\colon
+      & 0
+      \arrow[r]
+      & B
+      \arrow[r, hook]
+      & X
+      \arrow[r, two heads]
+      & A
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+
+  Two extensions $\xi$ and $\xi'$ are said to be \defn{equivalent} if there is a morphism of short exact sequences
+  \begin{equation*}
+    \begin{tikzcd}
+      \xi\colon
+      & 0
+      \arrow[r]
+      & B
+      \arrow[r, hook]
+      \arrow[d, "\id_{B}"]
+      & X
+      \arrow[r, two heads]
+      \arrow[d, "\varphi"]
+      & A
+      \arrow[r]
+      \arrow[d, "\id_{A}"]
+      & 0
+      \\
+      \xi'\colon
+      & 0
+      \arrow[r]
+      & B
+      \arrow[r, hook]
+      & X'
+      \arrow[r, two heads]
+      & A
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+  The five lemma (\hyperref[thm:five_lemma]{Theorem~\ref*{thm:five_lemma}}) implies that $\varphi$ is an isomorphism.
+\end{definition}
+
+Let $\xi$ be an extension of $A$ by $B$. Applying the $\Ext$ functor we find an associated long exact sequence on cohomology.
+\begin{equation*}
+  \begin{tikzcd}
+    \Ext^{1}(A, B)
+    \arrow[r]
+    & \Ext^{1}(X, B)
+    \arrow[r]
+    & \cdots
+    \\
+    \Hom(A, B)
+    \arrow[r]
+    & \Hom(X, B)
+    \arrow[r]
+    & \Hom(B, B)
+    \arrow[ull, out=22, in=-157, looseness=1, overlay, "\delta" description]
+  \end{tikzcd}
+\end{equation*}
+
+\begin{definition}[obstruction class]
+  \label{def:obstruction_class}
+  The image of $\id_{B}$ under the connecting homomorphism $\delta(\id_{B}) \in \Ext^{1}(A, B)$ is known as the \defn{obstruction class} of $\xi$. For any extension $\xi$, we denote the obstruction class of $\xi$ by $\Theta(\xi)$.
+\end{definition}
+
+\begin{proposition}
+  \label{prop:obstruction_class_prevents_splitness}
+  An extension $\xi$ is split if and only if the correspoding obstruction class is zero.
+\end{proposition}
+\begin{proof}
+  We are given an extension
+  \begin{equation*}
+    \begin{tikzcd}
+      \xi\colon
+      & 0
+      \arrow[r]
+      & B
+      \arrow[r, hook, "f"]
+      & X
+      \arrow[r, two heads, "g"]
+      & A
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+  First suppose that $\Theta(\xi) = 0$. Consider the following portion of the exact sequence on cohomology.
+  \begin{equation*}
+    \begin{tikzcd}
+      \Hom(X, B)
+      \arrow[r]
+      & \Hom(B, B)
+      \arrow[r]
+      & \Ext^{1}(A, B)
+    \end{tikzcd}
+  \end{equation*}
+  If $\delta\colon \id \to 0$, then there exists $a \in \Hom(X, B)$ such that $a \circ f = \id$. Thus, by the splitting lemma (\hyperref[lemma:splitting_lemma]{Lemma~\ref*{lemma:splitting_lemma}}), the sequence splits.
+
+  Now suppose that the sequence $\xi$ splits; that is, that we have a morphism $a\colon A \to X$ such that $a \circ f = \id_{B}$.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & B
+      \arrow[r, hook, "f"]
+      & X
+      \arrow[r, two heads, "g"]
+      & A
+      \arrow[r]
+      \arrow[l, bend left, "a"]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+
+  Since $\Ext^{1}(-, B)$ is additive, the sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \Ext^{1}(A, B)
+      \arrow[r, hook, "{\Ext^{1}(g, B)}"]
+      & \Ext^{1}(X, B)
+      \arrow[r, two heads, "{\Ext^{1}(f, B)}"]
+      \arrow[l, bend left, "{\Ext^{1}(a, B)}"]
+      & \Ext^{1}(B, B)
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  is split exact. Thus, $\Ext^{1}(g, B)$ is a monomorphism, so it has trivial kernel.
+  \begin{equation*}
+    \begin{tikzcd}
+      \Ext^{1}(A, B)
+      \arrow[r, hook, "{\Ext^{1}(g, B)}"]
+      & \cdots
+      \\
+      \Hom(A, B)
+      \arrow[r]
+      & \Hom(X, B)
+      \arrow[r]
+      & \Hom(B, B)
+      \arrow[ull, out=22, in=-157, looseness=1, overlay, "\delta" description]
+    \end{tikzcd}
+  \end{equation*}
+  Exactness then forces $\delta = 0$.
+\end{proof}
+
+\hyperref[prop:obstruction_class_prevents_splitness]{Proposition~\ref*{prop:obstruction_class_prevents_splitness}} explains the name \emph{obstruction class:} $\Theta(\xi)$ is the obstruction to the splitness of $\xi$. The first $\Ext$ group contains some information about when a sequence can split, or fail to split.
+
+In fact, the group $\Ext^{1}(A, B)$ parametrizes extensions of $A$ by $B$.
+
+\begin{theorem}
+  \label{thm:ext_parametrizes_extension_classes}
+  There is a natural bijection
+  \begin{equation*}
+    \left\{ \substack{\text{Extension classes of} \\ \text{extensions of $A$ by $B$}} \right\} \overset{\cong}{\longrightarrow} \Ext^{1}(A, B);\qquad [\xi] \mapsto \Theta(\xi).
+  \end{equation*}
+\end{theorem}
+\begin{proof}
+  We first show well-definedness. Let $\xi$ and $\xi'$ be equivalent extensions. By naturality of $\delta$, the following diagram commutes.
+  \begin{equation*}
+    \begin{tikzcd}
+      \Hom(X, B)
+      \arrow[r]
+      & \Hom(B, B)
+      \arrow[r, "\delta"]
+      & \Ext^{1}(A, B)
+      \\
+      \Hom(X, B)
+      \arrow[r]
+      \arrow[u, "\id"]
+      & \Hom(B, B)
+      \arrow[r, swap, "\delta"]
+      \arrow[u, "\id"]
+      & \Ext^{1}(A, B)
+      \arrow[u, swap, "\id"]
+    \end{tikzcd}
+  \end{equation*}
+  Thus, $\Theta(\xi) = \Theta(\xi')$.
+
+  We now construct an explicit inverse $\Psi$ to $\Phi$. Since $\Rmod$ has enough projectives, we can find a projective $P$ which surjects onto $A$. Fix such a $P$ and take the kernel of the surjection, giving the following short exact sequence.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & K
+      \arrow[r, hook, "\psi"]
+      & P
+      \arrow[r, two heads]
+      & A
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  We construct from such an exact sequence a map which takes an element of $\Ext^{1}(A, B)$ and gives an extension of $A$ by $B$. First applying $\Ext^{*}(-, B)$ and taking the long exact sequence on cohomology we find the following exact fragment.
+  \begin{equation*}
+    \begin{tikzcd}
+      \Hom(K, B)
+      \arrow[r, "\delta"]
+      & \Ext^{1}(A, B)
+      \arrow[r]
+      & \Ext^{1}(P, B)
+    \end{tikzcd}
+  \end{equation*}
+  Since $P$ is projective, the group $\Ext^{1}(P, B)$ vanishes, so $\delta\colon \Hom(K, B) \to \Ext^{1}(A, B)$ is surjective. Thus, given any $e \in \Ext^{1}(A, B)$, we can find a (not unique!) lift to $\phi \in \Hom(K, B)$. Take the pushout in the following diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & K
+      \arrow[r, hook, "\psi"]
+      \arrow[d, swap, "\phi"]
+      & P
+      \arrow[r, two heads]
+      \arrow[d, "i_{P}"]
+      & A
+      \arrow[r]
+      & 0
+      \\
+      & B
+      \arrow[r, hook, "i_{B}"]
+      & B \amalg^{\phi}_{K} P
+    \end{tikzcd}
+  \end{equation*}
+  By the dual to \hyperref[lemma:pullback_preserves_kernel]{Lemma~\ref*{lemma:pullback_preserves_kernel}}, the cokernel of $i_{B}$ is equal to the cokernel of $\psi$, so we get an induced short exact sequence as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & K
+      \arrow[r, hook, "\psi"]
+      \arrow[d, swap, "\phi"]
+      & P
+      \arrow[r, two heads]
+      \arrow[d, "i_{P}"]
+      & A
+      \arrow[r]
+      \arrow[d, equals]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & B
+      \arrow[r, hook, "i_{B}"]
+      & B \amalg^{\phi}_{K} P
+      \arrow[r, two heads]
+      & A
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  
+  It remains to show that $\Psi$ as defined is independent of the choice of $\phi$, and that it really is an inverse to $\Phi$. To this end, pick a different $\tilde{\phi} \in \Hom(N, B)$ such that $\delta(\tilde{\phi}) = e$. Then there exists some $\rho \in \Hom(P, B)$ so that $\rho \circ \psi = \tilde{\phi} - \phi$.
+
+  This gives us a new morphism of exact sequences as follows
+  \begin{equation}
+    \label{eq:exact_seq_for_phi_tilde}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & K
+      \arrow[r, hook, "\psi"]
+      \arrow[d, swap, "\tilde{\phi}"]
+      & P
+      \arrow[r, two heads]
+      \arrow[d, "\tilde{i}_{P}"]
+      & A
+      \arrow[r]
+      \arrow[d, equals]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & B
+      \arrow[r, hook, "\tilde{i}_{B}"]
+      & B \amalg^{\tilde{\phi}}_{K} P
+      \arrow[r, two heads]
+      & A
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation}
+
+  Consider the following outer square.
+  \begin{equation*}
+    \begin{tikzcd}
+      K
+      \arrow[r, "\psi"]
+      \arrow[d, swap, "\phi"]
+      & P
+      \arrow[ddr, bend left, "\tilde{i}_{p} - \tilde{i}_{B} \circ \rho"]
+      \arrow[d, "i_{P}"]
+      \\
+      B 
+      \arrow[r, "i_{B}"]
+      \arrow[rrd, bend right, "\tilde{\iota_{B}}"]
+      & B \amalg_{N}^{\phi} P
+      \arrow[dr, dashed, "\exists!\alpha"]
+      \\
+      && B \amalg_{N}^{\tilde{\phi}} P
+    \end{tikzcd}
+  \end{equation*}
+  Using the commutativity of the left-hand square in \hyperref[eq:exact_seq_for_phi_tilde]{Diagram~\ref*{eq:exact_seq_for_phi_tilde}}, we find
+  \begin{align*}
+    (\tilde{i}_{P} - \tilde{i}_{B} \circ \rho) \circ \psi &=\tilde{i}_{P} \circ \psi - \tilde{i}_{B} \circ \rho \circ \psi \\
+    &= \tilde{i}_{P} \circ \psi - \tilde{i}_{B} \circ \tilde{\phi} + \tilde{i}_{B} \circ \phi \\
+    &= \tilde{i}_{B} \circ \phi,
+  \end{align*}
+  so this outer square commutes, giving us a unique morphism $\alpha$.
+\end{proof}
+
+\section{Quiver representations}
+\label{sec:quiver_representations}
+
+\begin{definition}[quiver]
+  \label{def:quiver}
+  A \defn{quiver} $Q$ consists of the following data.
+  \begin{itemize}
+    \item A set $Q_{0}$ of \emph{vertices}
+
+    \item A set $Q_{1}$ of \emph{arrows}
+
+    \item A pair of maps
+      \begin{equation*}
+        s, t\colon Q_{1} \to Q_{0}
+      \end{equation*}
+      called the \emph{source} and \emph{target} maps respectively.
+  \end{itemize}
+\end{definition}
 
 \section{Group (co)homology}
 \label{sec:group_co_homology}
@@ -321,45 +681,45 @@ Also later if time, Dold-Puppe correspondence: this works not only for $\Ab$, bu
 \subsection{The bar construction}
 \label{ssc:the_bar_construction}
 
-This section assumes a basic knowledge of simplicial sets. We will denote by $\bar{\Delta}$ the extended simplex category, i.e.\ the simplex category which includes $[-1] = \emptyset$.
+This section assumes a basic knowledge of simplicial sets. We will denote by $\Delta_{+}$ the extended simplex category, i.e.\ the simplex category which includes $[-1] = \emptyset$.
 
 Let $\mathcal{C}$ and $\mathcal{D}$ be categories, and
 \begin{equation*}
   L : \mathcal{C} \leftrightarrow \mathcal{D} : R
 \end{equation*}
-an adjunction with unit $\eta\colon \id_{\mathcal{C}} \to RL$ and counit $\epsilon\colon LR \to \id_{\mathcal{D}}$.
+an adjunction with unit $\eta\colon \id_{\mathcal{C}} \to RL$ and counit $\varepsilon\colon LR \to \id_{\mathcal{D}}$.
 
 Recall that this data gives a comonad in $\mathcal{D}$, i.e.\ a comonoid internal to the category $\End(\mathcal{D})$, or equivalently, a monoid $LR$ internal to the category $\End(\mathcal{D})\op$.
 \begin{equation*}
   \begin{tikzcd}
     LRLR
     & LR
-    \arrow[r, Rightarrow, "\epsilon"]
+    \arrow[r, Rightarrow, "\varepsilon"]
     \arrow[l, Rightarrow, swap, "L\eta R"]
     & \id_{\mathcal{D}}
   \end{tikzcd}
 \end{equation*}
 
-The category $\bar{\Delta}$ is the free monoidal category on a monoid; that is, whenever we are given a monoidal category $\mathcal{C}$ and a monoid $M \in \mathcal{C}$, it extends to a monoidal functor $\tilde{M}\colon \Delta \to \mathcal{C}$.
+The category $\Delta_{+}$ is the free monoidal category on a monoid; that is, whenever we are given a monoidal category $\mathcal{C}$ and a monoid $M \in \mathcal{C}$, it extends to a monoidal functor $\tilde{M}\colon \Delta \to \mathcal{C}$.
 \begin{equation*}
   \begin{tikzcd}
     \{*\}
     \arrow[r, "{[0]}"]
     \arrow[dr, swap, "M"]
-    & \bar{\Delta}
+    & \Delta_{+}
     \arrow[d, dashed, "\exists! \tilde{M}"]
     \\
     & \mathcal{C}
   \end{tikzcd}
 \end{equation*}
 
-In particular, with $\mathcal{C} = \End(\mathcal{D})\op$, the monoid $LR$ extends to a monoidal functor $\bar{\Delta} \to \End(\mathcal{D})\op$.
+In particular, with $\mathcal{C} = \End(\mathcal{D})\op$, the monoid $LR$ extends to a monoidal functor $\Delta_{+} \to \End(\mathcal{D})\op$.
 \begin{equation*}
   \begin{tikzcd}
     \{*\}
     \arrow[r, "{[0]}"]
     \arrow[dr, swap, "M"]
-    & \bar{\Delta}
+    & \Delta_{+}
     \arrow[d, "\exists!"]
     \\
     & \End(\mathcal{D})\op
@@ -368,7 +728,7 @@ In particular, with $\mathcal{C} = \End(\mathcal{D})\op$, the monoid $LR$ extend
 
 Equivalently, this gives a functor
 \begin{equation*}
-  B\colon \bar{\Delta}\op \to \End(\mathcal{D}).
+  B\colon \Delta_{+}\op \to \End(\mathcal{D}).
 \end{equation*}
 
 For each $d \in \mathcal{D}$, there is an evaluation map
@@ -377,8 +737,9 @@ For each $d \in \mathcal{D}$, there is an evaluation map
 \end{equation*}
 Composing this with the above functor gives, for each object $d \in \mathcal{D}$, a simplicial object in $\mathcal{D}$.
 \begin{equation*}
+  S_{d} =
   \begin{tikzcd}
-    \bar{\Delta}\op
+    \Delta_{+}\op
     \arrow[r, "B"]
     & \End(\mathcal{D})
     \arrow[r, "\mathrm{ev}_{d}"]
@@ -391,7 +752,18 @@ Composing this with the above functor gives, for each object $d \in \mathcal{D}$
   The composition $\mathrm{ev}_{d} \circ B$ is called the \defn{bar construction}.
 \end{definition}
 
-In the case that the category $\mathcal{D}$ is abelian, we can form the chain complex associated to a simplicial object. This is known as the the bar complex.
+In the case that the category $\mathcal{D}$ is abelian, we can form the Moore complex (\hyperref[def:moore_complex]{Definition~\ref*{def:moore_complex}}) of the bar construction.
+
+\begin{definition}[bar complex]
+  \label{def:bar_complex}
+  Let
+  \begin{equation*}
+    F : \mathcal{A} \longleftrightarrow \mathcal{B} : G
+  \end{equation*}
+  be an adjunction between abelian categories, let $b \in \mathcal{B}$, and denote by $S_{b}\colon \Delta\op \to \Set$ the bar construction of $b$.
+
+  The \defn{bar complex} $\Bar_{b}$ of $b$ is the Moore complex of the bar construction of $b$.
+\end{definition}
 
 \begin{example}
   Consider the functor
@@ -400,9 +772,76 @@ In the case that the category $\mathcal{D}$ is abelian, we can form the chain co
   \end{equation*}
   which forgets multiplication. This has left adjoint
   \begin{equation*}
-    \Z G \otimes -\colon \Ab \to \Z G\mhyp\Mod,
+    \Z G \otimes_{\Z} -\colon \Ab \to \Z G\mhyp\Mod,
   \end{equation*}
-  which
+  which assigns to an abelian group $A$ the left $\Z G$-module $\Z G \otimes_{\Z} A$.
+
+  The unit $\eta\colon \id_{\Ab} \Rightarrow U(\Z G \otimes_{Z} -)$ and counit $\varepsilon\colon \Z G \otimes_{\Z} U(-) \Rightarrow \id_{\Z G \mhyp\Mod}$ of this adjunction have components
+  \begin{equation*}
+    \eta_{A}\colon A \to U(\Z G \otimes_{\Z} A);\qquad a \mapsto 1 \otimes a
+  \end{equation*}
+  and
+  \begin{equation*}
+    \varepsilon_{M}\colon \Z G \otimes_{\Z} U(M) \to M;\qquad g \otimes m \mapsto gm.
+  \end{equation*}
+
+  Denoting $\Z G \otimes_{\Z}(-) \circ U$ by $Z$, we find the following comonad in $\Z G \mhyp\Mod$, where $\nabla = \Z G \otimes_{\Z}(-) \eta U$.
+  \begin{equation*}
+    \begin{tikzcd}
+      Z \circ Z
+      \\
+      Z
+      \arrow[u, swap, Rightarrow, "\nabla"]
+      \arrow[d, Rightarrow, "\varepsilon"]
+      \\
+      \id_{\Z G \mhyp\Mod}
+    \end{tikzcd}
+  \end{equation*}
+  This gives us a simplicial object in $\End(\Z G \mhyp\Mod)$.
+  \begin{equation*}
+    \begin{tikzcd}
+      \
+      \arrow[r, dotted, no head]
+      & Z \circ Z \circ Z
+      \arrow[r, Rightarrow, shift left=9, "ZZ\varepsilon"]
+      \arrow[r, Leftarrow, shift left=6]
+      \arrow[r, Rightarrow, shift left=3]
+      \arrow[r, Leftarrow]
+      \arrow[r, Rightarrow, shift right=3]
+      \arrow[r, Leftarrow, shift right=6]
+      \arrow[r, Rightarrow, shift right=9, swap, "\varepsilon ZZ"]
+      & Z \circ Z
+      \arrow[r, Rightarrow, shift left=4, "Z\varepsilon"]
+      \arrow[r, Leftarrow, "\nabla"]
+      \arrow[r, Rightarrow, shift right=4, swap, "\varepsilon Z"]
+      & Z
+      \arrow[r ,Rightarrow]
+      & \id_{\Z G\mhyp\Mod}
+    \end{tikzcd}
+  \end{equation*}
+
+  Evaluating on a specific $\Z G$-module $M$ then gives a simplicial object in $\Z G\mhyp\Mod$.
+
+  We continue in the special case of $M = \Z$ taken as a trivial $\Z G$-module. In this case,
+  \begin{equation*}
+    Z^{\circ  n}(Z) = \overbrace{\Z G \otimes_{Z} \Z G \otimes_{\Z} \cdots \otimes_{\Z} \Z G}^{n \text{ times}} \otimes_{\Z} \Z.
+  \end{equation*}
+  We are justified in suppressing the last copy of $\Z$.
+
+  The face maps $d_{i}$ remove the $i$th copy of $Z$; on a generator, we have the action of $d_{i}\colon Z^{n+1}\Z \to Z^{n}\Z$ given by
+  \begin{equation*}
+    d_{i}\colon x \otimes x_{1} \otimes \cdots \otimes x_{n} \otimes a \mapsto
+    \begin{cases}
+      x x_{1} \otimes \cdots \otimes x_{n}, &i = 0 \\
+      x \otimes x_{1} \otimes \cdots \otimes x_{i}x_{i+1} \otimes \cdots \otimes x_{n},& 0 < i < n+1 \\
+      x \otimes \cdots \otimes x_{n-1}, &i = n+1.
+    \end{cases}
+  \end{equation*}
+  It is traditional to use the notation
+  \begin{equation*}
+    x \otimes x_{1} \otimes \cdots \otimes x_{n} \otimes a = x[x_{1}| \cdots | x_{n}].
+  \end{equation*}
+  This notation is the origin of the name \emph{bar complex.}
 \end{example}
 
 \subsection{Group cohomology}
@@ -410,7 +849,7 @@ In the case that the category $\mathcal{D}$ is abelian, we can form the chain co
 
 One would like to be able to apply the techniques of homological algebra to the study of groups. Unfortunately, the category $\mathbf{Grp}$ is not very nicely behaved; in particular it is not abelian.
 
-Out of any group $G$, one can form the group ring $\Z G$. This is a minor improvement, but the category $\mathbf{Ring}$ is also not abelian. In order to study groups using homological techiques, it will therefore be profitable to work instead with modules over the group ring $\Z G$; as a category of modules, it is abelian.
+Out of any group $G$, one can form the group ring $\Z G$. Categorically speaking, the category of rings is arguably even worse then that of groups, so one might question the sanity of such a construction. However, one can study groups using homological techiques by studying modules over the group ring $\Z G$; as a category of modules, it is sure to be abelian.
 
 Given a group $G$, a \defn{$G$-module} is a functor $\mathbf{B}G \to \Ab$. More generally, the category of such $G$-modules is the category $\mathbf{Fun}(\mathbf{B}G, \Ab)$. We will denote this category by $G\mhyp\Mod$.
 
@@ -467,8 +906,9 @@ Note that we actually have a fairly good handle on invariants and coinvariants.
   \end{equation*}
   and
   \begin{equation*}
-    (-)_{G} \simeq \Z \otimes_{\Z G} -.
+    (-)_{G} \simeq \Z \otimes_{\Z G} -,
   \end{equation*}
+  where in the first formula $\Z$ is taken to be a trivial right $\Z G$-module, and in the second a trivial left $\Z G$-module.
 \end{lemma}
 \begin{proof}
   A $\Z G$-linear map $\Z \to M$ picks out an element of $M$ on which $G$ acts trivially.
@@ -507,7 +947,7 @@ This tells us immediately that the invariants functor $(-)^{G}$ is left exact, a
 In general, our life is not so easy. Fortunately, we still have, for any group $G$, a general construction of a free resolution of $\Z$ as a left $\Z G$-module, known as the \emph{bar construction.}
 
 \begin{definition}[bar complex]
-  \label{def:bar_complex}
+  \label{def:bar_complex_for_groups}
   Let $G$ be a group. The \defn{bar complex} of $G$ is the chain complex defined level-wise to be the free $\Z G$-module
   \begin{equation*}
     B_{n} = \bigoplus_{(g_{i}) \in (G \smallsetminus \{e\})^{n}} \Z G[g_{1} | \cdots | g_{n}],
