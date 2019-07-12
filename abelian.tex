@@ -8,21 +8,291 @@
 \section{Basics}
 \label{sec:basics}
 
+\subsection{Building blocks}
+\label{ssc:building_blocks}
+
+\subsubsection{\texorpdfstring{$\Ab$}{Ab}-enriched categories}
+
 In this chapter we recall some basic results.
 
-A category is \emph{$\Ab$-enriched} if it is enriched over the symmetric monoidal category $(\Ab, \otimes_{\Z})$. In an $\Ab$-enriched category with finite products, products agree with coproducts, and we call both direct sums. We call an $\Ab$-enriched category with finite direct sums an \emph{additive} category, and we call a functor between additive categories such that the maps
-\begin{equation*}
-  \Hom(A, B) \to \Hom(F(A), F(B))
-\end{equation*}
-are homomorphisms of abelian groups an \emph{additive functor.} A \emph{pre-abelian} category is an additive category such that every morphism has a kernel and a cokernel, and an \emph{abelian category} is a pre-abelian category such that every monic is the kernel of its cokernel, and every epic is the cokernel of its kernel.
+\begin{definition}[\texorpdfstring{$\Ab$}{Ab}-enriched category]
+  \label{def:ab_enriched_category}
+  A category $\mathcal{C}$ is called \emph{$\Ab$-enriched} if it is enriched over the symmetric monoidal category $(\Ab, \otimes_{\Z})$.  
+\end{definition}
 
-This immediately implies the following results.
-\begin{itemize}
-  \item Kernels are monic and cokernels are epic
+\begin{lemma}
+  \label{lemma:abeliancategorycoproductsareproducts}
+  Let $\mathsf{C}$ be an $\mathsf{Ab}$-enriched category with finite products. Then the product $X_{1} \times \cdots \times X_{n}$ satisfies the universal property for coproducts. In particular, initial objects and terminal objects coincide.
+\end{lemma}
+\begin{proof}
+  First, we show that initial and terminal objects coincide. Let $\emptyset$ be initial and $*$ terminal in $\mathsf{C}$.
 
-  \item Since the equalizer of $f$ and $g$ is the kernel of $f-g$, abelian categories have all finite limits, and dually colimits.
-\end{itemize}
+  Since $\Hom_{\mathsf{C}}(\emptyset, \emptyset)$ has only one element, it must be both the identity morphism on $\emptyset$ \emph{and} the identity element of $\Hom_{\mathsf{C}}(\emptyset, \emptyset)$ as an abelian group. Similarly, $\id_{*} = 0$ in $\Hom_{\mathsf{C}}(*, *)$.
 
+  Since $\emptyset$ is initial and $*$ is final, $\Hom_{\mathsf{C}}(\emptyset, *)$ has exactly one element $f$. We are thus guaranteed that $\Hom_{\mathsf{C}}(*, \emptyset)$ has at least one element, $g$. Then $g \circ f = 0 = \id$ and $f \circ g = 0 = \id$, so $f\colon \emptyset \to *$ is an isomorphism. Thus, initial and terminal objects coincide, so $\mathsf{C}$ has a zero object $0$.
+
+  We prove the lemma for binary products. The general case is preciesly the same.
+
+  For each $X$, $Y \in \mathcal{C}$, we can define $i_{X}\colon X \to X \times Y$ using the universal property for products as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      & X
+      \arrow[dl, swap, "\id"]
+      \arrow[d, dashed, "i_{X}"]
+      \arrow[dr, "0"]
+      \\
+      X
+      & X \times Y
+      \arrow[l]
+      \arrow[r]
+      & Y
+    \end{tikzcd}
+  \end{equation*}
+  Similarly, get $i_{Y}\colon Y \to X \times Y$.
+
+  The claim is that $X \times Y$, together with $i_{X}$ and $i_{Y}$, satisfies the universal property for coproducts; that is, that we can find a unique map $\phi$ making the below diagram commute.
+  \begin{equation*}
+    \begin{tikzcd}
+      X
+      \arrow[r, "i_{X}"]
+      \arrow[dr, swap, "f"]
+      & X \times Y
+      \arrow[d, dashed, "\phi"]
+      & Y
+      \arrow[l, swap, "i_{Y}"]
+      \arrow[dl, "g"]
+      \\
+      & Z
+    \end{tikzcd}
+  \end{equation*}
+  In fact, $\phi = f \circ \pi_{X} + g \circ \pi_{Y}$ satisfies the universal property. It is clear that this makes the diagram commute since $\pi_{X} \circ i_{X} = \id$, $\pi_{X} \circ i_{Y} = 0$, and similarly for $Y$.
+
+  Note that, by the universal property for products, there is a unique downward map. But both $\id_{X \times Y}$ and $i_{X} \circ \pi_{X} + i_{Y} \circ \pi_{Y}$ make it commute, so they must be equal.
+  \begin{equation*}
+    \begin{tikzcd}
+      & X \times Y
+      \arrow[dr, "\pi_{X}"]
+      \arrow[dl, swap, "\pi_{Y}"]
+      \arrow[d]
+      \\
+      X
+      & X \times Y
+      \arrow[r, swap, "\pi_{Y}"]
+      \arrow[l, "\pi_{X}"]
+      & Y
+    \end{tikzcd}
+  \end{equation*}
+
+  Now we are ready to show that $\phi$ is unique. Suppose we have another candidate $\psi$ which also makes the above diagram commute. Then
+  \begin{equation*}
+    \psi = \psi \circ \id_{X \times Y} = f \circ \pi_{X} + g \circ \pi_{Y} = \phi.
+  \end{equation*}
+\end{proof}
+
+\subsubsection{Additive categories}
+
+\begin{definition}[additive category]
+  \label{def:additivecategory}
+  A category $\mathsf{C}$ is \defn{additive} if it has products and is $\mathsf{Ab}$-enriched.
+\end{definition}
+
+\begin{definition}[additive functor]
+  \label{def:additivefunctor}
+  Let $F\colon \mathcal{C} \rightarrow \mathcal{D}$ be a functor between additive categories. We say that $F$ is \defn{additive} if for each $X$, $Y \in \Obj(\mathcal{C})$ the map
+  \begin{equation*}
+    \Hom_{\mathcal{C}}(X, Y) \to \Hom_{\mathcal{D}}(F(X), F(Y))
+  \end{equation*}
+  is a homomorphism of abelian groups.
+\end{definition}
+
+\subsubsection{Pre-abelian categories}
+
+\begin{definition}[kernel, cokernel]
+  \label{def:kernel_cokernel}
+  Let $f\colon A \to B$ be a morphism in an abelian category.
+  \begin{itemize}
+    \item A pair $(K, \iota)$, where $\iota\colon K \to A$ is a morphism, is a \defn{kernel} of $f$ if for every object $X$ and morphism $g\colon X \to A$ such that $f \circ g = 0$, there exists a unique morphism $\alpha\colon X \to K$ such that $f \circ \alpha = 0$.
+      \begin{equation*}
+        \begin{tikzcd}
+          & X
+          \arrow[d, "g"]
+          \arrow[dr, "0"]
+          \arrow[dl, swap, dashed, "\exists!"]
+          \\
+          K
+          \arrow[r, "\iota"]
+          & A
+          \arrow[r, "f"]
+          & B
+        \end{tikzcd}
+      \end{equation*}
+
+    \item A pair $(C, \pi)$, where $\pi\colon B \to C$ is a morphism, is a \defn{cokernel} of $f$ if for every object $Y$ and morphism $g\colon B \to Y$ such that $g \circ f = 0$, there exists a unique morphism $\beta\colon C \to Y$ such that $\beta \circ f = 0$.
+      \begin{equation*}
+        \begin{tikzcd}
+          A
+          \arrow[r, "f"]
+          \arrow[dr, swap, "0"]
+          & B
+          \arrow[r, "\pi"]
+          \arrow[d, "g"]
+          & C
+          \arrow[dl, dashed, "\exists!"]
+          \\
+          & Y
+        \end{tikzcd}
+      \end{equation*}
+  \end{itemize}
+\end{definition}
+
+\begin{definition}[pre-abelian category]
+  \label{def:pre_abelian_category}
+  A \defn{pre-abelian} category is an additive category such that every morphism has a kernel and a cokernel.
+\end{definition}
+
+\begin{lemma}
+  \label{lemma:pre_abelian_categories_have_finite_limits_and_colimits}
+  Pre-abelian categories have all finite limits and colimits.
+\end{lemma}
+\begin{proof}
+  In a pre-abelian category, the equalizer of $f$ and $g$ is the kernel of $f-g$, and the coequalizer is the cokernel of $f-g$. Thus, pre-abelian categories have finite products and equalizers, and finite coproducts and coequalizers.
+\end{proof}
+
+\begin{proposition}
+  In a pre-abelian category, kernels are monic and cokernels are epic.
+\end{proposition}
+\begin{proof}
+  Let $f\colon A \to B$ be a morphism in an abelian category, and let $\iota\colon K \to A$ be a kernel of $f$. Let $\alpha\colon X \to K$ be a morphism such that $\alpha \circ \iota = 0$.
+  \begin{equation*}
+    \begin{tikzcd}
+      & X
+      \arrow[dl, swap, "\alpha"]
+      \arrow[d, "0"]
+      \arrow[dr, "0"]
+      \\
+      K
+      \arrow[r, "\iota"]
+      & A
+      \arrow[r, "f"]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+  The universal property for kernels tells us that $\alpha$ is the \emph{unique} morphism such that $0 = \iota \circ \alpha$. But setting $\alpha = 0$ certainly satisfies this equality, so we must have that $\alpha = 0$.
+
+  The cokernel case is dual.
+\end{proof}
+
+\begin{proposition}
+  \label{prop:kernels_and_cokernels_of_monos_and_epis_in_pre_abelian_categories}
+  Let $\mathcal{C}$ be a pre-abelian category, and let $f\colon A \to B$ be a morphism.
+  \begin{enumerate}
+    \item The morphism $f$ is a monomorphism if and only if $\ker f = 0$.
+
+    \item The morphism $f$ is an epimorphism if and only if $\coker f = 0$.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  \leavevmode
+  \begin{enumerate}
+    \item Suppose $f$ is a monomorphism, and consider a morphism $g$ making the following diagram commute.
+      \begin{equation*}
+        \begin{tikzcd}
+          & Z
+          \arrow[d, "g"]
+          \arrow[dr, "0"]
+          \\
+          \ker f
+          \arrow[r, hook, "\iota"]
+          & A
+          \arrow[r, hook, "f"]
+          & B
+        \end{tikzcd}
+      \end{equation*}
+
+      Because $f$ is a monomorphism, we have $g = 0$. By the universal property for kernels, there exists a unique map $Z \to \ker f$ making the above diagram commute.
+      \begin{equation*}
+        \begin{tikzcd}
+          & Z
+          \arrow[d, "g"]
+          \arrow[dr, "0"]
+          \arrow[dl, dashed, swap, "\exists!"]
+          \\
+          \ker f
+          \arrow[r, hook, "\iota"]
+          & A
+          \arrow[r, hook, "f"]
+          & B
+        \end{tikzcd}
+      \end{equation*}
+      But this remains true if we replace $\ker f$ by $0$, so by definition we must have $\ker f = 0$.
+
+      Now suppose that $\ker f = 0$, and let $g\colon X \to A$ such that $f \circ g = 0$. The universal property guarantees us a morphism $\alpha\colon X \to K$ making the left-hand triangle below commute.
+      \begin{equation*}
+        \begin{tikzcd}
+          & Z
+          \arrow[d, "g"]
+          \arrow[dr, "0"]
+          \arrow[dl, dashed, swap, "\exists!"]
+          \\
+          \ker f = 0
+          \arrow[r, hook, "\iota"]
+          & A
+          \arrow[r, "f"]
+          & B
+        \end{tikzcd}
+      \end{equation*}
+      However, the only way the left-hand triangle can commute is if $g = 0$. Thus, $f$ is mono.
+
+    \item Dual.
+  \end{enumerate}
+\end{proof}
+
+\subsection{Abelian categories}
+\label{ssc:abelian_categories}
+
+\begin{definition}[abelian category]
+  \label{def:abelian_cateogry}
+  A pre-abelian category is said to be \defn{abelian} if every monomorphism is the kernel of its cokernel, and every epimorphism is the cokernel of its kernel.
+\end{definition}
+
+\begin{proposition}
+  Let $\mathcal{A}$ be an abelian category, and let $f\colon A \to B$ be a morphism in $\mathcal{A}$. Then $f$ is an isomorphism if and only if $\ker f = 0$ and $\coker f = 0$.
+\end{proposition}
+\begin{proof}
+  If $f$ is an isomorphism, then it is mono and epi, and we are done by \hyperref[prop:kernels_and_cokernels_of_monos_and_epis_in_pre_abelian_categories]{Proposition~\ref*{prop:kernels_and_cokernels_of_monos_and_epis_in_pre_abelian_categories}}.
+
+  Conversely, if $\ker f = 0$ and $\coker f = 0$, then $f$ is mono and epi. We need only to show that any morphism in an abelian category which is monic and epic is an isomorphism.
+
+  Let $f$ be monic and epic. Then $f$ is the kernel of its cokernel and the cokernel of its kernel, and both of these are zero.
+  \begin{equation*}
+    \begin{tikzcd}
+      && B
+      \arrow[d, equals]
+      \arrow[dr, "0"]
+      \arrow[dl, dashed, swap, "\exists!f^{-1}_{R}"]
+      \\
+      \ker f = 0
+      \arrow[r]
+      & A
+      \arrow[r, two heads, hook, "f"]
+      & B
+      \arrow[r]
+      & 0 = \coker f
+      \\
+      & A
+      \arrow[u, equals]
+      \arrow[ul, "0"]
+      \arrow[ur, swap, dashed, "\exists!f^{-1}_{L}"]
+    \end{tikzcd}
+  \end{equation*}
+  This gives us morphisms $f^{-1}_{L}$ and $f^{-1}_{R}$ such that
+  \begin{equation*}
+    \begin{tikzcd}
+      f \circ f^{-1}_{R} = \id_{A},\qquad f^{-1}_{L} \circ f = \id_{B}.
+    \end{tikzcd}
+  \end{equation*}
+  The usual trick shows that $f^{-1}_{L} = f^{-1}_{R}$.
+\end{proof}
 
 As the following proposition shows, additive functors from additive categories preserve direct sums.
 \begin{lemma}
@@ -50,8 +320,35 @@ As the following proposition shows, additive functors from additive categories p
     \pi_{A} \circ i_{A} = \id_{A} \\
     \pi_{B} \circ i_{B} = \id_{B} \\
   \end{gather*}
-  Then the $\pi$s and $i$s exhibit $X \simeq A \oplus B$.
+  Then the $\pi$s and $i$s exhibit $X \cong A \oplus B$.
 \end{lemma}
+\begin{proof}
+  It suffices to show that $X$ is a product of $A$ and $B$. Let $f\colon Z \to A$ and $g\colon Z \to B$. We need to show that there exists a unique $\phi\colon Z \to X$ making the following diagram commute.
+  \begin{equation*}
+    \begin{tikzcd}
+      & Z
+      \arrow[dl, swap, "f"]
+      \arrow[d, dashed, "\phi"]
+      \arrow[dr, "g"]
+      \\
+      A
+      & X
+      \arrow[l, swap, "\pi_{A}"]
+      \arrow[r, "\pi_{B}"]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+  That is, we need
+  \begin{equation*}
+    \pi_{A} \circ \phi = f,\qquad \pi_{B} \circ \phi = g.
+  \end{equation*}
+  Thus, we need
+  \begin{align*}
+    i_{A} \circ f + \pi_{B} \circ g  &= i_{A} \circ \pi_{A} \circ \phi + i_{B} \circ \pi_{B} \circ \phi \\
+    &= \phi,
+  \end{align*}
+  so $\phi$ exists and is unique.
+\end{proof}
 
 \begin{corollary}
   Let $F\colon \mathcal{A} \to \mathcal{B}$ be an additive functor between additive categories. Then $F$ preserves direct sums in the sense that there is a natural isomorphism
@@ -106,7 +403,7 @@ We now construct our functor to $\pSet$.
   \end{equation*}
 \end{definition}
 
-Note that this is indeed a category since the identity functor is an epimorphism and epimorphisms are closed under composition.
+Note that this is indeed a category since the identity morphism is an epimorphism and epimorphisms are closed under composition.
 
 Now for each $A \in \mathcal{A}$, we define a functor
 \begin{equation*}
@@ -273,9 +570,37 @@ Now we introduce some load-lightening notation: we write $\hat{(-)} = \mathcal{M
 
 \begin{definition}[category of chain complexes]
   \label{def:category_of_chain_complexes_abelian}
-  Let $\mathcal{A}$ be an abelian category. A \defn{chain complex} in $\mathcal{A}$ is\dots The category of chain complexes in $\mathcal{A}$, denoted $\Ch(A)$, is the category whose objects are chain complexes and whose morphisms are morphisms of chain complexes, i.e.\dots
+  Let $\mathcal{A}$ be an abelian category. A \defn{chain complex} $C_{\bullet}$ in $\mathcal{A}$ is a collection of objects $C_{n} \in \mathcal{A}$, $n \in \Z$, together with morphisms $d_{n}\colon C_{n} \to C_{n-1}$ such that $d_{n-1} \circ d_{n} = 0$.
 
-  We also define $\Ch^{+}(\mathcal{A})$ to be the category of \defn{bounded-below} chain complexes, $\Ch^{-}(\mathcal{A})$ to be the category of \defn{bounded-above} chain complexes, and $\Ch^{\geq 0}(\mathcal{A})$ and $\Ch^{\leq 0}(\mathcal{A})$ similarly.
+  The category of chain complexes in $\mathcal{A}$, denoted $\Ch(A)$, is the category whose objects are chain complexes and whose morphisms are morphisms $C_{\bullet} \to D_{\bullet}$ of chain complexes, i.e.\ for each $n \in \Z$ a map $f_{n}\colon C_{n} \to D_{n}$ such that all of the squares form commute.
+  \begin{equation*}
+    \begin{tikzcd}
+      \cdots
+      \arrow[r, "d^{C}_{n+2}"]
+      & C_{n+1}
+      \arrow[r, "d^{C}_{n+1}"]
+      \arrow[d, "f_{n+1}"]
+      & C_{n}
+      \arrow[r, "d^{C}_{n}"]
+      \arrow[d, "f_{n}"]
+      & C_{n-1}
+      \arrow[r, "d^{C}_{n-1}"]
+      \arrow[d, "f_{n-1}"]
+      & \cdots
+      \\
+      \cdots
+      \arrow[r, "d^{D}_{n+2}"]
+      & D_{n+1}
+      \arrow[r, "d^{D}_{n+1}"]
+      & D_{n}
+      \arrow[r, "d^{D}_{n}"]
+      & D_{n-1}
+      \arrow[r, "d^{D}_{n-1}"]
+      & \cdots
+    \end{tikzcd}
+  \end{equation*}
+
+  We also define $\Ch^{+}(\mathcal{A})$ to be the category of \defn{bounded-below} chain complexes (i.e.\ the full subcategory consisting of chain complexes $C_{\bullet}$ such that $C_{n} = 0$ for small enough $n$), $\Ch^{-}(\mathcal{A})$ to be the category of \defn{bounded-above} chain complexes, and $\Ch^{\geq 0}(\mathcal{A})$ and $\Ch^{\leq 0}(\mathcal{A})$ similarly.
 \end{definition}
 
 \begin{proposition}
@@ -369,9 +694,24 @@ Now we introduce some load-lightening notation: we write $\hat{(-)} = \mathcal{M
 
 The categories $\Ch^{+}(\mathcal{A})$, etc., are also abelian.
 
+\begin{definition}[image, coimage]
+  \label{def:image_coimage}
+  Given a morphism $f\colon A \to B$, the \defn{image} of $f$ is $\im f = \ker\coker f$ and the \defn{coimage} of $f$ is $\coker \ker f$. 
+\end{definition}
+  
 \begin{definition}[exact sequence]
   \label{def:exact_sequence_abelian}
-  Given a morphism $f\colon A \to B$, the image $\im f = \ker\coker f$ and the coimage is $\coker \ker f$. From this data, we build the following commuting diagram.
+  Let
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[r, "f"]
+      & B
+      \arrow[r, "g"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+  be morphisms such that $g \circ f = 0$. We can build the following commutative diagram.
   \begin{equation*}
     \begin{tikzcd}
       & \im f
@@ -389,7 +729,30 @@ The categories $\Ch^{+}(\mathcal{A})$, etc., are also abelian.
       \arrow[ur]
     \end{tikzcd}
   \end{equation*}
-  Since $g \circ i = 0$, $i$ factors through $\ker g$, giving us a morphism $\phi\colon \im f \to \ker g$. We say that the above is \defn{exact} if $\phi$ is an isomorphism. We say that a complex $(C_{\bullet}, d)$ is \defn{exact} if it is exact at all positions.
+  Since $g \circ i = 0$, $i$ factors through $\ker g$, giving us a morphism $\phi\colon \im f \to \ker g$.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=small]
+      & \im f
+      \arrow[dr, "i"]
+      \arrow[r, "\phi"]
+      & \ker g
+      \arrow[d]
+      \arrow[r]
+      & H_{n}
+      \\
+      A
+      \arrow[rr, "f"]
+      && B
+      \arrow[rr, "g"]
+      \arrow[d, "p"]
+      && C
+      \\
+      && \coker f
+      \arrow[urr]
+    \end{tikzcd}
+  \end{equation*}
+
+  We say that the sequence $A \to B \to C$ above is \defn{exact} if $\phi$ is an isomorphism. We say that a complex $(C_{\bullet}, d)$ is \defn{exact} if it is exact at all positions.
 \end{definition}
 
 \begin{definition}[homology]
@@ -398,27 +761,7 @@ The categories $\Ch^{+}(\mathcal{A})$, etc., are also abelian.
 \end{definition}
 
 It is useful to have the following picture in mind.
-\begin{equation*}
-  \begin{tikzcd}[column sep=small]
-    & \im f
-    \arrow[dr, "i"]
-    \arrow[r, "\phi"]
-    & \ker g
-    \arrow[d]
-    \arrow[r]
-    & H_{n}
-    \\
-    C_{n+1}
-    \arrow[rr, "f"]
-    && C_{n}
-    \arrow[rr, "g"]
-    \arrow[d, "p"]
-    && C_{n-1}
-    \\
-    && \coker f
-    \arrow[urr]
-  \end{tikzcd}
-\end{equation*}
+
 
 \begin{proposition}
   Homology extends to a family of additive functors
