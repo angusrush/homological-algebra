@@ -145,6 +145,27 @@ In this chapter we recall some basic results.
   \end{itemize}
 \end{definition}
 
+Note that we immediately see that the compositions
+\begin{equation*}
+  \begin{tikzcd}
+    \ker f
+    \arrow[r]
+    \arrow[rr, bend left]
+    & A
+    \arrow[r, swap, "f"]
+    & B
+  \end{tikzcd}
+  \qquad\text{and}\qquad
+  \begin{tikzcd}
+    A
+    \arrow[r, swap, "f"]
+    \arrow[rr, bend left]
+    & B
+    \arrow[r, two heads]
+    & \coker f
+  \end{tikzcd}
+\end{equation*}
+
 \begin{definition}[pre-abelian category]
   \label{def:pre_abelian_category}
   A \defn{pre-abelian} category is an additive category such that every morphism has a kernel and a cokernel.
@@ -247,6 +268,20 @@ In this chapter we recall some basic results.
   \end{enumerate}
 \end{proof}
 
+\begin{proposition}
+  The composition
+  \begin{equation*}
+    \begin{tikzcd}
+      \ker f
+      \arrow[r, hook]
+      \arrow[rr, bend right, "0"]
+      & A
+      \arrow[r, swap, "f"]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+\end{proposition}
+
 \subsection{Abelian categories}
 \label{ssc:abelian_categories}
 
@@ -345,27 +380,46 @@ As the following proposition shows, additive functors from additive categories p
   Thus, we need
   \begin{align*}
     i_{A} \circ f + \pi_{B} \circ g  &= i_{A} \circ \pi_{A} \circ \phi + i_{B} \circ \pi_{B} \circ \phi \\
-    &= \phi,
+    &= \phi.
   \end{align*}
-  so $\phi$ exists and is unique.
+  It is easy to check that $\phi$ defined in this way \emph{does} make the diagram commute, so $\phi$ exists and is unique.
 \end{proof}
 
 \begin{corollary}
   Let $F\colon \mathcal{A} \to \mathcal{B}$ be an additive functor between additive categories. Then $F$ preserves direct sums in the sense that there is a natural isomorphism
   \begin{equation*}
-    F(a \oplus b) \simeq F(a) \oplus F(b).
+    F(A \oplus B) \simeq F(A) \oplus F(B).
   \end{equation*}
 \end{corollary}
+\begin{proof}
+  Apply $F$ to the short exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hook]
+      & A \oplus B
+      \arrow[r, two heads]
+      & B
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+\end{proof}
 
-Once it is known that a category $\mathcal{A}$ is abelian, a number of other categories are immediately known to be abelian.
-\begin{itemize}
-  \item The category $\Ch(\mathcal{A})$ of chain complexes in $\mathcal{A}$ is abelian, as we will see in
+\begin{example}
+  \label{eg:examples_of_abelian_categories}
+  Once it is known that a category $\mathcal{A}$ is abelian, a number of other categories are immediately known to be abelian.
+  \begin{itemize}
+    \item The category $\Ch(\mathcal{A})$ of chain complexes in $\mathcal{A}$ is abelian, as we will see in
+  
+    \item For any small category $I$, the category $\mathbf{Fun}(I, \mathcal{A})$ of $I$-diagrams in $\mathcal{A}$ is abelian.
+  \end{itemize}
+\end{example}
 
-  \item For any small category $I$, the category $\mathbf{Fun}(I, \mathcal{A})$ of $I$-diagrams in $\mathcal{A}$ is abelian.
-\end{itemize}
-
-\section{Embedding theorems}
-\label{sec:embedding_theorems}
+\section{Intermezzo: embedding theorems}
+\label{sec:intermezzo_embedding_theorems}
 
 In ordinary category theory, when manipulating a locally small category it is often helpful to pass through the Yoneda embedding, which gives a (fully) faithful rendition of the category under consideration in the category $\Set$. One of the reasons that this is so useful is that the category $\Set$ has a lot of structure which can use to prove things about the subcategory of $\Set$ in which one lands. Having done this, one can then use the fully faithfulness to translate results to the category under consideration.
 
@@ -603,9 +657,10 @@ Now we introduce some load-lightening notation: we write $\hat{(-)} = \mathcal{M
   We also define $\Ch^{+}(\mathcal{A})$ to be the category of \defn{bounded-below} chain complexes (i.e.\ the full subcategory consisting of chain complexes $C_{\bullet}$ such that $C_{n} = 0$ for small enough $n$), $\Ch^{-}(\mathcal{A})$ to be the category of \defn{bounded-above} chain complexes, and $\Ch^{\geq 0}(\mathcal{A})$ and $\Ch^{\leq 0}(\mathcal{A})$ similarly.
 \end{definition}
 
-\begin{proposition}
+\begin{theorem}
+  \label{thm:category_of_chain_complexes_is_abelian}
   The category $\Ch(\mathcal{A})$ is abelian.
-\end{proposition}
+\end{theorem}
 \begin{proof}
   We check each of the conditions.
 
@@ -698,70 +753,81 @@ The categories $\Ch^{+}(\mathcal{A})$, etc., are also abelian.
   \label{def:image_coimage}
   Given a morphism $f\colon A \to B$, the \defn{image} of $f$ is $\im f = \ker\coker f$ and the \defn{coimage} of $f$ is $\coker \ker f$. 
 \end{definition}
-  
+
+Let
+\begin{equation*}
+  \begin{tikzcd}
+    A
+    \arrow[r, "f"]
+    & B
+    \arrow[r, "g"]
+    & C
+  \end{tikzcd}
+\end{equation*}
+be morphisms such that $g \circ f = 0$. We can build the following commutative diagram.
+\begin{equation*}
+  \begin{tikzcd}
+    & \im f
+    \arrow[d, "i"]
+    \arrow[dr, "0"]
+    \\
+    A
+    \arrow[r, "f"]
+    & B
+    \arrow[r, "g"]
+    \arrow[d, "p"]
+    & C
+    \\
+    & \coker f
+    \arrow[ur]
+  \end{tikzcd}
+\end{equation*}
+Since $g \circ i = 0$, $i$ factors through $\ker g$, giving us a morphism $\phi\colon \im f \to \ker g$.
+\begin{equation*}
+  \begin{tikzcd}[column sep=small]
+    & \im f
+    \arrow[dr, "i"]
+    \arrow[r, "\phi"]
+    & \ker g
+    \arrow[d]
+    \arrow[r]
+    & H_{n}
+    \\
+    A
+    \arrow[rr, "f"]
+    && B
+    \arrow[rr, "g"]
+    \arrow[d, "p"]
+    && C
+    \\
+    && \coker f
+    \arrow[urr]
+  \end{tikzcd}
+\end{equation*}
+
 \begin{definition}[exact sequence]
   \label{def:exact_sequence_abelian}
   Let
   \begin{equation*}
     \begin{tikzcd}
-      A
-      \arrow[r, "f"]
-      & B
-      \arrow[r, "g"]
-      & C
+      A_{1}
+      \arrow[r, "f_{1}"]
+      & A_{2}
+      \arrow[r, "f_{2}"]
+      & \cdots
+      \arrow[r, "f_{n-1}"]
+      & A_{n}
     \end{tikzcd}
   \end{equation*}
-  be morphisms such that $g \circ f = 0$. We can build the following commutative diagram.
-  \begin{equation*}
-    \begin{tikzcd}
-      & \im f
-      \arrow[d, "i"]
-      \arrow[dr, "0"]
-      \\
-      A
-      \arrow[r, "f"]
-      & B
-      \arrow[r, "g"]
-      \arrow[d, "p"]
-      & C
-      \\
-      & \coker f
-      \arrow[ur]
-    \end{tikzcd}
-  \end{equation*}
-  Since $g \circ i = 0$, $i$ factors through $\ker g$, giving us a morphism $\phi\colon \im f \to \ker g$.
-  \begin{equation*}
-    \begin{tikzcd}[column sep=small]
-      & \im f
-      \arrow[dr, "i"]
-      \arrow[r, "\phi"]
-      & \ker g
-      \arrow[d]
-      \arrow[r]
-      & H_{n}
-      \\
-      A
-      \arrow[rr, "f"]
-      && B
-      \arrow[rr, "g"]
-      \arrow[d, "p"]
-      && C
-      \\
-      && \coker f
-      \arrow[urr]
-    \end{tikzcd}
-  \end{equation*}
+  be objects and morphisms in an abelian category. We say that the above sequence is \defn{exact} if $\phi_{i}$ is an isomorphism. We say that a complex $(C_{\bullet}, d)$ is \defn{exact} if $\phi$ is an isomorphism at all positions.
 
-  We say that the sequence $A \to B \to C$ above is \defn{exact} if $\phi$ is an isomorphism. We say that a complex $(C_{\bullet}, d)$ is \defn{exact} if it is exact at all positions.
+  A chain complex $(C_{\bullet}, d)$ is exact if it is exact at all positions.
 \end{definition}
 
 \begin{definition}[homology]
   \label{def:homology}
   Let $(C_{\bullet}, d)$ be a complex. The \defn{$n$th homology} of $C_{\bullet}$ is the cokernel of the map $\phi\colon \im d_{n+1} \to \ker d_{n}$ described in \hyperref[def:exact_sequence_abelian]{Definition~\ref*{def:exact_sequence_abelian}}, denoted $H_{n}(C_{\bullet})$.
 \end{definition}
-
-It is useful to have the following picture in mind.
-
 
 \begin{proposition}
   Homology extends to a family of additive functors
@@ -826,7 +892,7 @@ concentrated in degree $n$.
       & 0
     \end{tikzcd}
   \end{equation*}
-  be a chain complex which is exact except in degree zero. Then $H_{0}(C_{\bullet}) = \coker f$.
+  be a chain complex in $\Ch_{\geq 0}(\mathcal{A})$. Then $H_{0}(C_{\bullet}) = \coker f$.
 
   Similarly, if
   \begin{equation*}
@@ -840,7 +906,7 @@ concentrated in degree $n$.
       & \cdots
     \end{tikzcd}
   \end{equation*}
-  is a chain complex whose non-trivial homology is in degree $0$, then $H_{0}(C_{\bullet}) = \ker f$.
+  is a chain complex in $\Ch_{\leq 0}(\mathcal{A})$, then $H_{0}(C_{\bullet}) = \ker f$.
 \end{example}
 
 \begin{definition}[quasi-isomorphism]
@@ -848,7 +914,7 @@ concentrated in degree $n$.
   Let $f_{\bullet}\colon C_{\bullet} \to D_{\bullet}$ be a chain map. We say that $f$ is a \defn{quasi-isomorphism} if it induces isomorphisms on homology; that is, if $H_{n}(f)$ is an isomorphism for all $n$.
 \end{definition}
 
-Quasi-isomorphisms are a fiddly concept. Since they induce isomorphisms on homology, and isomorphisms are invertible, one might naïvely hope quasi-isomorphisms themselves were invertible. Unfortunately, we are not so lucky. Consider the following
+Quasi-isomorphisms are a fiddly concept. Since they induce isomorphisms on homology, and isomorphisms are invertible, one might naïvely hope that quasi-isomorphisms themselves were invertible. Unfortunately, we are not so lucky. Consider the following
 
 By \hyperref[eg:compute_homology_in_trivial_situation]{Example~\ref*{eg:compute_homology_in_trivial_situation}}, we
 
@@ -935,7 +1001,7 @@ By \hyperref[eg:compute_homology_in_trivial_situation]{Example~\ref*{eg:compute_
   \end{equation*}
   Since we are in an abelian category, the pullback $f'$ is also an epimorphism. Denote the kernel of $f$ by $K$.
 
-  The claim is that $K$ also functions as the kernel of $f'$.
+  The claim is that $K$ is also a kernel of $f'$.
     %\begin{equation*}
     %  \begin{tikzcd}
     %    & S
@@ -1284,8 +1350,6 @@ There is another version of the snake lemma which does not have the first and la
   Given the following commutative diagram with exact rows,
   \begin{equation*}
     \begin{tikzcd}
-      0
-      \arrow[r]
       & A
       \arrow[d, swap, "f"]
       \arrow[r, "m"]
@@ -1304,8 +1368,6 @@ There is another version of the snake lemma which does not have the first and la
       & B'
       \arrow[r, "e'"]
       & C'
-      \arrow[r]
-      & 0
     \end{tikzcd}
   \end{equation*}
   we get a exact sequence
@@ -1417,20 +1479,67 @@ There is another version of the snake lemma which does not have the first and la
   We can put these together in a diagram with exact rows as follows.
   \begin{equation*}
     \begin{tikzcd}
-      & \coker f_{n+1}
-      & \coker g_{n+1}
-      & \coker h_{n+1}
+      & \coker d^{A}_{n}
+      \arrow[r]
+      & \coker d^{B}_{n}
+      \arrow[r]
+      & \coker d^{C}_{n}
+      \arrow[r]
       & 0
       \\
       0
-      & \ker f_{n}
-      & \ker g_{n}
-      & \ker h_{n}
+      \arrow[r]
+      & \ker d^{A}_{n-1}
+      \arrow[r]
+      & \ker d^{B}_{n-1}
+      \arrow[r]
+      & \ker d^{C}_{n-1}
     \end{tikzcd}
   \end{equation*}
   Recall that for each $n$, we get a map
   \begin{equation*}
-    \phi\colon \im f_{n+1} \to \ker f_{n}
+    \phi^{A}_{n-1}\colon \im d^{A}_{n-1} \to \ker d^{A}_{n},
+  \end{equation*}
+  and similarly for $B_{\bullet}$ and $C_{\bullet}$.
+
+  Adding these in gives the following.
+  \begin{equation*}
+    \begin{tikzcd}
+      & \coker d^{A}_{n}
+      \arrow[r]
+      \arrow[d]
+      & \coker d^{B}_{n}
+      \arrow[r]
+      \arrow[d]
+      & \coker d^{C}_{n}
+      \arrow[r]
+      \arrow[d]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & \ker d^{A}_{n-1}
+      \arrow[r]
+      & \ker d^{B}_{n-1}
+      \arrow[r]
+      & \ker d^{C}_{n-1}
+    \end{tikzcd}
+  \end{equation*}
+  A second application of the snake lemma then gives a long exact sequence
+  \begin{equation*}
+    \begin{tikzcd}[column sep=small]
+      \ker \phi_{f}
+      \arrow[r]
+      & \ker \phi_{g}
+      \arrow[r]
+      & \ker \phi_{h}
+      \arrow[r]
+      & \coker \phi_{f}
+      \arrow[r]
+      & \coker \phi_{g}
+      \arrow[r]
+      & \coker \phi_{h}
+    \end{tikzcd}
   \end{equation*}
 \end{proof}
 

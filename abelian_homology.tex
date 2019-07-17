@@ -188,7 +188,116 @@ According to the Yoneda lemma, to check that two objects are isomorphic it suffi
   Dually, any functor $F$ which is a left adjoint preserves colimits, hence zero objects and cokernels. Thus, $F$ preserves the last two conditions, which means that $F$ is right exact.
 \end{proof}
 
-Note that the previous theorem makes no demand that $F$ be additive, which may seem surprising; after all, by  \hyperref[def:exact_functor]{Definition~\ref*{def:exact_functor}}, only exact funcotors are allowed the honor of being called additive. However, it turns out that a functor which preserves either finite limits or finite colimits is always additive. To see this, note that by applying any functor which is either left or right exact to a split exact sequence gives a split exact sequence.
+\begin{example}
+  %The universal property for kernels is equivalent to the following: the kernel of $f\colon A \to B$ is the pullback of the following diagram.
+  %\begin{equation*}
+  %  \begin{tikzcd}
+  %    \ker(f)
+  %    \arrow[r, dashed]
+  %    \arrow[d, dashed]
+  %    & 0
+  %    \arrow[d]
+  %    \\
+  %    A
+  %    \arrow[r, "f"]
+  %    & B
+  %  \end{tikzcd}
+  %\end{equation*}
+  Consider the category $\mathcal{D}$ with objects and morphisms as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      & \star
+      \arrow[d]
+      \\
+      *
+      \arrow[r]
+      & \bullet
+    \end{tikzcd}
+  \end{equation*}
+  Let $\mathcal{A}$ be an abelian category. By \hyperref[eg:examples_of_abelian_categories]{Example~\ref*{eg:examples_of_abelian_categories}}, the category of functors $\mathcal{D} \to \mathcal{A}$ is an abelian category.
+
+  Consider a functor $\mathcal{D} \to \mathcal{A}$ which yields the following diagram in $\mathcal{A}$.
+  \begin{equation*}
+    \begin{tikzcd}
+      & 0
+      \arrow[d]
+      \\
+      A
+      \arrow[r, "f"]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+  Taking the pullback of the above diagram yields the kernel of $f$.
+
+  A natural transformation $\phi$ between functors $\mathcal{D} \to \mathcal{A}$ consists of the data of a commuting square as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[r, "f"]
+      \arrow[d, swap, "\phi_{A}"]
+      & B
+      \arrow[d, "\phi_{B}"]
+      \\
+      A'
+      \arrow[r, "f'"]
+      & B'
+    \end{tikzcd}
+  \end{equation*}
+  That is, we may view taking kernels as a functor from the category of morphisms in $\mathcal{A}$ to $\mathcal{A}$. Furthermore, because this functor is the result of a limiting procedure it is complete. Thus, given an exact sequence of morphisms in $\mathcal{A}$
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hook]
+      \arrow[d, swap, "f"]
+      & B
+      \arrow[r, two heads]
+      \arrow[d, "g"]
+      & C
+      \arrow[r]
+      \arrow[d, "h"]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hook]
+      & B
+      \arrow[r, two heads]
+      & C
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  one gets an exact sequence of kernels
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \ker f
+      \arrow[r, hook]
+      & \ker g
+      \arrow[r]
+      & \ker h
+    \end{tikzcd}.
+  \end{equation*}
+
+  Conversely, taking cokernels is cocomplete, hence right exact, so one has also an exact sequence of cokernels
+  \begin{equation*}
+    \begin{tikzcd}
+      \coker f
+      \arrow[r]
+      & \coker g
+      \arrow[r, two heads]
+      & \coker h
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+\end{example}
+
+Note that the previous theorem makes no demand that $F$ be additive, which may seem surprising; after all, by  \hyperref[def:exact_functor]{Definition~\ref*{def:exact_functor}}, only exact functors are allowed the honor of being called additive. However, it turns out that a functor which preserves either finite limits or finite colimits is always additive. To see this, note that by applying any functor which is either left or right exact to a split exact sequence gives a split exact sequence.
 
 This is often useful when trying to check the exactness of a functor which is a left or right adjoint, by the following proposition.
 
@@ -231,7 +340,14 @@ This is often useful when trying to check the exactness of a functor which is a 
 
 \begin{definition}[chain homotopy]
   \label{def:chain_homotopy}
-  Let $f_{\bullet}$, $g_{\bullet}\colon C_{\bullet} \to D_{\bullet}$ be morphisms of chain complexes. A \defn{chain homotopy}
+  Let $f_{\bullet}$, $g_{\bullet}\colon C_{\bullet} \to D_{\bullet}$ be morphisms of chain complexes. A \defn{chain homotopy} between $f_{\bullet}$ and $g_{\bullet}$ is a family of maps
+  \begin{equation*}
+    h_{n}\colon C_{n} \to D_{n+1}
+  \end{equation*}
+  such that
+  \begin{equation*}
+    d^{D}_{n+1} \circ h_{n} + h_{n-1} \circ d^{C}_{n} = f - g.
+  \end{equation*}
 \end{definition}
 
 \begin{lemma}
@@ -304,36 +420,52 @@ In fact, the homotopy category satisfies the following universal property.
 \section{Projectives and injectives}
 \label{ssc:projectives_and_injectives}
 
+One of the drawbacks of diagrammatic reasoning in abelian categories (which is to say, reasoning on elements in $\Rmod$) is that not every maneuver one can perform on elements has a diagrammatic analog. One of the most egregious examples of this is the property of lifting against epimorphisms. Given an epimorphism $f\colon A \twoheadrightarrow B$ and an element of $B$, one can always find an element of $A$ which maps to it under $f$. Unfortunately, it is \emph{not} in general the case that given a map $X \to B$, one can lift it to a map $X \to A$ making the triangle formed commute.
+\begin{equation*}
+  \begin{tikzcd}
+    & X
+    \arrow[d]
+    \arrow[dl, swap, dashed, "\not\exists"]
+    \\
+    A
+    \arrow[r, two heads, "f"]
+    & B
+  \end{tikzcd}
+\end{equation*}
+Nowever, certain objects do have this property. For example, if $X$ is a free $R$-module, then we can find a lift by lifting generators; this is always possible. It will be interesting to find objects $X$ which allow this. Such objects are called \emph{projective.}
+
 \begin{definition}[projective, injective]
   \label{def:projective_injective}
-  An object $P$ in an abelian category is said to be \defn{projective} if the functor $\Hom(P, -)$ is exact, and \defn{injective} if $\Hom(-, Q)$ is exact.
+  An object $P$ in an abelian category $\mathcal{A}$ is \defn{projective} if for every epimorphism $f\colon B \to C$ and every morphism $p\colon P \to C$, there exists a morphism $\tilde{p}\colon P \to B$ such that the following diagram commutes.
+  \begin{equation*}
+    \begin{tikzcd}
+      & P
+      \arrow[d, "p"]
+      \arrow[dl, dashed, swap, "\exists\tilde{p}"]
+      \\
+      B
+      \arrow[r, twoheadrightarrow, swap, "f"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+
+  Dually, $Q$ is injective if for every monomorphism $g\colon A \to B$ and every morphism $q\colon A \to Q$ there exists a morphism $\tilde{q}\colon B \to Q$ such that the following diagram commutes.
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[r, hookrightarrow, "g"]
+      \arrow[d, swap, "q"]
+      & B
+      \arrow[dl, dashed, "\exists \tilde{q}"]
+      \\
+      Q
+    \end{tikzcd}
+  \end{equation*}
 \end{definition}
 
-Since the hom functor $\Hom(A, -)$ is left exact for every $A$, it is very easy to see that an object $P$ in an abelian category $\mathcal{A}$ is projective if for every epimorphism $f\colon B \to C$ and every morphism $p\colon P \to C$, there exists a morphism $\tilde{p}\colon P \to B$ such that the following diagram commutes.
-\begin{equation*}
-  \begin{tikzcd}
-    & P
-    \arrow[d, "p"]
-    \arrow[dl, dashed, swap, "\exists\tilde{p}"]
-    \\
-    B
-    \arrow[r, twoheadrightarrow, swap, "f"]
-    & C
-  \end{tikzcd}
-\end{equation*}
+Since the hom functor $\Hom(A, -)$ is left exact for every $A$, it is very easy to see that an object $P$ in an abelian category is said to be \defn{projective} if the functor $\Hom(P, -)$ is exact, and \defn{injective} if $\Hom(-, Q)$ is exact.
 
-Dually, $Q$ is injective if for every monomorphism $g\colon A \to B$ and every morphism $q\colon A \to Q$ there exists a morphism $\tilde{q}\colon B \to Q$ such that the following diagram commutes.
-\begin{equation*}
-  \begin{tikzcd}
-    A
-    \arrow[r, hookrightarrow, "g"]
-    \arrow[d, swap, "q"]
-    & B
-    \arrow[dl, dashed, "\exists \tilde{q}"]
-    \\
-    Q
-  \end{tikzcd}
-\end{equation*}
+A recurring theme of homological algebra is that projective and injective objects are extremely nice to work with, and whenever possible we would like to be able to trade in an object for equivalent projective data. We will go into more detail about precisely what we mean by this later. This will be possible when our abelian category has \emph{enough projectives.}
 
 \begin{definition}[enough projectives]
   \label{def:enough_projectives}
@@ -430,7 +562,7 @@ Dually, $Q$ is injective if for every monomorphism $g\colon A \to B$ and every m
   Dually, any abelian category with enough injectives has injective resolutions.
 \end{proposition}
 \begin{proof}
-  We provide running commentary on the following diagram.
+  Pick a projective which surjects onto $A$,
 \end{proof}
 
 \begin{definition}[projective, injective resolution]
@@ -469,17 +601,17 @@ In fact, we can say more.
   is exact.
 \end{lemma}
 
-\begin{theorem}[extended horseshoe lemma]
-  \label{thm:extended_horseshoe_lemma}
+\begin{theorem}[horseshoe lemma]
+  \label{thm:horseshoe_lemma}
   Let $\mathcal{A}$ be an abelian category with enough projectives, and let $P'_{\bullet} \to M'$ and $P''_{\bullet} \to M''$ be projective resolutions. Then given an exact sequence
   \begin{equation*}
     \begin{tikzcd}
       0
       \arrow[r]
       & M'
-      \arrow[r, "f"]
+      \arrow[r, hook, "f"]
       & M
-      \arrow[r, "g"]
+      \arrow[r, two heads, "g"]
       & M''
       \arrow[r]
       & 0
@@ -504,16 +636,14 @@ In fact, we can say more.
       0
       \arrow[r]
       & M'
-      \arrow[r, swap, "f"]
+      \arrow[r, swap, hook, "f"]
       & M
-      \arrow[r, swap, "\tilde{g}"]
+      \arrow[r, swap, two heads, "\tilde{g}"]
       & M''
       \arrow[r]
       & 0
     \end{tikzcd}
   \end{equation*}
-
-  Furthermore, given a morphism $M \to N$
 \end{theorem}
 \begin{proof}
   We construct $P_{\bullet}$ inductively. We have specified data of the following form.
@@ -548,9 +678,9 @@ In fact, we can say more.
       0
       \arrow[r]
       & M'
-      \arrow[r, "f"]
+      \arrow[r, hook, "f"]
       & M
-      \arrow[r, "g"]
+      \arrow[r, two heads, "g"]
       & M''
       \arrow[r]
       & 0
@@ -624,10 +754,10 @@ In fact, we can say more.
       0
       \arrow[r]
       & \ker p'
-      \arrow[r]
+      \arrow[r, dashed]
       \arrow[d]
       & \ker p
-      \arrow[r]
+      \arrow[r, dashed]
       \arrow[d]
       & \ker p''
       \arrow[r]
@@ -638,16 +768,61 @@ In fact, we can say more.
       \arrow[r]
       & P'_{0}
       \arrow[r]
+      \arrow[d]
       & P_{0}
       \arrow[r]
+      \arrow[d]
       & P''_{0}
       \arrow[r]
+      \arrow[d]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & M'
+      \arrow[r, hook]
+      & M
+      \arrow[r, two heads]
+      & M''
       \arrow[r]
       & 0
     \end{tikzcd}
   \end{equation*}
-  The maps $p'_{1}$ and $p''_{1}$ come from the exactness of $P'_{\bullet}$ and $P''_{\bullet}$. In fact, they are epimorphisms, because they are really cokernel maps in disguise. That means that we are in the same situation as before, and are justified in saying ``we proceed inductively''.
+  The maps $p'_{1}$ and $p''_{1}$ come from the exactness of $P'_{\bullet}$ and $P''_{\bullet}$. In fact, they are epimorphisms, because they are really cokernel maps in disguise. We get the dashed map $\ker p' \to \ker p''$
+
+  That means that we are in the same situation as before, and are justified in saying ``we proceed inductively''.
 \end{proof}
+
+\begin{theorem}[horseshoe lemma for morphisms]
+  \label{thm:horseshoe_lemma_for_morphisms}
+  Given a morphism of short exact sequences
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A'
+      \arrow[r, hook]
+      \arrow[d, "f'"]
+      & A
+      \arrow[r, two heads]
+      \arrow[d, "f"]
+      & A''
+      \arrow[r]
+      \arrow[d, "f''"]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & B'
+      \arrow[r, hook]
+      & B
+      \arrow[r, two heads]
+      & B''
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+\end{theorem}
 
 \begin{proposition}
   \label{prop:can_lift_morphisms_to_projective_resolutions}
@@ -726,7 +901,7 @@ In fact, we can say more.
       \arrow[r, "\iota"]
       & \cone(f)_{\bullet}
       \arrow[r, "\pi"]
-      & D_{\bullet}
+      & D[-1]_{\bullet}
       \arrow[r]
       & 0
     \end{tikzcd}.
@@ -1181,6 +1356,42 @@ This seems like an inelegant definition, and indeed it is.
 \section{Double complexes}
 \label{sec:double_complexes}
 
+Given any abelian category $\mathcal{A}$, we have considered the category of chain complexes in $\mathcal{A}$, and shown (in \hyperref[thm:category_of_chain_complexes_is_abelian]{Theorem~\ref*{thm:category_of_chain_complexes_is_abelian}}) that this is an abelian category. It is therefore natural to consider chain complexes in the category of chain complexes. Such a beast is a lattice of commuting squares.
+
+\begin{equation*}
+  \begin{tikzcd}
+    & \vdots
+    \arrow[d]
+    & \vdots
+    \arrow[d]
+    \\
+    \cdots
+    \arrow[r]
+    & M_{i-1,j}
+    \arrow[r]
+    \arrow[d]
+    & M_{i, j}
+    \arrow[r]
+    \arrow[d]
+    & \cdots
+    \\
+    \cdots
+    \arrow[r]
+    & M_{i-1,j-1}
+    \arrow[r]
+    \arrow[d]
+    & M_{i, j-1}
+    \arrow[r]
+    \arrow[d]
+    & \cdots
+    \\
+    & \vdots
+    & \vdots
+  \end{tikzcd}
+\end{equation*}
+
+However, it turns out to convenient to do something slightly different, namely work with complexes whose squares anticommute rather than commute. This is not a restriction, as one can make from any lattice of commuting squares a lattice of anticommuting squares by multiplying the differentials of every other row or column by $-1$.
+
 \begin{definition}[double complex]
   \label{def:double_complex}
   Let $\mathcal{A}$ be an abelian category. A \defn{double complex} in $\mathcal{A}$ consists of an array $M_{i,j}$ of objects together with, for every $i$ and $j \in \Z$, morphisms
@@ -1197,17 +1408,6 @@ This seems like an inelegant definition, and indeed it is.
   \end{itemize}
 
 \end{definition}
-
-That is, for a double complex the squares anticommute rather than commute.
-\begin{equation*}
-  \begin{tikzcd}
-    M_{i-1,j}
-    & M_{i, j}
-    \\
-    M_{i-1,j-1}
-    & M_{i, j-1}
-  \end{tikzcd}
-\end{equation*}
 
 We say that a double complex is $M_{\bullet,\bullet}$ is \emph{first-quadrant} if $M_{i,j} = 0$ for $i$, $j < 0$.
 
@@ -1256,17 +1456,19 @@ one can construct a double complex by multiplying the differentials in every oth
   Let $M_{i,j}$ be a first-quadrant double complex. Then if either the rows $M_{\bullet, j}$ or the columns $M_{i, \bullet}$ are exact, then the total complex $\Tot(M)_{\bullet}$ is exact.
 \end{theorem}
 \begin{proof}
-  Let $M_{i,j}$ be a first-quadrant double complex, without loss of generality with exact rows.
+  Let $M_{i,j}$ be a first-quadrant double complex with exact rows.
   \begin{equation*}
     \begin{tikzcd}
       M_{3,0}
       \arrow[d, swap, "d_{3,0}"]
+      & \iddots
       \\
       M_{2,0}
       \arrow[d, swap, "d_{2,0}"]
       & M_{2,1}
       \arrow[l, swap, "\delta_{2,1}"]
       \arrow[d, "d_{2,1}"]
+      & \iddots
       \\
       M_{1,0}
       \arrow[d, swap, "d_{1,0}"]
@@ -1276,6 +1478,7 @@ one can construct a double complex by multiplying the differentials in every oth
       & M_{1,2}
       \arrow[l, swap, "\delta_{1,2}"]
       \arrow[d, "d_{1,2}"]
+      & \iddots
       \\
       M_{0,0}
       & M_{0,1}
@@ -1332,7 +1535,7 @@ one can construct a double complex by multiplying the differentials in every oth
   \end{equation*}
   such that $d^{\Tot}_{3}n = m$.
 
-  We make our lives easier by choosing $n_{3,0} = 0$. By exactness, we can always $n_{2,1}$ such that $\delta n_{2,1} = m_{2,0}$. Thus, by anti-commutativity,
+  It turns out that we can make our lives easier by choosing $n_{3,0} = 0$. By exactness, we can always $n_{2,1}$ such that $\delta n_{2,1} = m_{2,0}$. Thus, by anti-commutativity,
   \begin{equation*}
     d \delta n_{2,1} = -\delta d n_{2,1}.
   \end{equation*}
@@ -1370,12 +1573,82 @@ one can construct a double complex by multiplying the differentials in every oth
   as required.
 \end{proof}
 
+\begin{example}
+  Let $f_{\bullet}\colon C_{\bullet} \to D_{\bullet}$ be a morphism of chain complexes. Form from this a double complex by multiplying the differential of $C_{\bullet}$ by $-1$ and padding by zeroes on either side.
+  \begin{equation*}
+    \begin{tikzcd}
+      & \vdots
+      \arrow[d]
+      & \vdots
+      \arrow[d]
+      \\
+      0
+      & D_{3}
+      \arrow[d, swap, "d^{D}_{3}"]
+      \arrow[l]
+      & C_{3}
+      \arrow[l, swap, "f_{3}"]
+      \arrow[d, "-d^{C}_{3}"]
+      & 0
+      \arrow[l]
+      \\
+      0
+      & D_{2}
+      \arrow[l]
+      \arrow[d, swap, "d^{D}_{2}"]
+      & C_{2}
+      \arrow[l, swap, "f_{2}"]
+      \arrow[d, "-d^{C}_{2}"]
+      & 0
+      \arrow[l]
+      \\
+      0
+      & D_{1}
+      \arrow[d, swap, "d^{D}_{1}"]
+      \arrow[l]
+      & C_{1}
+      \arrow[l, swap, "f_{1}"]
+      \arrow[d, "-d^{C}_{1}"]
+      & 0
+      \arrow[l]
+      \\
+      0
+      & D_{0}
+      \arrow[d, swap, "d^{D}_{0}"]
+      \arrow[l]
+      & C_{0}
+      \arrow[d, "-d^{C}_{0}"]
+      \arrow[l, swap, "f_{0}"]
+      & 0
+      \arrow[l]
+      \\
+      0
+      & D_{-1}
+      \arrow[d]
+      \arrow[l]
+      & C_{-1}
+      \arrow[l, swap, "f_{-1}"]
+      \arrow[d]
+      & 0
+      \arrow[l]
+      \\
+      & \vdots
+      & \vdots
+    \end{tikzcd}
+  \end{equation*}
+  The total complex of this is simply $\cone(f)$.
+
+  Now suppose that $f_{\bullet}$ is an isomorphism, so the rows are exact. Then by \hyperref[thm:conditions_total_complex_exact]{Theorem~\ref*{thm:conditions_total_complex_exact}}, $\Tot(f) = \cone(f)$ is exact. We have already seen this (in one direction) in \hyperref[cor:cone_controls_quasi_isomorphism]{Corollary~\ref*{cor:cone_controls_quasi_isomorphism}}.
+\end{example}
+
 Consider any morphism $\alpha$ in $\Ch_{\geq 0}(\Ch_{\geq 0}(\mathcal{A}))$ to a complex concentrated in degree 0. We can view this in two ways.
 \begin{itemize}
   \item As a chain
     \begin{equation*}
       \begin{tikzcd}
-        C_{2,\bullet}
+        \cdots
+        \arrow[r]
+        & C_{2,\bullet}
         \arrow[r]
         & C_{1,\bullet}
         \arrow[r]
@@ -1410,7 +1683,6 @@ Consider any morphism $\alpha$ in $\Ch_{\geq 0}(\Ch_{\geq 0}(\mathcal{A}))$ to a
     \begin{tikzcd}
       \cdots
       \arrow[r]
-      \arrow[d]
       & M_{2, \bullet}
       \arrow[r]
       \arrow[d]
