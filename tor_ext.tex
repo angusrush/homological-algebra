@@ -1,0 +1,607 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Tor and ext}
+\label{ch:tor_and_ext}
+
+\section{The \texorpdfstring{$\Tor$}{Tor} functor}
+\label{sec:tor}
+
+Let $R$ be a ring, and $N$ a right $R$-module. There is an adjunction
+\begin{equation*}
+  - \otimes_{R} N : \modR \leftrightarrow \Ab : \Hom(N, -).
+\end{equation*}
+Thus, the functor $- \otimes_{R} N$ preserves colimits, hence by \hyperref[prop:exact_if_preserve_limits_conditions]{Proposition~\ref*{prop:exact_if_preserve_limits_conditions}}, is right exact. Thus, we may form the left derived functor.
+
+\begin{definition}[\texorpdfstring{$\Tor$}{Tor} functor]
+  \label{def:tor_functor}
+  The left derived functor of $- \otimes_{R} N$, is called the \defn{Tor functor} and denoted
+  \begin{equation*}
+    \Tor_{i}^{R}(-, N).
+  \end{equation*}
+\end{definition}
+
+\begin{example}
+  Let $R$ be a ring, and let $r \in R$. Assume that left multiplication by $r$ is injective, and consider the right $R$-module $R/rR$. We have the short exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & R
+      \arrow[r, hookrightarrow, "r\cdot"]
+      & R
+      \arrow[r, twoheadrightarrow, "\pi"]
+      & R/rR
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  exhibiting
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & R
+      \arrow[r, "r\cdot"]
+      & R
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  as a free resolution of $R/rR$. Thus we can calculate
+  \begin{equation*}
+    \Tor^{R}_{i}(R/rR, N) \simeq H_{i}
+    \left(
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & R \otimes_{R} N
+      \arrow[r, "r\cdot"]
+      & R \otimes_{R} N
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+    \right)
+  \end{equation*}
+  That is, we have
+  \begin{equation*}
+    \Tor^{R}_{i}(R/rR, N) \simeq
+    \begin{cases}
+      N/rN, & n = 0 \\
+      _{r}N, & n = 1 \\
+      0, &\text{otherwise}.
+    \end{cases}
+  \end{equation*}
+\end{example}
+
+There is a worrying asymmetry to our definition of $\Tor$. The tensor product is, morally speaking, symmetric; that is, it should not matter whether we derive the first factor or the second. Pleasingly, $\Tor$ respects this.
+
+\begin{proposition}
+  \label{prop:tor_balanced}
+  The functor $\Tor$ is balanced; that is,
+  \begin{equation*}
+    L_{i} \Hom(M, -)(N) \simeq L_{i} \Hom(-, N)(M).
+  \end{equation*}
+\end{proposition}
+\begin{proof}
+  Let $P_{\bullet} \to M$ and $P'_{\bullet} \to N$ be projective resolutions. We need to show that
+  \begin{equation*}
+    H_{i}(P_{\bullet} \otimes_{R} N)_{\bullet} \simeq H_{i}(M \otimes_{R} P'_{\bullet})_{\bullet}.
+  \end{equation*}
+
+  To see this, consider the following double complex (with factors of $-1$ added as necessary to acutally make it a double complex).
+  \begin{equation*}
+    \begin{tikzcd}
+      && \
+      \arrow[ddddd, no head, dotted]
+      \\
+      & M \otimes_{R} P'_{1}
+      \arrow[d]
+      && P_{0} \otimes_{R} P'_{1}
+      \arrow[ll, dashed]
+      \arrow[d]
+      & P_{1} \otimes_{R} P'_{1}
+      \arrow[l]
+      \arrow[d]
+      \\
+      & M \otimes_{R} P'_{0}
+      \arrow[dd, dashed]
+      && P_{0} \otimes_{R} P'_{0}
+      \arrow[ll, dashed]
+      \arrow[dd, dashed]
+      & P_{1} \otimes_{R} P'_{0}
+      \arrow[l]
+      \arrow[dd, dashed]
+      \\
+      \
+      \arrow[rrrrr, dotted, no head]
+      &&&&& \
+      \\
+      & M \otimes_{R} N
+      && P_{0} \otimes_{R} N
+      \arrow[ll, dashed]
+      & P_{1} \otimes_{R} N
+      \arrow[l]
+      \\
+      && \
+    \end{tikzcd}
+  \end{equation*}
+
+  \begin{equation*}
+    \begin{tikzcd}
+      \cdots
+      \arrow[r]
+      & P_{\bullet} \otimes P'_{2}
+      \arrow[r]
+      & P_{\bullet} \otimes P'_{1}
+      \arrow[r]
+      & P_{\bullet} \otimes P'_{0}
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  Since each $P'_{i}$ is projective, $- \otimes_{R} P'_{i}$ is exact, so the rows above the dotted line are resolutions of $M \otimes_{R} P'_{j}$. Similarly, the columns to the right of the dotted line are resolutions of $P_{i} \otimes_{R} N$.
+
+  This means that the part of the double complex above the dotted line is a double complex whose rows are resolutions; thus,
+  \begin{equation*}
+    \Tot(P_{\bullet} \otimes_{R} P'_{\bullet}) \simeq M \otimes_{R} P'_{\bullet}.
+  \end{equation*}
+
+  Similarly, the part of the double complex to the right of the dotted line has resolutions as its columns, implying that
+  \begin{equation*}
+    \Tot(P_{\bullet} \otimes_{R} P'_{\bullet}) \simeq P_{\bullet} \otimes_{R} N.
+  \end{equation*}
+  Thus, taking homology, we have
+  \begin{equation*}
+    H_{i}(P_{\bullet} \otimes_{R} N) \simeq H_{i}(\Tot(P_{\bullet} \otimes_{R} P'_{\bullet})) \simeq H_{i} (M \otimes_{R} P'_{\bullet}).
+  \end{equation*}
+\end{proof}
+
+
+\section{Ext and extensions}
+\label{sec:ext_and_extensions}
+
+We know that $\Hom(N, -)\colon \Rmod \to \Ab$ is left exact, so we may form right derived functors.
+
+\begin{definition}[Ext functor]
+  \label{def:ext_functor}
+  Let $R$ be a ring, and $N \in \Rmod$ an $R$-module. The right derived functors
+  \begin{equation*}
+    R^{i}\Hom(N, -)\colon \Rmod \to \Ab
+  \end{equation*}
+  are called the \defn{Ext functors}, and denoted
+  \begin{equation*}
+    R^{i} \Hom(N, -) = \Ext_{R}^{i}(N, -).
+  \end{equation*}
+\end{definition}
+
+An argument very similar to that given for $\Tor$ in \hyperref[prop:tor_balanced]{Proposition~\ref*{prop:tor_balanced}} shows that $\Ext$ is balanced; that is, when computing $\Ext^{i}_{R}(M, N)$,
+it doesn't matter whether we take an injective resolution of $N$ or a projective resolution of $M$; we will get the same result either way. Rather than spelling this out in detail, we will wait for \hyperref[ch:spectral_sequences]{Chapter~\ref*{ch:spectral_sequences}}, where a spectral sequences argument gives the result almost immediately.
+
+There turns out to be a deep connection between the $\Ext$ groups and extensions.
+
+\begin{definition}[extension]
+  \label{def:extension}
+  Let $A$ and $B$ be $R$-modules. An \defn{extension} of $A$ by $B$ is a short exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      \xi\colon
+      & 0
+      \arrow[r]
+      & B
+      \arrow[r, hook]
+      & X
+      \arrow[r, two heads]
+      & A
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+
+  Two extensions $\xi$ and $\xi'$ are said to be \defn{equivalent} if there is a morphism of short exact sequences
+  \begin{equation*}
+    \begin{tikzcd}
+      \xi\colon
+      & 0
+      \arrow[r]
+      & B
+      \arrow[r, hook]
+      \arrow[d, "\id_{B}"]
+      & X
+      \arrow[r, two heads]
+      \arrow[d, "\varphi"]
+      & A
+      \arrow[r]
+      \arrow[d, "\id_{A}"]
+      & 0
+      \\
+      \xi'\colon
+      & 0
+      \arrow[r]
+      & B
+      \arrow[r, hook]
+      & X'
+      \arrow[r, two heads]
+      & A
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+  The five lemma (\hyperref[thm:five_lemma]{Theorem~\ref*{thm:five_lemma}}) implies that $\varphi$ is an isomorphism.
+\end{definition}
+
+Let $\xi$ be an extension of $A$ by $B$. Applying the $\Ext$ functor we find an associated long exact sequence on cohomology.
+\begin{equation*}
+  \begin{tikzcd}
+    \Ext^{1}(A, B)
+    \arrow[r]
+    & \Ext^{1}(X, B)
+    \arrow[r]
+    & \cdots
+    \\
+    \Hom(A, B)
+    \arrow[r]
+    & \Hom(X, B)
+    \arrow[r]
+    & \Hom(B, B)
+    \arrow[ull, out=22, in=-157, looseness=1, overlay, "\delta" description]
+  \end{tikzcd}
+\end{equation*}
+
+\begin{definition}[obstruction class]
+  \label{def:obstruction_class}
+  The image of $\id_{B}$ under the connecting homomorphism $\delta(\id_{B}) \in \Ext^{1}(A, B)$ is known as the \defn{obstruction class} of $\xi$. For any extension $\xi$, we denote the obstruction class of $\xi$ by $\Theta(\xi)$.
+\end{definition}
+
+\begin{proposition}
+  \label{prop:obstruction_class_prevents_splitness}
+  An extension $\xi$ is split if and only if the correspoding obstruction class is zero.
+\end{proposition}
+\begin{proof}
+  We are given an extension
+  \begin{equation*}
+    \begin{tikzcd}
+      \xi\colon
+      & 0
+      \arrow[r]
+      & B
+      \arrow[r, hook, "f"]
+      & X
+      \arrow[r, two heads, "g"]
+      & A
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+  First suppose that $\Theta(\xi) = 0$. Consider the following portion of the exact sequence on cohomology.
+  \begin{equation*}
+    \begin{tikzcd}
+      \Hom(X, B)
+      \arrow[r]
+      & \Hom(B, B)
+      \arrow[r]
+      & \Ext^{1}(A, B)
+    \end{tikzcd}
+  \end{equation*}
+  If $\delta\colon \id \to 0$, then there exists $a \in \Hom(X, B)$ such that $a \circ f = \id$. Thus, by the splitting lemma (\hyperref[lemma:splitting_lemma]{Lemma~\ref*{lemma:splitting_lemma}}), the sequence splits.
+
+  Now suppose that the sequence $\xi$ splits; that is, that we have a morphism $a\colon A \to X$ such that $a \circ f = \id_{B}$.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & B
+      \arrow[r, hook, "f"]
+      & X
+      \arrow[r, two heads, "g"]
+      & A
+      \arrow[r]
+      \arrow[l, bend left, "a"]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+
+  Since $\Ext^{1}(-, B)$ is additive, the sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \Ext^{1}(A, B)
+      \arrow[r, hook, "{\Ext^{1}(g, B)}"]
+      & \Ext^{1}(X, B)
+      \arrow[r, two heads, "{\Ext^{1}(f, B)}"]
+      \arrow[l, bend left, "{\Ext^{1}(a, B)}"]
+      & \Ext^{1}(B, B)
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  is split exact. Thus, $\Ext^{1}(g, B)$ is a monomorphism, so it has trivial kernel.
+  \begin{equation*}
+    \begin{tikzcd}
+      \Ext^{1}(A, B)
+      \arrow[r, hook, "{\Ext^{1}(g, B)}"]
+      & \cdots
+      \\
+      \Hom(A, B)
+      \arrow[r]
+      & \Hom(X, B)
+      \arrow[r]
+      & \Hom(B, B)
+      \arrow[ull, out=22, in=-157, looseness=1, overlay, "\delta" description]
+    \end{tikzcd}
+  \end{equation*}
+  Exactness then forces $\delta = 0$.
+\end{proof}
+
+\hyperref[prop:obstruction_class_prevents_splitness]{Proposition~\ref*{prop:obstruction_class_prevents_splitness}} explains the name \emph{obstruction class:} $\Theta(\xi)$ is the obstruction to the splitness of $\xi$. The first $\Ext$ group contains some information about when a sequence can split, or fail to split.
+
+In fact, the group $\Ext^{1}(A, B)$ parametrizes extensions of $A$ by $B$.
+
+\begin{theorem}
+  \label{thm:ext_parametrizes_extension_classes}
+  There is a natural bijection
+  \begin{equation*}
+    \left\{ \substack{\text{Extension classes of} \\ \text{extensions of $A$ by $B$}} \right\} \overset{\cong}{\longrightarrow} \Ext^{1}(A, B);\qquad [\xi] \mapsto \Theta(\xi).
+  \end{equation*}
+\end{theorem}
+\begin{proof}
+  We first show well-definedness. Let $\xi$ and $\xi'$ be equivalent extensions. By naturality of $\delta$, the following diagram commutes.
+  \begin{equation*}
+    \begin{tikzcd}
+      \Hom(X, B)
+      \arrow[r]
+      & \Hom(B, B)
+      \arrow[r, "\delta"]
+      & \Ext^{1}(A, B)
+      \\
+      \Hom(X, B)
+      \arrow[r]
+      \arrow[u, "\id"]
+      & \Hom(B, B)
+      \arrow[r, swap, "\delta"]
+      \arrow[u, "\id"]
+      & \Ext^{1}(A, B)
+      \arrow[u, swap, "\id"]
+    \end{tikzcd}
+  \end{equation*}
+  Thus, $\Theta(\xi) = \Theta(\xi')$.
+
+  We now construct an explicit inverse $\Psi$ to $\Phi$. Since $\Rmod$ has enough projectives, we can find a projective $P$ which surjects onto $A$. Fix such a $P$ and take the kernel of the surjection, giving the following short exact sequence.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & K
+      \arrow[r, hook, "\psi"]
+      & P
+      \arrow[r, two heads, "\gamma"]
+      & A
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  We construct from such an exact sequence a map which takes an element of $\Ext^{1}(A, B)$ and gives an extension of $A$ by $B$. First applying $\Ext^{*}(-, B)$ and taking the long exact sequence on cohomology we find the following exact fragment.
+  \begin{equation*}
+    \begin{tikzcd}
+      \Hom(K, B)
+      \arrow[r, "\delta"]
+      & \Ext^{1}(A, B)
+      \arrow[r]
+      & \Ext^{1}(P, B)
+    \end{tikzcd}
+  \end{equation*}
+  Since $P$ is projective, the group $\Ext^{1}(P, B)$ vanishes, so $\delta\colon \Hom(K, B) \to \Ext^{1}(A, B)$ is surjective. Thus, given any $e \in \Ext^{1}(A, B)$, we can find a (not unique!) lift to $\phi \in \Hom(K, B)$. Take the pushout in the following diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & K
+      \arrow[r, hook, "\psi"]
+      \arrow[d, swap, "\phi"]
+      & P
+      \arrow[r, two heads, "\gamma"]
+      \arrow[d, "i_{P}"]
+      & A
+      \arrow[r]
+      & 0
+      \\
+      & B
+      \arrow[r, hook, "i_{B}"]
+      & B \amalg^{\phi}_{K} P
+    \end{tikzcd}
+  \end{equation*}
+  By the dual to \hyperref[lemma:pullback_preserves_kernel]{Lemma~\ref*{lemma:pullback_preserves_kernel}}, the cokernel of $i_{B}$ is equal to the cokernel of $\psi$, so we get an induced short exact sequence as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & K
+      \arrow[r, hook, "\psi"]
+      \arrow[d, swap, "\phi"]
+      & P
+      \arrow[r, two heads, "\gamma"]
+      \arrow[d, "i_{P}"]
+      & A
+      \arrow[r]
+      \arrow[d, equals]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & B
+      \arrow[r, hook, "i_{B}"]
+      & B \amalg^{\phi}_{K} P
+      \arrow[r, two heads, "\pi"]
+      & A
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+
+  It remains to show that $\Psi$ as defined is independent of the choice of $\phi$, and that it really is an inverse to $\Phi$. To this end, pick a different $\tilde{\phi} \in \Hom(N, B)$ such that $\delta(\tilde{\phi}) = e$.
+
+  This gives us a new morphism of exact sequences as follows
+  \begin{equation}
+    \label{eq:exact_seq_for_phi_tilde}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & K
+      \arrow[r, hook, "\psi"]
+      \arrow[d, swap, "\tilde{\phi}"]
+      & P
+      \arrow[r, two heads, "\gamma"]
+      \arrow[d, "\tilde{i}_{P}"]
+      & A
+      \arrow[r]
+      \arrow[d, equals]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & B
+      \arrow[r, hook, "\tilde{i}_{B}"]
+      & B \amalg^{\tilde{\phi}}_{K} P
+      \arrow[r, two heads, "\tilde{\pi}"]
+      & A
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation}
+
+  Because of the way we chose $\tilde{\phi}$, there exists some $\rho \in \Hom(P, B)$ so that $\rho \circ \psi = \tilde{\phi} - \phi$. Consider the following outer square.
+  \begin{equation}
+    \label{eq:morphism_interpolating_extensions}
+    \begin{tikzcd}
+      K
+      \arrow[r, hook, "\psi"]
+      \arrow[d, swap, "\phi"]
+      & P
+      \arrow[ddr, bend left, "\tilde{i}_{P} - \tilde{i}_{B} \circ \rho"]
+      \arrow[d, "i_{P}"]
+      \\
+      B
+      \arrow[r, hook, "i_{B}"]
+      \arrow[rrd, bend right, "\tilde{\iota_{B}}"]
+      & B \amalg_{N}^{\phi} P
+      \arrow[dr, dashed, "\exists!\alpha"]
+      \\
+      && B \amalg_{N}^{\tilde{\phi}} P
+    \end{tikzcd}
+  \end{equation}
+  Using the commutativity of the left-hand square in \hyperref[eq:exact_seq_for_phi_tilde]{Diagram~\ref*{eq:exact_seq_for_phi_tilde}}, we find
+  \begin{align*}
+    (\tilde{i}_{P} - \tilde{i}_{B} \circ \rho) \circ \psi &=\tilde{i}_{P} \circ \psi - \tilde{i}_{B} \circ \rho \circ \psi \\
+    &= \tilde{i}_{P} \circ \psi - \tilde{i}_{B} \circ \tilde{\phi} + \tilde{i}_{B} \circ \phi \\
+    &= \tilde{i}_{B} \circ \phi,
+  \end{align*}
+  so this outer square commutes, giving us the unique morphism $\alpha$.
+
+  The claim that our two extensions are equivalent unwraps to the claim that the diagram
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & B
+      \arrow[r, hook, "i_{B}"]
+      \arrow[d, equals]
+      & B \amalg_{K}^{\phi}P
+      \arrow[r, two heads, "\pi"]
+      \arrow[d, "\alpha"]
+      & A
+      \arrow[r]
+      \arrow[d, equals]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & B
+      \arrow[r, hook, "\tilde{i}_{B}"]
+      & B \amalg_{K}^{\phi}P
+      \arrow[r, two heads, "\tilde{\pi}"]
+      & A
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  commutes. The left-hand square is the lower commuting triangle in \hyperref[eq:morphism_interpolating_extensions]{Diagram~\ref*{eq:morphism_interpolating_extensions}}.
+
+  Reminding ourselves of the proof of \hyperref[lemma:pullback_preserves_kernel]{Lemma~\ref*{lemma:pullback_preserves_kernel}}, we recall that the morphism $\pi$ is defined by a pushout: it is the unique map $P \amalg_{K}^{\phi} P \to A$ such that $\pi \circ i_{B} = 0$ and $\pi \circ i_{P} = \gamma$. If we can show that $\tilde{\pi} \circ \alpha$ also satisfies these equations, then we can content ourselves that the diagram commutes. Indeed, we have
+  \begin{align*}
+    (\tilde{\pi} \circ \alpha) \circ i_{B} &= \tilde{\pi} \circ \tilde{i}_{B} \\
+    &= 0
+  \end{align*}
+  and
+  \begin{align*}
+    (\tilde{\pi} \circ \alpha) \circ i_{P} &= \tilde{\pi} \circ (\tilde{i}_{P} - \tilde{i}_{B} \circ \rho) \\
+    &= \gamma.
+  \end{align*}
+
+  Our last job, which was really the whole point of the endeavor, is to check that the maps $\Phi$ and $\Psi$ are inverse to each other. To that end, fix some $A$ and $B$, and pick $e \in \Ext^{1}(A, B)$. By construction of $\Psi$, we get a morphism of exact sequences
+  \begin{equation}
+    \label{eq:exact_sequence_defining_big_phi}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & K
+      \arrow[r, hook, "\psi"]
+      \arrow[d, swap, "\phi"]
+      & P
+      \arrow[r, two heads, "\gamma"]
+      \arrow[d, "i_{P}"]
+      & A
+      \arrow[r]
+      \arrow[d, equals]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & B
+      \arrow[r, hook, "i_{B}"]
+      & B \amalg^{\phi}_{K} P
+      \arrow[r, two heads, "\pi"]
+      & A
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation}
+  where $\phi$ is an element of $\Hom(K, A)$ which is mapped to by $e$ under $\delta$. The next step in computing $\Phi(\Psi(e))$ would now be to stick $\Psi(e)$ into the hom functor $\Hom(-, B)$, and look at the image of $\id_{B}$ under the connecting homomorphism. However, using the fact that $\Ext$ is a homological $\delta$-functor, we can stick the whole morphism of exact sequences \hyperref[eq:exact_sequence_defining_big_phi]{Equation~\ref*{eq:exact_sequence_defining_big_phi}} in and get a morphism of long exact sequences out. Picking out the square containing the relevant boundary map, we find the following.
+  \begin{equation*}
+    \begin{tikzcd}
+      \Hom(B, B)
+      \arrow[r, "\delta"]
+      \arrow[d, swap, "{\Hom(\phi, B)}"]
+      & \Ext^{1}(A, B)
+      \arrow[d, equals]
+      \\
+      \Hom(K, B)
+      \arrow[r, "\delta'"]
+      & \Ext^{1}(A, B)
+    \end{tikzcd}
+  \end{equation*}
+  Chasing the identity around in both directions tells us that
+  \begin{equation*}
+    \delta(\id_{B}) = \delta'(\phi) = e.
+  \end{equation*}
+
+  Next, we start with an extension
+  \begin{equation*}
+    \begin{tikzcd}
+      \xi\colon
+      & 0
+      \arrow[r]
+      & B
+      \arrow[r, hook, "f"]
+      & X
+      \arrow[r, two heads, "g"]
+      & A
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}  
+  Using the connecting homomorphism, we get $e = \delta(\id_{B}) \in \Ext^{1}(A, B)$. Now picking
+\end{proof}
+
+\end{document}
