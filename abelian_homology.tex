@@ -852,7 +852,7 @@ In fact, we can say more.
 
 \begin{corollary}
   \label{cor:projective_resolution_functor}
-  For any abelian category with enough projectives, there are projective resolution functors $\mathcal{A} \to \mathcal{K}(\Ch_{\geq 0}\mathcal{A})$.
+  For any abelian category with enough projectives, there are projective resolution functors $\mathcal{A} \to \mathcal{K}^{+}(\mathcal{A})$.
 \end{corollary}
 
 \section{Mapping cones}
@@ -897,11 +897,11 @@ In fact, we can say more.
     \begin{tikzcd}
       0
       \arrow[r]
-      & C_{\bullet}
+      & D_{\bullet}
       \arrow[r, "\iota"]
       & \cone(f)_{\bullet}
       \arrow[r, "\pi"]
-      & D[-1]_{\bullet}
+      & C[-1]_{\bullet}
       \arrow[r]
       & 0
     \end{tikzcd}.
@@ -918,10 +918,10 @@ In fact, we can say more.
 \begin{proof}
   By \hyperref[cor:long_exact_sequence_on_homology]{Corollary~\ref*{cor:long_exact_sequence_on_homology}}, we get a long exact sequence
   \begin{equation*}
-    \cdots \to  H_{n}(X) \overset{\delta}{\to} H_{n}(Y) \to H_{n}(\cone(f)) \to H_{n-1}(X) \to \cdots.
+    \cdots \to  H_{n}(C) \overset{\delta}{\to} H_{n}(D) \to H_{n}(\cone(f)) \to H_{n-1}(C) \to \cdots.
   \end{equation*}
 
-  We still need to check that $\delta = H_{n}(f)$. This is not hard to see (although I'm missing a sign somewhere); picking $x \in \ker d^{X}$, the zig-zag defining $\delta$ goes as follows.
+  We still need to check that $\delta = H_{n}(f)$. This is not hard to see; picking $x \in \ker d^{X}$, the zig-zag defining $\delta$ goes as follows.
   \begin{equation*}
     \begin{tikzcd}
       && x
@@ -1110,7 +1110,7 @@ In fact, we can say more.
 \section{Localization at weak equivalences: a love story}
 \label{sec:localization_at_weak_equivalences_a_love_story}
 
-We can embed any abelian category $\mathcal{A}$ into the corresponding category $\Ch(\mathcal{A})$ of chain complexes via inclusion into degree zero. This is obviously a lossless procedure, in the sense that we recover $\mathcal{A}$ by restricting to degree $0$.
+We can embed any abelian category $\mathcal{A}$ into the corresponding category $\Ch_{\geq 0}(\mathcal{A})$ of chain complexes via inclusion into degree zero. This is obviously a lossless procedure, in the sense that we recover $\mathcal{A}$ by restricting to degree $0$.
 \begin{equation*}
   \begin{tikzcd}
     \mathcal{A}
@@ -1130,111 +1130,24 @@ Equivalently, we recover our category $\mathcal{A}$ by taking zeroth homology.
   \end{tikzcd}
 \end{equation*}
 
-However, we notice that there are much better-behaved embeddings of $\mathcal{A}$ into $\Ch(\mathcal{A})$ such that we recover $\mathcal{A}$ when taking zeroth homology. For example, taking projective resolutions of objects and lifting morphisms using \hyperref[prop:can_lift_morphisms_to_projective_resolutions]{Proposition~\ref*{prop:can_lift_morphisms_to_projective_resolutions}} will do the trick. Unfortunately, this is not in general uniquely defined: one can take many different projective resolutions, and lift morphisms in many different ways. There is no reason to expect these data to assemble themselves functorially.
+However, we notice that there are much better-behaved embeddings of $\mathcal{A}$ into $\Ch_{}(\mathcal{A})$ such that we recover $\mathcal{A}$ when taking zeroth homology. For example, taking projective resolutions of objects and lifting morphisms using \hyperref[prop:can_lift_morphisms_to_projective_resolutions]{Proposition~\ref*{prop:can_lift_morphisms_to_projective_resolutions}} will do the trick. Unfortunately, this is not in general uniquely defined: one can take many different projective resolutions, and lift morphisms in many different ways. There is no reason to expect these data to assemble themselves functorially.
 
-However, if we were to modify $\Ch(\mathcal{A})$ in such a way that all quasi-isomorphisms became bona-fide isomorphisms, then we would have this functoriality, thanks to \hyperref[prop:additive_functors_from_derived_category_squash_homotopies]{Proposition~\ref*{prop:additive_functors_from_derived_category_squash_homotopies}}.
+However, if we were to modify $\Ch_{\geq 0}(\mathcal{A})$ in such a way that all quasi-isomorphisms became bona-fide isomorphisms, then we would have this functoriality, thanks to \hyperref[prop:additive_functors_from_derived_category_squash_homotopies]{Proposition~\ref*{prop:additive_functors_from_derived_category_squash_homotopies}}.
 
-Thus we find ourselves in a common situation: we have a category $\Ch(\mathcal{A})$, and identified a collection of morphisms inside this category which we would like to view as weak equivalences, namely the quasi-isomorphisms. In an ideal world, we would simply promote quasi-isomorphisms to bona fide isomorphisms. That is, we would like to form the localization
+Thus we find ourselves in a common situation: we have a category $\Ch_{\geq 0}(\mathcal{A})$, and identified a collection of morphisms inside this category which we would like to view as weak equivalences, namely the quasi-isomorphisms. In an ideal world, we would simply promote quasi-isomorphisms to bona fide isomorphisms. That is, we would like to form the localization
 \begin{equation*}
-  \Ch(\mathcal{A}) \to \Ch(\mathcal{A})[\{\text{quasi-isomorphisms}\}^{-1}].
+  \Ch_{\geq 0}(\mathcal{A}) \to \Ch_{\geq 0}(\mathcal{A})[\{\text{quasi-isomorphisms}\}^{-1}].
 \end{equation*}
 
 Unfortunately, localization is not at all a trivial process, and one can get hurt if one is not careful. For that reason, actually constructing the above localization and then working with it is not a profitable approach to take.
 
 However, note that we can get what we want by making a more draconian identification: collapsing all homotopy equivalences. Homotopy equivalence is friendlier than quasi-isomorphism in the sense that one can take the quotient by it; that is, there is a well-defined additive functor
 \begin{equation*}
-  \Ch(\mathcal{A}) \twoheadrightarrow \mathcal{K}(\mathcal{A})
+  \Ch_{\geq 0}(\mathcal{A}) \to \mathcal{K}(\mathcal{A})
 \end{equation*}
-which is the identity on objects and sends morphisms to their equivalence classes modulo homotopy; this sends precisely homotopy equivalences to isomorphisms. In fact, this is universal in the sense that every other additive functor sending quasi-isomorphisms to isomorphisms factors through it. In particular, the functor
-\begin{equation*}
-  \Ch(\mathcal{A}) \to \Ch(\mathcal{A})[\{\text{quasi-isomorphisms}^{-1}\}]
-\end{equation*}
-factors through it.
+which is the identity on objects and sends morphisms to their equivalence classes modulo homotopy; this sends precisely homotopy equivalences to isomorphisms.
 
-But now we are in a really wonderful position, as long as $\mathcal{A}$ has enough projectives: we can (by REF we have already proved) find a projective resolution functor
-\begin{equation*}
-  P\colon \mathcal{A} \to \mathcal{K}^{+}(\mathcal{A}).
-\end{equation*}
-In fact, this functor is an equivalence of categories.
-
-\section{Homological \texorpdfstring{$\delta$}{delta}-functors and derived functors}
-\label{sec:homological_delta_functors}
-
-We have noticed that we can
-
-\begin{definition}[derived functor]
-  \label{def:derived_functor}
-  Let $F\colon \mathcal{A} \to \mathcal{B}$ be a functor between abelian categories.
-  \begin{itemize}
-    \item If $F$ is right exact and $\mathcal{A}$ has enough projectives, we declare the \defn{left derived functor} to be the cohomological $\delta$-functor $\{L_{n}F\}$ defined by
-      \begin{equation*}
-        L_{n}F =
-        \begin{tikzcd}
-          \mathcal{A}
-          \arrow[r, "P"]
-          & \mathcal{K}(\Ch_{\geq 0}(\mathcal{A}))
-          \arrow[r, "F"]
-          & \mathcal{K}(\Ch_{\geq 0}(\mathcal{B}))
-          \arrow[r, "H_{n}"]
-          & \mathcal{B}
-        \end{tikzcd}
-      \end{equation*}
-      where $P\colon \mathcal{A} \to \mathcal{K}(\Ch_{\geq 0}(\mathcal{A}))$ is a projective resolution functor.
-
-    \item If $F$ is left exact and $\mathcal{A}$ has enough injectives, we define the \defn{right derived functor} to be the cohomological $\delta$-functor
-      \begin{equation*}
-        R^{n}F(X) = H^{n} \circ F \circ Q
-      \end{equation*}
-      where $Q$ is an injective resolution functor.
-  \end{itemize}
-\end{definition}
-
-It may seem that we still have something left to prove; after all, we have not shown that the result of our composition is independant of the projective/injective resolution functor we used. However,
-
-Because $\{H_{n}\}$ is a homological $\delta$-functor, it is trivial that ${L_{n}F}$ is a homological delta-functor. Note that it really does extend $F$ in the following sense.
-
-\begin{proposition}
-  Let $F\colon \mathcal{A} \to \mathcal{B}$ be a right exact functor between abelian categories. We have that
-  \begin{equation*}
-    L_{0}F \simeq F.
-  \end{equation*}
-\end{proposition}
-\begin{proof}
-  Let $P_{\bullet} \to X$ be a projective resolution. By \hyperref[lemma:equivalent_characterization_of_projective_resolution]{Lemma~\ref*{lemma:equivalent_characterization_of_projective_resolution}}, the following sequence is exact.
-  \begin{equation*}
-    \begin{tikzcd}
-      P_{2}
-      \arrow[r]
-      & P_{1}
-      \arrow[r, "f"]
-      & P_{0}
-      \arrow[r, twoheadrightarrow]
-      & X
-      \arrow[r]
-      & 0
-    \end{tikzcd}
-  \end{equation*}
-  Since $F$ is right exact, the following sequence is exact.
-  \begin{equation*}
-    \begin{tikzcd}
-      F(P_{2})
-      \arrow[r]
-      & F(P_{1})
-      \arrow[r, "F(f)"]
-      & F(P_{0})
-      \arrow[r, twoheadrightarrow]
-      & F(X)
-      \arrow[r]
-      & 0
-    \end{tikzcd}
-  \end{equation*}
-  This tells us that $F(X) \simeq \coker(F(f))$. But
-  \begin{equation*}
-    \coker(H(f)) \simeq H_{0}(P_{\bullet}) = L_{0}F(X).
-  \end{equation*}
-
-  Similarly, on morphisms
-\end{proof}
+But now we are in a really wonderful position, as long as $\mathcal{A}$ has enough projectives: we can by \hyperref[cor:projective_resolution_functor]{Corollary~\ref*{cor:projective_resolution_functor}} find a projective resolution functor
 
 \begin{definition}[homological \texorpdfstring{$\delta$}{delta}-functor]
   \label{def:homological_delta_functor}
@@ -1339,25 +1252,295 @@ Because $\{H_{n}\}$ is a homological $\delta$-functor, it is trivial that ${L_{n
       \end{equation*}
       commutes; that is, a morphism of short exact sequences leads to a morphism of long exact sequences.
   \end{enumerate}
+
+  A morphism $S \to T$ of $\delta$-functors consists of, for each $n$, a natural transformation $S_{n} \to T_{n}$ compatible with the $\delta$.
 \end{definition}
 
 This seems like an inelegant definition, and indeed it is.
+
+\begin{example}
+  The prototypical example of a homological $\delta$-functor is homology: the collection $H_{n}\colon \Ch(\mathcal{A}) \to \mathcal{A}$, together with the collection of connecting homomorphisms, is a homological delta-functor. In fact, the most interesting homological delta functors called \emph{derived functors,} come from homology.
+\end{example}
 
 \begin{definition}[cohomological \texorpdfstring{$\delta$}{delta}-functors]
   \label{def:cohomological_delta_functors}
   Dual to \hyperref[def:homological_delta_functor]{Definition~\ref*{def:homological_delta_functor}}.
 \end{definition}
 
-\begin{example}
-  The prototypical example of a homological $\delta$-functor is homology: the collection $H_{n}\colon \Ch(\mathcal{A}) \to \mathcal{A}$, together with the collection of connecting homomorphisms, is a homological delta-functor. In fact, the most interesting homological delta functors called \emph{derived functors,} come from homology.
-\end{example}
+\begin{definition}[derived functor]
+  \label{def:derived_functor}
+  Let $F\colon \mathcal{A} \to \mathcal{B}$ be a functor between abelian categories.
+  \begin{itemize}
+    \item If $F$ is right exact and $\mathcal{A}$ has enough projectives, we declare the \defn{left derived functor} to be the homological $\delta$-functor $\{L_{n}F\}$ defined by
+      \begin{equation*}
+        L_{n}F =
+        \begin{tikzcd}
+          \mathcal{A}
+          \arrow[r, "P"]
+          & \mathcal{K}(\Ch_{\geq 0}(\mathcal{A}))
+          \arrow[r, "F"]
+          & \mathcal{K}(\Ch_{\geq 0}(\mathcal{B}))
+          \arrow[r, "H_{n}"]
+          & \mathcal{B}
+        \end{tikzcd}
+      \end{equation*}
+      where $P\colon \mathcal{A} \to \mathcal{K}(\Ch_{\geq 0}(\mathcal{A}))$ is a projective resolution functor.
 
+    \item If $F$ is left exact and $\mathcal{A}$ has enough injectives, we define the \defn{right derived functor} to be the cohomological $\delta$-functor
+      \begin{equation*}
+        R^{n}F(X) = H^{n} \circ F \circ Q
+      \end{equation*}
+      where $Q$ is an injective resolution functor.
+  \end{itemize}
+\end{definition}
+
+We still need to show that derived functors are in fact homological delta-functors.
+
+\begin{theorem}
+  For any right exact functor $F\colon \mathcal{A} \to \mathcal{B}$ between abelian categories $\mathcal{A}$ and $\mathcal{B}$, where $\mathcal{A}$ has enough projectives, the left derived functor $\{L_{n}F\}$ is a homological $\delta$-functor.
+\end{theorem}
+\begin{proof}
+  We check each condition separately.
+  \begin{enumerate}
+    \item $L_{n}F$ is computed by taking the $n$th homology of a chain complex concentrated in positive degree.
+
+    \item Start with a short exact sequence
+      \begin{equation*}
+        \begin{tikzcd}
+          0
+          \arrow[r]
+          & A
+          \arrow[r, hook]
+          & B
+          \arrow[r, two heads]
+          & C
+          \arrow[r]
+          & 0
+        \end{tikzcd}
+      \end{equation*}
+      in $\mathcal{A}$.
+
+      We compute the image of this sequence under the derived functors $L_{n}F$ by using our chosen projective resolution functor to find projective resolutions and lift maps, and take homology. In general, we cannot be guaranteed that we can lift our exact sequence up to an exact sequence of projective resolutions
+      \begin{equation*}
+        \begin{tikzcd}
+          0
+          \arrow[r]
+          & P^{A}_{\bullet}
+          \arrow[r, hook]
+          & P^{B}_{\bullet}
+          \arrow[r, two heads]
+          & P^{C}_{\bullet}
+          \arrow[r]
+          & 0
+        \end{tikzcd}.
+      \end{equation*}
+      However, we have shown that, up to isomorphism, it doesn't matter which projective resolutions we choose, so we can choose those given by the horseshoe lemma (\hyperref[thm:horseshoe_lemma]{Theorem~\ref*{thm:horseshoe_lemma}}), giving us such an exact sequence. Applying $F$ then gives us another exact sequence, and taking homology gives a long exact sequence.
+
+    \item We do the same thing, but now apply the horseshoe lemma on morphisms (\hyperref[thm:horseshoe_lemma_for_morphisms]{Theorem~\ref*{thm:horseshoe_lemma_for_morphisms}}).
+  \end{enumerate}
+\end{proof}
+
+\begin{proposition}
+  Let $F\colon \mathcal{A} \to \mathcal{B}$ be a right exact functor between abelian categories. We have that
+  \begin{equation*}
+    L_{0}F \simeq F.
+  \end{equation*}
+\end{proposition}
+\begin{proof}
+  Let $P_{\bullet} \to X$ be a projective resolution. By \hyperref[lemma:equivalent_characterization_of_projective_resolution]{Lemma~\ref*{lemma:equivalent_characterization_of_projective_resolution}}, the following sequence is exact.
+  \begin{equation*}
+    \begin{tikzcd}
+      P_{1}
+      \arrow[r, "f"]
+      & P_{0}
+      \arrow[r, twoheadrightarrow]
+      & X
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  Since $F$ is right exact, the following sequence is exact.
+  \begin{equation*}
+    \begin{tikzcd}
+      F(P_{1})
+      \arrow[r, "F(f)"]
+      & F(P_{0})
+      \arrow[r, twoheadrightarrow]
+      & F(X)
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  This tells us that $F(X) \simeq \coker(F(f))$. But
+  \begin{equation*}
+    \coker(H(f)) \simeq H_{0}(P_{\bullet}) = L_{0}F(X).
+  \end{equation*}
+\end{proof}
+
+Given a right exact functor $F$, the above theorem shows that, at the lowest level, the left derived functor gives $F$ itself. It turns out that $\{L_{n}F\}$ is the \emph{universal} homological $\delta$-functor with this property:
+
+\begin{proposition}
+  Let $F\colon \mathcal{A} \to \mathcal{B}$ be a right exact functor between abelian categories where $\mathcal{A}$ has enough projectives, let $\{T_{n}\}$ be a homological $\delta$-functor, and let $\phi_{0}\colon T_{0} \Rightarrow F = L_{0}F$ be a natural transformation. Then there exists a unique lift of $\phi_{0}$ to a morphism $\{\phi_{i}\colon T_{i} \to L_{i}F\}$.
+\end{proposition}
+\begin{proof}
+  First we construct $\phi_{1}\colon T_{1} \Rightarrow L_{1}F$. For each object $A \in \mathcal{A}$, pick a projective which surjects onto it and take a kernel, giving the following short exact sequence.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & K
+      \arrow[r, hook]
+      & P
+      \arrow[r, two heads]
+      & A
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  Applying each of our homological $\delta$-functors and using the fact that $L_{i}FP = 0$ for $i > 0$, we get the following data.
+  \begin{equation*}
+    \begin{tikzcd}
+      & T_{1}A
+      \arrow[r, "\delta"]
+      & T_{0}K
+      \arrow[r]
+      \arrow[d, "(\phi_{0})_{K}"]
+      & T_{0}P
+      \arrow[r]
+      \arrow[d, "(\phi_{0})_{P}"]
+      & T_{0}A
+      \arrow[r]
+      \arrow[d, "(\phi_{0})_{A}"]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & L_{1}FA
+      \arrow[r, hook, "\delta"]
+      & FK
+      \arrow[r]
+      & FP
+      \arrow[r]
+      & FA
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  Since $L_{1}FA \to FK$ is a kernel of $T_{0}K \to T_{0}P$, we get a unique map $T_{1}A \to L_{1}FA$, which we declare to be $(\phi_{1})_{A}$.
+
+  It remains to show that these are really the components of a natural transformation. Let $f\colon A \to A'$ be a morphism in $\mathcal{A}$. Consider any induced morphisms of short exact sequences.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & K
+      \arrow[r, hook]
+      \arrow[d]
+      & P
+      \arrow[r, two heads]
+      \arrow[d]
+      & A
+      \arrow[r]
+      \arrow[d, "f"]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & K'
+      \arrow[r, hook]
+      & P'
+      \arrow[r, two heads]
+      & A'
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  Since $\{L_{n}F\}$ and $\{T_{n}\}$ are homological $\delta$-functors, this gives us the following cube, where the components $(\phi_{1})_{A}$ and $(\phi_{1})_{A'}$ are dashed. All faces except the one on the left commute by definition.
+  \begin{equation*}
+    \begin{tikzcd}
+      & T_{1}A'
+      \arrow[rr]
+      \arrow[dd, dashed, near start, "(\phi_{1})_{A'}"]
+      && T_{0}K'
+      \arrow[dd]
+      \\
+      T_{1}A
+      \arrow[rr, crossing over]
+      \arrow[ur, "T_{1}f"]
+      \arrow[dd, dashed, swap, "(\phi_{1})_{A}"]
+      && T_{0}K
+      \arrow[ur]
+      \\
+      & L_{1}FA'
+      \arrow[rr, near start, hook, "\delta"]
+      && FK'
+      \\
+      L_{1}FA
+      \arrow[ur, "L_{1}Ff"]
+      \arrow[rr]
+      && FK
+      \arrow[ur]
+      \arrow[from=uu, crossing over]
+    \end{tikzcd}
+  \end{equation*}
+  In order to check that the $(\phi_{1})_{A}$ form the components of a natural transformation, we need to check that the left face of the above cube commutes. Because $\delta\colon L_{1}FA' \to FK'$ is a monomorphism, it suffices to check that
+  \begin{equation*}
+    \delta \circ (\phi_{1})_{A'} \circ T_{1}F = \delta \circ L_{1}Ff \circ (\phi_{1})_{A}.
+  \end{equation*}
+  But given the commutativity of the other faces of the cube, this is clear.
+
+  We now continue inductively, constructing $\phi_{2}$, etc.
+
+  The last step is to show that the collection $\{\phi_{n}\}$ is really a morphism of homological $\delta$-functors, i.e.\ that for any short exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A''
+      \arrow[r, hook]
+      & A
+      \arrow[r, two heads]
+      & A'
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  the squares
+  \begin{equation*}
+    \begin{tikzcd}
+      T_{n}A''
+      \arrow[r, "\delta"]
+      \arrow[d, swap, "(\phi_{n})_{A''}"]
+      & T_{n-1}A'
+      \arrow[d, "(\phi_{n-1})_{A'}"]
+      \\
+      L_{n}FA''
+      \arrow[r, swap, "\delta"]
+      & L_{n-1}FA'
+    \end{tikzcd}
+  \end{equation*}
+  commute
+\end{proof}
 
 \section{Double complexes}
 \label{sec:double_complexes}
 
-Given any abelian category $\mathcal{A}$, we have considered the category of chain complexes in $\mathcal{A}$, and shown (in \hyperref[thm:category_of_chain_complexes_is_abelian]{Theorem~\ref*{thm:category_of_chain_complexes_is_abelian}}) that this is an abelian category. It is therefore natural to consider chain complexes in the category of chain complexes. Such a beast is a lattice of commuting squares.
-
+Given any abelian category $\mathcal{A}$, we have considered the category of chain complexes in $\mathcal{A}$, and shown (in \hyperref[thm:category_of_chain_complexes_is_abelian]{Theorem~\ref*{thm:category_of_chain_complexes_is_abelian}}) that this is an abelian category. It is therefore natural to consider chain complexes in the category of chain complexes.
+\begin{equation*}
+  \left( \begin{tikzcd}
+    \cdots
+    \arrow[r]
+    & M_{1,\bullet}
+    \arrow[r]
+    & M_{0,\bullet}
+    \arrow[r]
+    & M_{-1,\bullet}
+    \arrow[r]
+    & \cdots
+  \end{tikzcd} \right)
+  \in \Ch(\Ch(\mathcal{A})),
+\end{equation*}
+Such a beast is a lattice of commuting squares.
 \begin{equation*}
   \begin{tikzcd}
     & \vdots
@@ -1390,7 +1573,7 @@ Given any abelian category $\mathcal{A}$, we have considered the category of cha
   \end{tikzcd}
 \end{equation*}
 
-However, it turns out to convenient to do something slightly different, namely work with complexes whose squares anticommute rather than commute. This is not a restriction, as one can make from any lattice of commuting squares a lattice of anticommuting squares by multiplying the differentials of every other row or column by $-1$.
+However, it turns out to convenient to do something slightly different, namely work with complexes whose squares anticommute rather than commute. This is not a restriction, as one can make from any lattice of commuting squares a lattice of anticommuting squares by multiplying the differentials of every other column by $-1$. This is known as the \emph{sign trick.}
 
 \begin{definition}[double complex]
   \label{def:double_complex}
@@ -1411,22 +1594,7 @@ However, it turns out to convenient to do something slightly different, namely w
 
 We say that a double complex is $M_{\bullet,\bullet}$ is \emph{first-quadrant} if $M_{i,j} = 0$ for $i$, $j < 0$.
 
-Given any complex of complexes
-\begin{equation*}
-  \left( \begin{tikzcd}
-    \cdots
-    \arrow[r]
-    & M_{1,\bullet}
-    \arrow[r]
-    & M_{0,\bullet}
-    \arrow[r]
-    & M_{-1,\bullet}
-    \arrow[r]
-    & \cdots
-  \end{tikzcd} \right)
-  \in \Ch(\Ch(\mathcal{A})),
-\end{equation*}
-one can construct a double complex by multiplying the differentials in every other row or column by $-1$.
+Given any complex of complexes, one can construct a double complex by multiplying the differentials in every other row or column by $-1$.
 
 \begin{definition}[total complex]
   \label{def:total_complex}
@@ -1522,7 +1690,7 @@ one can construct a double complex by multiplying the differentials in every oth
   \end{equation*}
   is exact.
 
-  The construction is inductive on the degree of the total complex. At level 0 there is nothing to show; the morphism $d^{\Tot}_{1}$ is manifestly surjective since $\delta_{0,1}$ is. Since numbers greater than $1$ are for all intents and purposes interchangable, we construct the inductive step for $n = 2$.
+  The proof is inductive on the degree of the total complex. At level 0 there is nothing to show; the morphism $d^{\Tot}_{1}$ is manifestly surjective since $\delta_{0,1}$ is. Since numbers greater than $1$ are for all intents and purposes interchangable, we give the inductive step for $n = 2$.
 
   We have a triple $m = (m_{2,0}, m_{1,1}, m_{0,2}) \in \Tot(M)_{2}$ which maps to 0 under $d^{\Tot}_{2}$; that is,
   \begin{equation*}

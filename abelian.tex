@@ -105,13 +105,79 @@ In this chapter we recall some basic results.
   is a homomorphism of abelian groups.
 \end{definition}
 
+\begin{lemma}
+  \label{lemma:conditions_for_direct_sum}
+  Let $A$ and $B$ be objects in an additive category $\mathcal{A}$, and let $X$ be an object in $\mathcal{A}$ equipped with morphisms as follows,
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[dr, "i_{A}"]
+      && A
+      \\
+      & X
+      \arrow[ur, "\pi_{A}"]
+      \arrow[dr, swap, "\pi_{A}"]
+      \\
+      B
+      \arrow[ur, swap, "i_{B}"]
+      && B
+    \end{tikzcd}
+  \end{equation*}
+  such that the following equations hold.
+  \begin{gather*}
+    i_{A} \circ \pi_{A} + i_{B} \circ \pi_{B} = \id_{X} \\
+    \pi_{A} \circ i_{B} = 0 = \pi_{B} \circ i_{A} \\
+    \pi_{A} \circ i_{A} = \id_{A} \\
+    \pi_{B} \circ i_{B} = \id_{B} \\
+  \end{gather*}
+  Then the $\pi$s and $i$s exhibit $X \cong A \oplus B$.
+\end{lemma}
+\begin{proof}
+  It suffices to show that $X$ is a product of $A$ and $B$. Let $f\colon Z \to A$ and $g\colon Z \to B$. We need to show that there exists a unique $\phi\colon Z \to X$ making the following diagram commute.
+  \begin{equation*}
+    \begin{tikzcd}
+      & Z
+      \arrow[dl, swap, "f"]
+      \arrow[d, dashed, "\phi"]
+      \arrow[dr, "g"]
+      \\
+      A
+      & X
+      \arrow[l, swap, "\pi_{A}"]
+      \arrow[r, "\pi_{B}"]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+  That is, we need
+  \begin{equation*}
+    \pi_{A} \circ \phi = f,\qquad \pi_{B} \circ \phi = g.
+  \end{equation*}
+  Thus, we need
+  \begin{align*}
+    i_{A} \circ f + \pi_{B} \circ g  &= i_{A} \circ \pi_{A} \circ \phi + i_{B} \circ \pi_{B} \circ \phi \\
+    &= \phi.
+  \end{align*}
+  It is easy to check that $\phi$ defined in this way \emph{does} make the diagram commute, so $\phi$ exists and is unique.
+\end{proof}
+
+\begin{corollary}
+  Let $F\colon \mathcal{A} \to \mathcal{B}$ be an additive functor between additive categories. Then $F$ preserves direct sums in the sense that there is a natural isomorphism
+  \begin{equation*}
+    F(A \oplus B) \simeq F(A) \oplus F(B).
+  \end{equation*}
+\end{corollary}
+\begin{proof}
+  Apply $F$ to the data of \hyperref[lemma:conditions_for_direct_sum]{Lemma~\ref*{lemma:conditions_for_direct_sum}}.
+\end{proof}
+
+
 \subsubsection{Pre-abelian categories}
 
 \begin{definition}[kernel, cokernel]
   \label{def:kernel_cokernel}
   Let $f\colon A \to B$ be a morphism in an abelian category.
   \begin{itemize}
-    \item A pair $(K, \iota)$, where $\iota\colon K \to A$ is a morphism, is a \defn{kernel} of $f$ if for every object $X$ and morphism $g\colon X \to A$ such that $f \circ g = 0$, there exists a unique morphism $\alpha\colon X \to K$ such that $f \circ \alpha = 0$.
+    \item A pair $(K, \iota)$, where $\iota\colon K \to A$ is a morphism, is a \defn{kernel} of $f$ if $f \circ \iota = 0$ and for every object $X$ and morphism $g\colon X \to A$ such that $f \circ g = 0$, there exists a unique morphism $\alpha\colon X \to K$ such that $f \circ \alpha = 0$.
       \begin{equation*}
         \begin{tikzcd}
           & X
@@ -121,20 +187,22 @@ In this chapter we recall some basic results.
           \\
           K
           \arrow[r, "\iota"]
+          \arrow[rr, bend right, swap, "0"]
           & A
           \arrow[r, "f"]
           & B
         \end{tikzcd}
       \end{equation*}
 
-    \item A pair $(C, \pi)$, where $\pi\colon B \to C$ is a morphism, is a \defn{cokernel} of $f$ if for every object $Y$ and morphism $g\colon B \to Y$ such that $g \circ f = 0$, there exists a unique morphism $\beta\colon C \to Y$ such that $\beta \circ f = 0$.
+    \item A pair $(C, \pi)$, where $\pi\colon B \to C$ is a morphism, is a \defn{cokernel} of $f$ if $\pi \circ f = 0$ and for every object $Y$ and morphism $g\colon B \to Y$ such that $g \circ f = 0$, there exists a unique morphism $\beta\colon C \to Y$ such that $\beta \circ f = 0$.
       \begin{equation*}
         \begin{tikzcd}
           A
-          \arrow[r, "f"]
+          \arrow[r, swap, "f"]
           \arrow[dr, swap, "0"]
+          \arrow[rr, bend left, "0"]
           & B
-          \arrow[r, "\pi"]
+          \arrow[r, swap, "\pi"]
           \arrow[d, "g"]
           & C
           \arrow[dl, dashed, "\exists!"]
@@ -145,26 +213,35 @@ In this chapter we recall some basic results.
   \end{itemize}
 \end{definition}
 
-Note that we immediately see that the compositions
-\begin{equation*}
-  \begin{tikzcd}
-    \ker f
-    \arrow[r]
-    \arrow[rr, bend left]
-    & A
-    \arrow[r, swap, "f"]
-    & B
-  \end{tikzcd}
-  \qquad\text{and}\qquad
-  \begin{tikzcd}
-    A
-    \arrow[r, swap, "f"]
-    \arrow[rr, bend left]
-    & B
-    \arrow[r, two heads]
-    & \coker f
-  \end{tikzcd}
-\end{equation*}
+Here are some equivalent ways of defining the kernel of a morphism $f\colon A \to B$.
+\begin{itemize}
+  \item The equalizer of $f$ with the zero map.
+    \begin{equation*}
+      \begin{tikzcd}
+        \ker f = \mathrm{eq}
+        \arrow[r]
+        & A
+        \arrow[r, shift left, "f"]
+        \arrow[r, shift right, swap, "0"]
+        & B
+      \end{tikzcd}
+    \end{equation*}
+
+  \item The pullback along the zero morphism
+    \begin{equation*}
+      \begin{tikzcd}
+        \ker f
+        \arrow[r]
+        \arrow[d]
+        & 0
+        \arrow[d]
+        \\
+        A
+        \arrow[r, "f"]
+        & B
+      \end{tikzcd}
+    \end{equation*}
+\end{itemize}
 
 \begin{definition}[pre-abelian category]
   \label{def:pre_abelian_category}
@@ -183,24 +260,7 @@ Note that we immediately see that the compositions
   In a pre-abelian category, kernels are monic and cokernels are epic.
 \end{proposition}
 \begin{proof}
-  Let $f\colon A \to B$ be a morphism in an abelian category, and let $\iota\colon K \to A$ be a kernel of $f$. Let $\alpha\colon X \to K$ be a morphism such that $\alpha \circ \iota = 0$.
-  \begin{equation*}
-    \begin{tikzcd}
-      & X
-      \arrow[dl, swap, "\alpha"]
-      \arrow[d, "0"]
-      \arrow[dr, "0"]
-      \\
-      K
-      \arrow[r, "\iota"]
-      & A
-      \arrow[r, "f"]
-      & B
-    \end{tikzcd}
-  \end{equation*}
-  The universal property for kernels tells us that $\alpha$ is the \emph{unique} morphism such that $0 = \iota \circ \alpha$. But setting $\alpha = 0$ certainly satisfies this equality, so we must have that $\alpha = 0$.
-
-  The cokernel case is dual.
+  The kernel of $f\colon A \to B$ is the pullback of the morphism $0 \to B$, which is monic. The pullback of a monic is a monic, which gives the result.
 \end{proof}
 
 \begin{proposition}
@@ -268,22 +328,10 @@ Note that we immediately see that the compositions
   \end{enumerate}
 \end{proof}
 
-\begin{proposition}
-  The composition
-  \begin{equation*}
-    \begin{tikzcd}
-      \ker f
-      \arrow[r, hook]
-      \arrow[rr, bend right, "0"]
-      & A
-      \arrow[r, swap, "f"]
-      & B
-    \end{tikzcd}
-  \end{equation*}
-\end{proposition}
-
 \subsection{Abelian categories}
 \label{ssc:abelian_categories}
+
+We have seen that in a pre-abelian category, kernels and cokernels more or less behave as they do in the category of modules over some ring $R$. However, the first isomorphism theorem tells us that every submodule is the kernel of some module homomorphism (namely the cokernel), and every quotient module of some module homomorphism (namely the kernel).
 
 \begin{definition}[abelian category]
   \label{def:abelian_cateogry}
@@ -330,84 +378,6 @@ Note that we immediately see that the compositions
 \end{proof}
 
 As the following proposition shows, additive functors from additive categories preserve direct sums.
-\begin{lemma}
-  \label{lemma:conditions_for_direct_sum}
-  Let $A$ and $B$ be objects in an additive category $\mathcal{A}$, and let $X$ be an object in $\mathcal{A}$ equipped with morphisms as follows,
-  \begin{equation*}
-    \begin{tikzcd}
-      A
-      \arrow[dr, "i_{A}"]
-      && A
-      \\
-      & X
-      \arrow[ur, "\pi_{A}"]
-      \arrow[dr, swap, "\pi_{A}"]
-      \\
-      B
-      \arrow[ur, swap, "i_{B}"]
-      && B
-    \end{tikzcd}
-  \end{equation*}
-  such that the following equations hold.
-  \begin{gather*}
-    i_{A} \circ \pi_{A} + i_{B} \circ \pi_{B} = \id_{X} \\
-    \pi_{A} \circ i_{B} = 0 = \pi_{B} \circ i_{A} \\
-    \pi_{A} \circ i_{A} = \id_{A} \\
-    \pi_{B} \circ i_{B} = \id_{B} \\
-  \end{gather*}
-  Then the $\pi$s and $i$s exhibit $X \cong A \oplus B$.
-\end{lemma}
-\begin{proof}
-  It suffices to show that $X$ is a product of $A$ and $B$. Let $f\colon Z \to A$ and $g\colon Z \to B$. We need to show that there exists a unique $\phi\colon Z \to X$ making the following diagram commute.
-  \begin{equation*}
-    \begin{tikzcd}
-      & Z
-      \arrow[dl, swap, "f"]
-      \arrow[d, dashed, "\phi"]
-      \arrow[dr, "g"]
-      \\
-      A
-      & X
-      \arrow[l, swap, "\pi_{A}"]
-      \arrow[r, "\pi_{B}"]
-      & B
-    \end{tikzcd}
-  \end{equation*}
-  That is, we need
-  \begin{equation*}
-    \pi_{A} \circ \phi = f,\qquad \pi_{B} \circ \phi = g.
-  \end{equation*}
-  Thus, we need
-  \begin{align*}
-    i_{A} \circ f + \pi_{B} \circ g  &= i_{A} \circ \pi_{A} \circ \phi + i_{B} \circ \pi_{B} \circ \phi \\
-    &= \phi.
-  \end{align*}
-  It is easy to check that $\phi$ defined in this way \emph{does} make the diagram commute, so $\phi$ exists and is unique.
-\end{proof}
-
-\begin{corollary}
-  Let $F\colon \mathcal{A} \to \mathcal{B}$ be an additive functor between additive categories. Then $F$ preserves direct sums in the sense that there is a natural isomorphism
-  \begin{equation*}
-    F(A \oplus B) \simeq F(A) \oplus F(B).
-  \end{equation*}
-\end{corollary}
-\begin{proof}
-  Apply $F$ to the short exact sequence
-  \begin{equation*}
-    \begin{tikzcd}
-      0
-      \arrow[r]
-      & A
-      \arrow[r, hook]
-      & A \oplus B
-      \arrow[r, two heads]
-      & B
-      \arrow[r]
-      & 0
-    \end{tikzcd}.
-  \end{equation*}
-\end{proof}
-
 \begin{example}
   \label{eg:examples_of_abelian_categories}
   Once it is known that a category $\mathcal{A}$ is abelian, a number of other categories are immediately known to be abelian.
@@ -626,7 +596,7 @@ Now we introduce some load-lightening notation: we write $\hat{(-)} = \mathcal{M
   \label{def:category_of_chain_complexes_abelian}
   Let $\mathcal{A}$ be an abelian category. A \defn{chain complex} $C_{\bullet}$ in $\mathcal{A}$ is a collection of objects $C_{n} \in \mathcal{A}$, $n \in \Z$, together with morphisms $d_{n}\colon C_{n} \to C_{n-1}$ such that $d_{n-1} \circ d_{n} = 0$.
 
-  The category of chain complexes in $\mathcal{A}$, denoted $\Ch(A)$, is the category whose objects are chain complexes and whose morphisms are morphisms $C_{\bullet} \to D_{\bullet}$ of chain complexes, i.e.\ for each $n \in \Z$ a map $f_{n}\colon C_{n} \to D_{n}$ such that all of the squares form commute.
+  The category of chain complexes in $\mathcal{A}$, denoted $\Ch(\mathcal{A})$, is the category whose objects are chain complexes and whose morphisms are morphisms $C_{\bullet} \to D_{\bullet}$ of chain complexes, i.e.\ for each $n \in \Z$ a map $f_{n}\colon C_{n} \to D_{n}$ such that all of the squares form commute.
   \begin{equation*}
     \begin{tikzcd}
       \cdots

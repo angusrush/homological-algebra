@@ -5,10 +5,12 @@
 \chapter{Basic applications}
 \label{ch:basic_applications}
 
-In this chapter, we will apply homological algebra to the study of various classes of objects as follows. Our main goal will be to implement the following.
+\epigraph{You know how it is when someone asks you to ride in a terrific sports car, and then you wish you hadn't?}{John Adams}
+
+In this chapter, we will apply homological algebra to the study of various classes of objects. Our main goal will be to implement the following cockamamie scheme in two contexts: quiver representations and groups.
 \begin{scheme}
-  \leavevmode
   \label{scheme:how_to_apply_homological_algebra}
+  Given a category of algebraic objects:
   \begin{enumerate}
     \item Find a way of turning the objects in question into rings.
 
@@ -66,7 +68,7 @@ The first problem to which we will apply \hyperref[scheme:how_to_apply_homologic
   commutes.
 \end{definition}
 
-This allows us to define a category $\mathrm{Rep}_{k}(Q)$ of $k$-linear representations of $Q$, whose objects.
+This allows us to define a category $\mathrm{Rep}_{k}(Q)$ of $k$-linear representations of $Q$.
 
 Following our grand plan, we first find a way of turning a quiver representation into a ring.
 
@@ -95,7 +97,7 @@ We will denote this morphism by
   \rho_{5}\rho_{4}\rho_{3}\rho_{2}\rho_{1}\rho_{0}.
 \end{equation*}
 
-We call such finite non-empty chains \emph{non-trivial paths.} Note that we must formally adjoin identity arrows $e_{x}$ with $s(e_{x}) = t(e_{x}) = x$; these are the \emph{trivial paths.} Note that the notation introduced above is a good one, since in the category $\mathcal{F}(Q)$ composition is given by
+We call such a finite non-empty chain a \emph{non-trivial path.} Note that in addition to the non-trivial paths, we must formally adjoin identity arrows $e_{x}$ with $s(e_{x}) = t(e_{x}) = x$; these are the \emph{trivial paths.} Note that the notation introduced above is a good one, since in the category $\mathcal{F}(Q)$ composition is given by
 \begin{equation*}
   (\rho_{n}\cdots \rho_{1}) \circ (\rho'_{m}\cdots \rho'_{1}) = \rho_{n}\cdots \rho_{1} \rho'_{m}\cdots \rho'_{1}.
 \end{equation*}
@@ -104,7 +106,7 @@ We call such finite non-empty chains \emph{non-trivial paths.} Note that we must
   \label{def:path_algebra}
   Let $k$ be a field and $Q$ a quiver. The \defn{path algebra} of $Q$ over $k$ is, as a vector space, the free vector space over the set $\mathrm{Mor}(\mathcal{F}(Q))$. The multiplication is given by composition 
   \begin{equation*}
-    x\cdot y =
+    \rho\cdot \sigma =
     \begin{cases}
       \rho\sigma, & s(\rho) = t(\sigma) \\
       0, & s(\rho) \neq t(\sigma).
@@ -115,13 +117,26 @@ We call such finite non-empty chains \emph{non-trivial paths.} Note that we must
 
 \end{definition}
 
-That is, the multiplication in $kQ$ is given by the composition in the category $\mathcal{F}(Q)$ if the morphisms in question are composable (in the sense that the second ends where the first begins) and zero otherwise.
+Another way of expressing the above composition rule is as follows: the multiplication of two paths $\rho$, $\sigma$ in $kQ$ is given by the composition $\rho \circ \sigma$ in the category $\mathcal{F}(Q)$ if the morphisms $\rho$ and $\sigma$ are composable (in the sense that $\rho$ begins where $\sigma$ ends) and zero otherwise.
 
 From now on, we fix (arbitrarily) a bijection of $Q$ with $\{1,2,\cdots,n\}$. It is clear that
 \begin{equation*}
   \id_{kQ} = e_{1} + \cdots + e_{n}.
 \end{equation*}
 
+\begin{example}
+  Consider the following quiver.
+  \begin{equation*}
+    \begin{tikzcd}
+      \bullet_{1}
+      \arrow[loop right, looseness=15, "\rho"]
+    \end{tikzcd}
+  \end{equation*}
+  Then paths are in correspondence with natural numbers, with the empty path being $e_{1}$. The path algebra is therefore
+  \begin{equation*}
+    kQ \cong ke_{1} \oplus k\rho \oplus k\rho\rho \oplus k\rho\rho\rho \oplus \cdots \cong k[\rho].
+  \end{equation*}
+\end{example}
 \begin{example}
   \label{eg:left_ideals_of_path_algebra_are_projective}
   Let $Q$ be any quiver, and denote by $A = kQ$ its path algebra. For any vertex $i$ and any path $\rho$, the multiplication law for the path algebra tells us that
@@ -148,12 +163,48 @@ From now on, we fix (arbitrarily) a bijection of $Q$ with $\{1,2,\cdots,n\}$. It
   \end{equation*}
 \end{proposition}
 \begin{proof}
-  First, we construct out of any $k$-linear represenation $V$ of $Q$ a $kQ$-module. Our underlying space will be the vector space $\bigoplus_{i \in Q_{0}} V_{i}$.
+  First, we construct out of any $k$-linear represenation $V$ of $Q$ a $kQ$-module. Our underlying space will be the vector space $\bigoplus_{i \in Q_{0}} V_{i}$, which we will also denote by $V$.
+
+  Now let $\rho\colon i \to j \in Q_{0}$, corresponding under the representation $V$ to the map $f\colon V_{i} \to V_{j}$. We send this to the map $V \to V$ given by the matrix with $f$ in the $(i, j)$th position and zeroes elsewhere. In particular, we send $e_{i}$ to the matrix with a $1$ in the $i$th place along the diagonal, and zeroes elsewhere.
+  
+  It is easy to see that this assignment respects addition and composition, hence defines our functor on objects. On objects, we send $\alpha_{i}\colon V_{i} \to W_{i}$ to
+  \begin{equation*}
+    \mathrm{diag}(0,\ldots, 0, \overset{i}{\alpha_{x}}, 0, \ldots, 0).
+  \end{equation*}
+  It is painfully clear that this is the right thing to do.
+
+  We now construct a functor in the opposite direction.
 \end{proof}
 
+\begin{proposition}
+  Let $M$ be a left $A$-module. We have an exact sequence of left $A$-modules
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \bigoplus\limits_{\rho \in Q_{1}}Ae_{t(\rho)} \otimes_{k} e_{s(\rho)}M
+      \arrow[r, hook]
+      & \bigoplus\limits_{i \in Q_{0}}Ae_{i} \otimes_{k} e_{i}M
+      \arrow[r, two heads]
+      & M
+      \arrow[r]
+      & 0
+    \end{tikzcd},
+  \end{equation*}
+  exhibiting a resolution of $M$ by projective $A$-modules.
+\end{proposition}
+
+\begin{corollary}
+  Let $M$, $N$ be left $A$-modules. Then 
+  \begin{equation*}
+    \Ext^{i}(M, N) = 0,\qquad i \geq 2.
+  \end{equation*}
+\end{corollary}
 
 \section{Group (co)homology}
 \label{sec:group_co_homology}
+
+Next, we will apply \hyperref[scheme:how_to_apply_homological_algebra]{Cockamamie Scheme~\ref*{scheme:how_to_apply_homological_algebra}} to the study of groups. In order to do this, we need some theory.
 
 \subsection{The Dold-Kan correspondence}
 \label{ssc:the_dold_kan_correspondence}
@@ -299,7 +350,7 @@ We then get a nerve and realization
   N : \Ab_{\Delta} \longleftrightarrow \Ch_{+}(\Ab) : \Gamma.
 \end{equation}
 
-\begin{theorem}
+\begin{theorem}[Dold-Kan]
   The adjunction in \hyperref[eq:dold_kan_adjunction]{Equation~\ref*{eq:dold_kan_adjunction}} is an equivalence of categories
 \end{theorem}
 \begin{proof}
@@ -382,7 +433,112 @@ Composing this with the above functor gives, for each object $d \in \mathcal{D}$
   The composition $\mathrm{ev}_{d} \circ B$ is called the \defn{bar construction}.
 \end{definition}
 
-In the case that the category $\mathcal{D}$ is abelian, we can form the Moore complex (\hyperref[def:moore_complex]{Definition~\ref*{def:moore_complex}}) of the bar construction.
+\begin{example}
+  I believe this example comes from John Baez, although I can't find the exact source at the moment.
+
+  Consider the free-forgetful adjunction
+  \begin{equation*}
+    F : \Set \longleftrightarrow \Ab : G.
+  \end{equation*}
+  The unit $\eta\colon \id_{\Set} \to U \circ F$ has components
+  \begin{equation*}
+    \eta_{S}\colon S \to \Z[S]
+  \end{equation*}
+  which assigns any set $S$ to the set underlying the free abelian group on it by mapping elements to their corresponding generators. The counit $\varepsilon\colon F \circ U \rightarrow \id_{\Ab} \to U \circ F$ has components
+  \begin{equation*}
+    \epsilon_{A}\colon \Z[A] \to A
+  \end{equation*}
+  which takes formal linear combinations of group elements to actual linear combinations of group elements.
+
+  Denoting $F \circ U$ by $Z$, we find the following comonad in $\Ab$, where $\nabla = F\eta U$.
+  \begin{equation*}
+    \begin{tikzcd}
+      Z \circ Z
+      \\
+      Z
+      \arrow[u, Rightarrow, swap, "\nabla"]
+      \arrow[d, Rightarrow, "\varepsilon"]
+      \\
+      \id_{\Ab}
+    \end{tikzcd}
+  \end{equation*}
+  This gives us a simplicial object in $\End(\Ab)$.
+
+  Post-composing with the evaluation functor $\mathrm{ev}_{\Z}$ gives the following simplicial object in $\Ab$.
+  \begin{equation*}
+    \begin{tikzcd}
+      \
+      \arrow[r, dotted, no head]
+      & \Z[\Z[\Z[\Z]]]
+      \arrow[r, rightarrow, shift left=9, "(ZZ\varepsilon)_{\Z}"]
+      \arrow[r, leftarrow, shift left=6]
+      \arrow[r, rightarrow, shift left=3]
+      \arrow[r, leftarrow]
+      \arrow[r, rightarrow, shift right=3]
+      \arrow[r, leftarrow, shift right=6]
+      \arrow[r, rightarrow, shift right=9, swap, "(\varepsilon ZZ)_{\Z}"]
+      & \Z[\Z[\Z]]
+      \arrow[r, rightarrow, shift left=4, "(Z\varepsilon)_{\Z}"]
+      \arrow[r, leftarrow, "\nabla_{\Z}"]
+      \arrow[r, rightarrow, shift right=4, swap, "(\varepsilon Z)_{\Z}"]
+      & \Z[\Z]
+      \arrow[r, rightarrow, "\varepsilon_{\Z}"]
+      & \Z
+    \end{tikzcd}
+  \end{equation*}
+  Let's examine some of these objects in detail.
+  \begin{itemize}
+    \item The first object is the friendly and reassuring $\Z$, whose elements are integers. An example of an element of $\Z$ is 
+      \begin{equation*}
+        17.
+      \end{equation*}
+
+    \item The next object, $\Z[\Z]$, consists of formal linear combinations of elements of $\Z$, i.e.\ formal sums of the form
+      \begin{equation*}
+        3\times(5) + 2\times(-1).
+      \end{equation*}
+      The funny notation of enclosing the elements of (the set underlying) $\Z$ in parentheses will come in handy shortly.
+
+    \item The next object, $\Z[\Z[\Z]]$, consists of formal linear combinations of elements of $\Z[\Z]$, i.e.\ formal linear combinations of formal linear combinations of integers. An element of $\Z[\Z[\Z]]$ looks like this.
+      \begin{equation*}
+        3\times(2\times(1) + 3\times(5)) - 4\times(1\times(3)).
+      \end{equation*}
+
+    \item I wonder if you can figure out for yourself what the elements of $\Z[\Z[\Z[\Z]]]$ are.
+  \end{itemize}
+
+  Next, we should understand the face maps in some low degrees.
+
+  Consider some element of $\Z[\Z]$, say
+  \begin{equation*}
+    3\times(5) + 2\times(-1)
+  \end{equation*}
+  The map $\varepsilon_{\Z} = d_{0}$ collapses the formal multiplication into actual multiplication:
+  \begin{equation*}
+    \varepsilon_{\Z}\colon 3\times(5) + 2\times(-1) \mapsto 15 - 2 = 13. 
+  \end{equation*}
+
+  Consider now some element of $\Z[\Z[\Z]]$, say
+  \begin{equation*}
+    3\times(2\times(1) + 3\times(5)) - 4\times(1\times(3)).
+  \end{equation*}
+  The map $\Z\varepsilon_{\Z} = d_{0}$ sends this to
+  \begin{equation*}
+    3\times(17) - 4\times(3);
+  \end{equation*}
+  that is, it strips off the inner-most parentheses. The map $(\varepsilon Z)_{\Z} = d_{1}$ sends it to
+  \begin{equation*}
+    6\times(1) + 9\times(5) - 4\times(3);
+  \end{equation*}
+  that is, it strips off the outer-most parentheses.
+
+  Note that, as the simplicial identities promised us, $\epsilon_{\Z}$ sends both of these to
+  \begin{equation*}
+    3\times 17 - 4\times 3 = 6\times 1 + 9\times5 - 4\times3 = 39.
+  \end{equation*}
+\end{example}
+
+In the case that the category $\mathcal{D}$ is abelian, we can form from a simplicial object the chain complex of alternating face maps modulo degeneracies.
 
 \begin{definition}[bar complex]
   \label{def:bar_complex}
@@ -392,96 +548,17 @@ In the case that the category $\mathcal{D}$ is abelian, we can form the Moore co
   \end{equation*}
   be an adjunction between abelian categories, let $b \in \mathcal{B}$, and denote by $S_{b}\colon \Delta\op \to \Set$ the bar construction of $b$.
 
-  The \defn{bar complex} $\Bar_{b}$ of $b$ is the Moore complex of the bar construction of $b$.
+  The \defn{bar complex} $\Bar_{b}$ of $b$ is the chain complex of face maps modulo degeneracies (\hyperref[def:alternating_face_maps_chain_modulo_degeneracies]{Definition~\ref*{def:alternating_face_maps_chain_modulo_degeneracies}}) of $S_{b}$.
 \end{definition}
 
-\begin{example}
-  Consider the functor
-  \begin{equation*}
-    U\colon \Z G\mhyp\Mod \to \Ab
-  \end{equation*}
-  which forgets multiplication. This has left adjoint
-  \begin{equation*}
-    \Z G \otimes_{\Z} -\colon \Ab \to \Z G\mhyp\Mod,
-  \end{equation*}
-  which assigns to an abelian group $A$ the left $\Z G$-module $\Z G \otimes_{\Z} A$.
+We will see an example of the bar complex in the next chapter.
 
-  The unit $\eta\colon \id_{\Ab} \Rightarrow U(\Z G \otimes_{Z} -)$ and counit $\varepsilon\colon \Z G \otimes_{\Z} U(-) \Rightarrow \id_{\Z G \mhyp\Mod}$ of this adjunction have components
-  \begin{equation*}
-    \eta_{A}\colon A \to U(\Z G \otimes_{\Z} A);\qquad a \mapsto 1 \otimes a
-  \end{equation*}
-  and
-  \begin{equation*}
-    \varepsilon_{M}\colon \Z G \otimes_{\Z} U(M) \to M;\qquad g \otimes m \mapsto gm.
-  \end{equation*}
+\subsection{Invariants and coinvariants}
+\label{ssc:invariants_and_coinvariants}
 
-  Denoting $\Z G \otimes_{\Z}(-) \circ U$ by $Z$, we find the following comonad in $\Z G \mhyp\Mod$, where $\nabla = \Z G \otimes_{\Z}(-) \eta U$.
-  \begin{equation*}
-    \begin{tikzcd}
-      Z \circ Z
-      \\
-      Z
-      \arrow[u, swap, Rightarrow, "\nabla"]
-      \arrow[d, Rightarrow, "\varepsilon"]
-      \\
-      \id_{\Z G \mhyp\Mod}
-    \end{tikzcd}
-  \end{equation*}
-  This gives us a simplicial object in $\End(\Z G \mhyp\Mod)$.
-  \begin{equation*}
-    \begin{tikzcd}
-      \
-      \arrow[r, dotted, no head]
-      & Z \circ Z \circ Z
-      \arrow[r, Rightarrow, shift left=9, "ZZ\varepsilon"]
-      \arrow[r, Leftarrow, shift left=6]
-      \arrow[r, Rightarrow, shift left=3]
-      \arrow[r, Leftarrow]
-      \arrow[r, Rightarrow, shift right=3]
-      \arrow[r, Leftarrow, shift right=6]
-      \arrow[r, Rightarrow, shift right=9, swap, "\varepsilon ZZ"]
-      & Z \circ Z
-      \arrow[r, Rightarrow, shift left=4, "Z\varepsilon"]
-      \arrow[r, Leftarrow, "\nabla"]
-      \arrow[r, Rightarrow, shift right=4, swap, "\varepsilon Z"]
-      & Z
-      \arrow[r ,Rightarrow]
-      & \id_{\Z G\mhyp\Mod}
-    \end{tikzcd}
-  \end{equation*}
+Now we are ready to apply \hyperref[scheme:how_to_apply_homological_algebra]{Cockamamie Scheme~\ref*{scheme:how_to_apply_homological_algebra}} to the study of groups. Here we have a somewhat popular method of turning a group $G$ into a ring, namely by constructing the group ring $\Z G$. As is tradition, we will study modules over this ring.
 
-  Evaluating on a specific $\Z G$-module $M$ then gives a simplicial object in $\Z G\mhyp\Mod$.
-
-  We continue in the special case of $M = \Z$ taken as a trivial $\Z G$-module. In this case,
-  \begin{equation*}
-    Z^{\circ  n}(Z) = \overbrace{\Z G \otimes_{Z} \Z G \otimes_{\Z} \cdots \otimes_{\Z} \Z G}^{n \text{ times}} \otimes_{\Z} \Z.
-  \end{equation*}
-  We are justified in suppressing the last copy of $\Z$.
-
-  The face maps $d_{i}$ remove the $i$th copy of $Z$; on a generator, we have the action of $d_{i}\colon Z^{n+1}\Z \to Z^{n}\Z$ given by
-  \begin{equation*}
-    d_{i}\colon x \otimes x_{1} \otimes \cdots \otimes x_{n} \otimes a \mapsto
-    \begin{cases}
-      x x_{1} \otimes \cdots \otimes x_{n}, &i = 0 \\
-      x \otimes x_{1} \otimes \cdots \otimes x_{i}x_{i+1} \otimes \cdots \otimes x_{n},& 0 < i < n+1 \\
-      x \otimes \cdots \otimes x_{n-1}, &i = n+1.
-    \end{cases}
-  \end{equation*}
-  It is traditional to use the notation
-  \begin{equation*}
-    x \otimes x_{1} \otimes \cdots \otimes x_{n} \otimes a = x[x_{1}| \cdots | x_{n}].
-  \end{equation*}
-  This notation is the origin of the name \emph{bar complex.}
-
-  For intuition's sake, it is worth going through a concrete example. A zero-simplex in our complex is simply an element of $\Z G$; this is a finite formal sum of elements of $G$ multiplied by integers.
-\end{example}
-
-\subsection{Group cohomology}
-\label{ssc:group_cohomology}
-
-One would like to be able to apply the techniques of homological algebra to the study of groups. Unfortunately, the category $\mathbf{Grp}$ is not very nicely behaved; in particular it is not abelian.
-
-Out of any group $G$, one can form the group ring $\Z G$. Categorically speaking, the category of rings is arguably even worse then that of groups, so one might question the sanity of such a construction. However, one can study groups using homological techiques by studying modules over the group ring $\Z G$; as a category of modules, it is sure to be abelian.
+In \hyperref[sec:quiver_representations]{Section~\ref*{sec:quiver_representations}}, we had a nice interpretation of modules over our rings, as corresponding to $k$-linear representations of a quiver. We will work backwards, finding another perspective on modules over the group ring $\Z G$ of a group $G$ as \emph{$G$-modules.}
 
 Given a group $G$, a \defn{$G$-module} is a functor $\mathbf{B}G \to \Ab$. More generally, the category of such $G$-modules is the category $\mathbf{Fun}(\mathbf{B}G, \Ab)$. We will denote this category by $G\mhyp\Mod$.
 
@@ -491,7 +568,7 @@ More explicitly, a $G$-module consists of an abelian group $M$, and a left $G$-a
 \end{equation*}
 and, extending by linearity, a $\Z G$-module structure on $M$.
 
-Because of the equivalence $G\mhyp\Mod \simeq \Z G\mhyp\Mod$, we know that $G\mhyp\Mod$ has enough projectives.
+Because of the obvious equivalence $G\mhyp\Mod \simeq \Z G\mhyp\Mod$, we know that $G\mhyp\Mod$ has enough projectives.
 
 Note that there is a canonical functor $\triv\colon \Ab \to \mathbf{Fun}(\mathbf{B}G, \Ab)$ which takes an abelian group to the associated constant functor.
 \begin{proposition}
@@ -528,7 +605,7 @@ Note that there is a canonical functor $\triv\colon \Ab \to \mathbf{Fun}(\mathbf
   For a $G$-module $M$, we call $M^{G}$ the \defn{invariants} of $M$ and $M_{G}$ the \defn{coinvariants}.
 \end{definition}
 
-Note that we actually have a fairly good handle on invariants and coinvariants.
+Clearly, the functors taking invariants and coinvariants are interesting things that deserve to be studied in their own right, and in keeping with \hyperref[scheme:how_to_apply_homological_algebra]{Cockamamie Scheme~\ref*{scheme:how_to_apply_homological_algebra}} we could procede by deriving them. However, now something of a miracle occurs: these functors are really special cases of the hom and tensor product!
 
 \begin{lemma}
   \label{lemma:invariants_and_coinvariants_in_terms_of_tensor_and_hom}
@@ -552,31 +629,260 @@ Note that we actually have a fairly good handle on invariants and coinvariants.
   By $\Z G$-linearity, this is equal to $1 \otimes m - 1 \otimes m = 0$.
 \end{proof}
 
-This tells us immediately that the invariants functor $(-)^{G}$ is left exact, and the coinvariant functor $(-)_{G}$ is right. We could have discovered this by explicit investigation, and formed the right and left derived hom functors. However, this would have required picking resolutions for each object under consideration, which would have been messy. By the balancedness of $\Tor$ and $\Ext$, we can simply pick a resolution of $\Z$ as a $\Z G$-module and get on with our lives.\footnote{In the case of invariants (which correspond to $\Ext$), we need to pick a resolution of $\Z$ as a \emph{left} $\Z G$-module, and in the case of coinvariants (corresponding to $\Tor$), we need to pick a resolution of $\Z$ as a \emph{right} $\Z G$-module.}
+\hyperref[lemma:invariants_and_coinvariants_in_terms_of_tensor_and_hom]{Lemma~\ref*{lemma:invariants_and_coinvariants_in_terms_of_tensor_and_hom}} means that we already have a good handle on the derived functors of $(-)_{G}$ and $(-)^{G}$: they are given by the $\Ext$ and $\Tor$ functors we have already seen. More specifically,
+\begin{equation*}
+  L_{i}(-)_{G} = \Tor^{\Z G}_{i}(\Z, A),\qquad R^{i}(-)^{G} = \Ext_{\Z G}^{i}(\Z, A).
+\end{equation*}
+
+This is a stroke of luck. Had we proceded naïvely by forming the right and left derived functors of invariants and coinvariants using \hyperref[def:invariants_coinvariants]{Definition~\ref*{def:invariants_coinvariants}}, we would have have been stuck picking resolutions for each object under consideration, which would have been messy. By the balancedness of $\Tor$ and $\Ext$, we can simply pick a resolution of $\Z$ as a $\Z G$-module and get on with our lives.\footnote{In the case of invariants (which correspond to $\Ext$), we need to pick a resolution of $\Z$ as a \emph{left} $\Z G$-module, and in the case of coinvariants (corresponding to $\Tor$), we need to pick a resolution of $\Z$ as a \emph{right} $\Z G$-module.}
+
+The story so far is as follows.
+\begin{enumerate}
+  \item We fixed a group $G$ and considered the category $G\mhyp\Mod$ of functors $\mathbf{B}G \to \Ab$.
+
+  \item We noticed that picking out the constant functor gave us a canonical functor $\Ab \to G\mhyp\Mod$, and that taking left- and right adjoints to this gave us interesting things.
+    \begin{itemize}
+      \item The right adjoint $(-)^{G}$ applied to a $G$-module $A$ gave us the subgroup of $A$ stabilized by $G$.
+
+      \item The left adjoint $(-)_{G}$ applied to a $G$-module $A$ gave us the $A$ modulo the stabilized subgroup.
+    \end{itemize}
+
+  \item Due to adjointness, these functors have interesting exactness properties, leading us to derive them.
+    \begin{itemize}
+      \item Since $(-)_{G}$ is left adjoint, it is right exact, and we can take the left derived functors $L_{i}(-)_{G}$.
+
+      \item Since $(-)^{G}$ is right adjoint, it is left exact, and we can take the right derived functors $R^{i}(-)^{G}$.
+    \end{itemize}
+
+  \item We denote
+    \begin{equation*}
+      L_{i}(-)_{G} = H_{i}(G, -),\qquad R^{i}(-)^{G} = H^{i}(G, -),
+    \end{equation*}
+    and call them \emph{group homology} and \emph{group cohomology} respectively.
+
+  \item We notice that, taking $\Z$ as a trivial $\Z G$-module, we have
+    \begin{equation*}
+      A_{G} \equiv \Z \otimes_{\Z G} A,\qquad A^{G} \equiv \Hom_{\Z G}(\Z, A),
+    \end{equation*}
+    and thus that
+    \begin{equation*}
+      H_{i}(G, A) = \Tor^{\Z G}_{i}(\Z, A),\qquad H^{i}(G, A) = \Ext_{\Z G}^{i}(\Z, A).
+    \end{equation*}
+
+    This means that (by balancedness of $\Tor$ and $\Ext$) we can compute group homology and cohomology by taking a resolution of $\Z$ as a free $\Z G$-module, rather than having to take resolutions of $A$ for all $A$. The bar complex gave us such a resolution.
+\end{enumerate}
 
 \begin{example}
-  Let $T \cong \Z$ be an infinite cyclic group with a single generator $t$. Then
-  \begin{equation*}
-    \Z T \cong \Z[t, t^{-1}],
-  \end{equation*}
-  and we have an exact sequence
+  Let $G = \Z$, and denote the generator by $t$. Suppose we want to compute $H_{*}(G; A)$ and $H^{*}(G; A)$ for some $\Z G$-module $A$.
+  
+  Thanks to \hyperref[lemma:invariants_and_coinvariants_in_terms_of_tensor_and_hom]{Lemma~\ref*{lemma:invariants_and_coinvariants_in_terms_of_tensor_and_hom}}, instead of computing a projective resolution of some specific $A$, we may compute a projective resolution of $\Z$ as a $\Z G$-module.
   \begin{equation*}
     \begin{tikzcd}
       0
       \arrow[r]
-      & \Z T
-      \arrow[r, "t-1"]
-      & \Z T
-      \arrow[r]
+      & \Z G
+      \arrow[r, hook, "t-1"]
+      & \Z G
+      \arrow[r, two heads]
       & \Z
       \arrow[r]
       & 0
     \end{tikzcd}
   \end{equation*}
-  giving a free resolution of $\Z$ as a $\Z T$-module.
+  This gives us a free resolution $F_{\bullet} \simto \Z$.
+
+  By definition,
+  \begin{equation*}
+    H_{i}(G; A) = H_{i}(F_{\bullet} \otimes_{\Z G} A) = H_{i}\left( 
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \Z G \otimes_{\Z G} A
+      \arrow[r, "f"]
+      & \Z G \otimes_{\Z G} A
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+    \right).
+  \end{equation*}
+
+  The map $f$ takes $t \otimes a \mapsto a - t \otimes a$; the homology $H_{0}(G; A)$ is thus
+  \begin{equation*}
+    \coker f = A/\langle t\cdot a - a \mid a \in A \rangle = A_{G}.
+  \end{equation*}
+  Similarly, we have
+  \begin{equation*}
+    H_{1}(G; A) = \ker f = A^{G}.
+  \end{equation*}
+  For $n > 1$, we have $H_{n}(G; A) = 0$.
+
+  Now turning our attention to group cohomology, we find by definition
+  \begin{equation*}
+    H^{n}(G; A) = H^{n}\left(
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \Hom(\Z G, A)
+      \arrow[r, "g"]
+      & \Hom(\Z G, A)
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+    \right),
+  \end{equation*}
+  where the map $g$ sends
+  \begin{equation*}
+    g\colon \left( f\colon t \mapsto f(t) \right) \mapsto \left( gf\colon t \mapsto f(t-1) \right).
+  \end{equation*}
+
+  Note that under the correspondence $f \mapsto f(1)$, we have
+  \begin{equation*}
+    \Hom(\Z G; A) \cong A.
+  \end{equation*}
+  Having made this identification, $g$ simply sends $f \mapsto tf - f$. Thus, similarly to before, we have
+  \begin{equation*}
+    H^{0}(G; A) = \ker(g) = A^{G},\qquad H^{1}(G; A) = \coker(g) = A_{G},
+  \end{equation*}
+  and $H^{n}(G; A) = 0$ for $n > 1$.
 \end{example}
 
-In general, our life is not so easy. Fortunately, we still have, for any group $G$, a general construction of a free resolution of $\Z$ as a left $\Z G$-module, known as the \emph{bar construction.}
+
+\subsection{The bar construction for group rings}
+\label{ssc:the_bar_construction_for_group_rings}
+
+In the last section, we saw that we could compute group homology and cohomology of a group $G$ by finding a projective resolution of $\Z$ as a trivial $\Z G$-module. This is nice, but computing projective resolutions is in general rather difficult.
+
+It turns out that the bar construction (explored in \hyperref[ssc:the_bar_construction]{Subsection~\ref*{ssc:the_bar_construction}}) computes a free resolution of $\Z$ as a $\Z G$-module for any group $G$.
+
+Consider the functor
+\begin{equation*}
+  U\colon \Z G\mhyp\Mod \to \Ab
+\end{equation*}
+which forgets multiplication. This has left adjoint
+\begin{equation*}
+  \Z G \otimes_{\Z} -\colon \Ab \to \Z G\mhyp\Mod,
+\end{equation*}
+which assigns to an abelian group $A$ the left $\Z G$-module $\Z G \otimes_{\Z} A$.
+
+The unit $\eta\colon \id_{\Ab} \Rightarrow U(\Z G \otimes_{Z} -)$ and counit $\varepsilon\colon \Z G \otimes_{\Z} U(-) \Rightarrow \id_{\Z G \mhyp\Mod}$ of this adjunction have components
+\begin{equation*}
+  \eta_{A}\colon A \to U(\Z G \otimes_{\Z} A);\qquad a \mapsto 1 \otimes a
+\end{equation*}
+and
+\begin{equation*}
+  \varepsilon_{M}\colon \Z G \otimes_{\Z} U(M) \to M;\qquad g \otimes m \mapsto gm.
+\end{equation*}
+
+Denoting $\Z G \otimes_{\Z}(-) \circ U$ by $Z$, we find the following comonad in $\Z G \mhyp\Mod$, where $\nabla = \Z G \otimes_{\Z}(-) \eta U$.
+\begin{equation*}
+  \begin{tikzcd}
+    Z \circ Z
+    \\
+    Z
+    \arrow[u, swap, Rightarrow, "\nabla"]
+    \arrow[d, Rightarrow, "\varepsilon"]
+    \\
+    \id_{\Z G \mhyp\Mod}
+  \end{tikzcd}
+\end{equation*}
+This gives us a simplicial object in $\End(\Z G \mhyp\Mod)$.
+\begin{equation*}
+  \begin{tikzcd}
+    \
+    \arrow[r, dotted, no head]
+    & Z \circ Z \circ Z
+    \arrow[r, Rightarrow, shift left=9, "ZZ\varepsilon"]
+    \arrow[r, Leftarrow, shift left=6]
+    \arrow[r, Rightarrow, shift left=3]
+    \arrow[r, Leftarrow]
+    \arrow[r, Rightarrow, shift right=3]
+    \arrow[r, Leftarrow, shift right=6]
+    \arrow[r, Rightarrow, shift right=9, swap, "\varepsilon ZZ"]
+    & Z \circ Z
+    \arrow[r, Rightarrow, shift left=4, "Z\varepsilon"]
+    \arrow[r, Leftarrow, "\nabla"]
+    \arrow[r, Rightarrow, shift right=4, swap, "\varepsilon Z"]
+    & Z
+    \arrow[r ,Rightarrow]
+    & \id_{\Z G\mhyp\Mod}
+  \end{tikzcd}
+\end{equation*}
+
+Evaluating on a specific $\Z G$-module $M$ then gives a simplicial object in $\Z G\mhyp\Mod$. We continue in the special case $M = \Z$ taken as a trivial $\Z G$-module.
+\begin{equation*}
+  \begin{tikzcd}
+    \
+    \arrow[r, dotted, no head]
+    & \Z G \otimes_{\Z} \Z G \otimes_{\Z} \Z G \otimes_{\Z} \Z
+    \arrow[r, rightarrow, shift left=9, "d_{0}"]
+    \arrow[r, leftarrow, shift left=6]
+    \arrow[r, rightarrow, shift left=3]
+    \arrow[r, leftarrow]
+    \arrow[r, rightarrow, shift right=3]
+    \arrow[r, leftarrow, shift right=6]
+    \arrow[r, rightarrow, shift right=9, swap, "d_{2}"]
+    & \Z G \otimes_{\Z} \Z G \otimes_{Z} \Z
+    \arrow[r, rightarrow, shift left=4, "d_{0}"]
+    \arrow[r, leftarrow, "\nabla"]
+    \arrow[r, rightarrow, shift right=4, swap, "d_{1}"]
+    & \Z G \otimes_{\Z} \Z
+    \arrow[r ,rightarrow]
+    & \Z
+  \end{tikzcd}
+\end{equation*}
+
+We are justified in notationally suppressing the last copy of $\Z$.
+
+The face map $d_{i}$ removes the $i$th copy of $Z$; on a generator, we have the action of $d_{i}$ given by
+\begin{equation*}
+  d_{i}\colon x \otimes x_{1} \otimes \cdots \otimes x_{n} \mapsto
+  \begin{cases}
+    x x_{1} \otimes \cdots \otimes x_{n}, &i = 0 \\
+    x \otimes x_{1} \otimes \cdots \otimes x_{i}x_{i+1} \otimes \cdots \otimes x_{n},& 0 < i < n+1 \\
+    x \otimes \cdots \otimes x_{n-1}, &i = n+1.
+  \end{cases}
+\end{equation*}
+and the degeneracy maps $s_{i}$ send
+\begin{equation*}
+  x \otimes x_{1} \otimes \cdots \otimes x_{n-1} \mapsto x \otimes x_{1} \otimes \cdots \otimes x_{i-1} \otimes 1 \otimes x_{i} \otimes \cdots \otimes x_{n-1}.
+\end{equation*}
+
+It is traditional to use the notation
+\begin{equation*}
+  x \otimes x_{1} \otimes \cdots \otimes x_{n} = x[x_{1}| \cdots | x_{n}].
+\end{equation*}
+This notation is the origin of the name \emph{bar construction.}
+
+We now form the bar complex; the objects $B_{n}$ are given by
+\begin{equation*}
+  B_{n} = \Z G^{\otimes n}/\{\text{degenerate simplices}\};
+\end{equation*}
+that is, whenever we see something of the form
+\begin{equation*}
+  x[x_{1} | \cdots | 1 | \cdots | x_{n}],
+\end{equation*}
+we set it to zero.
+
+The elements of $B_{n}$ are simply formal $\Z$-linear combinations of the $x[x_{1}|\cdots|x_{n}]$. Therefore, we can also write
+\begin{equation*}
+  B_{n} = \bigoplus_{(g_{i}) \in (G \smallsetminus \{e\})^{n}} \Z G[g_{1} | \cdots | g_{n}],\qquad n \geq 0.
+\end{equation*}
+That is, we can write the bar complex as follows.
+\begin{equation*}
+  \begin{tikzcd}
+    \cdots
+    \arrow[r]
+    & \bigoplus\limits_{(g_{1}, g_{2}) \in (G\smallsetminus \{1\})^{2}} \Z G[g_{1}|g_{2}]
+    \arrow[r]
+    & \bigoplus\limits_{g \in G\smallsetminus \{1\}} \Z G[g]
+    \arrow[r]
+    & \Z G[\cdot]
+    \arrow[r]
+    & \Z
+  \end{tikzcd}
+\end{equation*}
+
+To summarize, we have the following definition.
 
 \begin{definition}[bar complex]
   \label{def:bar_complex_for_groups}
@@ -590,22 +896,6 @@ In general, our life is not so easy. Fortunately, we still have, for any group $
   \end{equation*}
 \end{definition}
 
-This is in fact a chain complex; the verification of this is identical to the verification of the simplicial identities. First, we note that we can write
-\begin{equation*}
-  d_{n} = d_{0} + \sum_{i = 1}^{n-1} (-1)^{i} d_{i} + (-1)^{n}d_{n},
-\end{equation*}
-where the $d_{i}$ satisfy the simplicial identities
-\begin{equation*}
-  d_{i}d_{j} = d_{j-1}d_{i},\qquad i < j.
-\end{equation*}
-Thus, we have
-\begin{align*}
-  d_{n} \circ d_{n-1} &= \left( \sum_{j = 0}^{n-1}(-1)^{j}d^{j} \right) \circ \left( \sum_{i = 0}^{n}(-1)^{i}d^{i} \right) \\
-  &= \sum\sum (-1)^{i+j} d^{j} \circ d^{i} \\
-  &= \sum_{0 \leq j < i \leq n} (-1)^{i+j} d^{j} \circ d^{i} + \sum_{0 \leq i \leq j \leq n-1} (-1)^{i+j} d^{j} \circ d^{i} \\
-  &= \sum_{0 \leq j < i \leq n} (-1)^{i+j} d^{i-1} \circ d^{j} + \sum_{0 \leq i \leq j \leq n-1} (-1)^{i+j} d^{j} \circ d^{i} \\
-  &= 0.
-\end{align*}
 
 \begin{proposition}
   For any group $G$, the bar construction gives a free resolution of $\Z$ as a (left) $\Z G$-module.
@@ -766,99 +1056,311 @@ and
   \right)
 \end{equation*}
 
-The story so far is as follows.
-\begin{enumerate}
-  \item We fixed a group $G$ and considered the category $G\mhyp\Mod$ of functors $\mathbf{B}G \to \Ab$.
+\subsection{Computations in low degrees}
+\label{ssc:computations_in_low_degrees}
 
-  \item We noticed that picking out the constant functor gave us a canonical functor $\Ab \to G\mhyp\Mod$, and that taking left- and right adjoints to this gave us interesting things.
-    \begin{itemize}
-      \item The right adjoint $(-)^{G}$ applied to a $G$-module $A$ gave us the subgroup of $A$ stabilized by $G$.
+\subsubsection{First homology and abelianizations}
+\label{sss:first_homology_and_abelianizations}
 
-      \item The left adjoint $(-)_{G}$ applied to a $G$-module $A$ gave us the $A$ modulo the stabilized subgroup.
-    \end{itemize}
+Let $G$ be a group, and consider $\Z$ as a free $\Z G$-module. Let us compute $H_{1}(G, \Z)$.
 
-  \item Due to adjointness, these functors have interesting exactness properties, leading us to derive them.
-    \begin{itemize}
-      \item Since $(-)_{G}$ is left adjoint, it is right exact, and we can take the left derived functors $L_{i}(-)_{G}$.
+To compute $H_{1}(G, \Z)$, consider the first few terms in the bar complex for $G$.
+\begin{equation*}
+  \begin{tikzcd}
+    \cdots
+    \arrow[r]
+    & \bigoplus\limits_{(g_{1}, g_{2}) \in (G\smallsetminus \{1\})^{2}} \Z G[g_{1}|g_{2}]
+    \arrow[r]
+    & \bigoplus\limits_{g \in G\smallsetminus \{1\}} \Z G[g]
+    \arrow[r]
+    & \Z G[\cdot]
+    \arrow[r]
+    & 0
+  \end{tikzcd}
+\end{equation*}
+Tensoring over $\Z G$ with $\Z$ is the same as trivializing the action, giving us the following complex.
+\begin{equation*}
+  \begin{tikzcd}
+    \cdots
+    \arrow[r]
+    & \bigoplus\limits_{(g_{1}, g_{2}) \in (G\smallsetminus \{1\})^{2}} \Z[g_{1}|g_{2}]
+    \arrow[r]
+    & \bigoplus\limits_{g \in G\smallsetminus \{1\}} \Z[g]
+    \arrow[r]
+    & \Z[\cdot]
+    \arrow[r]
+    & 0
+  \end{tikzcd}
+\end{equation*}
+The differential $d_{1} \otimes \id_{\Z}$ acts on a generator $[g]$ by sending it to
+\begin{equation*}
+  [\cdot]g - [\cdot] = [\cdot] - [\cdot] = 0,
+\end{equation*}
+implying that everything is a 1-cycle. The differential $d_{2}$ sends a generator $[g|h]$ to
+\begin{equation*}
+  [g]h - [gh] + [h] = [g] + [h] - [gh].
+\end{equation*}
+Thus, taking cycles modulo boundaries is the same as
+\begin{equation*}
+  \{[g] \in G\} / \langle [gh] - [g] - [h] \rangle \cong G_{\mathrm{ab}}.
+\end{equation*}
+Thus, $H_{1}(G, \Z)$ is simply the abelianization of $G$.
 
-      \item Since $(-)^{G}$ is right adjoint, it is left exact, and we can take the right derived functors $R^{i}(-)^{G}$.
-    \end{itemize}
+\subsubsection{First cohomology and semidirect products}
+\label{sss:first_cohomology_and_semidirect_products}
 
-  \item We denote
-    \begin{equation*}
-      L_{i}(-)_{G} = H_{i}(G, -),\qquad R^{i}(-)^{G} = H^{i}(G, -),
-    \end{equation*}
-    and call them \emph{group homology} and \emph{group cohomology} respectively.
+To compute $H^{1}(G, A)$, consider the sequence
+\begin{equation*}
+  \label{eq:chain_complex_for_group_cohomology}
+  \begin{tikzcd}
+    0
+    \arrow[r]
+    & \Hom_{\Z G}(\Z G[\cdot], A)
+    \arrow[r, "(d_{1})^{*}"]
+    & \Hom_{\Z G}(\bigoplus_{g \in G \smallsetminus \{1\}} \Z G[g], A)
+    \arrow[r, "(d_{2})^{*}"]
+    & \cdots
+  \end{tikzcd}.
+\end{equation*}
+Notice immediately that since the hom functor preserves direct sums in the first slot, we have
+\begin{equation*}
+  \Hom_{\Z G}\left( \bigoplus_{(g_{i}) \in (G \smallsetminus \{1\})^{n}}  \Z G[g_{1}|\cdots|g_{n}], A \right) \cong \bigoplus_{(g_{i}) \in (G \smallsetminus \{1\})^{n}} \Hom_{\Z G}\left(  \Z G[g_{1}|\cdots|g_{n}], A \right)
+\end{equation*}
 
-  \item We notice that, taking $\Z$ as a trivial $\Z G$-module, we have
-    \begin{equation*}
-      A_{G} \equiv \Z \otimes_{\Z G} A,\qquad A^{G} \equiv \Hom_{\Z G}(\Z, A),
-    \end{equation*}
-    and thus that
-    \begin{equation*}
-      H_{i}(G, A) = \Tor^{\Z G}_{i}(\Z, A),\qquad H^{i}(G, A) = \Ext_{\Z G}^{i}(\Z, A).
-    \end{equation*}
+An element of $\Hom_{\Z G}(\Z G[g_{1}|\cdots|g_{n}])$ is determined completely by where it sends the generator of $\Z G$. We can therefore re-package the RHS as consisting of functions
+\begin{equation*}
+  \phi\colon (G\smallsetminus\{1\})^{n} \to A,
+\end{equation*}
+or equivalently as functions
+\begin{equation*}
+  \phi\colon G^{n} \to A,\qquad \phi(g_{1}, \ldots, 1, \ldots g_{n}) = 0.
+\end{equation*}
 
-    This means that (by balancedness of $\Tor$ and $\Ext$) we can compute group homology and cohomology by taking a resolution of $\Z$ as a free $\Z G$-module, rather than having to take resolutions of $A$ for all $A$. The bar complex gave us such a resolution.
-\end{enumerate}
+The differential $d^{n} = (d_{n})_{*}$ sends $\phi \mapsto d^{n} \phi = \phi \circ d_{n}$, where
+\begin{align*}
+  \phi \circ d_{n}\colon (g_{1}, \ldots, g_{n+1}) \mapsto & g_{1}\phi(g_{2}, \ldots, g_{n+1}) \\
+  &+ \sum_{i = 1}^{n} (-1)^{i} \phi(g_{1}, \ldots, g_{i}g_{i+1}, \ldots, g_{n+1}) \\
+  &+ (-1)^{n+1}\phi(g_{1}, \ldots, g_{n}).
+\end{align*}
 
-\begin{example}
-  Let $G$ be a group, and consider $\Z$ as a free $\Z G$-module. Let us compute $H_{1}(G, \Z)$ and $H^{1}(G, \Z)$.
+We will denote the $n$th term in \hyperref[eq:chain_complex_for_group_cohomology]{Equation~\ref*{eq:chain_complex_for_group_cohomology}} by $C^{n}$; that is, we have
+\begin{equation*}
+  C^{n} \cong \{\phi\colon G^{n} \to A\mid \phi(g_{1}, \ldots, 1, \ldots, g_{n}) = 0\}.
+\end{equation*}
 
-  To compute $H_{1}(G, \Z)$, consider the sequence
+Let us explicitly compute $H^{1}(G; A)$.
+
+The set of 1-coboundaries corresponds to functions $\psi\colon G \to A$ with
+\begin{equation*}
+  d\psi\colon G^{2} \to A;\qquad d\psi(g,h) = g\psi(h) - \psi(gh) + \psi(g) = 0,
+\end{equation*}
+i.e.\ functions
+\begin{equation*}
+  \phi\colon G \to A;\qquad \psi(g, h) = \psi(g) + g\psi(h).
+\end{equation*}
+We will call these \emph{crossed homomorphisms.}
+
+The set of 1-cocycles corresponds to the image $d^{0}(C^{0})$, i.e.\ those functions
+\begin{equation*}
+  d\phi\colon G \to A,\qquad d\phi([g]) = g\phi([\cdot]) - \phi([\cdot]).
+\end{equation*}
+We will call these \emph{principal crossed homomorphisms.}
+
+Thus, in this case we have
+\begin{equation*}
+  H^{1}(G; A) = \frac{\{\text{crossed homomorphisms from $G$ to $A$}\}}{\text{\{principal crossed homomorphisms from $G$ to $A$\}}}.
+\end{equation*}
+
+Now suppose that $A$ is a trivial $G$-module. In that case, crossed homomorphisms are simply homomorphisms $G \to A$, and principal crossed homomorphisms are zero. Thus, $H^{1}(G; A)$ consists of homomorphisms $G \to A$, i.e.\
+\begin{equation*}
+  H^{1}(G; A) = \Hom_{\Ab}(G_{\mathrm{ab}}, A).
+\end{equation*}
+
+\begin{definition}[semidirect product]
+  \label{def:semidirect_product}
+  Let $G$ be a group, and $A$ a $G$-module. The \defn{semidirect product} of $A$ and $G$ is the group whose underlying set is $A \times G$, and whose group operation is given by
   \begin{equation*}
-    \begin{tikzcd}
-      \cdots
-      \arrow[r, "d_{2} \otimes \id_{\Z}"]
-      & \bigoplus_{g \in G \smallsetminus \{1\}} [g]\Z G \otimes_{\Z G} \Z
-      \arrow[d, equals]
-      \arrow[r, "d_{1} \otimes \id_{\Z}"]
-      & {[\cdot]} \Z G \otimes_{\Z G} \Z
-      \arrow[r]
-      \arrow[d, equals]
-      & 0
-      \\
-      \cdots
-      \arrow[r]
-      & \bigoplus [g]\Z
-      \arrow[r]
-      & {[\cdot]} \Z
-      \arrow[r]
-      & 0
-    \end{tikzcd}
+    (a, g) \cdot (a', g') = (a + g a', gg').
   \end{equation*}
-  The differential $d_{1} \otimes \id_{\Z}$ acts on $[g]$ by sending it to
-  \begin{equation*}
-    [\cdot]g - [\cdot] = [\cdot] - [\cdot],
-  \end{equation*}
-  i.e.\ everything is a cycle. The differential $d_{2}$ sends
-  \begin{equation*}
-    [g|h] \mapsto [g]h - [gh] + [h] = [g] + [h] - [gh],
-  \end{equation*}
-  i.e.\ the terms $[gh]$ and $[g] + [h]$ are identitfied. Thus, $H_{1}(G, \Z)$ is simply the abelianization of $G$.
+  We denote the semidirect product of $A$ and $G$ by $A \rtimes B$.
+\end{definition}
 
-  To compute $H^{1}(G, \Z)$, consider the sequence
+Note that we have a short exact sequence of groups\footnote{We are cheating a bit. Since $\mathbf{Grp}$ is not an abelian category, we have no notion of an exact sequence of groups. We trust that the reader will not be confused.}
+\begin{equation*}
+  \begin{tikzcd}
+    0
+    \arrow[r]
+    & A
+    \arrow[r, hook]
+    & A \rtimes G
+    \arrow[r, two heads]
+    & G
+    \arrow[r]
+    & 1
+  \end{tikzcd}.
+\end{equation*}
+
+Let $\sigma\colon A \rtimes G \to A \rtimes G$ be a group homomorphism. We say that $\sigma$ \emph{stabilizes} $A$ and $G$ if the following diagram commutes.
+\begin{equation*}
+  \begin{tikzcd}
+    0
+    \arrow[r]
+    & A
+    \arrow[r, hook]
+    \arrow[d, equals]
+    & A \rtimes G
+    \arrow[r, two heads]
+    \arrow[d, "\sigma"]
+    & G
+    \arrow[r]
+    \arrow[d, equals]
+    & 1
+    \\
+    0
+    \arrow[r]
+    & A
+    \arrow[r, hook]
+    & A \rtimes G
+    \arrow[r, two heads]
+    & G
+    \arrow[r]
+    & 1
+  \end{tikzcd}
+\end{equation*}
+
+Given any crossed homomorphism $\phi$, we get a group homomorphism $\sigma_{\phi}$ by the formula
+\begin{equation*}
+  \sigma_{\phi}\colon (a, g) \mapsto (a + \phi(g), g).
+\end{equation*}
+This is an easy check; we have
+\begin{align*}
+  \sigma_{\phi}((a, g)(a', g')) &= \sigma_{\phi}(a + ga', gg') \\
+  &= (a + ga' + \phi(gg'), gg') \\
+  &= (a + \phi(g) + g(a' + \phi(g')), gg') \\
+  &= (a + \phi(g), g)(a' + \phi(g'), g') \\
+  &= \sigma_{\phi}(a, g)\sigma_{\phi}(a', g').
+\end{align*}
+
+In fact, $\sigma_{\phi}$ trivially stabilizes $A$ and $G$. This gives us a way of turning a cocycle in $Z^{1}(G, A)$ into an an automorphism of $A \rtimes G$ which stabilizes $A$ and $G$.
+
+\begin{proposition}
+  The map
+  \begin{equation*}
+    \psi\colon Z^{1}(G; A) \to \Aut(A \rtimes G);\qquad \phi \mapsto \sigma_{\phi}
+  \end{equation*}
+  is an isomorphism onto the subgroup of $\Aut(A \rtimes G)$
+\end{proposition}
+\begin{proof}
+  The fact that $\psi$ is a homomorphism is trivial. We show that we have an inverse given by
+\end{proof}
+
+This is miserable.
+
+\subsubsection{Second cohomology and extensions}
+\label{sss:second_cohomology_and_extensions}
+
+\begin{definition}[extension of a group]
+  \label{def:extension_of_a_group}
+  Let $G$ be a group and $A$ an abelian group. An \defn{extension} of $G$ by $A$ is a short exact sequence of groups
   \begin{equation*}
     \begin{tikzcd}
       0
       \arrow[r]
-      & \Hom_{\Z G}(\Z G[\cdot], \Z)
-      \arrow[r, "(d_{1})^{*}"]
-      & \Hom_{\Z G}(\bigoplus_{g \in G \smallsetminus \{1\}} \Z G[g], \Z)
-      \arrow[r, "(d_{2})^{*}"]
-      & \cdots
+      & A
+      \arrow[r, hook, "i"]
+      & E
+      \arrow[r, two heads, "\pi"]
+      & G
+      \arrow[r]
+      & 0
     \end{tikzcd}.
   \end{equation*}
-  Notice immediately that since the hom functor preserves direct sums in the first slot, we have
-  \begin{align*}
-    \Hom_{\Z G}\left( \bigoplus_{(g_{i}) \in (G \smallsetminus \{1\})^{n}}  \Z G[g_{1}|\cdots|g_{n}], \Z \right) &\cong \bigoplus_{(g_{i}) \in (G \smallsetminus \{1\})^{n}} \Hom_{\Z G}\left(  \Z G[g_{1}|\cdots|g_{n}], \Z \right) \\
-    &\cong \bigoplus_{(g_{i}) \in (G \smallsetminus \{1\})^{n}}  \Z[g_{1}|\cdots|g_{n}].
-  \end{align*}
-  This notation deserves some explanation; recall that the symbols $[g_{1}|\cdots|g_{n}]$ are merely visual aids, reminding us where we are and how the differential acts. The differential
+  Two such extensions are said to be \defn{equivalent} if there is a morphism of short exact sequences
   \begin{equation*}
-    (d_{n})^{*}\colon [g_{1}| \cdots | g_{n}].
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hook, "i"]
+      \arrow[d, equals]
+      & E
+      \arrow[r, two heads, "\pi"]
+      \arrow[d]
+      & G
+      \arrow[r]
+      \arrow[d, equals]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hook, "i'"]
+      & E
+      \arrow[r, two heads, "\pi'"]
+      & G
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
   \end{equation*}
-  In the low cases we have the sequence
+\end{definition}
+
+\subsection{Periodicity in group homology}
+\label{ssc:periodicity_in_group_homology}
+
+In this section, we will prove a combinatorial version of the following result.
+
+\begin{fact}
+  \label{fact:periodicity_in_group_homology}
+  Let $G$ be a group. Suppose $G$ acts freely on a sphere of dimension $2k-1$. Then $G$ has $2k$-periodic group homology.
+\end{fact}
+
+\subsubsection{Simplicial complexes}
+\label{sss:simplicial_complexes}
+
+\begin{definition}[simplicial complex]
+  \label{def:simplicial_complex}
+  Let $I$ be a finite set. A \defn{simplicial complex} $K$ on $I$ is a collection of subsets $K \subset \mathcal{P}(I)$ such that for $\sigma \in K$ and $\tau \subset \sigma$, $\tau \in K$.
+
+  Let $K$ be a simplicial complex on a set $I$, and let $K'$ be a simplicial complex on a set $I'$. A \defn{morphism} $K \to K'$ is a function $f\colon I \to I'$ such that for every $\sigma \in K$, $f(\sigma) \in K'$.
+\end{definition}
+
+We define a cosimplicial object in the category of simplicial complexes by
+\begin{equation*}
+  [n] \mapsto \mathcal{P}(\{0, \ldots, n\}).
+\end{equation*}
+Taking nerves gives us, for every simplicial complex $K$, a simplicial set $\tilde{K}$.
+
+Note that for each $\sigma \in K_{n}$, there are $n!$ simplices in $\tilde{K}_{n}$, one for each permutation of the elements of $\sigma$. In $\mathbf{Set}$ there is not much we can do about this; however, applying the free abelian group functor $\mathcal{F}$ brings us to $\Ab$, where we can mod out by this ambiguity.
+
+We thus define a simplicial complex $\widetilde{C}(K)$ to be the alternating face maps complex of the simplicial object $\mathcal{F} \circ \tilde{K}$.
+
+A more concrete description of what we have just done is as follows. We have
+\begin{equation*}
+  \widetilde{C}(K)_{n} = \bigoplus_{\{x_{0}, \ldots, x_{n}\} \in K_{n}} \Z e_{(x_{0}, \ldots, x_{n})},
+\end{equation*}
+and the differential is
+\begin{equation*}
+  \sum_{i = 0}^{n} (-1)^{i} d_{i},
+\end{equation*}
+where the face maps $d_{i}$ are the $\Z$-linear extensions of the maps
+\begin{equation*}
+  d_{i}\colon e_{(x_{0}, \ldots, x_{n})} \mapsto e_{(x_{0}, \ldots, \widehat{x_{i}}, \ldots, x_{n})}.
+\end{equation*}
+
+Now that we are in $\Ab$, we can get rid of the extraneous simplices by defining
+\begin{equation*}
+  C(K)_{n} = \widetilde{C}(K)_{n}/\langle e_{(x_{1}, \ldots, x_{n})} - \mathrm{sign}(\sigma) e_{(x_{\sigma(1)}, \ldots, x_{\sigma(n)})} \mid \sigma \in S_{n}\rangle.
+\end{equation*}
+
+It is not hard to see that the differential on $\widetilde{C}(K)$ descends to $C(K)$.
+
+\begin{example}
+  Let $K = \mathcal{P}(\{0, 1\})$. Then $e_{(0, 1)} = -e_{(1, 0)}$ in $C(K)_{1}$.
 \end{example}
+
+Let $f\colon K \to K$ be an automorphism of simplicial complexes $K$. This descends to an automorphism of chain complexes $C_{\bullet}(K) \to C_{\bullet}(K)$ defined on generators by
+\begin{equation*}
+  e_{(x_{0}, \ldots, x_{n})} \mapsto e_{(f(x_{0}), \ldots, f(x_{n}))}.
+\end{equation*}
 
 \end{document}

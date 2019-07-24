@@ -255,9 +255,9 @@ The claim is that the terms $E^{r}_{p,q}$ are pieces of a successive approximati
       \arrow[r]
       & E_{\bullet, 1}
       \arrow[r, hook]
-      & E_{\bullet, 0}
+      & \cone(f)_{\bullet}
       \arrow[r, two heads]
-      & \Cone(f)_{\bullet}
+      & E_{\bullet, 0}[-1]
       \arrow[r]
       & 0
     \end{tikzcd}
@@ -267,16 +267,16 @@ The claim is that the terms $E^{r}_{p,q}$ are pieces of a successive approximati
     \begin{tikzcd}
       & \cdots
       \arrow[r]
-      & H_{n+1}(\Cone(f))
-      \\
-      H_{n}(E_{\bullet,1})
-      \arrow[r, "H_{n}(f)"]
-      \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
       & H_{n}(E_{\bullet, 0})
-      \arrow[r, "H_{n}(p)"]
-      & H_{n}(\Cone(f)_{\bullet})
       \\
-      H_{n-1}(E_{\bullet,1})
+      H_{n}(E_{\bullet, 1})
+      \arrow[r]
+      \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
+      & H_{n}(\Cone(f)_{\bullet})
+      \arrow[r]
+      & H_{n-1}(E_{\bullet, 0})
+      \\
+      H_{n-1}(E_{\bullet, 1})
       \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
       \arrow[r]
       & \cdots
@@ -680,6 +680,28 @@ Suppose one has been given a bounded spectral sequence, which we now know eventu
   \end{align*}
   as required.
 \end{example}
+
+\subsection{Exact couples}
+\label{ssc:exact_couples}
+
+We now take a detour to the much simpler, more elegant world of exact couples.
+
+\begin{definition}[exact couple]
+  \label{def:exact_couple}
+  Let $\mathcal{A}$ be an abelian category. An \defn{exact couple} in $\mathcal{A}$ consists of objects and morphisms
+  \begin{equation*}
+    \begin{tikzcd}[column sep=small]
+      & E
+      \arrow[dr, "\alpha"]
+      \\
+      A
+      \arrow[ur, "\gamma"]
+      && E
+      \arrow[ll, "\beta"]
+    \end{tikzcd}
+  \end{equation*}
+  such that $\im \alpha = \ker \beta$
+\end{definition}
 
 \subsection{The spectral sequence of a filtered complex}
 \label{ssc:the_spectral_sequence_of_a_filtered_complex}
