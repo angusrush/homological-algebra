@@ -369,7 +369,8 @@ In fact, the group $\Ext^{1}(A, B)$ parametrizes extensions of $A$ by $B$.
   Thus, $\Theta(\xi) = \Theta(\xi')$.
 
   We now construct an explicit inverse $\Psi$ to $\Phi$. Since $\Rmod$ has enough projectives, we can find a projective $P$ which surjects onto $A$. Fix such a $P$ and take the kernel of the surjection, giving the following short exact sequence.
-  \begin{equation*}
+  \begin{equation}
+    \label{eq:ses_with_projective_and_kernel}
     \begin{tikzcd}
       0
       \arrow[r]
@@ -381,7 +382,7 @@ In fact, the group $\Ext^{1}(A, B)$ parametrizes extensions of $A$ by $B$.
       \arrow[r]
       & 0
     \end{tikzcd}
-  \end{equation*}
+  \end{equation}
   We construct from such an exact sequence a map which takes an element of $\Ext^{1}(A, B)$ and gives an extension of $A$ by $B$. First applying $\Ext^{*}(-, B)$ and taking the long exact sequence on cohomology we find the following exact fragment.
   \begin{equation*}
     \begin{tikzcd}
@@ -601,7 +602,377 @@ In fact, the group $\Ext^{1}(A, B)$ parametrizes extensions of $A$ by $B$.
       & 0
     \end{tikzcd}.
   \end{equation*}  
-  Using the connecting homomorphism, we get a representative for the obstruction class $e = \delta(\id_{B}) \in \Ext^{1}(A, B)$. Now picking
+  Using the connecting homomorphism, we get a representative for the obstruction class $e = \delta(\id_{B}) \in \Ext^{1}(A, B)$. Using our short exact sequence from \hyperref[eq:ses_with_projective_and_kernel]{Equation~\ref*{eq:ses_with_projective_and_kernel}}, we can find the fo
 \end{proof}
+
+\begin{example}
+  Let's do a sort of capstone computation, which pulls in just about everything we've done so far.
+
+  Consider the ring $R = \Z[x]$. We will compute the obstruction class of the extension
+  \begin{equation*}
+    \begin{tikzcd}
+      \xi\colon
+      & 0
+      \arrow[r]
+      & \Z
+      \arrow[r, "\cdot x"]
+      & \Z[x]/(x^{2})
+      \arrow[r, two heads]
+      & \Z
+      \arrow[r]
+      & 0
+    \end{tikzcd},
+  \end{equation*}
+  where we have written $\Z = \Z[x]/(x)$.
+
+  At a very high level of abstraction, we compute the obstruction class of $\xi$ by taking the long exact sequence associated to it under the right derived functor of $\Hom_{\Z[x]}(-, \Z)$, namely
+  \begin{equation*}
+    \begin{tikzcd}
+      \Ext_{\Z[x]}^{1}(\Z, \Z)
+      \arrow[r]
+      & \cdots
+      \\
+      \Hom_{\Z[x]}(\Z, \Z)
+      \arrow[r]
+      & \Hom_{\Z[x]}(\Z[x]/(x^{2}), \Z)
+      \arrow[r]
+      & \Hom_{\Z[x]}(\Z, \Z)
+      \arrow[ull, out=22, in=-157, looseness=1, overlay, "\delta" description]
+    \end{tikzcd}
+  \end{equation*}
+  and finding the image of the identity $\id_{\Z}$ under $\delta$.
+
+  In order to find this long exact sequence, we need to lift $\xi$ to a short exact sequence of projective resolutions. If we can find a projective resolution of $\Z$, the horseshoe lemma will do the rest of the work for us.
+
+  Our work on syzygies will help us here. We note that $\Z$ has a single generator, namely $1$, so we begin our resolution
+  \begin{equation*}
+    \begin{tikzcd}
+      \Z[x]
+      \arrow[r, "\pi"]
+      & \Z
+    \end{tikzcd}.
+  \end{equation*}
+  The kernel of this is the ideal $(x)$.
+  \begin{equation*}
+    \begin{tikzcd}
+      (x)
+      \arrow[dr, hook]
+      \\
+      &\Z[x]
+      \arrow[rr, "\pi"]
+      && \Z
+    \end{tikzcd}.
+  \end{equation*}
+  This again has a single generator, namely $x$.
+  \begin{equation*}
+    \begin{tikzcd}
+      &(x)
+      \arrow[dr, hook]
+      \\
+      \Z[x]
+      \arrow[ur, two heads, "\cdot x"]
+      \arrow[rr, "\cdot x"]
+      &&\Z[x]
+      \arrow[rr, "\pi"]
+      && \Z
+    \end{tikzcd}.
+  \end{equation*}
+  The composition gives us our next differential. Note that multiplication by $x$ is injective, so our projective resolution terminates.
+  \begin{equation*}
+    \begin{tikzcd}
+      \\
+      & \cdots
+      \arrow[r]
+      & 0
+      \arrow[r]
+      &\Z[x]
+      \arrow[r, "\cdot x"]
+      &\Z[x]
+      \arrow[r]
+      & \cdots
+    \end{tikzcd}.
+  \end{equation*}
+
+  Now we apply the horseshoe lemma. We first build our horseshoe.
+  \begin{equation*}
+    \begin{tikzcd}
+      & \Z[x]
+      \arrow[d]
+      && \Z[x]
+      \arrow[d]
+      \\
+      & \Z[x]
+      \arrow[d]
+      && \Z[x]
+      \arrow[d]
+      \\
+      0
+      \arrow[r]
+      & \Z
+      \arrow[r, hook, "\cdot x"]
+      & \Z[x]/(x^{2})
+      \arrow[r, two heads, "\pi"]
+      & \Z
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  The center column is then given by the direct sum of the outer columns, and the horizontal maps are the canonical injection and projection respectively.
+  \begin{equation*}
+    \begin{tikzcd}
+      & \Z[x]
+      \arrow[dr, phantom, "(3)"]
+      \arrow[d]
+      \arrow[r, hook]
+      & \Z[x]^{2}
+      \arrow[dr, phantom, "(4)"]
+      \arrow[r, two heads]
+      \arrow[d, "\alpha"]
+      & \Z[x]
+      \arrow[d]
+      \\
+      & \Z[x]
+      \arrow[dr, phantom, "(1)"]
+      \arrow[d]
+      \arrow[r, hook]
+      & \Z[x]^{2}
+      \arrow[dr, phantom, "(2)"]
+      \arrow[d, "\beta"]
+      \arrow[r, two heads]
+      & \Z[x]
+      \arrow[d]
+      \\
+      0
+      \arrow[r]
+      & \Z
+      \arrow[r, hook, "\cdot x"]
+      & \Z[x]/(x^{2})
+      \arrow[r, two heads, "\pi"]
+      & \Z
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  The horseshoe lemma guarantees the existence of maps $\alpha$ and $\beta$ above such that all the squares commute and the middle column forms a projective resolution, but being assured of existence is of no help to us; we must find them explicitly. We are helped tremendously that what we have found are free resolutions, so we can write the maps as matrices. We first figure out what we can about the morphisms $\alpha$ and $\beta$ from the commutativity of the squares labelled $(1)$-$(4)$.
+  \begin{enumerate}[label=(\arabic*)]
+    \item Taking the low road maps
+      \begin{equation*}
+        1 \mapsto 1 \mapsto x,
+      \end{equation*}
+      while taking the high road maps
+      \begin{equation*}
+        1 \mapsto (1, 0) \mapsto \beta(1, 0).
+      \end{equation*}
+      Thus, 
+      \begin{equation*}
+        \beta\colon (1, 0) \mapsto x
+      \end{equation*}
+
+    \item The high road maps
+      \begin{equation*}
+        (0, 1) \mapsto 1 \mapsto 1,
+      \end{equation*}
+      and the low road maps
+      \begin{equation*}
+        (0, 1) \mapsto \beta(0, 1) \mapsto \beta(0, 1).
+      \end{equation*}
+      Thus, 
+      \begin{equation*}
+        \beta\colon (0, 1) \mapsto 1.
+      \end{equation*}
+  \end{enumerate}
+  Already, this is enough to tell us that
+  \begin{equation*}
+    \beta(a, b) = ax + b.
+  \end{equation*}
+\end{example}
+
+\subsection{The Baer sum}
+\label{ssc:baer_sum}
+
+By definition, $\Ext^{1}(A, B)$ has an abelian group structure. We have provided a bijection between equivalence classes of extensions of $B$ by $A$ and $\Ext^{1}(A, B)$, which allows us to transport our addition law from $\Ext^{1}(A, B)$ to the set of extension classes. However, it is not at all clear how to interpret the sum of two classes of extensions.
+
+The group operation on the set of extension classes is known as the \emph{Baer sum.} Let
+\begin{equation*}
+  \begin{tikzcd}
+    \xi\colon
+    & 0
+    \arrow[r]
+    & B
+    \arrow[r, hook, "f"]
+    & X
+    \arrow[r, two heads, "g"]
+    & A
+    \arrow[r]
+    & 0
+  \end{tikzcd}
+\end{equation*}
+and
+\begin{equation*}
+  \begin{tikzcd}
+    \xi'\colon
+    & 0
+    \arrow[r]
+    & B
+    \arrow[r, hook, "f'"]
+    & X'
+    \arrow[r, two heads, "g'"]
+    & A
+    \arrow[r]
+    & 0
+  \end{tikzcd}
+\end{equation*}
+be extensions. We shall form a new extension from $\xi$ and $\xi'$ called the \emph{Baer sum,} which will turn out to be in the class of $\Psi(\Phi(\xi + \xi'))$.
+
+A word of apology: things are about to get very element-theoretic. Of course, this is not a problem thanks to the Freyd-Mitchell embedding theorem, but it's still a bit sad.
+
+From the above extensions above, take the following pushout, and form $X'' = \ker \alpha$.
+\begin{equation*}
+  \begin{tikzcd}
+    B
+    \arrow[rr, "f'"]
+    \arrow[dd, swap, "f"]
+    \arrow[dr, "\exists!f''"]
+    && X'
+    \arrow[dd]
+    \arrow[dddr, bend left, "-g'"]
+    \\
+    & X''
+    \arrow[dr, hook]
+    \\
+    X
+    \arrow[rr]
+    \arrow[drrr, swap, bend right, "g"]
+    && X \amalg_{B} X'
+    \arrow[dr, dashed, "\exists!\alpha"]
+    \\
+    &&& A
+  \end{tikzcd}
+\end{equation*}
+We have immediately the following morphism.
+\begin{equation*}
+  \begin{tikzcd}
+    0
+    & B
+    \arrow[r, "f''"]
+    & X''
+    & A
+    & 0
+  \end{tikzcd}
+\end{equation*}
+We would like to fill in morphisms so that we have an exact sequence. The obvious choice of morphism $X'' \to A$, namely the composition $\alpha \circ \ker \alpha$, won't work because it's zero, so we have do define something else.
+
+\textbf{Warning: brutal element-wise computation ahead.}
+
+We have an explicit description of $X''$ as
+\begin{equation*}
+  X \amalg_{B} X' = X \oplus X' / \langle f(b) = f'(b) \rangle.
+\end{equation*}
+The kernel $X''$ is therefore the part of this which goes to zero under $\alpha$, namely $(x, x') \in X \amalg_{B} X'$ such that
+\begin{equation*}
+  \alpha(x, x') = g(x) - g'(x') = 0,
+\end{equation*}
+i.e.
+\begin{equation*}
+  X'' = \{(x, x') \in X \amalg_{B} X' \mid g(x) = g'(x')\}.
+\end{equation*}
+The map $f''$ then simply sends $b \mapsto (f(b), 0)$, which by definition is equivalent to $(0, f'(b))$.
+
+Note that $f'$ is clearly injective.
+
+Next, we define a map $g''\colon X'' \to A$ by sending
+\begin{equation*}
+  (x, x') \mapsto g(x) = g'(x').
+\end{equation*}
+
+This is clearly surjective since $g$ and $g'$ are. The kernel of $g''$ consists precisely of those $(x, x')$ such that $g(x) = 0$, which is to say, such that $x = f(b)$ by exactness of $\xi$. Thus, we have constructed a bona fide short exact sequence
+\begin{equation}
+  \label{eq:baer_sum}
+  \begin{tikzcd}
+    \xi''\colon
+    & 0
+    \arrow[r]
+    & B
+    \arrow[r, hook, "f''"]
+    & X''
+    \arrow[r, two heads, "g''"]
+    & A
+    \arrow[r]
+    & 0
+  \end{tikzcd}.
+\end{equation}
+
+\begin{definition}[Baer sum]
+  \label{def:baer_sum}
+  The extension $\xi''$ from \hyperref[eq:baer_sum]{Equation~\ref*{eq:baer_sum}} is called the \defn{Baer sum} of $\xi$ and $\xi'$.
+\end{definition}
+
+\begin{lemma}
+  \label{lemma:baer_sum_compatible_with_equivalences}
+  The Baer sum is compatible with equivalences; that is, if $\xi \sim \zeta$, then $\xi + \xi' \sim \zeta + \xi'$.
+\end{lemma}
+\begin{proof}
+  Note that equivalence implies in particular
+\end{proof}
+
+This means that the Baer sum descends to an addition law on equivalence classes.
+
+\begin{lemma}
+  \label{lemma:baer_sum_respects_identity}
+  Let
+  \begin{equation*}
+    \begin{tikzcd}
+      \eta\colon
+      & 0
+      \arrow[r]
+      & B
+      \arrow[r, hook, "i"]
+      & B \oplus A
+      \arrow[r, two heads, "p"]
+      & A
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  be a split extension. Then for any extension $\xi$, $\eta + \xi \sim \xi$.
+\end{lemma}
+\begin{proof}
+  
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:baer_sum_preserves_inverses}
+  Let
+  \begin{equation*}
+    \begin{tikzcd}
+      \xi\colon
+      & 0
+      \arrow[r]
+      & B
+      \arrow[r, hook, "f"]
+      & X
+      \arrow[r, two heads, "g"]
+      & A
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+  be an extension. Then
+  \begin{equation*}
+    \begin{tikzcd}
+      -\xi\colon
+      & 0
+      \arrow[r]
+      & B
+      \arrow[r, hook, "-f"]
+      & X
+      \arrow[r, two heads, "g"]
+      & A
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  is the inverse under the Baer sum, i.e. $\xi + (-\xi) \sim \eta$.
+\end{lemma}
 
 \end{document}

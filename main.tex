@@ -5,17 +5,81 @@
 
 \begin{document}
 
-\maketitle
+\begin{titlepage}
+  \vspace*{\stretch{0.7}}
+  \begin{center}
+    \Huge\textbf{Homological Algebra}\\
+    \Large With Applications to Algebraic Topology \\
+    \vspace*{1em}
+    \Large\textit{Angus Rush}
+  \end{center}
+  \vspace*{\stretch{1.0}}
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r, dotted]
+      & \ker f
+      \arrow[r, dotted]
+      \arrow[d, hookrightarrow]
+      & \ker g
+      \arrow[r, dotted]
+      \arrow[d, hookrightarrow]
+      & \ker h
+      \arrow[d, hookrightarrow]
+      \\
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hookrightarrow, "m"]
+      \arrow[d, swap, "f"]
+      & B
+      \arrow[r, twoheadrightarrow, "e"]
+      \arrow[d, swap, "g"]
+      & C
+      \arrow[r]
+      \arrow[d, swap, "h"]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & A'
+      \arrow[r, hookrightarrow, swap, "m'"]
+      \arrow[d, twoheadrightarrow]
+      & B'
+      \arrow[r, twoheadrightarrow, swap, "e'"]
+      \arrow[d, twoheadrightarrow]
+      & C'
+      \arrow[d, twoheadrightarrow]
+      \arrow[r]
+      & 0
+      \\
+      & \coker f
+      \arrow[r, dotted]
+      \arrow[from=uuurr, out=-22, in=157, looseness=1.5, overlay, dashed]
+      & \coker g
+      \arrow[r, dotted]
+      & \coker h
+      \arrow[r, dotted]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  \vspace*{\stretch{0.3}}
+\end{titlepage}
+
 \tableofcontents
 
 \part{Homological algebra}
+\label{part:homological_algebra}
 \subfile{introduction.tex}
 \subfile{abelian.tex}
 \subfile{abelian_homology.tex}
 \subfile{tor_ext.tex}
 \subfile{applications.tex}
 \subfile{spectral_sequences.tex}
+\subfile{triangulated_categories.tex}
+
 \part{Algebraic topology}
+\label{part:algebraic_topology}
 \subfile{alg_top.tex}
 
 \end{document}

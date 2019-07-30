@@ -1,0 +1,190 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Triangulated categories}
+\label{ch:triangulated_categories}
+
+\begin{definition}[triangulated category]
+  \label{def:triangulated_category}
+  A \defn{triangulated category} consists of the following data.
+  \begin{enumerate}
+    \item An additive category $\mathcal{T}$.
+
+    \item An equivalence 
+      \begin{equation*}
+        \mathcal{T} \to \mathcal{T};\qquad X \mapsto X[1],
+      \end{equation*}
+      called the \defn{translation functor}.
+
+    \item A collection of \defn{distinguished triangles}
+      \begin{equation*}
+        \left\{ 
+          \begin{tikzcd}
+            X
+            \arrow[r, "f"]
+            & Y
+            \arrow[r, "g"]
+            & Z
+            \arrow[r, "h"]
+            & X[-1]
+          \end{tikzcd}
+        \right\}.
+      \end{equation*}
+  \end{enumerate}
+
+  These must satisfy the following four axioms.
+  \begin{enumerate}[label=(TR\arabic*), leftmargin=*]
+    \item 
+      \begin{enumerate}
+        \item Every morphism $f$ can be extended to a distinguished triangle as above.
+
+        \item The collection of distinguisned triangles is closed under isomorphism.
+
+        \item Given $X \in \mathcal{T}$, the diagram
+          \begin{equation*}
+            \begin{tikzcd}
+              X
+              \arrow[r, "\id"]
+              & X
+              \arrow[r]
+              & 0
+              \arrow[r]
+              & X[1]
+            \end{tikzcd}
+          \end{equation*}
+      \end{enumerate}
+      is also distinguished.
+
+    \item A diagram
+      \begin{equation*}
+        \begin{tikzcd}
+          X
+          \arrow[r, "f"]
+          & Y
+          \arrow[r, "g"]
+          & Z
+          \arrow[r, "h"]
+          & X[1]
+        \end{tikzcd}
+      \end{equation*}
+      if and only if the `rotated' diagram
+      \begin{equation*}
+        \begin{tikzcd}
+          Y
+          \arrow[r, "g"]
+          & Z
+          \arrow[r, "h"]
+          & X[1]
+          \arrow[r, "{-f[1]}"]
+          & Y[1]
+        \end{tikzcd}
+      \end{equation*}
+      is distinguished.
+
+    \item Given a solid commmutative diagram
+      \begin{equation*}
+        \begin{tikzcd}
+          X
+          \arrow[r]
+          \arrow[d, swap, "f"]
+          & Y
+          \arrow[r]
+          \arrow[d]
+          & Z
+          \arrow[r]
+          \arrow[d, dashed]
+          & X[1]
+          \arrow[d, "{f[1]}"]
+          \\
+          X
+          \arrow[r]
+          & Y
+          \arrow[r]
+          & Z
+          \arrow[r]
+          & X[1]
+        \end{tikzcd}
+      \end{equation*}
+      with distinguished rows, there exists a dashed morphism making everything commute.
+
+    \item Suppose we are given the following distinguished triangles.
+      \begin{equation*}
+        \begin{tikzcd}
+          X
+          \arrow[r, "f"]
+          & Y
+          \arrow[r, "u"]
+          & Y/X
+          \arrow[r, "d"]
+          & X[1]
+        \end{tikzcd}
+      \end{equation*}
+      \begin{equation*}
+        \begin{tikzcd}
+          Y
+          \arrow[r, "g"]
+          & Z
+          \arrow[r, "v"]
+          & Z/Y
+          \arrow[r, "d'"]
+          & Y[1]
+        \end{tikzcd}
+      \end{equation*}
+      \begin{equation*}
+        \begin{tikzcd}
+          X
+          \arrow[r, "g \circ f"]
+          & Z
+          \arrow[r, "w"]
+          & Z/X
+          \arrow[r, "d''"]
+          & X[1]
+        \end{tikzcd}
+      \end{equation*}
+
+      Then there is a distinguished triangle
+      \begin{equation*}
+        \begin{tikzcd}
+          Y/X
+          \arrow[r, "\phi"]
+          & Z/X
+          \arrow[r, "\psi"]
+          & Z/Y
+          \arrow[r, "\theta"]
+          & Y/X[1]
+        \end{tikzcd}
+      \end{equation*}
+      making the following diagram commute.
+      \begin{equation*}
+        \begin{tikzcd}
+          X
+          \arrow[r, swap, "f"]
+          \arrow[rr, bend left, "g \circ f"]
+          & Y
+          \arrow[r, swap, "g"]
+          \arrow[d, swap, "u"]
+          & Z
+          \arrow[d, "v"]
+          \\
+          & Y/X
+          \arrow[r, "\phi"]
+          & Z/X
+          \arrow[r, "d''"]
+          \arrow[d, swap, "\psi"]
+          & X[1]
+          \arrow[d, "{f[1]}"]
+          \\
+          && Z/Y
+          \arrow[r, "d'"]
+          \arrow[rr, bend right, "\theta"]
+          & Y[1]
+          \arrow[r, "{u[1]}"]
+          & Y/X[1]
+        \end{tikzcd}
+      \end{equation*}
+  \end{enumerate}
+
+\end{definition}
+
+\end{document}

@@ -605,7 +605,7 @@ Suppose one has been given a bounded spectral sequence, which we now know eventu
 
 \begin{definition}[bounded convergence]
   \label{def:bounded_convergence}
-  Let $E$ be a bounded spectral sequence starting at $E^{a}$ in an abelian category $\mathcal{A}$, and let $\{H_{i}\}_{i \in Z}$ be a collection of objects in $\mathcal{A}$, each equipped with a finite filtration
+  Let $E$ be a bounded spectral sequence starting at $E^{a}$ in an abelian category $\mathcal{A}$, and let $\{H_{i}\}_{i \in \Z}$ be a collection of objects in $\mathcal{A}$, each equipped with a finite filtration
   \begin{equation*}
     0 = F_{s}H_{n} \subset \cdots \subset F_{p-1}H_{n} \subset F_{p}H_{n} \subset \cdots \subset F_{t}H_{n} = H_{n}.
   \end{equation*}
@@ -707,6 +707,7 @@ We now take a detour to the much simpler, more elegant world of exact couples.
 \label{ssc:the_spectral_sequence_of_a_filtered_complex}
 
 \begin{theorem}
+  \label{thm:filtered_spectral_sequence_construction_thereom}
   A filtration $F$ of a chain complex $C_{\bullet}$ naturally determines a spectral sequence starting with
   \begin{equation*}
     E^{0}_{p,q} = F_{p}C_{p+q}/F_{p-1}C_{p+q},\qquad E^{1}_{p,q} = H_{p+1}(E^{0}_{p,
@@ -880,8 +881,160 @@ We now take a detour to the much simpler, more elegant world of exact couples.
   \end{itemize}
 \end{theorem}
 
-\subsection{The spectral sequence of a double complex}
-\label{ssc:the_spectral_sequence_of_a_double_complex}
+\section{The spectral sequence of a double complex}
+\label{sec:the_spectral_sequence_of_a_double_complex}
+
+A special case of the spectral sequence of a filtered complex is the spectral sequence of a double complex. Given a double complex $C_{\bullet,\bullet}$, we define a new double complex
+\begin{equation*}
+  \left(^{I}\tau_{\leq n}C\right)_{p,q} =
+  \begin{cases}
+    C_{p,q} & p \leq n \\
+    0, & p > n
+  \end{cases}.
+\end{equation*}
+
+That is, the $\left(^{I}\tau_{\leq n}C\right)$ is the double complex obtained by setting all the entries to the right of the column $C_{p, \bullet}$ to zero.
+
+This leads to a filtered complex
+\begin{equation*}
+  0 \subset \cdots \subset \Tot(^{I}\tau_{\leq 0}C)_{p, q} \subset \Tot(^{I}\tau_{\leq 1}C)_{p, q} \subset \cdots \subset \Tot(C)_{p,q};
+\end{equation*}
+that is, with
+\begin{equation*}
+  F_{p}C = \Tot(^{I}\tau_{\leq p}C).
+\end{equation*}
+
+This gives rise to a spectral sequence via \hyperref[thm:filtered_spectral_sequence_construction_thereom]{Theorem~\ref*{thm:filtered_spectral_sequence_construction_thereom}}.
+
+Specifically, we have
+\begin{align*}
+  ^{I}E^{0}_{p,q} &= \frac{F_{p}C_{p+q}}{F_{p-1}C_{p+q}} \\
+  &= \frac{\Tot(^{I}\tau_{\leq p}C)_{p+q}}{\Tot(^{I}\tau_{\leq p-1}C)_{p+q}} \\
+  &= \frac{\bigoplus_{\substack{i+j = p+q}} C_{i,j}}{\bigoplus_{\substack{i + j = p+q \\ i \leq p-1}}C_{i,j}} \\
+  &= \frac{C_{0,p+q} \oplus \cdots \oplus C_{p, q}}{C_{0,p+q} \oplus \cdots \oplus C_{p-1, q+1}} \\
+  &= C_{p, q}.
+\end{align*}
+The differentials $C_{p, q} \to C_{p, q-1}$ are simply the vertical differentials $d^{v}_{p,q}$.
+
+Of course, we can also transpose our double complex before performing the above procedure; this gives a different spectral sequence $^{II}E^{0}_{p,q}$.
+
+By \hyperref[thm:filtered_spectral_sequence_construction_thereom]{Theorem~\ref*{thm:filtered_spectral_sequence_construction_thereom}}, both of these converge to the homology of the total complex $H_{p+q}(\Tot(C))$.
+
+\begin{definition}[spectral sequences associated to a double complex]
+  \label{def:spectral_sequences_associated_to_a_double_complex}
+  \leavevmode
+  \begin{itemize}
+    \item The \defn{vertically filtered spectral sequence associated to a double complex} is the spectral sequence $^{I}E^{0}_{p, q} \Rightarrow H_{p+q}(\Tot(C))$.
+
+    \item The \defn{horizontally filtered spectral sequence associated to a double complex} is the spectral sequence $^{II}E^{0}_{p, q} \Rightarrow H_{p+q}(\Tot(C))$.
+  \end{itemize}
+\end{definition}
+
+\begin{example}[balancing \texorpdfstring{$\Tor$}{Tor} again]
+  Let $M$ and $N$ be right and left $R$-modules respectively, and let $P_{\bullet} \simto M$ and $Q_{\bullet} \simto N$ be projective resolutions. We can form the double complex
+  \begin{equation*}
+    M_{p, q} = P_{p} \otimes_{R} Q_{q}.
+  \end{equation*}
+  The totalization of this complex is then simply what we have been calling $P_{\bullet} \otimes_{R} Q_{\bullet}$.
+
+  Let us work out explicitly the vertical filtration. The zeroth page is as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      & \
+      \arrow[ddddd, leftarrow, dotted, at start, "q"]
+      & \vdots
+      \arrow[d]
+      & \vdots
+      \arrow[d]
+      & \vdots
+      \arrow[d]
+      \\
+      && P_{0} \otimes_{R} Q_{2}
+      \arrow[d, swap, "\id \otimes d^{Q}"]
+      & P_{1} \otimes_{R} Q_{2}
+      \arrow[d, swap, "\id \otimes d^{Q}"]
+      & P_{2} \otimes_{R} Q_{2}
+      \arrow[d, swap, "\id \otimes d^{Q}"]
+      \\
+      && P_{0} \otimes_{R} Q_{1}
+      \arrow[d, swap, "\id \otimes d^{Q}"]
+      & P_{1} \otimes_{R} Q_{1}
+      \arrow[d, swap, "\id \otimes d^{Q}"]
+      & P_{2} \otimes_{R} Q_{1}
+      \arrow[d, swap, "\id \otimes d^{Q}"]
+      \\
+      && P_{0} \otimes_{R} Q_{0}
+      & P_{1} \otimes_{R} Q_{0}
+      & P_{2} \otimes_{R} Q_{0}
+      \\
+      \
+      \arrow[rrrrr, dotted, at end, "p"]
+      &&&&& \
+      \\
+      & \
+    \end{tikzcd}
+  \end{equation*}
+
+  Since each $P_{i}$ is projective, taking homology ignores it, and we get that
+  \begin{align*}
+    H_{q}(P_{p} \otimes_{R} Q_{\bullet}) &= P_{p} \otimes_{R} H_{q}(Q_{\bullet}) \\
+    &=
+    \begin{cases}
+      P_{p} \otimes_{R} N, & q = 0 \\
+      0, & q \neq 0
+    \end{cases}.
+  \end{align*}
+  Therefore, the first page of our spectral sequence consists of a single line at the first page.
+  \begin{equation*}
+    \begin{tikzcd}
+      & \
+      \arrow[ddddd, leftarrow, dotted, at start, "q"]
+      \\
+      && 0
+      & 0
+      & 0
+      & \cdots
+      \\
+      && 0
+      & 0
+      & 0
+      & \cdots
+      \\
+      && P_{0} \otimes_{R} N
+      & P_{1} \otimes_{R} N
+      \arrow[l]
+      & P_{2} \otimes_{R} N
+      \arrow[l]
+      & \cdots
+      \arrow[l]
+      \\
+      \
+      \arrow[rrrrr, dotted, at end, "p"]
+      &&&&& \
+      \\
+      & \
+    \end{tikzcd}
+  \end{equation*}
+  We now have
+  \begin{align*}
+    ^{I}E^{2}_{p,q} &= H_{p}(P_{\bullet} \otimes_{R} N) \\
+    &= \Tor_{p}(M, N).
+  \end{align*}
+  At this point the spectral sequence collapses, telling us that
+  \begin{equation*}
+    H_{p}(P_{\bullet} \otimes_{R} Q_{\bullet}) = H_{p}(P_{\bullet} \otimes_{R} N) = \Tor_{p}(M, N).
+  \end{equation*}
+
+  The other filtration gives
+  \begin{equation*}
+    H_{p}(P_{\bullet} \otimes_{R} Q_{\bullet}) = H_{p}(M \otimes_{R} Q_{\bullet}).
+  \end{equation*}
+  Thus,
+  \begin{equation*}
+    H_{p}(M \otimes_{R} Q_{\bullet}) = \Tor_{p}(M, N),
+  \end{equation*}
+  which says that $\Tor$ is balanced.
+\end{example}
 
 \section{Hyper-derived functors}
 \label{sec:hyper_derived_functors}
@@ -1011,15 +1164,58 @@ is defined similarly.
           & 0
         \end{tikzcd}
       \end{equation*}
-      The outer terms are projective because they are the terms of projective resolutions, so $Z(P_{p,\bullet}, d^{h})$ is also projective.
+      The outer terms are projective because they are the terms of projective resolutions, so $Z(P_{p,\bullet}, d^{h})$ is also projective. Thus, $Z(P_{p,\bullet}, d^{h})$ is at the very least a complex of projectives.
 
-      LES on homology implies
+      Further, we have the first few rows of the long exact sequence on homology.
       \begin{equation*}
-        Z(P_{p,\bullet}, d^{h}) \simto Z(A_{p}, d^{A})
+        \begin{tikzcd}
+          \cdots
+          \arrow[r]
+          & Z(P_{p, 1}, d^{h})
+          \arrow[r]
+          & 0
+          \\
+          0
+          \arrow[r]
+          \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
+          & Z(P_{p, 0}, d^{h})
+          \arrow[r]
+          & 0
+          \\
+          B(A_{p}, d^{A})
+          \arrow[r]
+          \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
+          & Z(A_{p}, d^{A})
+          \arrow[r]
+          & H(A_{p}, d^{A})
+          \arrow[r]
+          & 0
+        \end{tikzcd}
       \end{equation*}
-      is a projective resolution.
+      This tells us that the homology of $Z(P_{p, \bullet})$ is
+      \begin{equation*}
+        H_{q}(Z(P_{p, \bullet}, d^{h})) =
+        \begin{cases}
+          Z(A_{p}, d^{A}), & q = 0 \\
+          0, & q > 0
+        \end{cases},
+      \end{equation*}
+      i.e.\ that $Z(P_{p, \bullet}, d^{h})$ is a projective resolution of $Z(A_{p}, d^{A})$.
 
-    \item
+    \item Exactly the same, but with the short exact sequence
+      \begin{equation*}
+        \begin{tikzcd}
+          0
+          \arrow[r]
+          & Z(P_{p, \bullet}, d^{h})
+          \arrow[r, hook]
+          & H(P_{p, \bullet}, d^{h})
+          \arrow[r, two heads]
+          & B(P_{p-1, \bullet}, d^{h})
+          \arrow[r]
+          & 0
+        \end{tikzcd}
+      \end{equation*}
   \end{enumerate}
 \end{proof}
 
@@ -1117,10 +1313,207 @@ is defined similarly.
 \end{proof}
 
 \begin{proposition}
-  Let $A_{\bullet}$ and $A'_{\bullet}$ be bounded-below chain complexes, and let $P_{\bullet,\bullet} \simto A_{\bullet}$ and $P'_{\bullet,\bullet} \simto A'_{\bullet}$ be Cartan-Eilenberg resolutions. Then any morphism of chain complexes $f\colon A_{\bullet} \to A'_{\bullet}$ can be lifted to a morphism $P^{A}_{\bullet,\bullet} \to P^{B}_{\bullet,\bullet}$ of double complex.
+  Let $A_{\bullet}$ and $A'_{\bullet}$ be bounded-below chain complexes, and let $P_{\bullet,\bullet} \simto A_{\bullet}$ and $P'_{\bullet,\bullet} \simto A'_{\bullet}$ be Cartan-Eilenberg resolutions. Then any morphism of chain complexes $f\colon A_{\bullet} \to A'_{\bullet}$ can be lifted to a morphism $\tilde{f}\colon P^{A}_{\bullet,\bullet} \to P^{B}_{\bullet,\bullet}$ of double complex. Furthermore, this lift is unique up to a \emph{homotopy of double complexes,} i.e.\ for any other lift $\tilde{\tilde{f}}$, there exist mapss
+  \begin{equation*}
+    s^{h}_{p,q}\colon P_{p,q} \to P'_{p+1,q},\qquad s^{v}_{p,q}\colon P_{p, q} \to E_{p, q+1}
+  \end{equation*}
+  such that
 \end{proposition}
 \begin{proof}
-  We get
+  We have the following lifts.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=small]
+      &&& Q^{B}_{p,\bullet}
+      \arrow[dd, crossing over]
+      && Q^{Z}_{p,\bullet}
+      \arrow[dd, crossing over]
+      && Q^{H}_{p,\bullet}
+      \arrow[dd, crossing over]
+      \\
+      && P^{B}_{p,\bullet}
+      \arrow[ur]
+      && P^{Z}_{p,\bullet}
+      && P^{H}_{p,\bullet}
+      \arrow[ur]
+      \\
+      & 0
+      \arrow[rr]
+      && B_{p}(B)
+      \arrow[rr]
+      && Z_{p}(B)
+      \arrow[rr]
+      && H_{p}(B)
+      \arrow[rr]
+      && 0
+      \\
+      0
+      \arrow[rr]
+      && B_{p}(A)
+      \arrow[rr]
+      \arrow[from=uu, crossing over]
+      \arrow[ur]
+      && Z_{p}(A)
+      \arrow[rr]
+      \arrow[from=uu, crossing over]
+      \arrow[ur]
+      && H_{p}(A)
+      \arrow[rr]
+      \arrow[from=uu, crossing over]
+      \arrow[ur]
+      && 0
+    \end{tikzcd}
+  \end{equation*}
+  The horseshoe lemma for morphisms (mutatis mutandis) allows us to complete this diagram in a compatible way as follows.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=small]
+      & 0
+      \arrow[rr]
+      && Q^{B}_{p,\bullet}
+      \arrow[rr]
+      \arrow[dd, crossing over]
+      && Q^{Z}_{p,\bullet}
+      \arrow[rr]
+      \arrow[dd, crossing over]
+      && Q^{H}_{p,\bullet}
+      \arrow[rr]
+      \arrow[dd, crossing over]
+      && 0
+      \\
+      0
+      \arrow[rr, crossing over]
+      && P^{B}_{p,\bullet}
+      \arrow[rr, crossing over]
+      \arrow[ur]
+      && P^{Z}_{p,\bullet}
+      \arrow[rr, crossing over]
+      \arrow[ur]
+      && P^{H}_{p,\bullet}
+      \arrow[rr, crossing over]
+      \arrow[ur]
+      && 0
+      \\
+      & 0
+      \arrow[rr]
+      && B_{p}(B)
+      \arrow[rr]
+      && Z_{p}(B)
+      \arrow[rr]
+      && H_{p}(B)
+      \arrow[rr]
+      && 0
+      \\
+      0
+      \arrow[rr]
+      && B_{p}(A)
+      \arrow[rr]
+      \arrow[from=uu, crossing over]
+      \arrow[ur]
+      && Z_{p}(A)
+      \arrow[rr]
+      \arrow[from=uu, crossing over]
+      \arrow[ur]
+      && H_{p}(A)
+      \arrow[rr]
+      \arrow[from=uu, crossing over]
+      \arrow[ur]
+      && 0
+    \end{tikzcd}
+  \end{equation*}
+  Using the lifts we constructed above and identical logic, we get the following.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=small]
+      & 0
+      \arrow[rr]
+      && Q^{Z}_{p,\bullet}
+      \arrow[rr]
+      \arrow[dd, crossing over]
+      && Q_{p,\bullet}
+      \arrow[rr]
+      \arrow[dd, crossing over]
+      && Q^{B}_{p-1,\bullet}
+      \arrow[rr]
+      \arrow[dd, crossing over]
+      && 0
+      \\
+      0
+      \arrow[rr, crossing over]
+      && P^{Z}_{p,\bullet}
+      \arrow[rr, crossing over]
+      \arrow[ur]
+      && P_{p,\bullet}
+      \arrow[rr, crossing over]
+      \arrow[ur]
+      && P^{B}_{p-1,\bullet}
+      \arrow[rr, crossing over]
+      \arrow[ur]
+      && 0
+      \\
+      & 0
+      \arrow[rr]
+      && Z_{p}(B)
+      \arrow[rr]
+      && B_{p}(A)
+      \arrow[rr]
+      && B_{p-1}(A)
+      \arrow[rr]
+      && 0
+      \\
+      0
+      \arrow[rr]
+      && Z_{p}(A)
+      \arrow[rr]
+      \arrow[from=uu, crossing over]
+      \arrow[ur]
+      && A_{p}
+      \arrow[rr]
+      \arrow[from=uu, crossing over]
+      \arrow[ur]
+      && B_{p-1}(A)
+      \arrow[rr]
+      \arrow[from=uu, crossing over]
+      \arrow[ur]
+      && 0
+    \end{tikzcd}
+  \end{equation*}
+
+  Thus we have, for each $p \in \Z$, a morphism of complexes $P_{p,\bullet} \to Q_{p,\bullet}$. It remains only to show that each of the squares
+  \begin{equation*}
+    \begin{tikzcd}
+      P_{p,\bullet}
+      \arrow[r]
+      \arrow[d]
+      & P_{p-1,\bullet}
+      \arrow[d]
+      \\
+      Q_{p,\bullet}
+      \arrow[r]
+      & Q_{p-1,\bullet}
+    \end{tikzcd}
+  \end{equation*}
+  commutes. But we get these squares by pasting together squares stolen from the above diagrams as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      P_{p,\bullet}
+      \arrow[r, "d^{h}"]
+      \arrow[d]
+      & P^{Z}_{p-1,\bullet}
+      \arrow[r, hook]
+      \arrow[d]
+      & P^{B}_{p-1,\bullet}
+      \arrow[r, hook]
+      \arrow[d]
+      & P_{p-1,\bullet}
+      \arrow[d]
+      \\
+      Q_{p,\bullet}
+      \arrow[r, "d^{h}"]
+      & Q^{Z}_{p-1,\bullet}
+      \arrow[r, hook]
+      & Q^{B}_{p-1,\bullet}
+      \arrow[r, hook]
+      & Q_{p-1,\bullet}
+    \end{tikzcd}
+  \end{equation*}
 \end{proof}
 
 \begin{proposition}
@@ -1133,5 +1526,106 @@ is defined similarly.
 \begin{proof}
   Spectral sequence with vertical filtration.
 \end{proof}
+
+\subsection{Hyper-derived functors}
+\label{ssc:hyper_derived_functors}
+
+\begin{definition}[left hyper-derived functor]
+  \label{def:left_hyper_derived_functor}
+  Let $F\colon \mathcal{A} \to \mathcal{B}$ be a right exact functor, and assume $\mathcal{A}$ has enough projectives. The \defn{left hyper-derived functor} $\mathbb{L}_{i}F$ of $F$ is the functor
+  \begin{equation*}
+    \mathbb{L}_{i}F\colon \Ch_{+}(\mathcal{A}) \to \mathcal{B};\qquad \mathbb{L}_{i}F(A_{\bullet}) = H_{i}(\Tot(F(P^{A}_{\bullet, \bullet}))),
+  \end{equation*}
+  where $P^{A}_{\bullet, \bullet}$ is a Cartan-Eilenberg resolution of $A_{\bullet}$.
+\end{definition}
+
+\begin{proposition}
+  \label{prop:horizontal_and_vertical_filtration}
+  Let $A_{\bullet}$ be a bounded below chain complex in an abelian category $\mathcal{A}$. There are two spectral sequences
+  \begin{equation*}
+    ^{I}E^{2}_{p,q} = H_{p}(L_{q}F(A_{\bullet})) \Longrightarrow \mathbb{L}_{p+q}(A_{\bullet}),
+  \end{equation*}
+  \begin{equation*}
+    ^{II}E^{2}_{p,q} = L_{p}F(H_{q}(A_{\bullet})) \Longrightarrow \mathbb{L}_{p+q}(A_{\bullet}).
+  \end{equation*}
+\end{proposition}
+\begin{proof}
+  Spectral sequence starting from $F(P^{A}_{\bullet,\bullet})$.
+\end{proof}
+
+This allows us to define the famous \emph{Grothendieck spectral sequence,} which allows us to compute the composition of two derived functors.
+
+\begin{proposition}
+  \label{prop:grothendieck_spectral_sequence}
+  Let $\mathcal{A}$, $\mathcal{B}$, and $\mathcal{C}$ be abelian categories, and assume that $\mathcal{A}$ and $\mathcal{B}$ have enough projectives. Let $F$ and $G$ as below be right exact, and assume that $G$ sends projective objects to $F$-acyclic objects.\footnote{An object $B \in \mathcal{B}$ is called \emph{$F$-acyclic} if for all $q > 0$, $L_{q}F(B) = 0$. For example, projective objects are $F$-acyclic for all $F$.} Then for all $A \in \mathcal{A}$, there exists a convergent spectral sequence
+  \begin{equation*}
+    E^{2}_{p, q} = L_{p}F(L_{q}G(A)) \Longrightarrow L_{p+q}(F \circ G)(A).
+  \end{equation*}
+\end{proposition}
+\begin{proof}
+  Let $P_{\bullet} \simto A$ be a projective resolution. From \hyperref[prop:horizontal_and_vertical_filtration]{Proposition~\ref*{prop:horizontal_and_vertical_filtration}}, we find two spectral sequences. Applying the first to $G(P_{\bullet})$, we find
+  \begin{equation*}
+    H_{p}(L_{q}(F(G(P_{\bullet})))) \Longrightarrow \mathbb{L}_{p+q}.
+  \end{equation*}
+  However, by assumption $G(P_{\bullet})$ is a chain complex of $F$-acyclic objects, so
+  \begin{equation*}
+    L_{q}F(G(P_{\bullet})) =
+    \begin{cases}
+      F(G(P_{\bullet})), & q = 0 \\
+      0, \text{otherwise}
+    \end{cases}.
+  \end{equation*}
+  Taking $p$th homology thus gives us, with $q = 0$,
+  \begin{align*}
+    H_{p}(L_{0}F(G(P_{\bullet}))) &= H_{p}(F \circ G(P_{\bullet})) \\
+    &= L_{p}(F \circ G)(A).
+  \end{align*}
+  Thus, the spectral sequence collapses at the second page, and we have
+  \begin{equation*}
+    \mathbb{L}_{p}F(G(P_{\bullet})) \cong L_{p}(F \circ G)(A)
+  \end{equation*}
+
+  The second spectral sequence guarantees us that
+  \begin{equation*}
+    L_{p}F(H_{q}(G(P_{\bullet}))) \Longrightarrow \mathbb{L}_{p+q}(G(P_{\bullet})).
+  \end{equation*}
+  However, by definition
+  \begin{equation*}
+    H_{q}(G(P_{\bullet})) = L_{q}G(A),
+  \end{equation*}
+  giving us a spectral sequence
+  \begin{equation*}
+    E^{2}_{p,q} = (L_{p}F \circ L_{q}G)(A) \Longrightarrow L_{p+q}(F \circ G)(A)
+  \end{equation*}
+  as required.
+\end{proof}
+
+\begin{example}[Lyndon-Hochschild-Serre spectral sequence]
+  \label{eg:lyndon_hochschild_serre_spectral_sequence}
+  Let $G$ be a group, and $N$ a normal subgroup. This gives us the following commuting\footnote{On the nose!} diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      \Z G\mhyp\Mod
+      \arrow[rr, "(-)_{N}"]
+      \arrow[dr, swap, "(-)_{G}"]
+      && \Z G/N\mhyp\Mod
+      \arrow[dl, "(-)_{G/N}"]
+      \\
+      & \Ab
+    \end{tikzcd}
+  \end{equation*}
+
+  If we can show that $(-)_{N}$ takes projectives to $(-)_{G/N}$-acyclics, then we are entitled to apply \hyperref[prop:grothendieck_spectral_sequence]{Proposition~\ref*{prop:grothendieck_spectral_sequence}}. Note that $(-)_{N}$ takes free $\Z G$-modules to free $\Z G/N$ modules, simply by cutting away the basis elements on which $N$ acts trivially. Since any projective is a direct summand of some free module and $(-)_{N}$ is additive, it thus takes projectives to projectives.
+
+  \hyperref[prop:grothendieck_spectral_sequence]{Proposition~\ref*{prop:grothendieck_spectral_sequence}} now tells us that there exists a convergent spectral sequence
+  \begin{equation*}
+    E^{2}_{p, q} = (L_{p}(-)_{G/N} \circ L_{q}(-)_{N})(A) \Longrightarrow L_{p+q}(-)_{G}(A).
+  \end{equation*}
+  That is, a spectral sequence
+  \begin{equation*}
+    E^{2}_{p, q} = H_{p}(G/N, H_{q}(N, A)) \Longrightarrow H_{p+q}(G, A).
+  \end{equation*}
+  This is known as the \emph{Lyndon-Hochschild-Serre spectral sequence.}
+\end{example}
 
 \end{document}

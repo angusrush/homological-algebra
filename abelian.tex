@@ -20,80 +20,111 @@ In this chapter we recall some basic results.
   A category $\mathcal{C}$ is called \emph{$\Ab$-enriched} if it is enriched over the symmetric monoidal category $(\Ab, \otimes_{\Z})$.  
 \end{definition}
 
-\begin{lemma}
-  \label{lemma:abeliancategorycoproductsareproducts}
-  Let $\mathsf{C}$ be an $\mathsf{Ab}$-enriched category with finite products. Then the product $X_{1} \times \cdots \times X_{n}$ satisfies the universal property for coproducts. In particular, initial objects and terminal objects coincide.
-\end{lemma}
-\begin{proof}
-  First, we show that initial and terminal objects coincide. Let $\emptyset$ be initial and $*$ terminal in $\mathsf{C}$.
-
-  Since $\Hom_{\mathsf{C}}(\emptyset, \emptyset)$ has only one element, it must be both the identity morphism on $\emptyset$ \emph{and} the identity element of $\Hom_{\mathsf{C}}(\emptyset, \emptyset)$ as an abelian group. Similarly, $\id_{*} = 0$ in $\Hom_{\mathsf{C}}(*, *)$.
-
-  Since $\emptyset$ is initial and $*$ is final, $\Hom_{\mathsf{C}}(\emptyset, *)$ has exactly one element $f$. We are thus guaranteed that $\Hom_{\mathsf{C}}(*, \emptyset)$ has at least one element, $g$. Then $g \circ f = 0 = \id$ and $f \circ g = 0 = \id$, so $f\colon \emptyset \to *$ is an isomorphism. Thus, initial and terminal objects coincide, so $\mathsf{C}$ has a zero object $0$.
-
-  We prove the lemma for binary products. The general case is preciesly the same.
-
-  For each $X$, $Y \in \mathcal{C}$, we can define $i_{X}\colon X \to X \times Y$ using the universal property for products as follows.
-  \begin{equation*}
-    \begin{tikzcd}
-      & X
-      \arrow[dl, swap, "\id"]
-      \arrow[d, dashed, "i_{X}"]
-      \arrow[dr, "0"]
-      \\
-      X
-      & X \times Y
-      \arrow[l]
-      \arrow[r]
-      & Y
-    \end{tikzcd}
-  \end{equation*}
-  Similarly, get $i_{Y}\colon Y \to X \times Y$.
-
-  The claim is that $X \times Y$, together with $i_{X}$ and $i_{Y}$, satisfies the universal property for coproducts; that is, that we can find a unique map $\phi$ making the below diagram commute.
-  \begin{equation*}
-    \begin{tikzcd}
-      X
-      \arrow[r, "i_{X}"]
-      \arrow[dr, swap, "f"]
-      & X \times Y
-      \arrow[d, dashed, "\phi"]
-      & Y
-      \arrow[l, swap, "i_{Y}"]
-      \arrow[dl, "g"]
-      \\
-      & Z
-    \end{tikzcd}
-  \end{equation*}
-  In fact, $\phi = f \circ \pi_{X} + g \circ \pi_{Y}$ satisfies the universal property. It is clear that this makes the diagram commute since $\pi_{X} \circ i_{X} = \id$, $\pi_{X} \circ i_{Y} = 0$, and similarly for $Y$.
-
-  Note that, by the universal property for products, there is a unique downward map. But both $\id_{X \times Y}$ and $i_{X} \circ \pi_{X} + i_{Y} \circ \pi_{Y}$ make it commute, so they must be equal.
-  \begin{equation*}
-    \begin{tikzcd}
-      & X \times Y
-      \arrow[dr, "\pi_{X}"]
-      \arrow[dl, swap, "\pi_{Y}"]
-      \arrow[d]
-      \\
-      X
-      & X \times Y
-      \arrow[r, swap, "\pi_{Y}"]
-      \arrow[l, "\pi_{X}"]
-      & Y
-    \end{tikzcd}
-  \end{equation*}
-
-  Now we are ready to show that $\phi$ is unique. Suppose we have another candidate $\psi$ which also makes the above diagram commute. Then
-  \begin{equation*}
-    \psi = \psi \circ \id_{X \times Y} = f \circ \pi_{X} + g \circ \pi_{Y} = \phi.
-  \end{equation*}
-\end{proof}
-
 \subsubsection{Additive categories}
 
 \begin{definition}[additive category]
   \label{def:additivecategory}
-  A category $\mathsf{C}$ is \defn{additive} if it has products and is $\mathsf{Ab}$-enriched.
+  A category $\mathcal{C}$ is \defn{additive} if it has products and is $\mathsf{Ab}$-enriched.
+\end{definition}
+
+\begin{proposition}
+  \label{prop:in_additive_category_products_coproducts_agree}
+  Let $\mathcal{C}$ be an additive category. Then the product $A \times B$ satisfies the universal property for a coproduct $A \amalg B$.
+\end{proposition}
+\begin{proof}
+  By the universal property for products, we get a unique map $i_{A}\colon A \to A \times B$ making the following diagram commute.
+  \begin{equation*}
+    \begin{tikzcd}
+      & A
+      \arrow[dr, "0"]
+      \arrow[dl, swap, "\id_{A}"]
+      \arrow[d, "\exists! i_{A}"]
+      \\
+      A
+      & A \times B
+      \arrow[l, "\pi_{A}"]
+      \arrow[r, swap, "\pi_{B}"]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+  Similarly, there exists a unique map $i_{B}\colon B \to A \times B$ making the diagram
+  \begin{equation*}
+    \begin{tikzcd}
+      & B
+      \arrow[dr, "\id_{B}"]
+      \arrow[dl, swap, "0"]
+      \arrow[d, "\exists! i_{B}"]
+      \\
+      A
+      & A \times B
+      \arrow[l, "\pi_{A}"]
+      \arrow[r, swap, "\pi_{B}"]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+  commute.
+
+  Consider the following diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      & A \times B
+      \arrow[dr, "\pi_{B}"]
+      \arrow[dl, swap, "\pi_{A}"]
+      \arrow[d, dashed, "\exists!"]
+      \\
+      A
+      & A \times B
+      \arrow[r, swap, "\pi_{B}"]
+      \arrow[l, "\pi_{A}"]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+  Obviously, the identity map $\id_{A \times B}$ makes this diagram commute. However
+  \begin{equation*}
+    \pi_{A} \circ (i_{A} \circ \pi_{A} + i_{B} \circ \pi_{B}) = \pi_{A}
+  \end{equation*}
+  and
+  \begin{equation*}
+    \pi_{B} \circ (i_{A} \circ \pi_{A} + i_{B} \circ \pi_{B}) = \pi_{B},
+  \end{equation*}
+  so the map $i_{A} \circ \pi_{A} + i_{B} \circ \pi_{B}$ also does. Thus, 
+  \begin{equation*}
+    \pi_{A} \circ i_{A} + \pi_{B} \circ i_{B} = \id_{A \times B}.
+  \end{equation*}
+
+  We now claim that $A \times B$, together with the maps $i_{A}$ and $i_{B}$, satisfy the universal property for coproducts. To see this, let $X$ be an object and $f\colon A \to A \times B$ and $g\colon B \to A \times B$ be morphisms.
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[r, "i_{A}"]
+      \arrow[dr, swap, "f"]
+      & A \times B
+      \arrow[d, dashed, "\phi"]
+      & B
+      \arrow[l, swap, "i_{B}"]
+      \arrow[dl, "g"]
+      \\
+      & X
+    \end{tikzcd}
+  \end{equation*}
+  We need to show that there exists a unique morphism $\phi$ making the diagram commute. Note that, by logic identical to that above, taking
+  \begin{equation*}
+    \phi = f \circ \pi_{A} + g \circ \pi_{B}
+  \end{equation*}
+  makes the above diagram commute. Now suppose that there exists another $\tilde{\phi}$ making the diagram commute. Then
+  \begin{align*}
+    \tilde{\phi} &= \tilde{\phi} \circ \id_{A \times B} \\
+    &= \tilde{\phi} \circ (i_{A} \circ \pi_{A} + i_{B} \circ \pi_{B}) \\
+    &= f \circ \pi_{A} + g \circ \pi_{B} \\
+    &= \phi.
+  \end{align*}
+\end{proof}
+
+\hyperref[prop:in_additive_category_products_coproducts_agree]{Proposition~\ref*{prop:in_additive_category_products_coproducts_agree}} tells us that, in an additive category with products, we also have coproducts, and that these agree with the products. Dually, we could have defined an additive category to be a category with coproducts; the dual to \hyperref[prop:in_additive_category_products_coproducts_agree]{Proposition~\ref*{prop:in_additive_category_products_coproducts_agree}} would then have shown us that these agreed with products. Rather than preferencing either the notation for products or the notation for coproducts, we will use a new symbol.
+
+\begin{definition}[direct sum]
+  \label{def:direct_sum}
+  Let $\mathcal{C}$ be a category with products and coproducts which agree. Then we say that $\mathcal{C}$ has \defn{direct sums}, and denote the product/coproduct of $A$ and $B$ by $A \oplus B$.
 \end{definition}
 
 \begin{definition}[additive functor]
@@ -165,11 +196,11 @@ In this chapter we recall some basic results.
   \begin{equation*}
     F(A \oplus B) \simeq F(A) \oplus F(B).
   \end{equation*}
+  Conversely, if $F$ preserves products,
 \end{corollary}
 \begin{proof}
   Apply $F$ to the data of \hyperref[lemma:conditions_for_direct_sum]{Lemma~\ref*{lemma:conditions_for_direct_sum}}.
 \end{proof}
-
 
 \subsubsection{Pre-abelian categories}
 
@@ -388,8 +419,39 @@ As the following proposition shows, additive functors from additive categories p
   \end{itemize}
 \end{example}
 
-\section{Intermezzo: embedding theorems}
-\label{sec:intermezzo_embedding_theorems}
+\subsection{Abelian-ness is a property, not a structure}
+\label{ssc:abelian_ness_is_a_property_not_a_structure}
+
+Our definition of an abelian category, namely an $\Ab$-enriched category with products, kernels, and cokernels, such that every monomorphism is the kernel of its cokernel and every epimorphism is the cokernel of its kernel, makes it sound like ordinary categories could never aspire to be abelian categories. After all, in an ordinary category, one has to provide extra structure, namely an addition law on morphisms, to get an $\Ab$-enriched category.
+
+Not so! It turns out that demanding that finite products and coproducts exist and agree is sufficient to specify the addition law.
+
+\begin{proposition}
+  Let $\mathcal{C}$ be a category with finite direct sums (\hyperref[def:direct_sum]{Definition~\ref*{def:direct_sum}}).\footnote{I.e.\ with finite products and coproducts which agree, including a zero object.} Then $\mathcal{C}$ has a canonical $\Ab$-enrichment.
+\end{proposition}
+\begin{proof}
+  Let $A \in \mathcal{C}$ be an object. Denote the diagonal map $A \to A \oplus A$ by $\Delta$, and the codiagonal map $A \oplus A \to A$ by $\nabla$. Let $f$, $g\colon A \to B$. We define
+  \begin{equation*}
+    f + g = \nabla \circ (f \oplus g) \circ \Delta.
+  \end{equation*}
+  To see that this is an $\Ab$-enrichment, note the following.
+  \begin{enumerate}
+    \item With $0$ the zero morphism, we have
+      \begin{equation*}
+        f + 0
+      \end{equation*}
+  \end{enumerate}
+\end{proof}
+
+In fact, in an abelian category, the $\Ab$-enrichment is completely determined by the direct sum structure. Thus, we have the following.
+
+\begin{corollary}
+  \label{cor:functor_additive_iff_preserves_direct_sums}
+  Let $F\colon \mathcal{A} \to \mathcal{B}$  be a functor between abelian categories. Then $F$ is additive if and only if it preserves direct sums.
+\end{corollary}
+
+\section{Embedding theorems}
+\label{sec:embedding_theorems}
 
 In ordinary category theory, when manipulating a locally small category it is often helpful to pass through the Yoneda embedding, which gives a (fully) faithful rendition of the category under consideration in the category $\Set$. One of the reasons that this is so useful is that the category $\Set$ has a lot of structure which can use to prove things about the subcategory of $\Set$ in which one lands. Having done this, one can then use the fully faithfulness to translate results to the category under consideration.
 
@@ -588,1038 +650,5 @@ Now we introduce some load-lightening notation: we write $\hat{(-)} = \mathcal{M
     \item The morphism $f$ is a monomorphism if and only if $\mathcal{M}(f)$ is an
   \end{itemize}
 \end{lemma}
-
-\section{Chain complexes}
-\label{ssc:chain_complexes}
-
-\begin{definition}[category of chain complexes]
-  \label{def:category_of_chain_complexes_abelian}
-  Let $\mathcal{A}$ be an abelian category. A \defn{chain complex} $C_{\bullet}$ in $\mathcal{A}$ is a collection of objects $C_{n} \in \mathcal{A}$, $n \in \Z$, together with morphisms $d_{n}\colon C_{n} \to C_{n-1}$ such that $d_{n-1} \circ d_{n} = 0$.
-
-  The category of chain complexes in $\mathcal{A}$, denoted $\Ch(\mathcal{A})$, is the category whose objects are chain complexes and whose morphisms are morphisms $C_{\bullet} \to D_{\bullet}$ of chain complexes, i.e.\ for each $n \in \Z$ a map $f_{n}\colon C_{n} \to D_{n}$ such that all of the squares form commute.
-  \begin{equation*}
-    \begin{tikzcd}
-      \cdots
-      \arrow[r, "d^{C}_{n+2}"]
-      & C_{n+1}
-      \arrow[r, "d^{C}_{n+1}"]
-      \arrow[d, "f_{n+1}"]
-      & C_{n}
-      \arrow[r, "d^{C}_{n}"]
-      \arrow[d, "f_{n}"]
-      & C_{n-1}
-      \arrow[r, "d^{C}_{n-1}"]
-      \arrow[d, "f_{n-1}"]
-      & \cdots
-      \\
-      \cdots
-      \arrow[r, "d^{D}_{n+2}"]
-      & D_{n+1}
-      \arrow[r, "d^{D}_{n+1}"]
-      & D_{n}
-      \arrow[r, "d^{D}_{n}"]
-      & D_{n-1}
-      \arrow[r, "d^{D}_{n-1}"]
-      & \cdots
-    \end{tikzcd}
-  \end{equation*}
-
-  We also define $\Ch^{+}(\mathcal{A})$ to be the category of \defn{bounded-below} chain complexes (i.e.\ the full subcategory consisting of chain complexes $C_{\bullet}$ such that $C_{n} = 0$ for small enough $n$), $\Ch^{-}(\mathcal{A})$ to be the category of \defn{bounded-above} chain complexes, and $\Ch^{\geq 0}(\mathcal{A})$ and $\Ch^{\leq 0}(\mathcal{A})$ similarly.
-\end{definition}
-
-\begin{theorem}
-  \label{thm:category_of_chain_complexes_is_abelian}
-  The category $\Ch(\mathcal{A})$ is abelian.
-\end{theorem}
-\begin{proof}
-  We check each of the conditions.
-
-  The zero object is the zero chain complex, the $\mathbf{Ab}$-enrichment is given level-wise, and the product is given level-wise as the direct sum. That this satisfies the universal property follows almost immediately from the universal property in $\mathcal{A}$: given a diagram of the form
-  \begin{equation*}
-    \begin{tikzcd}
-      & Q_{\bullet}
-      \arrow[dr, "g_{\bullet}"]
-      \arrow[dl, swap, "f_{\bullet}"]
-      \arrow[d, dashed, "\exists!\phi_{\bullet}"]
-      \\
-      C_{\bullet}
-      & C_{\bullet} \times D_{\bullet}
-      \arrow[r, swap, "p_{2}"]
-      \arrow[l, "p_{1}"]
-      & D_{\bullet}
-    \end{tikzcd}
-  \end{equation*}
-  the only thing we need to check is that the map $\phi$ produced level-wise is really a chain map, i.e.\ that
-  \begin{equation*}
-    \phi_{n-1} \circ d_{n}^{Q} = d_{n}^{C} \oplus d_{n}^{D} \circ \phi_{n}.
-  \end{equation*}
-  By the above work, the RHS can be re-written as
-  \begin{align*}
-    (d^{C}_{n} \oplus d^{D}_{n}) \circ (i_{1} \circ f_{n-1} + i_{2} \circ g_{n-1}) &= i_{1} \circ d_{n}^{C} \circ f_{n} + i_{2} \circ d_{n}^{D} \circ g_{n} \\
-    &= i_{1} \circ f_{n-1} \circ d^{Q}_{n} + i_{2} \circ g_{n-1} \circ d^{Q}_{n} \\
-    &= (i_{1} \circ f_{n-1} + i_{2} \circ g_{n-1}) \circ d^{Q}_{n},
-  \end{align*}
-  which is equal to the LHS.
-
-  The kernel is also defined level-wise. The standard diagram chase shows that the induced morphisms between kernels make this into a chain complex; to see that it satisfies the universal property, we need only show that the map $\phi$ below is a chain map.
-  \begin{equation*}
-    \begin{tikzcd}
-      & Q_{\bullet}
-      \arrow[dr, "0"]
-      \arrow[d, "g_{\bullet}"]
-      \arrow[dl, swap, dashed, "\phi_{\bullet}"]
-      \\
-      \ker(f_{\bullet})
-      \arrow[r, "\iota_{\bullet}"]
-      & A_{\bullet}
-      \arrow[r, "f_{_{\bullet}}"]
-      & B_{\bullet}
-    \end{tikzcd}
-  \end{equation*}
-  That is, we must have
-  \begin{equation}
-    \label{eq:needstocommute}
-    \phi_{n-1} \circ d^{Q}_{n} = d_{n}^{\ker f} \circ \phi_{n}.
-  \end{equation}
-
-  The composition
-  \begin{equation*}
-    \begin{tikzcd}
-      Q_{n}
-      \arrow[r, "g_{n}"]
-      & A_{n}
-      \arrow[r, "f"]
-      & B_{n}
-      \arrow[r, "d_{n}^{B}"]
-      & B_{n-1}
-    \end{tikzcd}
-  \end{equation*}
-  gives zero by assumption, giving us by the universal property for kernels a unique map
-  \begin{equation*}
-    \psi\colon Q_{n} \to \ker f_{n-1}
-  \end{equation*}
-  such that
-  \begin{equation*}
-    \iota_{n-1} \circ \psi = d^{A}_{n} \circ g_{n}.
-  \end{equation*}
-  We will be done if we can show that both sides of \hyperref[eq:needstocommute]{Equation~\ref*{eq:needstocommute}} can play the role of $\psi$. Plugging in the LHS, we have
-  \begin{align*}
-    \iota_{n-1} \circ \phi_{n-1} \circ d^{Q}_{n} &= g_{n-1} \circ d^{Q}_{n} \\
-    &= d^{A}_{n} \circ g_{n}
-  \end{align*}
-  as we wanted. Plugging in the RHS we have
-  \begin{equation*}
-    \iota_{n-1} \circ d^{\ker f}_{n} \circ \phi_{n} = d^{A}_{n} \circ g_{n}.
-  \end{equation*}
-
-  The case of cokernels is dual.
-
-  Since a chain map is a monomorphism (resp. epimorphism) if and only if it is a monomorphism (resp. epimorphism), we have immediately that monomorphisms are the kernels of their cokernels, and epimorphisms are the cokernels of their kernels.
-\end{proof}
-
-The categories $\Ch^{+}(\mathcal{A})$, etc., are also abelian.
-
-\begin{definition}[image, coimage]
-  \label{def:image_coimage}
-  Given a morphism $f\colon A \to B$, the \defn{image} of $f$ is $\im f = \ker\coker f$ and the \defn{coimage} of $f$ is $\coker \ker f$. 
-\end{definition}
-
-Let
-\begin{equation*}
-  \begin{tikzcd}
-    A
-    \arrow[r, "f"]
-    & B
-    \arrow[r, "g"]
-    & C
-  \end{tikzcd}
-\end{equation*}
-be morphisms such that $g \circ f = 0$. We can build the following commutative diagram.
-\begin{equation*}
-  \begin{tikzcd}
-    & \im f
-    \arrow[d, "i"]
-    \arrow[dr, "0"]
-    \\
-    A
-    \arrow[r, "f"]
-    & B
-    \arrow[r, "g"]
-    \arrow[d, "p"]
-    & C
-    \\
-    & \coker f
-    \arrow[ur]
-  \end{tikzcd}
-\end{equation*}
-Since $g \circ i = 0$, $i$ factors through $\ker g$, giving us a morphism $\phi\colon \im f \to \ker g$.
-\begin{equation*}
-  \begin{tikzcd}[column sep=small]
-    & \im f
-    \arrow[dr, "i"]
-    \arrow[r, "\phi"]
-    & \ker g
-    \arrow[d]
-    \arrow[r]
-    & H_{n}
-    \\
-    A
-    \arrow[rr, "f"]
-    && B
-    \arrow[rr, "g"]
-    \arrow[d, "p"]
-    && C
-    \\
-    && \coker f
-    \arrow[urr]
-  \end{tikzcd}
-\end{equation*}
-
-\begin{definition}[exact sequence]
-  \label{def:exact_sequence_abelian}
-  Let
-  \begin{equation*}
-    \begin{tikzcd}
-      A_{1}
-      \arrow[r, "f_{1}"]
-      & A_{2}
-      \arrow[r, "f_{2}"]
-      & \cdots
-      \arrow[r, "f_{n-1}"]
-      & A_{n}
-    \end{tikzcd}
-  \end{equation*}
-  be objects and morphisms in an abelian category. We say that the above sequence is \defn{exact} if $\phi_{i}$ is an isomorphism. We say that a complex $(C_{\bullet}, d)$ is \defn{exact} if $\phi$ is an isomorphism at all positions.
-
-  A chain complex $(C_{\bullet}, d)$ is exact if it is exact at all positions.
-\end{definition}
-
-\begin{definition}[homology]
-  \label{def:homology}
-  Let $(C_{\bullet}, d)$ be a complex. The \defn{$n$th homology} of $C_{\bullet}$ is the cokernel of the map $\phi\colon \im d_{n+1} \to \ker d_{n}$ described in \hyperref[def:exact_sequence_abelian]{Definition~\ref*{def:exact_sequence_abelian}}, denoted $H_{n}(C_{\bullet})$.
-\end{definition}
-
-\begin{proposition}
-  Homology extends to a family of additive functors
-  \begin{equation*}
-    H_{n}\colon \Ch(\mathcal{A}) \to \mathcal{A}.
-  \end{equation*}
-\end{proposition}
-\begin{proof}
-  We need to define $H_{n}$ on morphisms. To this end, let $f_{\bullet}\colon C_{\bullet} \to D_{\bullet}$ be a morphism of chain complexes.
-  \begin{equation*}
-    \begin{tikzcd}
-      C_{n+1}
-      \arrow[r, "d^{C}_{n+1}"]
-      \arrow[d, swap, "f_{n+1}"]
-      & C_{n}
-      \arrow[r, "d^{C}_{n}"]
-      \arrow[d, "f_{n}"]
-      & C_{n-1}
-      \arrow[d, "f_{n-1}"]
-      \\
-      D_{n+1}
-      \arrow[r, swap, "d^{D}_{n+1}"]
-      & D_{n}
-      \arrow[r, swap, "d^{D}_{n}"]
-      & D_{n-1}
-    \end{tikzcd}
-  \end{equation*}
-  We need a map $H_{n}(C_{\bullet}) \to H_{n}(D_{\bullet})$. This will come from a map $\ker d^{C}_{n} \to \ker d^{D}_{n}$. In fact, $f_{n}$ gives us such a map, essentially by restriction. We need to show that this descends to a map between cokernels.
-\end{proof}
-
-We can also go the other way, by defining a map
-\begin{equation*}
-  \iota_{n}\colon \mathcal{A} \to \Ch(\mathcal{A})
-\end{equation*}
-which sends an object $A$ to the chain complex
-\begin{equation*}
-  \begin{tikzcd}
-    &{\ }
-    \arrow[r, dotted]
-    & 0
-    \arrow[r]
-    & A
-    \arrow[r]
-    & 0
-    \arrow[r, dotted]
-    &{\ }
-  \end{tikzcd}
-\end{equation*}
-concentrated in degree $n$.
-
-\begin{example}
-  \label{eg:compute_homology_in_trivial_situation}
-  In some situations, homology is easy to compute explicitly. Let
-  \begin{equation*}
-    \begin{tikzcd}
-      \cdots
-      \arrow[r]
-      & C_{1}
-      \arrow[r, "f"]
-      & C_{0}
-      \arrow[r]
-      & 0
-    \end{tikzcd}
-  \end{equation*}
-  be a chain complex in $\Ch_{\geq 0}(\mathcal{A})$. Then $H_{0}(C_{\bullet}) = \coker f$.
-
-  Similarly, if
-  \begin{equation*}
-    \begin{tikzcd}
-      0
-      \arrow[r]
-      & C_{0}
-      \arrow[r, "f"]
-      & C_{-1}
-      \arrow[r]
-      & \cdots
-    \end{tikzcd}
-  \end{equation*}
-  is a chain complex in $\Ch_{\leq 0}(\mathcal{A})$, then $H_{0}(C_{\bullet}) = \ker f$.
-\end{example}
-
-\begin{definition}[quasi-isomorphism]
-  \label{def:quasi_isomorphism}
-  Let $f_{\bullet}\colon C_{\bullet} \to D_{\bullet}$ be a chain map. We say that $f$ is a \defn{quasi-isomorphism} if it induces isomorphisms on homology; that is, if $H_{n}(f)$ is an isomorphism for all $n$.
-\end{definition}
-
-Quasi-isomorphisms are a fiddly concept. Since they induce isomorphisms on homology, and isomorphisms are invertible, one might naïvely hope that quasi-isomorphisms themselves were invertible. Unfortunately, we are not so lucky. Consider the following
-
-By \hyperref[eg:compute_homology_in_trivial_situation]{Example~\ref*{eg:compute_homology_in_trivial_situation}}, we
-
-\begin{definition}[resolution]
-  \label{def:resolution}
-  Let $A$ be an object in an abelian category. A \defn{resolution} of $A$ consists of a chain complex $C_{\bullet}$ together with a quasi-isomorphism $C_{\bullet} \to \iota(A)$.
-\end{definition}
-
-\section{Diagram lemmas}
-\label{sec:diagram_lemmas}
-
-\subsection{The splitting lemma}
-\label{ssc:the_splitting_lemma}
-
-\begin{lemma}[Splitting lemma]
-  \label{lemma:splitting_lemma}
-  Consider the following solid exact sequence in an abelian category $\mathcal{A}$.
-  \begin{equation*}
-    \begin{tikzcd}
-      0
-      \arrow[r]
-      & A
-      \arrow[r, "i_{A}"]
-      & B
-      \arrow[r, "\pi_{C}"]
-      \arrow[l, bend left, dashed, "\pi_{A}"]
-      & C
-      \arrow[r]
-      \arrow[l, bend left, dashed, "i_{C}"]
-      & 0
-    \end{tikzcd}
-  \end{equation*}
-  The following are equivalent.
-  \begin{itemize}
-    \item There exists a morphism $\pi_{A}\colon B \to A$ such that $\pi_{A} \circ i_{A} = \id_{A}$
-
-    \item There exists a morphism $i_{C}\colon C \to B$ such that $\pi_{C} \circ i_{C} = \id_{C}$
-
-    \item $B$ is a direct sum $A \oplus C$ with the obvious canonical injections and projections.
-  \end{itemize}
-\end{lemma}
-
-\subsection{The snake lemma}
-\label{ssc:the_snake_lemma}
-
-\begin{lemma}
-  \label{lemma:pullback_preserves_kernel}
-  Let $f\colon B \twoheadrightarrow C$ be an epimorphism, and let $g\colon D \to C$ be any morphism. Then the kernel of $f$ functions as the kernel of the pullback of $f$ along $g$, in the sense that we have the following commuting diagram in which the right-hand square is a pullback square.
-  \begin{equation*}
-    \begin{tikzcd}
-      \ker f'
-      \arrow[d, equals]
-      \arrow[r, "i"]
-      & S
-      \arrow[dr, phantom, "\ulcorner", very near start]
-      \arrow[r, "f'"]
-      \arrow[d, swap, "g'"]
-      & D
-      \arrow[d, "g"]
-      \\
-      \ker f
-      \arrow[r, swap, "\iota"]
-      & B
-      \arrow[r, twoheadrightarrow, swap, "f"]
-      & C
-    \end{tikzcd}
-  \end{equation*}
-\end{lemma}
-\begin{proof}
-  Consider the following pullback square, where $f$ is an epimorphism.
-  \begin{equation*}
-    \begin{tikzcd}
-      S
-      \arrow[r, "f'"]
-      \arrow[d, swap, "g'"]
-      \arrow[dr, phantom, "\ulcorner", very near start]
-      & D
-      \arrow[d, "g"]
-      \\
-      B
-      \arrow[r, twoheadrightarrow, swap, "f"]
-      & C
-    \end{tikzcd}
-  \end{equation*}
-  Since we are in an abelian category, the pullback $f'$ is also an epimorphism. Denote the kernel of $f$ by $K$.
-
-  The claim is that $K$ is also a kernel of $f'$.
-    %\begin{equation*}
-    %  \begin{tikzcd}
-    %    & S
-    %    \arrow[r, "f'"]
-    %    \arrow[d, swap, "g'"]
-    %    & D
-    %    \arrow[d, "g"]
-    %    \\
-    %    K
-    %    \arrow[r, hookrightarrow, "\iota"]
-    %    & B
-    %    \arrow[r, twoheadrightarrow, swap, "f"]
-    %    & C
-    %  \end{tikzcd}
-    %\end{equation*}
-  Of course, in order for this statement to make sense we need a map $i\colon K \to S$. This is given to us by the universal property of the pullback as follows.
-  \begin{equation*}
-    \begin{tikzcd}
-      K
-      \arrow[drr, bend left, "0"]
-      \arrow[ddr, bend right, swap, "\iota"]
-      \arrow[dr, dashed, "\exists!i"]
-      \\
-      & S
-      \arrow[r]
-      \arrow[d]
-      & D
-      \arrow[d, "g"]
-      \\
-      & B
-      \arrow[r, twoheadrightarrow, swap, "f"]
-      & C
-    \end{tikzcd}
-  \end{equation*}
-  Next we need to verify that $(K, i)$ is actually the kernel of $f'$, i.e.\ satisfies the universal property. To this end, let $v\colon Q \to S$ be a map such that $f' \circ v = 0$. We need to find a unique factorization of $v$ through $K$.
-  \begin{equation*}
-    \begin{tikzcd}
-      & Q
-      \arrow[dr, "0"]
-      \arrow[d, "v"]
-      \arrow[dl, swap, dashed, "\exists! v'"]
-      \\
-      K
-      \arrow[r, "i"]
-      \arrow[dr, swap, "\iota"]
-      & S
-      \arrow[r, twoheadrightarrow, swap, "f'"]
-      \arrow[d, "g'"]
-      & D
-      \arrow[d, "g"]
-      \\
-      & B
-      \arrow[r, swap, "f"]
-      & C
-    \end{tikzcd}
-  \end{equation*}
-  By definition $f' \circ v = 0$. Thus,
-  \begin{align*}
-    f \circ g' \circ v &= g \circ f' \circ v \\
-    &= g \circ 0 \\
-    &= 0,
-  \end{align*}
-  so $g' \circ v$ factors uniquely through $K$ as $g' \circ v = \iota \circ v'$. It remains only to check that the triangle formed by $v'$ commutes, i.e.\ $v = v' \circ i$. To see this, consider the following diagram, where the bottom right square is the pullback from before.
-  \begin{equation*}
-    \begin{tikzcd}
-      Q
-      \arrow[drr, bend left, "0"]
-      \arrow[ddr, bend right, swap, "g' \circ v"]
-      \arrow[dr, dashed, "\exists!"]
-      \\
-      & S
-      \arrow[r, swap, "f'"]
-      \arrow[d, "g'"]
-      & D
-      \arrow[d, "g"]
-      \\
-      & B
-      \arrow[r, swap, "f"]
-      & C
-    \end{tikzcd}
-  \end{equation*}
-  By the universal property, there exists a unique map $Q \to S$ making this diagram commute. However, both $v$ and $i \circ v'$ work, so $v = i \circ v'$.
-
-  Thus we have shown that, in a precise sense, the kernel of an epimorphism functions as the kernel of its pullback, and we have the following commutative diagram, where the right hand square is a pullback.
-  \begin{equation*}
-    \begin{tikzcd}
-      \ker f'
-      \arrow[d, equals]
-      \arrow[r, "i"]
-      & S
-      \arrow[r, "f'"]
-      \arrow[d, "g'"]
-      & D
-      \arrow[d, "g"]
-      \\
-      \ker f
-      \arrow[r, swap, "\iota"]
-      & B
-      \arrow[r, twoheadrightarrow, swap, "f"]
-      & C
-    \end{tikzcd}
-  \end{equation*}
-\end{proof}
-At least in the case that $g$ is mono, when phrased in terms of elements, this result is more or less obvious; we can imagine the diagram above as follows.
-\begin{equation*}
-  \begin{tikzcd}
-    \left\{ \substack{\text{elements of pullback}\\\text{which map to $0$}} \right\}
-    \arrow[r, hookrightarrow]
-    \arrow[d, equals]
-    & \left\{ \substack{\text{elements of $B$}\\\text{which map to $C$}} \right\}
-    \arrow[r, twoheadrightarrow]
-    \arrow[d, hookrightarrow]
-    & D
-    \arrow[d, hookrightarrow]
-    \\
-    \left\{ \substack{\text{elements of $B$}\\\text{which map to $0$}} \right\}
-    \arrow[r, hookrightarrow]
-    & B
-    \arrow[r, twoheadrightarrow]
-    & C
-  \end{tikzcd}
-\end{equation*}
-
-\begin{theorem}[snake lemma]
-  \label{thm:snake_lemma}
-  Consider the following commutative diagram with exact rows.
-  \begin{equation*}
-    \begin{tikzcd}
-      0
-      \arrow[r]
-      & A
-      \arrow[d, swap, "f"]
-      \arrow[r, "m"]
-      & B
-      \arrow[r, "e"]
-      \arrow[d, swap, "g"]
-      & C
-      \arrow[r]
-      \arrow[d, "h"]
-      & 0
-      \\
-      0
-      \arrow[r]
-      & A'
-      \arrow[r, "m'"]
-      & B'
-      \arrow[r, "e'"]
-      & C'
-      \arrow[r]
-      & 0
-    \end{tikzcd}
-  \end{equation*}
-  This gives us an exact sequence
-  \begin{equation*}
-    0 \to \ker f \to \ker g \to \ker h \to \coker f \to \coker g \to \coker h \to 0.
-  \end{equation*}
-\end{theorem}
-\begin{proof}
-  We provide running commentary on the diagram below.
-  \begin{equation}
-    \label{eq:snakelemma}
-    \begin{tikzcd}
-      0
-      \arrow[r, dotted]
-      & \ker f
-      \arrow[r, dotted]
-      \arrow[d, hookrightarrow]
-      & \ker g
-      \arrow[r, dotted]
-      \arrow[d, hookrightarrow]
-      & \ker h
-      \arrow[d, hookrightarrow]
-      \\
-      0
-      \arrow[r]
-      & A
-      \arrow[r, hookrightarrow, "m"]
-      \arrow[d, swap, "f"]
-      & B
-      \arrow[r, twoheadrightarrow, "e"]
-      \arrow[d, swap, "g"]
-      & C
-      \arrow[r]
-      \arrow[d, swap, "h"]
-      & 0
-      \\
-      0
-      \arrow[r]
-      & A'
-      \arrow[r, hookrightarrow, swap, "m'"]
-      \arrow[d, twoheadrightarrow]
-      & B'
-      \arrow[r, twoheadrightarrow, swap, "e'"]
-      \arrow[d, twoheadrightarrow]
-      & C'
-      \arrow[d, twoheadrightarrow]
-      \arrow[r]
-      & 0
-      \\
-      & \coker f
-      \arrow[r, dotted]
-      \arrow[from=uuurr, out=-22, in=157, looseness=1.5, overlay, dashed]
-      & \coker g
-      \arrow[r, dotted]
-      & \coker h
-      \arrow[r, dotted]
-      & 0
-    \end{tikzcd}
-  \end{equation}
-
-  The dotted arrows come immediately from the universal property for kernels and cokernels, as do exactness at $\ker g$ and $\coker g$. The argument for kernels appeared on the previous homework sheet, and the argument for cokernels is dual.
-
-  The only thing left is to define the dashed connecting homomorphism, and to prove exactness at $\ker h$ and $\coker f$.
-
-    %We define the connecting homomorphism using elements, which is justified by the Freyd-Mitchell embedding theorem.
-    %
-    %Let $c \in \ker h$. By exactness at $C$, we can find a preimage under $ m$, which we will call $b$. We map this to $B'$ with $g$. It may seem that we are now out of luck since $e'$ is not surjective, but not to worry---applying $ m'$ we find that
-    %\begin{equation*}
-    %   m'(g(b)) = h( m(b)) = 0,
-    %\end{equation*}
-    %since $b \in \ker  m$. Thus,
-    %\begin{equation*}
-    %  g(b) \in \ker m' = \im e',
-    %\end{equation*}
-    %so we get a (unique!) preimage $a \in A'$. We send this to its image in $\coker f$.
-    %\begin{equation*}
-    %  \begin{tikzcd}
-    %    && c
-    %    \arrow[d, mapsto]
-    %    \\
-    %    & b
-    %    \arrow[d, mapsto, "g"]
-    %    & c
-    %    \arrow[l, mapsto, swap, " m^{-1}"]
-    %    \\
-    %    a
-    %    \arrow[d, mapsto]
-    %    & g(b)
-    %    \arrow[l, mapsto, "e'^{-1}"]
-    %    \\
-    %    {[a]}
-    %  \end{tikzcd}
-    %\end{equation*}
-
-    %At first glance, this is not well-defined; we made a choice in picking $b$. However, it turns out that this choice doesn't matter, since the elements of $A$ we get from two different choices differ only by an element of the image of $f$, and thus are sent to the same element of the cokernel.
-    %
-    %To see this, suppose we had picked $b'$ such that $m'(b') = c$. Then certainly
-    %\begin{equation*}
-    %  m'(b - b') = c - c = 0,
-    %\end{equation*}
-    %so there is an $\tilde{a} \in A'$ such that
-    %\begin{equation*}
-    %  e'(\tilde{a}) = b - b'.
-    %\end{equation*}
-    %Define $a' = a-$
-
-  Extract from the data of \hyperref[eq:snakelemma]{Diagram~\ref*{eq:snakelemma}} the following diagram.
-  \begin{equation*}
-    \begin{tikzcd}
-      && \ker h
-      \arrow[d, hookrightarrow]
-      \\
-      A
-      \arrow[d, swap, "f"]
-      \arrow[r, hookrightarrow, "m"]
-      & B
-      \arrow[r, twoheadrightarrow, "e"]
-      \arrow[d, "g"]
-      & C
-      \arrow[d, "h"]
-      \\
-      A'
-      \arrow[r, hookrightarrow, swap, "m'"]
-      \arrow[d, twoheadrightarrow]
-      & B'
-      \arrow[r, swap, twoheadrightarrow, "e'"]
-      & C'
-      \\
-      \coker f
-    \end{tikzcd}
-  \end{equation*}
-  Take a pullback and a pushout, and using \hyperref[lemma:pullback_preserves_kernel]{Lemma~\ref*{lemma:pullback_preserves_kernel}} (and its dual), we find the following.
-  \begin{equation*}
-    \begin{tikzcd}
-      \ker u
-      \arrow[r, hookrightarrow, "a"]
-      \arrow[d, equals]
-      & S
-      \arrow[r, twoheadrightarrow, "u"]
-      \arrow[d, "r"]
-      & \ker h
-      \arrow[d, hookrightarrow]
-      \\
-      A
-      \arrow[d, swap, "f"]
-      \arrow[r, hookrightarrow, "m"]
-      & B
-      \arrow[r, twoheadrightarrow, "e"]
-      \arrow[d, "g"]
-      & C
-      \arrow[d, "h"]
-      \\
-      A'
-      \arrow[r, hookrightarrow, "m'"]
-      \arrow[d, twoheadrightarrow]
-      & B'
-      \arrow[r, twoheadrightarrow, "e'"]
-      \arrow[d, "s"]
-      & C'
-      \arrow[d, equals]
-      \\
-      \coker f
-      \arrow[r, hookrightarrow, swap, "v"]
-      & T
-      \arrow[r, twoheadrightarrow, swap, "b"]
-      & \coker v
-    \end{tikzcd}
-  \end{equation*}
-  Consider the map
-  \begin{equation*}
-    \delta_{0} =
-    \begin{tikzcd}
-      S
-      \arrow[r, "r"]
-      & B
-      \arrow[r, "g"]
-      & B'
-      \arrow[r, "s"]
-      & T
-    \end{tikzcd}.
-  \end{equation*}
-
-  By commutativity, $\delta \circ a = 0$, hence we get a map
-  \begin{equation*}
-    \delta_{1}\colon \ker h \to T.
-  \end{equation*}
-  Composing this with $b$ gives $0$, hence we get a map
-  \begin{equation*}
-    \delta\colon \coker f \to \ker h.
-  \end{equation*}
-\end{proof}
-
-There is another version of the snake lemma which does not have the first and last zeroes.
-\begin{theorem}[snake lemma II]
-  \label{thm:snake_lemma_ii}
-  Given the following commutative diagram with exact rows,
-  \begin{equation*}
-    \begin{tikzcd}
-      & A
-      \arrow[d, swap, "f"]
-      \arrow[r, "m"]
-      & B
-      \arrow[r, "e"]
-      \arrow[d, swap, "g"]
-      & C
-      \arrow[r]
-      \arrow[d, "h"]
-      & 0
-      \\
-      0
-      \arrow[r]
-      & A'
-      \arrow[r, "m'"]
-      & B'
-      \arrow[r, "e'"]
-      & C'
-    \end{tikzcd}
-  \end{equation*}
-  we get a exact sequence
-  \begin{equation*}
-    \ker f \to \ker g \to \ker h \to \coker f \to \coker g \to \coker h.
-  \end{equation*}
-\end{theorem}
-
-\subsection{The long exact sequence on homology}
-\label{ssc:the_long_exact_sequence_on_homology}
-
-\begin{corollary}
-  \label{cor:long_exact_sequence_on_homology}
-  Given an exact sequence of complexes
-  \begin{equation*}
-    \begin{tikzcd}
-      0
-      \arrow[r]
-      & A_{\bullet}
-      \arrow[r, "f_{\bullet}"]
-      & B_{\bullet}
-      \arrow[r, "g_{\bullet}"]
-      & C_{\bullet}
-      \arrow[r]
-      & 0
-    \end{tikzcd}
-  \end{equation*}
-  we get a long exact sequence on homology
-  \begin{equation*}
-    \begin{tikzcd}
-      & \cdots
-      \arrow[r]
-      & H_{n+1}(C)
-      \\
-      H_{n}(A)
-      \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
-      \arrow[r, "H_{n}(f)"]
-      & H_{n}(B)
-      \arrow[r, "H_{n}(g)"]
-      & H_{n}(C)
-      \\
-      H_{n-1}(A)
-      \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
-      \arrow[r, "H_{n-1}(f)"]
-      & H_{n-1}(B)
-      \arrow[r, "H_{n-1}(g)"]
-      & H_{n-1}(C)
-      \\
-      H_{n-2}(A)
-      \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
-      \arrow[r]
-      & \cdots
-    \end{tikzcd}
-  \end{equation*}
-\end{corollary}
-\begin{proof}
-  For each $n$, we have a diagram of the following form.
-  \begin{equation*}
-    \begin{tikzcd}
-      0
-      \arrow[r]
-      & A_{n+1}
-      \arrow[r]
-      \arrow[d, swap, "d^{A}_{n+1}"]
-      & B_{n+1}
-      \arrow[r]
-      \arrow[d, "d^{B}_{n+1}"]
-      & C_{n+1}
-      \arrow[r]
-      \arrow[d, "d^{C}_{n+1}"]
-      & 0
-      \\
-      0
-      \arrow[r]
-      & A_{n}
-      \arrow[r]
-      & B_{n}
-      \arrow[r]
-      & C_{n}
-      \arrow[r]
-      & 0
-    \end{tikzcd}
-  \end{equation*}
-  Applying the snake lemma (\hyperref[thm:snake_lemma]{Theorem~\ref*{thm:snake_lemma}}) gives us, for each $n$, two exact sequences as follows.
-  \begin{equation*}
-    \begin{tikzcd}
-      0
-      \arrow[r]
-      & \ker d^{A}_{n+1}
-      \arrow[r]
-      & \ker d^{B}_{n+1}
-      \arrow[r]
-      & \ker d^{C}_{n+1}
-    \end{tikzcd}
-  \end{equation*}
-  and
-  \begin{equation*}
-    \begin{tikzcd}
-      \coker d^{A}_{n}
-      \arrow[r]
-      & \coker d^{B}_{n}
-      \arrow[r]
-      & \coker d^{C}_{n}
-      \arrow[r]
-      & 0
-    \end{tikzcd}
-  \end{equation*}
-
-  We can put these together in a diagram with exact rows as follows.
-  \begin{equation*}
-    \begin{tikzcd}
-      & \coker d^{A}_{n}
-      \arrow[r]
-      & \coker d^{B}_{n}
-      \arrow[r]
-      & \coker d^{C}_{n}
-      \arrow[r]
-      & 0
-      \\
-      0
-      \arrow[r]
-      & \ker d^{A}_{n-1}
-      \arrow[r]
-      & \ker d^{B}_{n-1}
-      \arrow[r]
-      & \ker d^{C}_{n-1}
-    \end{tikzcd}
-  \end{equation*}
-  Recall that for each $n$, we get a map
-  \begin{equation*}
-    \phi^{A}_{n-1}\colon \im d^{A}_{n-1} \to \ker d^{A}_{n},
-  \end{equation*}
-  and similarly for $B_{\bullet}$ and $C_{\bullet}$.
-
-  Adding these in gives the following.
-  \begin{equation*}
-    \begin{tikzcd}
-      & \coker d^{A}_{n}
-      \arrow[r]
-      \arrow[d]
-      & \coker d^{B}_{n}
-      \arrow[r]
-      \arrow[d]
-      & \coker d^{C}_{n}
-      \arrow[r]
-      \arrow[d]
-      & 0
-      \\
-      0
-      \arrow[r]
-      & \ker d^{A}_{n-1}
-      \arrow[r]
-      & \ker d^{B}_{n-1}
-      \arrow[r]
-      & \ker d^{C}_{n-1}
-    \end{tikzcd}
-  \end{equation*}
-  A second application of the snake lemma then gives a long exact sequence
-  \begin{equation*}
-    \begin{tikzcd}[column sep=small]
-      \ker \phi_{f}
-      \arrow[r]
-      & \ker \phi_{g}
-      \arrow[r]
-      & \ker \phi_{h}
-      \arrow[r]
-      & \coker \phi_{f}
-      \arrow[r]
-      & \coker \phi_{g}
-      \arrow[r]
-      & \coker \phi_{h}
-    \end{tikzcd}
-  \end{equation*}
-\end{proof}
-
-\begin{lemma}
-  \label{lemma:connecting_homomorphism_is_functorial}
-  Let $\mathcal{A}$ be an abelian category, and let $f$ be a morphism of short exact sequences in $\Ch(\mathcal{A})$ as below.
-  \begin{equation*}
-    \begin{tikzcd}
-      0
-      \arrow[r]
-      & A'_{\bullet}
-      \arrow[r, "\alpha_{\bullet}"]
-      \arrow[d, "f'_{\bullet}"]
-      & A_{\bullet}
-      \arrow[r, "\alpha'_{\bullet}"]
-      \arrow[d, "f_{\bullet}"]
-      & A''_{\bullet}
-      \arrow[r]
-      \arrow[d, "f''_{\bullet}"]
-      & 0
-      \\
-      0
-      \arrow[r]
-      & B'_{\bullet}
-      \arrow[r, swap, "\beta_{\bullet}"]
-      & B_{\bullet}
-      \arrow[r, swap, "\beta'_{\bullet}"]
-      & B''_{\bullet}
-      \arrow[r]
-      & 0
-    \end{tikzcd}
-  \end{equation*}
-
-  This gives us the following morphism of long exact sequences on homology.
-  \begin{equation*}
-    \begin{tikzcd}
-      \cdots
-      \arrow[r]
-      & H_{n}(A)
-      \arrow[r, "H_{n}(\alpha')"]
-      \arrow[d, swap, "H_{n}(f)"]
-      & H_{n}(A'')
-      \arrow[r, "\delta"]
-      \arrow[d, "H_{n}(f'')"]
-      & H_{n-1}(A')
-      \arrow[r, "H_{n-1}(\alpha)"]
-      \arrow[d, "H_{n}(f')"]
-      & H_{n-1}(A)
-      \arrow[d, "H_{n}(f)"]
-      \arrow[r]
-      & \cdots
-      \\
-      \cdots
-      \arrow[r]
-      & H_{n}(B)
-      \arrow[r, "H_{n}(\beta')"]
-      & H_{n}(B'')
-      \arrow[r, "\delta"]
-      & H_{n-1}(B')
-      \arrow[r, "H_{n-1}(\beta)"]
-      & H_{n-1}(B)
-      \arrow[r]
-      & \cdots
-    \end{tikzcd}
-  \end{equation*}
-  In particular, the connecting morphism $\delta$ is functorial.
-\end{lemma}
-
-\subsection{The five lemma}
-\label{ssc:the_five_lemma}
-
-\begin{lemma}[four lemmas]
-  \label{lemma:four_lemmas}
-  Let
-  \begin{equation*}
-    \begin{tikzcd}
-      B
-      \arrow[r]
-      \arrow[d, two heads]
-      & C
-      \arrow[r]
-      \arrow[d]
-      & D
-      \arrow[r]
-      \arrow[d, two heads]
-      & E
-      \arrow[d, hook]
-      \\
-      B'
-      \arrow[r]
-      & C'
-      \arrow[r]
-      & D'
-      \arrow[r]
-      & E'
-    \end{tikzcd}
-  \end{equation*}
-  be a commutative diagram with exact rows, with monomorphisms and epimorphisms as marked. Then 
-\end{lemma}
-
-\begin{theorem}[five lemma]
-  \label{thm:five_lemma}
-
-\end{theorem}
-
-\subsection{The nine lemma}
-\label{ssc:the_nine_lemma}
-
-\begin{theorem}[nine lemma]
-  \label{thm:nine_lemma}
-\end{theorem}
 
 \end{document}

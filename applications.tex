@@ -104,7 +104,7 @@ We call such a finite non-empty chain a \emph{non-trivial path.} Note that in ad
 
 \begin{definition}[path algebra]
   \label{def:path_algebra}
-  Let $k$ be a field and $Q$ a quiver. The \defn{path algebra} of $Q$ over $k$ is, as a vector space, the free vector space over the set $\mathrm{Mor}(\mathcal{F}(Q))$. The multiplication is given by composition 
+  Let $k$ be a field and $Q$ a quiver. The \defn{path algebra} of $Q$ over $k$ is, as a vector space, the free vector space over the set $\mathrm{Mor}(\mathcal{F}(Q))$. The multiplication is given by composition
   \begin{equation*}
     \rho\cdot \sigma =
     \begin{cases}
@@ -166,7 +166,7 @@ From now on, we fix (arbitrarily) a bijection of $Q$ with $\{1,2,\cdots,n\}$. It
   First, we construct out of any $k$-linear represenation $V$ of $Q$ a $kQ$-module. Our underlying space will be the vector space $\bigoplus_{i \in Q_{0}} V_{i}$, which we will also denote by $V$.
 
   Now let $\rho\colon i \to j \in Q_{0}$, corresponding under the representation $V$ to the map $f\colon V_{i} \to V_{j}$. We send this to the map $V \to V$ given by the matrix with $f$ in the $(i, j)$th position and zeroes elsewhere. In particular, we send $e_{i}$ to the matrix with a $1$ in the $i$th place along the diagonal, and zeroes elsewhere.
-  
+
   It is easy to see that this assignment respects addition and composition, hence defines our functor on objects. On objects, we send $\alpha_{i}\colon V_{i} \to W_{i}$ to
   \begin{equation*}
     \mathrm{diag}(0,\ldots, 0, \overset{i}{\alpha_{x}}, 0, \ldots, 0).
@@ -195,7 +195,7 @@ From now on, we fix (arbitrarily) a bijection of $Q$ with $\{1,2,\cdots,n\}$. It
 \end{proposition}
 
 \begin{corollary}
-  Let $M$, $N$ be left $A$-modules. Then 
+  Let $M$, $N$ be left $A$-modules. Then
   \begin{equation*}
     \Ext^{i}(M, N) = 0,\qquad i \geq 2.
   \end{equation*}
@@ -488,7 +488,7 @@ Composing this with the above functor gives, for each object $d \in \mathcal{D}$
   \end{equation*}
   Let's examine some of these objects in detail.
   \begin{itemize}
-    \item The first object is the friendly and reassuring $\Z$, whose elements are integers. An example of an element of $\Z$ is 
+    \item The first object is the friendly and reassuring $\Z$, whose elements are integers. An example of an element of $\Z$ is
       \begin{equation*}
         17.
       \end{equation*}
@@ -515,7 +515,7 @@ Composing this with the above functor gives, for each object $d \in \mathcal{D}$
   \end{equation*}
   The map $\varepsilon_{\Z} = d_{0}$ collapses the formal multiplication into actual multiplication:
   \begin{equation*}
-    \varepsilon_{\Z}\colon 3\times(5) + 2\times(-1) \mapsto 15 - 2 = 13. 
+    \varepsilon_{\Z}\colon 3\times(5) + 2\times(-1) \mapsto 15 - 2 = 13.
   \end{equation*}
 
   Consider now some element of $\Z[\Z[\Z]]$, say
@@ -556,7 +556,7 @@ We will see an example of the bar complex in the next chapter.
 \subsection{Invariants and coinvariants}
 \label{ssc:invariants_and_coinvariants}
 
-Now we are ready to apply \hyperref[scheme:how_to_apply_homological_algebra]{Cockamamie Scheme~\ref*{scheme:how_to_apply_homological_algebra}} to the study of groups. Here we have a somewhat popular method of turning a group $G$ into a ring, namely by constructing the group ring $\Z G$. As is tradition, we will study modules over this ring.
+Now we are ready to apply \hyperref[scheme:how_to_apply_homological_algebra]{Cockamamie Scheme~\ref*{scheme:how_to_apply_homological_algebra}} to the study of groups. Here a somewhat popular method exists for turning a group $G$ into a ring, namely by constructing the group ring $\Z G$. As is tradition, we will study modules over this ring.
 
 In \hyperref[sec:quiver_representations]{Section~\ref*{sec:quiver_representations}}, we had a nice interpretation of modules over our rings, as corresponding to $k$-linear representations of a quiver. We will work backwards, finding another perspective on modules over the group ring $\Z G$ of a group $G$ as \emph{$G$-modules.}
 
@@ -617,7 +617,7 @@ Clearly, the functors taking invariants and coinvariants are interesting things 
   \begin{equation*}
     (-)_{G} \simeq \Z \otimes_{\Z G} -,
   \end{equation*}
-  where in the first formula $\Z$ is taken to be a trivial right $\Z G$-module, and in the second a trivial left $\Z G$-module.
+  where in the first formula $\Z$ is taken to be a trivial left $\Z G$-module, and in the second a trivial right $\Z G$-module.
 \end{lemma}
 \begin{proof}
   A $\Z G$-linear map $\Z \to M$ picks out an element of $M$ on which $G$ acts trivially.
@@ -634,7 +634,7 @@ Clearly, the functors taking invariants and coinvariants are interesting things 
   L_{i}(-)_{G} = \Tor^{\Z G}_{i}(\Z, A),\qquad R^{i}(-)^{G} = \Ext_{\Z G}^{i}(\Z, A).
 \end{equation*}
 
-This is a stroke of luck. Had we proceded naïvely by forming the right and left derived functors of invariants and coinvariants using \hyperref[def:invariants_coinvariants]{Definition~\ref*{def:invariants_coinvariants}}, we would have have been stuck picking resolutions for each object under consideration, which would have been messy. By the balancedness of $\Tor$ and $\Ext$, we can simply pick a resolution of $\Z$ as a $\Z G$-module and get on with our lives.\footnote{In the case of invariants (which correspond to $\Ext$), we need to pick a resolution of $\Z$ as a \emph{left} $\Z G$-module, and in the case of coinvariants (corresponding to $\Tor$), we need to pick a resolution of $\Z$ as a \emph{right} $\Z G$-module.}
+This is a stroke of luck. Had we proceded naïvely by forming the right and left derived functors of invariants and coinvariants using \hyperref[def:invariants_coinvariants]{Definition~\ref*{def:invariants_coinvariants}}, we would have have been stuck picking resolutions for each $\Z G$-module whose value under the derived functors we wanted to compute, which would have been messy. By the balancedness of $\Tor$ and $\Ext$, we can simply pick a resolution of $\Z$ as a $\Z G$-module and get on with our lives.\footnote{In the case of invariants (which correspond to $\Ext$), we need to pick a resolution of $\Z$ as a \emph{left} $\Z G$-module, and in the case of coinvariants (corresponding to $\Tor$), we need to pick a resolution of $\Z$ as a \emph{right} $\Z G$-module.}
 
 The story so far is as follows.
 \begin{enumerate}
@@ -674,7 +674,7 @@ The story so far is as follows.
 
 \begin{example}
   Let $G = \Z$, and denote the generator by $t$. Suppose we want to compute $H_{*}(G; A)$ and $H^{*}(G; A)$ for some $\Z G$-module $A$.
-  
+
   Thanks to \hyperref[lemma:invariants_and_coinvariants_in_terms_of_tensor_and_hom]{Lemma~\ref*{lemma:invariants_and_coinvariants_in_terms_of_tensor_and_hom}}, instead of computing a projective resolution of some specific $A$, we may compute a projective resolution of $\Z$ as a $\Z G$-module.
   \begin{equation*}
     \begin{tikzcd}
@@ -693,7 +693,7 @@ The story so far is as follows.
 
   By definition,
   \begin{equation*}
-    H_{i}(G; A) = H_{i}(F_{\bullet} \otimes_{\Z G} A) = H_{i}\left( 
+    H_{i}(G; A) = H_{i}(F_{\bullet} \otimes_{\Z G} A) = H_{i}\left(
     \begin{tikzcd}
       0
       \arrow[r]
@@ -1133,7 +1133,7 @@ An element of $\Hom_{\Z G}(\Z G[g_{1}|\cdots|g_{n}])$ is determined completely b
 \end{equation*}
 or equivalently as functions
 \begin{equation*}
-  \phi\colon G^{n} \to A,\qquad \phi(g_{1}, \ldots, 1, \ldots g_{n}) = 0.
+  \phi\colon G^{n} \to A,\qquad \phi(\ldots, 1, \ldots) = 0.
 \end{equation*}
 
 The differential $d^{n} = (d_{n})_{*}$ sends $\phi \mapsto d^{n} \phi = \phi \circ d_{n}$, where
@@ -1285,7 +1285,7 @@ This is miserable.
       \arrow[d, equals]
       & E
       \arrow[r, two heads, "\pi"]
-      \arrow[d]
+      \arrow[d, "\sigma"]
       & G
       \arrow[r]
       \arrow[d, equals]
@@ -1303,6 +1303,95 @@ This is miserable.
     \end{tikzcd}.
   \end{equation*}
 \end{definition}
+
+We are no longer justified in using the snake lemma to show that $\sigma$ is an isomorphism, but the logic in \hyperref[eg:kernels_and_cokernels_are_functorial]{Example~\ref*{eg:kernels_and_cokernels_are_functorial}} \emph{does} carry over to our current situation.
+
+\begin{definition}[split extension]
+  \label{def:split_extension}
+  An extension
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hook, "i"]
+      & E
+      \arrow[r, two heads, "\pi"]
+      & G
+      \arrow[r]
+      \arrow[l, bend left, "s"]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  is said to be \emph{split} if there exists a group homomorphism $s\colon G \to E$ such that $\pi \circ s = \id_{G}$.
+\end{definition}
+
+\begin{proposition}
+  An extension of $E$ of $G$ by $A$ is equivalent to the semidirect product $A \rtimes G$ if and only if it is split.
+\end{proposition}
+\begin{proof}
+  The semidirect product $A \rtimes G$ admits the extension $g \mapsto (0, g)$. Given a split extension
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hook, "i"]
+      & E
+      \arrow[r, two heads, "\pi"]
+      & G
+      \arrow[r]
+      & 0
+    \end{tikzcd},
+  \end{equation*}
+  we can define a map
+  \begin{equation*}
+    E \to A \rtimes G;\qquad e \mapsto (e(s\pi(e)^{-1}), \pi(e)).
+  \end{equation*}
+\end{proof}
+
+As the last proposition shows, in general we cannot find a section of an extension. However, since $\pi$ is surjective, given any extension,
+\begin{equation*}
+  \begin{tikzcd}
+    0
+    \arrow[r]
+    & A
+    \arrow[r, hook, "i"]
+    & E
+    \arrow[r, two heads, "\pi"]
+    & G
+    \arrow[r]
+    & 0
+  \end{tikzcd},
+\end{equation*}
+we can find at least a \emph{set-theoretic extension} of $G$ by $A$, i.e.\ a set-function $G \to E$ such that $\pi \circ s = e_{G}$.
+
+Note that $E$ can act on $A$ via conjugation; if $a \in A$ and $e \in E$, then $eae^{-1} \in A$, because
+\begin{align*}
+  \pi(eae^{-1}) &=\pi(e)\pi(a)\pi(e^{-1}) \\
+  &= \pi(e)\pi(e)^{-1} \\
+  &= e_{G}.
+\end{align*}
+In fact, since $A$ is abelian, it acts trivially on itself via conjugation, so it descends to an action of $G \cong E/A$ on $A$.
+
+This gives a section of $E$ relative to $G$. Given such a splitting, we can define for each pair $g$, $h \in G$ an element $f(g, h) \in A$ in the fiber over the identity $e_{G} \in G$ which corresponds to how far\dots
+\begin{equation*}
+  f(g, h) = s(g)s(h)s(gh)^{-1}.
+\end{equation*}
+The function $f\colon G \times G \to G$ is called the \emph{factor set} of $G$.
+
+After some stuff, we find the following result.
+
+\begin{theorem}
+  Let $G$ be a group, and $A$ a $G$-module. Then there is a natural bijection
+  \begin{equation*}
+    \left\{ 
+      \substack{\text{Extension classes of $G$ by $A$} \\ \text{such that the action of $G$ on $A$} \\ \text{agrees with the module structure}}
+    \right\}
+    \overset{\cong}{\longleftrightarrow}
+    H^{2}(G; A).
+  \end{equation*}
+\end{theorem}
 
 \subsection{Periodicity in group homology}
 \label{ssc:periodicity_in_group_homology}
@@ -1362,5 +1451,7 @@ Let $f\colon K \to K$ be an automorphism of simplicial complexes $K$. This desce
 \begin{equation*}
   e_{(x_{0}, \ldots, x_{n})} \mapsto e_{(f(x_{0}), \ldots, f(x_{n}))}.
 \end{equation*}
+
+Now suppose $G$ acts trivially on
 
 \end{document}

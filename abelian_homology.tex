@@ -5,6 +5,1144 @@
 \chapter{Homological algebra in abelian categories}
 \label{ch:homological_algebra_in_abelian_categories}
 
+\section{Chain complexes}
+\label{ssc:chain_complexes}
+
+\begin{definition}[category of chain complexes]
+  \label{def:category_of_chain_complexes_abelian}
+  Let $\mathcal{A}$ be an abelian category. A \defn{chain complex} $C_{\bullet}$ in $\mathcal{A}$ is a collection of objects $C_{n} \in \mathcal{A}$, $n \in \Z$, together with morphisms $d_{n}\colon C_{n} \to C_{n-1}$ such that $d_{n-1} \circ d_{n} = 0$.
+
+  The category of chain complexes in $\mathcal{A}$, denoted $\Ch(\mathcal{A})$, is the category whose objects are chain complexes and whose morphisms are morphisms $C_{\bullet} \to D_{\bullet}$ of chain complexes, i.e.\ for each $n \in \Z$ a map $f_{n}\colon C_{n} \to D_{n}$ such that all of the squares form commute.
+  \begin{equation*}
+    \begin{tikzcd}
+      \cdots
+      \arrow[r, "d^{C}_{n+2}"]
+      & C_{n+1}
+      \arrow[r, "d^{C}_{n+1}"]
+      \arrow[d, "f_{n+1}"]
+      & C_{n}
+      \arrow[r, "d^{C}_{n}"]
+      \arrow[d, "f_{n}"]
+      & C_{n-1}
+      \arrow[r, "d^{C}_{n-1}"]
+      \arrow[d, "f_{n-1}"]
+      & \cdots
+      \\
+      \cdots
+      \arrow[r, "d^{D}_{n+2}"]
+      & D_{n+1}
+      \arrow[r, "d^{D}_{n+1}"]
+      & D_{n}
+      \arrow[r, "d^{D}_{n}"]
+      & D_{n-1}
+      \arrow[r, "d^{D}_{n-1}"]
+      & \cdots
+    \end{tikzcd}
+  \end{equation*}
+
+  We also define $\Ch^{+}(\mathcal{A})$ to be the category of \defn{bounded-below} chain complexes (i.e.\ the full subcategory consisting of chain complexes $C_{\bullet}$ such that $C_{n} = 0$ for small enough $n$), $\Ch^{-}(\mathcal{A})$ to be the category of \defn{bounded-above} chain complexes, and $\Ch^{\geq 0}(\mathcal{A})$ and $\Ch^{\leq 0}(\mathcal{A})$ similarly.
+\end{definition}
+
+\begin{theorem}
+  \label{thm:category_of_chain_complexes_is_abelian}
+  The category $\Ch(\mathcal{A})$ is abelian.
+\end{theorem}
+\begin{proof}
+  We check each of the conditions.
+
+  The zero object is the zero chain complex, the $\mathbf{Ab}$-enrichment is given level-wise, and the product is given level-wise as the direct sum. That this satisfies the universal property follows almost immediately from the universal property in $\mathcal{A}$: given a diagram of the form
+  \begin{equation*}
+    \begin{tikzcd}
+      & Q_{\bullet}
+      \arrow[dr, "g_{\bullet}"]
+      \arrow[dl, swap, "f_{\bullet}"]
+      \arrow[d, dashed, "\exists!\phi_{\bullet}"]
+      \\
+      C_{\bullet}
+      & C_{\bullet} \times D_{\bullet}
+      \arrow[r, swap, "p_{2}"]
+      \arrow[l, "p_{1}"]
+      & D_{\bullet}
+    \end{tikzcd}
+  \end{equation*}
+  the only thing we need to check is that the map $\phi$ produced level-wise is really a chain map, i.e.\ that
+  \begin{equation*}
+    \phi_{n-1} \circ d_{n}^{Q} = d_{n}^{C} \oplus d_{n}^{D} \circ \phi_{n}.
+  \end{equation*}
+  By the above work, the RHS can be re-written as
+  \begin{align*}
+    (d^{C}_{n} \oplus d^{D}_{n}) \circ (i_{1} \circ f_{n-1} + i_{2} \circ g_{n-1}) &= i_{1} \circ d_{n}^{C} \circ f_{n} + i_{2} \circ d_{n}^{D} \circ g_{n} \\
+    &= i_{1} \circ f_{n-1} \circ d^{Q}_{n} + i_{2} \circ g_{n-1} \circ d^{Q}_{n} \\
+    &= (i_{1} \circ f_{n-1} + i_{2} \circ g_{n-1}) \circ d^{Q}_{n},
+  \end{align*}
+  which is equal to the LHS.
+
+  The kernel is also defined level-wise. The standard diagram chase shows that the induced morphisms between kernels make this into a chain complex; to see that it satisfies the universal property, we need only show that the map $\phi$ below is a chain map.
+  \begin{equation*}
+    \begin{tikzcd}
+      & Q_{\bullet}
+      \arrow[dr, "0"]
+      \arrow[d, "g_{\bullet}"]
+      \arrow[dl, swap, dashed, "\phi_{\bullet}"]
+      \\
+      \ker(f_{\bullet})
+      \arrow[r, "\iota_{\bullet}"]
+      & A_{\bullet}
+      \arrow[r, "f_{_{\bullet}}"]
+      & B_{\bullet}
+    \end{tikzcd}
+  \end{equation*}
+  That is, we must have
+  \begin{equation}
+    \label{eq:needstocommute}
+    \phi_{n-1} \circ d^{Q}_{n} = d_{n}^{\ker f} \circ \phi_{n}.
+  \end{equation}
+
+  The composition
+  \begin{equation*}
+    \begin{tikzcd}
+      Q_{n}
+      \arrow[r, "g_{n}"]
+      & A_{n}
+      \arrow[r, "f"]
+      & B_{n}
+      \arrow[r, "d_{n}^{B}"]
+      & B_{n-1}
+    \end{tikzcd}
+  \end{equation*}
+  gives zero by assumption, giving us by the universal property for kernels a unique map
+  \begin{equation*}
+    \psi\colon Q_{n} \to \ker f_{n-1}
+  \end{equation*}
+  such that
+  \begin{equation*}
+    \iota_{n-1} \circ \psi = d^{A}_{n} \circ g_{n}.
+  \end{equation*}
+  We will be done if we can show that both sides of \hyperref[eq:needstocommute]{Equation~\ref*{eq:needstocommute}} can play the role of $\psi$. Plugging in the LHS, we have
+  \begin{align*}
+    \iota_{n-1} \circ \phi_{n-1} \circ d^{Q}_{n} &= g_{n-1} \circ d^{Q}_{n} \\
+    &= d^{A}_{n} \circ g_{n}
+  \end{align*}
+  as we wanted. Plugging in the RHS we have
+  \begin{equation*}
+    \iota_{n-1} \circ d^{\ker f}_{n} \circ \phi_{n} = d^{A}_{n} \circ g_{n}.
+  \end{equation*}
+
+  The case of cokernels is dual.
+
+  Since a chain map is a monomorphism (resp. epimorphism) if and only if it is a monomorphism (resp. epimorphism), we have immediately that monomorphisms are the kernels of their cokernels, and epimorphisms are the cokernels of their kernels.
+\end{proof}
+
+The categories $\Ch^{+}(\mathcal{A})$, etc., are also abelian.
+
+\section{Homology}
+\label{sec:homology}
+
+We would like to replicate the notion of the homology of a chain complex $C_{\bullet}$ in the context of abelian categories.
+\begin{equation*}
+  \begin{tikzcd}
+    \cdots
+    \arrow[r, "d_{n+2}"]
+    & C_{n+1}
+    \arrow[r, "d_{n+1}"]
+    & C_{n}
+    \arrow[r, "d_{n}"]
+    & C_{n_1}
+    \arrow[r, "d_{n-1}"]
+    & \cdots
+  \end{tikzcd}
+\end{equation*}
+This will mean finding appropriate notions of every symbol appearing in the equation.
+\begin{equation*}
+  H_{n}(C_{\bullet}) = \frac{\ker d_{n}}{\im d_{n+1}}.
+\end{equation*}
+
+We already have a notion of the kernel, which we can use to define a notion of the image in the following way. Given a map $f\colon A \to B$, we heuristically think of the cokernel of $f$ as being $B/\im f$. Thus, taking the kernel of the cokernel should give us the image of $f$.
+
+\begin{definition}[image]
+  \label{def:image}
+  Given a morphism $f\colon A \to B$, the \defn{image} of $f$ is $\im f = \ker\coker f$. 
+\end{definition}
+
+Now we need to figure out what it means to quotient the image of one map by the kernel of the next. Again, the cokernel saves our necks; we just need a map from $\im d_{n+1}$ into $\ker d_{n}$. The homology will be the cokernel of this map.
+
+\begin{definition}[homology]
+  \label{def:homology}
+  Let
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[r, "f"]
+      & B
+      \arrow[r, "g"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+  be morphisms such that $g \circ f = 0$. We can build the following commutative diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      & \im f
+      \arrow[d, "i"]
+      \arrow[dr, "0"]
+      \\
+      A
+      \arrow[r, "f"]
+      & B
+      \arrow[r, "g"]
+      \arrow[d, "p"]
+      & C
+      \\
+      & \coker f
+      \arrow[ur]
+    \end{tikzcd}
+  \end{equation*}
+  Since $g \circ i = 0$, $i$ factors through $\ker g$, giving us a morphism $\phi\colon \im f \to \ker g$.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=small]
+      & \im f
+      \arrow[dr, "i"]
+      \arrow[r, "\phi"]
+      & \ker g
+      \arrow[d]
+      \arrow[r]
+      & H_{n}
+      \\
+      A
+      \arrow[rr, "f"]
+      && B
+      \arrow[rr, "g"]
+      \arrow[d, "p"]
+      && C
+      \\
+      && \coker f
+      \arrow[urr]
+    \end{tikzcd}
+  \end{equation*}
+
+  The \defn{homology} of the sequence $A \to B \to C$ at $B$ is then $\coker \phi$.
+\end{definition}
+
+\begin{definition}[exact sequence]
+  \label{def:exact_sequence_abelian}
+  Let
+  \begin{equation*}
+    \begin{tikzcd}
+      A_{1}
+      \arrow[r, "f_{1}"]
+      & A_{2}
+      \arrow[r, "f_{2}"]
+      & \cdots
+      \arrow[r, "f_{n-1}"]
+      & A_{n}
+    \end{tikzcd}
+  \end{equation*}
+  be objects and morphisms in an abelian category. We say that the above sequence is \defn{exact} if $\phi_{i}$ is an isomorphism, i.e.\ if the homology is zero. We say that a complex $(C_{\bullet}, d)$ is \defn{exact} if it is exact at all positions.
+
+  A \defn{short exact sequence} is an exact sequence of the form
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[r]
+      & B
+      \arrow[r]
+      & C
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+\end{definition}
+
+\begin{proposition}
+  Homology extends to a family of additive functors
+  \begin{equation*}
+    H_{n}\colon \Ch(\mathcal{A}) \to \mathcal{A}.
+  \end{equation*}
+\end{proposition}
+\begin{proof}
+  We need to define $H_{n}$ on morphisms. To this end, let $f_{\bullet}\colon C_{\bullet} \to D_{\bullet}$ be a morphism of chain complexes.
+  \begin{equation*}
+    \begin{tikzcd}
+      C_{n+1}
+      \arrow[r, "d^{C}_{n+1}"]
+      \arrow[d, swap, "f_{n+1}"]
+      & C_{n}
+      \arrow[r, "d^{C}_{n}"]
+      \arrow[d, "f_{n}"]
+      & C_{n-1}
+      \arrow[d, "f_{n-1}"]
+      \\
+      D_{n+1}
+      \arrow[r, swap, "d^{D}_{n+1}"]
+      & D_{n}
+      \arrow[r, swap, "d^{D}_{n}"]
+      & D_{n-1}
+    \end{tikzcd}
+  \end{equation*}
+  We need a map $H_{n}(C_{\bullet}) \to H_{n}(D_{\bullet})$. This will come from a map $\ker d^{C}_{n} \to \ker d^{D}_{n}$. In fact, $f_{n}$ gives us such a map, essentially by restriction. We need to show that this descends to a map between cokernels.
+\end{proof}
+
+We can also go the other way, by defining a map
+\begin{equation*}
+  \iota_{n}\colon \mathcal{A} \to \Ch(\mathcal{A})
+\end{equation*}
+which sends an object $A$ to the chain complex
+\begin{equation*}
+  \begin{tikzcd}
+    &{\ }
+    \arrow[r, dotted]
+    & 0
+    \arrow[r]
+    & A
+    \arrow[r]
+    & 0
+    \arrow[r, dotted]
+    &{\ }
+  \end{tikzcd}
+\end{equation*}
+concentrated in degree $n$.
+
+\begin{example}
+  \label{eg:compute_homology_in_trivial_situation}
+  In some situations, homology is easy to compute explicitly. Let
+  \begin{equation*}
+    \begin{tikzcd}
+      \cdots
+      \arrow[r]
+      & C_{1}
+      \arrow[r, "f"]
+      & C_{0}
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  be a chain complex in $\Ch_{\geq 0}(\mathcal{A})$. Then $H_{0}(C_{\bullet}) = \coker f$.
+
+  Similarly, if
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & C_{0}
+      \arrow[r, "f"]
+      & C_{-1}
+      \arrow[r]
+      & \cdots
+    \end{tikzcd}
+  \end{equation*}
+  is a chain complex in $\Ch_{\leq 0}(\mathcal{A})$, then $H_{0}(C_{\bullet}) = \ker f$.
+\end{example}
+
+\section{Diagram lemmas}
+\label{sec:diagram_lemmas}
+
+\subsection{The splitting lemma}
+\label{ssc:the_splitting_lemma}
+
+\begin{lemma}[Splitting lemma]
+  \label{lemma:splitting_lemma}
+  Consider the following solid short exact sequence in an abelian category $\mathcal{A}$.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[r, "i_{A}"]
+      & B
+      \arrow[r, "\pi_{C}"]
+      \arrow[l, bend left, dashed, "\pi_{A}"]
+      & C
+      \arrow[r]
+      \arrow[l, bend left, dashed, "i_{C}"]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  The following are equivalent.
+  \begin{enumerate}
+    \item The sequence \emph{splits from the left,} i.e.\ there exists a morphism $\pi_{A}\colon B \to A$ such that $\pi_{A} \circ i_{A} = \id_{A}$
+
+    \item The sequence \emph{splits from the right,} i.e.\ there exists a morphism $i_{C}\colon C \to B$ such that $\pi_{C} \circ i_{C} = \id_{C}$
+
+    \item $B$ is a direct sum $A \oplus C$ with the obvious canonical injections and projections.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  That $3 \Rightarrow 1$ and $3 \Rightarrow 2$ is obvious. We now show that $1 \Rightarrow 2$.
+
+  By exactness, $i_{A}\colon A \to B$ is a kernel of $\pi_{C}$. Consider the map $\phi = \id_{B} - i_{C} \circ \pi_{C}$. Since
+  \begin{align*}
+    \pi_{C} \circ \phi &= \pi_{C} - \pi_{C} \circ i_{C} \circ \pi_{C} \\
+    &= \pi_{C} - \id \circ \pi_{C} \\
+    &= 0,
+  \end{align*}
+  the universal property for the kernel guarantees us a map $\psi\colon B \to A$ such that $i_{A} \circ \psi = \phi$.
+
+  Now we use the same universal property in a different situation. Consider the following diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      & A
+      \arrow[d, "i_{A}"]
+      \arrow[dl, dashed]
+      \arrow[dr, "0"]
+      \\
+      A
+      \arrow[r, "i_{A}"]
+      & B
+      \arrow[r, "\pi_{C}"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+  The universal property guarantees us a unique dashed map making everything commute. But $\id_{A}$ and $i_{A} \circ \psi$ both do the job since
+  \begin{align*}
+    i_{A} \circ \psi \circ i_{A} &= i_{A} - i_{C} \circ \pi_{C} \circ i_{A} \\
+    &= i_{A}.
+  \end{align*}
+\end{proof}
+
+\subsection{The snake lemma}
+\label{ssc:the_snake_lemma}
+
+\begin{lemma}
+  \label{lemma:pullback_of_epi_is_epi}
+  Let $\mathcal{A}$ be an abelian category, and let the diagram
+  \begin{equation*}
+    \begin{tikzcd}
+      A \times_{C} B
+      \arrow[r, "\tilde{f}"]
+      \arrow[d, swap, "\tilde{g}"]
+      & B
+      \arrow[d, "g"]
+      \\
+      A
+      \arrow[r, two heads, "f"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+  be a pullback in $\mathcal{A}$. Then $\tilde{f}$ is an epimorphism.
+\end{lemma}
+\begin{proof}
+  The pullback is in particular a limit, hence is constructed with products and equalizers as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A \times_{C} B
+      \arrow[r, hook, "{(\tilde{f}, \tilde{g})}"]
+      & A \oplus B
+      \arrow[r, "f - g"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+  Because $f$ is epic, $f - g$ is epic, so we have a bona fide short exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A \times_{C} B
+      \arrow[r, hook, "{(\tilde{f}, \tilde{g})}"]
+      & A \oplus B
+      \arrow[r, two heads, "f - g"]
+      & C
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+  This means that the above square is also a pushout square.
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:pullback_preserves_kernel}
+  Let $f\colon B \twoheadrightarrow C$ be an epimorphism, and let $g\colon D \to C$ be any morphism. Then the kernel of $f$ functions as the kernel of the pullback of $f$ along $g$, in the sense that we have the following commuting diagram in which the right-hand square is a pullback square.
+  \begin{equation*}
+    \begin{tikzcd}
+      \ker f'
+      \arrow[d, equals]
+      \arrow[r, "i"]
+      & S
+      \arrow[dr, phantom, "\ulcorner", very near start]
+      \arrow[r, "f'"]
+      \arrow[d, swap, "g'"]
+      & D
+      \arrow[d, "g"]
+      \\
+      \ker f
+      \arrow[r, swap, "\iota"]
+      & B
+      \arrow[r, twoheadrightarrow, swap, "f"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  Consider the following pullback square, where $f$ is an epimorphism.
+  \begin{equation*}
+    \begin{tikzcd}
+      S
+      \arrow[r, "f'"]
+      \arrow[d, swap, "g'"]
+      \arrow[dr, phantom, "\ulcorner", very near start]
+      & D
+      \arrow[d, "g"]
+      \\
+      B
+      \arrow[r, twoheadrightarrow, swap, "f"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+  By \hyperref[lemma:pullback_of_epi_is_epi]{Lemma~\ref*{lemma:pullback_of_epi_is_epi}} the pullback $f'$ is also an epimorphism. Denote the kernel of $f$ by $K$.
+
+  The claim is that $K$ is also a kernel of $f'$.
+    %\begin{equation*}
+    %  \begin{tikzcd}
+    %    & S
+    %    \arrow[r, "f'"]
+    %    \arrow[d, swap, "g'"]
+    %    & D
+    %    \arrow[d, "g"]
+    %    \\
+    %    K
+    %    \arrow[r, hookrightarrow, "\iota"]
+    %    & B
+    %    \arrow[r, twoheadrightarrow, swap, "f"]
+    %    & C
+    %  \end{tikzcd}
+    %\end{equation*}
+  Of course, in order for this statement to make sense we need a map $i\colon K \to S$. This is given to us by the universal property of the pullback as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      K
+      \arrow[drr, bend left, "0"]
+      \arrow[ddr, bend right, swap, "\iota"]
+      \arrow[dr, dashed, "\exists!i"]
+      \\
+      & S
+      \arrow[r]
+      \arrow[d]
+      & D
+      \arrow[d, "g"]
+      \\
+      & B
+      \arrow[r, twoheadrightarrow, swap, "f"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+  Next we need to verify that $(K, i)$ is actually the kernel of $f'$, i.e.\ satisfies the universal property. To this end, let $v\colon Q \to S$ be a map such that $f' \circ v = 0$. We need to find a unique factorization of $v$ through $K$.
+  \begin{equation*}
+    \begin{tikzcd}
+      & Q
+      \arrow[dr, "0"]
+      \arrow[d, "v"]
+      \arrow[dl, swap, dashed, "\exists! v'"]
+      \\
+      K
+      \arrow[r, "i"]
+      \arrow[dr, swap, "\iota"]
+      & S
+      \arrow[r, twoheadrightarrow, swap, "f'"]
+      \arrow[d, "g'"]
+      & D
+      \arrow[d, "g"]
+      \\
+      & B
+      \arrow[r, swap, "f"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+  By definition $f' \circ v = 0$. Thus,
+  \begin{align*}
+    f \circ g' \circ v &= g \circ f' \circ v \\
+    &= g \circ 0 \\
+    &= 0,
+  \end{align*}
+  so $g' \circ v$ factors uniquely through $K$ as $g' \circ v = \iota \circ v'$. It remains only to check that the triangle formed by $v'$ commutes, i.e.\ $v = v' \circ i$. To see this, consider the following diagram, where the bottom right square is the pullback from before.
+  \begin{equation*}
+    \begin{tikzcd}
+      Q
+      \arrow[drr, bend left, "0"]
+      \arrow[ddr, bend right, swap, "g' \circ v"]
+      \arrow[dr, dashed, "\exists!"]
+      \\
+      & S
+      \arrow[r, swap, "f'"]
+      \arrow[d, "g'"]
+      & D
+      \arrow[d, "g"]
+      \\
+      & B
+      \arrow[r, swap, "f"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+  By the universal property, there exists a unique map $Q \to S$ making this diagram commute. However, both $v$ and $i \circ v'$ work, so $v = i \circ v'$.
+
+  Thus we have shown that, in a precise sense, the kernel of an epimorphism functions as the kernel of its pullback, and we have the following commutative diagram, where the right hand square is a pullback.
+  \begin{equation*}
+    \begin{tikzcd}
+      \ker f'
+      \arrow[d, equals]
+      \arrow[r, "i"]
+      & S
+      \arrow[r, "f'"]
+      \arrow[d, "g'"]
+      & D
+      \arrow[d, "g"]
+      \\
+      \ker f
+      \arrow[r, swap, "\iota"]
+      & B
+      \arrow[r, twoheadrightarrow, swap, "f"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+\end{proof}
+At least in the case that $g$ is mono, when phrased in terms of elements, this result is more or less obvious; we can imagine the diagram above as follows.
+\begin{equation*}
+  \begin{tikzcd}
+    \left\{ \substack{\text{elements of pullback}\\\text{which map to $0$}} \right\}
+    \arrow[r, hookrightarrow]
+    \arrow[d, equals]
+    & \left\{ \substack{\text{elements of $B$}\\\text{which map to $C$}} \right\}
+    \arrow[r, twoheadrightarrow]
+    \arrow[d, hookrightarrow]
+    & D
+    \arrow[d, hookrightarrow]
+    \\
+    \left\{ \substack{\text{elements of $B$}\\\text{which map to $0$}} \right\}
+    \arrow[r, hookrightarrow]
+    & B
+    \arrow[r, twoheadrightarrow]
+    & C
+  \end{tikzcd}
+\end{equation*}
+
+\begin{theorem}[snake lemma]
+  \label{thm:snake_lemma}
+  Consider the following commutative diagram with exact rows.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[d, swap, "f"]
+      \arrow[r, "m"]
+      & B
+      \arrow[r, "e"]
+      \arrow[d, swap, "g"]
+      & C
+      \arrow[r]
+      \arrow[d, "h"]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & A'
+      \arrow[r, "m'"]
+      & B'
+      \arrow[r, "e'"]
+      & C'
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  This gives us an exact sequence
+  \begin{equation*}
+    0 \to \ker f \to \ker g \to \ker h \to \coker f \to \coker g \to \coker h \to 0.
+  \end{equation*}
+\end{theorem}
+\begin{proof}
+  We provide running commentary on the diagram below.
+  \begin{equation}
+    \label{eq:snakelemma}
+    \begin{tikzcd}
+      0
+      \arrow[r, dotted]
+      & \ker f
+      \arrow[r, dotted]
+      \arrow[d, hookrightarrow]
+      & \ker g
+      \arrow[r, dotted]
+      \arrow[d, hookrightarrow]
+      & \ker h
+      \arrow[d, hookrightarrow]
+      \\
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hookrightarrow, "m"]
+      \arrow[d, swap, "f"]
+      & B
+      \arrow[r, twoheadrightarrow, "e"]
+      \arrow[d, swap, "g"]
+      & C
+      \arrow[r]
+      \arrow[d, swap, "h"]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & A'
+      \arrow[r, hookrightarrow, swap, "m'"]
+      \arrow[d, twoheadrightarrow]
+      & B'
+      \arrow[r, twoheadrightarrow, swap, "e'"]
+      \arrow[d, twoheadrightarrow]
+      & C'
+      \arrow[d, twoheadrightarrow]
+      \arrow[r]
+      & 0
+      \\
+      & \coker f
+      \arrow[r, dotted]
+      \arrow[from=uuurr, out=-22, in=157, looseness=1.5, overlay, dashed]
+      & \coker g
+      \arrow[r, dotted]
+      & \coker h
+      \arrow[r, dotted]
+      & 0
+    \end{tikzcd}
+  \end{equation}
+
+  We will see why the dotted portions are exact later.
+
+  The only thing left is to define the dashed connecting homomorphism, and to prove exactness at $\ker h$ and $\coker f$.
+
+    %We define the connecting homomorphism using elements, which is justified by the Freyd-Mitchell embedding theorem.
+    %
+    %Let $c \in \ker h$. By exactness at $C$, we can find a preimage under $ m$, which we will call $b$. We map this to $B'$ with $g$. It may seem that we are now out of luck since $e'$ is not surjective, but not to worry---applying $ m'$ we find that
+    %\begin{equation*}
+    %   m'(g(b)) = h( m(b)) = 0,
+    %\end{equation*}
+    %since $b \in \ker  m$. Thus,
+    %\begin{equation*}
+    %  g(b) \in \ker m' = \im e',
+    %\end{equation*}
+    %so we get a (unique!) preimage $a \in A'$. We send this to its image in $\coker f$.
+    %\begin{equation*}
+    %  \begin{tikzcd}
+    %    && c
+    %    \arrow[d, mapsto]
+    %    \\
+    %    & b
+    %    \arrow[d, mapsto, "g"]
+    %    & c
+    %    \arrow[l, mapsto, swap, " m^{-1}"]
+    %    \\
+    %    a
+    %    \arrow[d, mapsto]
+    %    & g(b)
+    %    \arrow[l, mapsto, "e'^{-1}"]
+    %    \\
+    %    {[a]}
+    %  \end{tikzcd}
+    %\end{equation*}
+
+    %At first glance, this is not well-defined; we made a choice in picking $b$. However, it turns out that this choice doesn't matter, since the elements of $A$ we get from two different choices differ only by an element of the image of $f$, and thus are sent to the same element of the cokernel.
+    %
+    %To see this, suppose we had picked $b'$ such that $m'(b') = c$. Then certainly
+    %\begin{equation*}
+    %  m'(b - b') = c - c = 0,
+    %\end{equation*}
+    %so there is an $\tilde{a} \in A'$ such that
+    %\begin{equation*}
+    %  e'(\tilde{a}) = b - b'.
+    %\end{equation*}
+    %Define $a' = a-$
+
+  Extract from the data of \hyperref[eq:snakelemma]{Diagram~\ref*{eq:snakelemma}} the following diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      && \ker h
+      \arrow[d, hookrightarrow]
+      \\
+      A
+      \arrow[d, swap, "f"]
+      \arrow[r, hookrightarrow, "m"]
+      & B
+      \arrow[r, twoheadrightarrow, "e"]
+      \arrow[d, "g"]
+      & C
+      \arrow[d, "h"]
+      \\
+      A'
+      \arrow[r, hookrightarrow, swap, "m'"]
+      \arrow[d, twoheadrightarrow]
+      & B'
+      \arrow[r, swap, twoheadrightarrow, "e'"]
+      & C'
+      \\
+      \coker f
+    \end{tikzcd}
+  \end{equation*}
+  Take a pullback and a pushout, and using \hyperref[lemma:pullback_preserves_kernel]{Lemma~\ref*{lemma:pullback_preserves_kernel}} (and its dual), we find the following.
+  \begin{equation*}
+    \begin{tikzcd}
+      \ker u
+      \arrow[r, hookrightarrow, "a"]
+      \arrow[d, equals]
+      & S
+      \arrow[r, twoheadrightarrow, "u"]
+      \arrow[d, "r"]
+      & \ker h
+      \arrow[d, hookrightarrow]
+      \\
+      A
+      \arrow[d, swap, "f"]
+      \arrow[r, hookrightarrow, "m"]
+      & B
+      \arrow[r, twoheadrightarrow, "e"]
+      \arrow[d, "g"]
+      & C
+      \arrow[d, "h"]
+      \\
+      A'
+      \arrow[r, hookrightarrow, "m'"]
+      \arrow[d, twoheadrightarrow]
+      & B'
+      \arrow[r, twoheadrightarrow, "e'"]
+      \arrow[d, "s"]
+      & C'
+      \arrow[d, equals]
+      \\
+      \coker f
+      \arrow[r, hookrightarrow, swap, "v"]
+      & T
+      \arrow[r, twoheadrightarrow, swap, "b"]
+      & \coker v
+    \end{tikzcd}
+  \end{equation*}
+  Consider the map
+  \begin{equation*}
+    \delta_{0} =
+    \begin{tikzcd}
+      S
+      \arrow[r, "r"]
+      & B
+      \arrow[r, "g"]
+      & B'
+      \arrow[r, "s"]
+      & T
+    \end{tikzcd}.
+  \end{equation*}
+
+  By commutativity, $\delta \circ a = 0$, hence we get a map
+  \begin{equation*}
+    \delta_{1}\colon \ker h \to T.
+  \end{equation*}
+  Composing this with $b$ gives $0$, hence we get a map
+  \begin{equation*}
+    \delta\colon \coker f \to \ker h.
+  \end{equation*}
+\end{proof}
+
+There is another version of the snake lemma which does not have the first and last zeroes.
+\begin{theorem}[snake lemma II]
+  \label{thm:snake_lemma_ii}
+  Given the following commutative diagram with exact rows,
+  \begin{equation*}
+    \begin{tikzcd}
+      & A
+      \arrow[d, swap, "f"]
+      \arrow[r, "m"]
+      & B
+      \arrow[r, "e"]
+      \arrow[d, swap, "g"]
+      & C
+      \arrow[r]
+      \arrow[d, "h"]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & A'
+      \arrow[r, "m'"]
+      & B'
+      \arrow[r, "e'"]
+      & C'
+    \end{tikzcd}
+  \end{equation*}
+  we get a exact sequence
+  \begin{equation*}
+    \ker f \to \ker g \to \ker h \to \coker f \to \coker g \to \coker h.
+  \end{equation*}
+\end{theorem}
+
+\subsection{The long exact sequence on homology}
+\label{ssc:the_long_exact_sequence_on_homology}
+
+\begin{corollary}
+  \label{cor:long_exact_sequence_on_homology}
+  Given an exact sequence of complexes
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A_{\bullet}
+      \arrow[r, "f_{\bullet}"]
+      & B_{\bullet}
+      \arrow[r, "g_{\bullet}"]
+      & C_{\bullet}
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  we get a long exact sequence on homology
+  \begin{equation*}
+    \begin{tikzcd}
+      & \cdots
+      \arrow[r]
+      & H_{n+1}(C)
+      \\
+      H_{n}(A)
+      \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
+      \arrow[r, "H_{n}(f)"]
+      & H_{n}(B)
+      \arrow[r, "H_{n}(g)"]
+      & H_{n}(C)
+      \\
+      H_{n-1}(A)
+      \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
+      \arrow[r, "H_{n-1}(f)"]
+      & H_{n-1}(B)
+      \arrow[r, "H_{n-1}(g)"]
+      & H_{n-1}(C)
+      \\
+      H_{n-2}(A)
+      \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
+      \arrow[r]
+      & \cdots
+    \end{tikzcd}
+  \end{equation*}
+\end{corollary}
+\begin{proof}
+  For each $n$, we have a diagram of the following form.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A_{n+1}
+      \arrow[r]
+      \arrow[d, swap, "d^{A}_{n+1}"]
+      & B_{n+1}
+      \arrow[r]
+      \arrow[d, "d^{B}_{n+1}"]
+      & C_{n+1}
+      \arrow[r]
+      \arrow[d, "d^{C}_{n+1}"]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & A_{n}
+      \arrow[r]
+      & B_{n}
+      \arrow[r]
+      & C_{n}
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  Applying the snake lemma (\hyperref[thm:snake_lemma]{Theorem~\ref*{thm:snake_lemma}}) gives us, for each $n$, two exact sequences as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \ker d^{A}_{n+1}
+      \arrow[r]
+      & \ker d^{B}_{n+1}
+      \arrow[r]
+      & \ker d^{C}_{n+1}
+    \end{tikzcd}
+  \end{equation*}
+  and
+  \begin{equation*}
+    \begin{tikzcd}
+      \coker d^{A}_{n}
+      \arrow[r]
+      & \coker d^{B}_{n}
+      \arrow[r]
+      & \coker d^{C}_{n}
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+
+  We can put these together in a diagram with exact rows as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      & \coker d^{A}_{n}
+      \arrow[r]
+      & \coker d^{B}_{n}
+      \arrow[r]
+      & \coker d^{C}_{n}
+      \arrow[r]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & \ker d^{A}_{n-1}
+      \arrow[r]
+      & \ker d^{B}_{n-1}
+      \arrow[r]
+      & \ker d^{C}_{n-1}
+    \end{tikzcd}
+  \end{equation*}
+  Recall that for each $n$, we get a map
+  \begin{equation*}
+    \phi^{A}_{n-1}\colon \im d^{A}_{n-1} \to \ker d^{A}_{n},
+  \end{equation*}
+  and similarly for $B_{\bullet}$ and $C_{\bullet}$.
+
+  Adding these in gives the following.
+  \begin{equation*}
+    \begin{tikzcd}
+      & \coker d^{A}_{n}
+      \arrow[r]
+      \arrow[d]
+      & \coker d^{B}_{n}
+      \arrow[r]
+      \arrow[d]
+      & \coker d^{C}_{n}
+      \arrow[r]
+      \arrow[d]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & \ker d^{A}_{n-1}
+      \arrow[r]
+      & \ker d^{B}_{n-1}
+      \arrow[r]
+      & \ker d^{C}_{n-1}
+    \end{tikzcd}
+  \end{equation*}
+  A second application of the snake lemma then gives a long exact sequence
+  \begin{equation*}
+    \begin{tikzcd}[column sep=small]
+      \ker \phi_{f}
+      \arrow[r]
+      & \ker \phi_{g}
+      \arrow[r]
+      & \ker \phi_{h}
+      \arrow[r]
+      & \coker \phi_{f}
+      \arrow[r]
+      & \coker \phi_{g}
+      \arrow[r]
+      & \coker \phi_{h}
+    \end{tikzcd}
+  \end{equation*}
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:connecting_homomorphism_is_functorial}
+  Let $\mathcal{A}$ be an abelian category, and let $f$ be a morphism of short exact sequences in $\Ch(\mathcal{A})$ as below.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A'_{\bullet}
+      \arrow[r, "\alpha_{\bullet}"]
+      \arrow[d, "f'_{\bullet}"]
+      & A_{\bullet}
+      \arrow[r, "\alpha'_{\bullet}"]
+      \arrow[d, "f_{\bullet}"]
+      & A''_{\bullet}
+      \arrow[r]
+      \arrow[d, "f''_{\bullet}"]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & B'_{\bullet}
+      \arrow[r, swap, "\beta_{\bullet}"]
+      & B_{\bullet}
+      \arrow[r, swap, "\beta'_{\bullet}"]
+      & B''_{\bullet}
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+
+  This gives us the following morphism of long exact sequences on homology.
+  \begin{equation*}
+    \begin{tikzcd}
+      \cdots
+      \arrow[r]
+      & H_{n}(A)
+      \arrow[r, "H_{n}(\alpha')"]
+      \arrow[d, swap, "H_{n}(f)"]
+      & H_{n}(A'')
+      \arrow[r, "\delta"]
+      \arrow[d, "H_{n}(f'')"]
+      & H_{n-1}(A')
+      \arrow[r, "H_{n-1}(\alpha)"]
+      \arrow[d, "H_{n}(f')"]
+      & H_{n-1}(A)
+      \arrow[d, "H_{n}(f)"]
+      \arrow[r]
+      & \cdots
+      \\
+      \cdots
+      \arrow[r]
+      & H_{n}(B)
+      \arrow[r, "H_{n}(\beta')"]
+      & H_{n}(B'')
+      \arrow[r, "\delta"]
+      & H_{n-1}(B')
+      \arrow[r, "H_{n-1}(\beta)"]
+      & H_{n-1}(B)
+      \arrow[r]
+      & \cdots
+    \end{tikzcd}
+  \end{equation*}
+  In particular, the connecting morphism $\delta$ is functorial.
+\end{lemma}
+
+\subsection{The five lemma}
+\label{ssc:the_five_lemma}
+
+\begin{lemma}[four lemmas]
+  \label{lemma:four_lemmas}
+  Let
+  \begin{equation*}
+    \begin{tikzcd}
+      B
+      \arrow[r]
+      \arrow[d, two heads]
+      & C
+      \arrow[r]
+      \arrow[d]
+      & D
+      \arrow[r]
+      \arrow[d, two heads]
+      & E
+      \arrow[d, hook]
+      \\
+      B'
+      \arrow[r]
+      & C'
+      \arrow[r]
+      & D'
+      \arrow[r]
+      & E'
+    \end{tikzcd}
+  \end{equation*}
+  be a commutative diagram with exact rows, with monomorphisms and epimorphisms as marked. Then 
+\end{lemma}
+
+\begin{theorem}[five lemma]
+  \label{thm:five_lemma}
+
+\end{theorem}
+
+\subsection{The nine lemma}
+\label{ssc:the_nine_lemma}
+
+\begin{theorem}[nine lemma]
+  \label{thm:nine_lemma}
+\end{theorem}
+
 \section{Exact functors}
 \label{sec:exact_functors}
 
@@ -62,7 +1200,242 @@
   We showed in \hyperref[prop:hom_functor_left_exact]{Lemma~\ref*{prop:hom_functor_left_exact}} that both hom functors $\Hom(A, -)$ and $\Hom(-, B)$ are left exact.
 \end{example}
 
-According to the Yoneda lemma, to check that two objects are isomorphic it suffices to check that their images under the Yoneda embedding are isomorphic. In the context of abelian categories, the following result shows that we can also check the exactness of a sequence by checking the exactness of the image of the sequence under the Yoneda embedding.
+
+\subsection{Exactness and preservation of (co)limits}
+\label{ssc:exactness_and_preservation_of_co_limits}
+
+The above definitions of left and right exactness are evocative, but one can cast them in a more useful way. One starting point is to notice that they are related to the preservation of limits.
+
+\begin{proposition}
+  \label{prop:exact_if_preserve_limits_conditions}
+  Let $F\colon \mathcal{A} \to \mathcal{B}$ be a functor between abelian categories.
+  \begin{itemize}
+    \item If $F$ preserves finite limits, then $F$ is left exact.
+
+    \item If $F$ preserves finite colimits, then $F$ is right exact.
+  \end{itemize}
+\end{proposition}
+\begin{proof}
+  Let $f\colon A \to B$ be a morphism in an abelian category. The universal property for the kernel of $f$ is equivalent to the following: $(K, \iota)$ is a kernel of $f$ if and only if the following diagram is a pullback.
+  \begin{equation*}
+    \begin{tikzcd}
+      K
+      \arrow[r]
+      \arrow[d, swap, "\iota"]
+      & 0
+      \arrow[d]
+      \\
+      A
+      \arrow[r, swap, "f"]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+  Any functor between abelian categories which preserves limits must in particular preserve pullbacks. Any such functor also sends initial objects to initial objects, and since initial objects are zero objects, such a functor preserves zero objects. Thus, any complete functor between abelian categories takes kernels to kernels.
+
+  Dually, any functor which preserves colimits preserves cokernels.
+
+  Next, note that the exactness of the sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[r, "f"]
+      & B
+      \arrow[r, "g"]
+      & C
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  is equivalent to the following three conditions.
+  \begin{enumerate}
+    \item Exactness at $A$ means that $f$ is mono, i.e.\ $0 \to A$ is a kernel of $f$.
+
+    \item Exactness at $B$ means that $\im f = \ker g$.
+      \begin{itemize}
+        \item If $f$ is mono, this is equivalent to demanding that $(A, f)$ is a kernel of $g$.
+
+        \item If $g$ is epi, this is equivalent to demanding that $(C, g)$ is a cokernel of $f$.
+      \end{itemize}
+
+    \item Exactness at $C$ means that $g$ is epi, i.e.\ $C \to 0$ is a cokernel of $g$.
+  \end{enumerate}
+\end{proof}
+
+Astonishingly, the converse is also true.
+
+\begin{lemma}
+  Let $F\colon \mathcal{A} \to \mathcal{B}$ be a functor between abelian categories which is either left or right exact. Then $F$ is additive.
+\end{lemma}
+\begin{proof}
+  First, assume that $F$ is left exact. By \hyperref[cor:functor_additive_iff_preserves_direct_sums]{Corollary~\ref*{cor:functor_additive_iff_preserves_direct_sums}}, it suffices to show that $F$ preserves direct sums. To this end, consider the image of a split exact sequence under a left-exact functor $F$.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & F(A)
+      \arrow[r, "F(i_{A})"]
+      & F(A \oplus B)
+      \arrow[r, "F(\pi_{B})"]
+      & F(B)
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  Because we still have the identities
+  \begin{equation*}
+    F(\pi_{A}) \circ F(i_{A}) = \id_{F(A)},\qquad F(\pi_{B}) \circ F(i_{B}) = \id_{F(B)},
+  \end{equation*}
+  the morphism $F(\pi_{B})$ is still epic; hence the splitting lemma (\hyperref[lemma:splitting_lemma]{Theorem~\ref*{lemma:splitting_lemma}}) implies that the sequence is still split exact. Thus, $F$ preserves direct sums.
+
+  The case in which $F$ is right exact is dual.
+\end{proof}
+
+\begin{proposition}
+  Let $F\colon \mathcal{A} \to \mathcal{B}$ be a functor between abelian categories.
+  \begin{itemize}
+    \item If $F$ is left-exact, then $F$ preserves finite limits.
+
+    \item If $F$ is right-exact, then $F$ preserves finite colimits.
+  \end{itemize}
+\end{proposition}
+\begin{proof}
+  Suppose $F$ is left exact. Then $F$ preserves kernels and products, hence all finite limits. If $F$ is right exact, then $F$ preserves all cokernels and coproducts, hence all finite colimits.
+\end{proof}
+
+Our definition of homology now allows us to cleanly note the following.
+\begin{proposition}
+  Exact functors preserve homology; that is, $H_{n}(F(C_{\bullet})) = F(H_{n}(C_{\bullet}))$.
+\end{proposition}
+\begin{proof}
+  Exact functors preserve kernels and cokernels.
+\end{proof}
+
+\begin{example}
+  \label{eg:kernels_and_cokernels_are_functorial}
+  %The universal property for kernels is equivalent to the following: the kernel of $f\colon A \to B$ is the pullback of the following diagram.
+  %\begin{equation*}
+  %  \begin{tikzcd}
+  %    \ker(f)
+  %    \arrow[r, dashed]
+  %    \arrow[d, dashed]
+  %    & 0
+  %    \arrow[d]
+  %    \\
+  %    A
+  %    \arrow[r, "f"]
+  %    & B
+  %  \end{tikzcd}
+  %\end{equation*}
+  Consider the category $\mathcal{D}$ with objects and morphisms as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      & \star
+      \arrow[d]
+      \\
+      *
+      \arrow[r]
+      & \bullet
+    \end{tikzcd}
+  \end{equation*}
+  Let $\mathcal{A}$ be an abelian category. By \hyperref[eg:examples_of_abelian_categories]{Example~\ref*{eg:examples_of_abelian_categories}}, the category of functors $\mathcal{D} \to \mathcal{A}$ is an abelian category.
+
+  Consider a functor $\mathcal{D} \to \mathcal{A}$ which yields the following diagram in $\mathcal{A}$.
+  \begin{equation*}
+    \begin{tikzcd}
+      & 0
+      \arrow[d]
+      \\
+      A
+      \arrow[r, "f"]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+  Taking the pullback of the above diagram yields the kernel of $f$.
+
+  A natural transformation $\phi$ between functors $\mathcal{D} \to \mathcal{A}$ consists of the data of a commuting square as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[r, "f"]
+      \arrow[d, swap, "\phi_{A}"]
+      & B
+      \arrow[d, "\phi_{B}"]
+      \\
+      A'
+      \arrow[r, "f'"]
+      & B'
+    \end{tikzcd}
+  \end{equation*}
+  That is, we may view taking kernels as a functor from the category of morphisms in $\mathcal{A}$ to $\mathcal{A}$. Furthermore, because this functor is the result of a limiting procedure it preserves limits. Thus, given an exact sequence of morphisms in $\mathcal{A}$
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hook]
+      \arrow[d, swap, "f"]
+      & B
+      \arrow[r, two heads]
+      \arrow[d, "g"]
+      & C
+      \arrow[r]
+      \arrow[d, "h"]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hook]
+      & B
+      \arrow[r, two heads]
+      & C
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  one gets an exact sequence of kernels
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \ker f
+      \arrow[r, hook]
+      & \ker g
+      \arrow[r]
+      & \ker h
+    \end{tikzcd}.
+  \end{equation*}
+
+  Conversely, taking cokernels is cocomplete, hence right exact, so one has also an exact sequence of cokernels
+  \begin{equation*}
+    \begin{tikzcd}
+      \coker f
+      \arrow[r]
+      & \coker g
+      \arrow[r, two heads]
+      & \coker h
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+
+  Note that the data of a kernel 
+\end{example}
+
+\subsection{Exactness of the hom functor and tensor products}
+\label{ssc:exactness_of_the_hom_functor_and_tensor_products}
+
+We have already seen that the hom functor $\Hom_{\mathcal{A}}(-,-)$ is left exact in both slots. Now we understand precisely why this is true: the hom functor preserves limits in both slots!\footnote{In the first slot, one must take the limits in the category $\mathcal{A}\op$.}
+
+Since any functor which is a right adjoint preserves limits, any such functor between abelian categories must be left exact. For example, there is an adjunction
+\begin{equation*}
+  - \otimes_{R} N : \mathbf{Mod}\mhyp R \longleftrightarrow \mathbf{Ab} : \Hom_{\mathbf{Ab}}(N, -)
+\end{equation*}
+which comes from replacing a map out of the tensor product by its corresponding bilinear map, and currying\footnote{I see what you mean, but where is this term from?} along the first entry. Thus, the map $- \otimes_{R} N$ is a left adjoint, hence preserves colimits, hence is right exact.
+
+We can use this to check exactness (hence limit preservation) of other functors using the following beefed-up version of the Yoneda lemma. I don't actually need this right now, but it's a nice result anyway.
 
 \begin{lemma}
   \label{lemma:yoneda_reflects_exactness}
@@ -128,212 +1501,27 @@ According to the Yoneda lemma, to check that two objects are isomorphic it suffi
   Thus $\im \iota = \ker g \subset \im f$.
 \end{proof}
 
-\begin{proposition}
-  \label{prop:exact_if_preserve_limits_conditions}
-  Let $F\colon \mathcal{A} \to \mathcal{B}$ be a functor between abelian categories.
-  \begin{itemize}
-    \item If $F$ preserves finite limits, then $F$ is left exact.
+\section{Quasi-isomorphism}
+\label{sec:quasi_isomorphism}
 
-    \item If $F$ preserves finite colimits, then $F$ is right exact.
-  \end{itemize}
-\end{proposition}
-\begin{proof}
-  Let $f\colon A \to B$ be a morphism in an abelian category. The universal property for the kernel of $f$ is equivalent to the following: $(K, \iota)$ is a kernel of $f$ if and only if the following diagram is a pullback.
-  \begin{equation*}
-    \begin{tikzcd}
-      K
-      \arrow[r]
-      \arrow[d, swap, "\iota"]
-      & 0
-      \arrow[d]
-      \\
-      A
-      \arrow[r, swap, "f"]
-      & B
-    \end{tikzcd}
-  \end{equation*}
-  Any functor between abelian categories which preserves limits must in particular preserve pullbacks. Any such functor also sends initial objects to initial objects, and since initial objects are zero objects, such a functor preserves zero objects. Thus, any complete functor between abelian categories takes kernels to kernels.
+One of the organizing principals of homological algebra is that the fundamental data contained in a chain complex is the level-wise homology of that chain complex, rather than the chain complex itself. We will see many examples (especially in \hyperref[part:algebraic_topology]{Part~\ref*{part:algebraic_topology}}, on algebraic topology) in which one can perform a drastic simplification of a problem by replacing a chain complex by a better-behaved one which has isomorphic homology.
 
-  Dually, any functor which preserves colimits preserves cokernels.
+Therefore, one would like to pay special attention to morphisms of chain complexes $f_{\bullet}\colon C_{\bullet} \to D_{\bullet}$ which induce isomorphisms on homology. One even has a special name for such a morphism.
 
-  Next, note that the exactness of the sequence
-  \begin{equation*}
-    \begin{tikzcd}
-      0
-      \arrow[r]
-      & A
-      \arrow[r, "f"]
-      & B
-      \arrow[r, "g"]
-      & C
-      \arrow[r]
-      & 0
-    \end{tikzcd}
-  \end{equation*}
-  is equivalent to the following three conditions.
-  \begin{enumerate}
-    \item Exactness at $A$ means that $f$ is mono, i.e.\ $0 \to A$ is a kernel of $f$.
+\begin{definition}[quasi-isomorphism]
+  \label{def:quasi_isomorphism}
+  Let $f_{\bullet}\colon C_{\bullet} \to D_{\bullet}$ be a chain map. We say that $f$ is a \defn{quasi-isomorphism} if it induces isomorphisms on homology; that is, if $H_{n}(f)$ is an isomorphism for all $n$.
+\end{definition}
 
-    \item Exactness at $B$ means that $\im f = \ker g$.
-      \begin{itemize}
-        \item If $f$ is mono, this is equivalent to demanding that $(A, f)$ is a kernel of $g$.
+Quasi-isomorphisms are a surprisingly fiddly concept. Since they induce isomorphisms on homology, and isomorphisms are invertible, one might naïvely hope that quasi-isomorphisms themselves were invertible; that is, that one could find a \emph{quasi-inverse.} Unfortunately, we are not so lucky. Consider the following
 
-        \item If $g$ is epi, this is equivalent to demanding that $(C, g)$ is a cokernel of $f$.
-      \end{itemize}
+By \hyperref[eg:compute_homology_in_trivial_situation]{Example~\ref*{eg:compute_homology_in_trivial_situation}}, we
 
-    \item Exactness at $C$ means that $g$ is epi, i.e.\ $C \to 0$ is a cokernel of $g$.
-  \end{enumerate}
-  Any functor $G$ which is a right adjoint preserves limits. By the above reasoning, $G$ certainly preserves zero objects and kernels. Thus, $G$ preserves the first two conditions, which means precisely that $G$ is left exact.
+\begin{definition}[resolution]
+  \label{def:resolution}
+  Let $A$ be an object in an abelian category. A \defn{resolution} of $A$ consists of a chain complex $C_{\bullet}$ together with a quasi-isomorphism $C_{\bullet} \to \iota(A)$.
+\end{definition}
 
-  Dually, any functor $F$ which is a left adjoint preserves colimits, hence zero objects and cokernels. Thus, $F$ preserves the last two conditions, which means that $F$ is right exact.
-\end{proof}
-
-\begin{example}
-  %The universal property for kernels is equivalent to the following: the kernel of $f\colon A \to B$ is the pullback of the following diagram.
-  %\begin{equation*}
-  %  \begin{tikzcd}
-  %    \ker(f)
-  %    \arrow[r, dashed]
-  %    \arrow[d, dashed]
-  %    & 0
-  %    \arrow[d]
-  %    \\
-  %    A
-  %    \arrow[r, "f"]
-  %    & B
-  %  \end{tikzcd}
-  %\end{equation*}
-  Consider the category $\mathcal{D}$ with objects and morphisms as follows.
-  \begin{equation*}
-    \begin{tikzcd}
-      & \star
-      \arrow[d]
-      \\
-      *
-      \arrow[r]
-      & \bullet
-    \end{tikzcd}
-  \end{equation*}
-  Let $\mathcal{A}$ be an abelian category. By \hyperref[eg:examples_of_abelian_categories]{Example~\ref*{eg:examples_of_abelian_categories}}, the category of functors $\mathcal{D} \to \mathcal{A}$ is an abelian category.
-
-  Consider a functor $\mathcal{D} \to \mathcal{A}$ which yields the following diagram in $\mathcal{A}$.
-  \begin{equation*}
-    \begin{tikzcd}
-      & 0
-      \arrow[d]
-      \\
-      A
-      \arrow[r, "f"]
-      & B
-    \end{tikzcd}
-  \end{equation*}
-  Taking the pullback of the above diagram yields the kernel of $f$.
-
-  A natural transformation $\phi$ between functors $\mathcal{D} \to \mathcal{A}$ consists of the data of a commuting square as follows.
-  \begin{equation*}
-    \begin{tikzcd}
-      A
-      \arrow[r, "f"]
-      \arrow[d, swap, "\phi_{A}"]
-      & B
-      \arrow[d, "\phi_{B}"]
-      \\
-      A'
-      \arrow[r, "f'"]
-      & B'
-    \end{tikzcd}
-  \end{equation*}
-  That is, we may view taking kernels as a functor from the category of morphisms in $\mathcal{A}$ to $\mathcal{A}$. Furthermore, because this functor is the result of a limiting procedure it is complete. Thus, given an exact sequence of morphisms in $\mathcal{A}$
-  \begin{equation*}
-    \begin{tikzcd}
-      0
-      \arrow[r]
-      & A
-      \arrow[r, hook]
-      \arrow[d, swap, "f"]
-      & B
-      \arrow[r, two heads]
-      \arrow[d, "g"]
-      & C
-      \arrow[r]
-      \arrow[d, "h"]
-      & 0
-      \\
-      0
-      \arrow[r]
-      & A
-      \arrow[r, hook]
-      & B
-      \arrow[r, two heads]
-      & C
-      \arrow[r]
-      & 0
-    \end{tikzcd}
-  \end{equation*}
-  one gets an exact sequence of kernels
-  \begin{equation*}
-    \begin{tikzcd}
-      0
-      \arrow[r]
-      & \ker f
-      \arrow[r, hook]
-      & \ker g
-      \arrow[r]
-      & \ker h
-    \end{tikzcd}.
-  \end{equation*}
-
-  Conversely, taking cokernels is cocomplete, hence right exact, so one has also an exact sequence of cokernels
-  \begin{equation*}
-    \begin{tikzcd}
-      \coker f
-      \arrow[r]
-      & \coker g
-      \arrow[r, two heads]
-      & \coker h
-      \arrow[r]
-      & 0
-    \end{tikzcd}
-  \end{equation*}
-\end{example}
-
-Note that the previous theorem makes no demand that $F$ be additive, which may seem surprising; after all, by  \hyperref[def:exact_functor]{Definition~\ref*{def:exact_functor}}, only exact functors are allowed the honor of being called additive. However, it turns out that a functor which preserves either finite limits or finite colimits is always additive. To see this, note that by applying any functor which is either left or right exact to a split exact sequence gives a split exact sequence.
-
-This is often useful when trying to check the exactness of a functor which is a left or right adjoint, by the following proposition.
-
-\begin{lemma}
-  \label{cor:hom_functor_left_exact}
-  Let
-  \begin{equation*}
-    \begin{tikzcd}
-      0
-      \arrow[r]
-      & A
-      \arrow[r, "f"]
-      & B
-      \arrow[r, "g"]
-      & C
-      \arrow[r]
-      & 0
-    \end{tikzcd}
-  \end{equation*}
-  be an exact sequence, and let $X$ be any object. Then the sequence
-  \begin{corollary}
-    \begin{tikzcd}
-      0
-      \arrow[r]
-      & \Hom(X, A)
-      \arrow[r, "f_{*}"]
-      & \Hom(X, B)
-      \arrow[r, "g_{*}"]
-      & \Hom(X, C)
-    \end{tikzcd}
-  \end{corollary}
-  is an exact sequence of abelian groups.
-\end{lemma}
-\begin{proof}
-  The hom functor
-\end{proof}
 
 \section{Chain Homotopies}
 \label{sec:chain_homotopies}
@@ -392,30 +1580,6 @@ This is often useful when trying to check the exactness of a functor which is a 
 \begin{proof}
   Obvious.
 \end{proof}
-
-\begin{definition}[homotopy category]
-  \label{def:homotopy_category}
-  Let $\mathcal{A}$ be an abelian category. The \defn{homotopy category} $\mathcal{K}(\mathcal{A})$, is the category whose objects are those of $\Ch(\mathcal{A})$, and whose morphisms are equivalence classes of morphisms in $\mathcal{A}$ up to homotopy.
-\end{definition}
-
-\begin{lemma}
-  \label{lemma:homotopy_category_is_additive}
-  The homotopy category $\mathcal{K}(\mathcal{A})$ is an additive category, and the quotienting functor $\Ch(\mathcal{A}) \to \mathcal{K}(\mathcal{A})$ is an additive functor.
-\end{lemma}
-\begin{proof}
-  Trivial.
-\end{proof}
-
-In fact, the homotopy category satisfies the following universal property.
-
-\begin{proposition}
-  Let $F\colon \Ch(\mathcal{A}) \to \mathcal{C}$ be an additive functor such that $\mathcal{F}(f)$ is an isomorphism for all quasi-isomorphisms $f$. Then there exists a unique functor $\mathcal{K}(\mathcal{A}) \to \mathcal{C}$ making the following diagram commute.
-\end{proposition}
-
-\begin{proposition}
-  \label{prop:additive_functors_from_derived_category_squash_homotopies}
-  Let $\mathcal{F}\colon \Ch(\mathcal{A}) \to \mathcal{B}$ be an additive functor which takes quasi-isomorphisms to isomorphisms. Then for homotopic morphisms $f \sim g$ in $\Ch(\mathcal{A})$, we have $F(f) = F(g)$.
-\end{proposition}
 
 \section{Projectives and injectives}
 \label{ssc:projectives_and_injectives}
@@ -491,7 +1655,7 @@ A recurring theme of homological algebra is that projective and injective object
 \end{proposition}
 \begin{proof}
   We can add another copy of $P$ artfully as follows.
-\begin{equation*}
+  \begin{equation*}
     \begin{tikzcd}
       &&& P
       \arrow[d, "\id"]
@@ -850,10 +2014,51 @@ In fact, we can say more.
   We construct a lift inductively.
 \end{proof}
 
-\begin{corollary}
-  \label{cor:projective_resolution_functor}
-  For any abelian category with enough projectives, there are projective resolution functors $\mathcal{A} \to \mathcal{K}^{+}(\mathcal{A})$.
-\end{corollary}
+
+\section{The homotopy category}
+\label{sec:the_homotopy_category}
+
+In the previous section, we proved many theorems which were schematically of the following form:
+
+\emph{Given some data in an abelian category, we can lift it to data between projective resolutions.}
+
+One might hope that this data would assemble itself functorially, but this is far too much to ask; we have no reason to believe, having picked lifts $\tilde{f}$ for our morphisms $f$, that $\widetilde{f \circ g} = \tilde{f} \circ \tilde{g}$.
+
+In this, however, we are saved by the notion of homotopy! While $\widetilde{f \circ g}$ and $\tilde{f} \circ \tilde{g}$ may not be equal, they are certainly homotopic, thanks to \hyperref[prop:can_lift_morphisms_to_projective_resolutions]{Proposition~\ref*{prop:can_lift_morphisms_to_projective_resolutions}}. Thus, we will have a shot at functoriality, if we formally invert all homotopies.
+
+And this we can do!
+
+\begin{definition}[homotopy category]
+  \label{def:homotopy_category}
+  Let $\mathcal{A}$ be an abelian category. The \defn{homotopy category} $\mathcal{K}(\mathcal{A})$, is the category whose objects are those of $\Ch(\mathcal{A})$, and whose morphisms are equivalence classes of morphisms in $\mathcal{A}$ up to homotopy.
+\end{definition}
+
+This is well-defined by \hyperref[lemma:homotopy_equivalence_relation]{Lemma~\ref*{lemma:homotopy_equivalence_relation}} and \hyperref[lemma:homotopy_respects_composition]{Lemma~\ref*{lemma:homotopy_respects_composition}}.
+
+We will in general not be interested in the full homotopy category, but instead in the bounded-below homotopy category $\mathcal{K}^{+}(\mathcal{A})$ of \emph{bounded-below} chain complexes up to homotopy.
+
+
+\begin{lemma}
+  \label{lemma:homotopy_category_is_additive}
+  The homotopy category $\mathcal{K}^{+}(\mathcal{A})$ is an additive category, and the quotienting functor $\Ch_{\geq 0}(\mathcal{A}) \to \mathcal{K}^{+}(\mathcal{A})$ is an additive functor.
+\end{lemma}
+\begin{proof}
+  Trivial.
+\end{proof}
+
+%\begin{proposition}
+%  \label{prop:additive_functors_from_derived_category_squash_homotopies}
+%  Let $\mathcal{F}\colon \Ch(\mathcal{A}) \to \mathcal{B}$ be an additive functor which takes quasi-isomorphisms to isomorphisms. Then for homotopic morphisms $f \sim g$ in $\Ch(\mathcal{A})$, we have $F(f) = F(g)$.
+%\end{proposition}
+
+The upshot of the above discussion is that for any abelian category with enough projectives, there are projective resolution functors $\mathcal{A} \to \mathcal{K}^{+}(\mathcal{A})$ defined as follows.
+\begin{enumerate}
+  \item Pick a projective resolution of every object in $\mathcal{A}$.
+
+  \item Pick a lift of every morphism of $\mathcal{A}$, and take equivalence classes.
+\end{enumerate}
+
+This functor has
 
 \section{Mapping cones}
 \label{sec:mapping_cones}
@@ -1107,34 +2312,35 @@ In fact, we can say more.
   \end{equation*}
 \end{proof}
 
+
 \section{Localization at weak equivalences: a love story}
 \label{sec:localization_at_weak_equivalences_a_love_story}
 
-We can embed any abelian category $\mathcal{A}$ into the corresponding category $\Ch_{\geq 0}(\mathcal{A})$ of chain complexes via inclusion into degree zero. This is obviously a lossless procedure, in the sense that we recover $\mathcal{A}$ by restricting to degree $0$.
-\begin{equation*}
-  \begin{tikzcd}
-    \mathcal{A}
-    \arrow[r, bend left, "\iota"]
-    & \Ch(\mathcal{A})
-    \arrow[l, bend left, "(-)_{0}"]
-  \end{tikzcd}
-\end{equation*}
+%We can embed any abelian category $\mathcal{A}$ into the corresponding category $\Ch_{\geq 0}(\mathcal{A})$ of chain complexes via inclusion into degree zero. This is obviously a lossless procedure, in the sense that we recover $\mathcal{A}$ by restricting to degree $0$.
+%\begin{equation*}
+%  \begin{tikzcd}
+%    \mathcal{A}
+%    \arrow[r, bend left, "\iota"]
+%    & \Ch(\mathcal{A})
+%    \arrow[l, bend left, "(-)_{0}"]
+%  \end{tikzcd}
+%\end{equation*}
+%
+%Equivalently, we recover our category $\mathcal{A}$ by taking zeroth homology.
+%\begin{equation*}
+%  \begin{tikzcd}
+%    \mathcal{A}
+%    \arrow[r, bend left, "\iota"]
+%    & \Ch(\mathcal{A})
+%    \arrow[l, bend left, "H_{0}"]
+%  \end{tikzcd}
+%\end{equation*}
+%
+%However, we notice that there are much better-behaved embeddings of $\mathcal{A}$ into $\Ch_{}(\mathcal{A})$ such that we recover $\mathcal{A}$ when taking zeroth homology. For example, taking projective resolutions of objects and lifting morphisms using \hyperref[prop:can_lift_morphisms_to_projective_resolutions]{Proposition~\ref*{prop:can_lift_morphisms_to_projective_resolutions}} will do the trick. Unfortunately, this is not in general uniquely defined: one can take many different projective resolutions, and lift morphisms in many different ways. There is no reason to expect these data to assemble themselves functorially.
 
-Equivalently, we recover our category $\mathcal{A}$ by taking zeroth homology.
-\begin{equation*}
-  \begin{tikzcd}
-    \mathcal{A}
-    \arrow[r, bend left, "\iota"]
-    & \Ch(\mathcal{A})
-    \arrow[l, bend left, "H_{0}"]
-  \end{tikzcd}
-\end{equation*}
+Hopefully, the reader will now agree that chain complexes are interesting enough to study, and that given a chain complex, the level-wise homology (and therefore the slippery notion of quasi-isomorphism) is an interesting invariant. Of course, one considers the category of chain complexes, but this category has the annoying feature that quasi-isomorphisms do not necessarily have quasi-inverses. That is, it is difficult to view quasi-isomorphism as a notion of equivalence because is it is not invertible.
 
-However, we notice that there are much better-behaved embeddings of $\mathcal{A}$ into $\Ch_{}(\mathcal{A})$ such that we recover $\mathcal{A}$ when taking zeroth homology. For example, taking projective resolutions of objects and lifting morphisms using \hyperref[prop:can_lift_morphisms_to_projective_resolutions]{Proposition~\ref*{prop:can_lift_morphisms_to_projective_resolutions}} will do the trick. Unfortunately, this is not in general uniquely defined: one can take many different projective resolutions, and lift morphisms in many different ways. There is no reason to expect these data to assemble themselves functorially.
-
-However, if we were to modify $\Ch_{\geq 0}(\mathcal{A})$ in such a way that all quasi-isomorphisms became bona-fide isomorphisms, then we would have this functoriality, thanks to \hyperref[prop:additive_functors_from_derived_category_squash_homotopies]{Proposition~\ref*{prop:additive_functors_from_derived_category_squash_homotopies}}.
-
-Thus we find ourselves in a common situation: we have a category $\Ch_{\geq 0}(\mathcal{A})$, and identified a collection of morphisms inside this category which we would like to view as weak equivalences, namely the quasi-isomorphisms. In an ideal world, we would simply promote quasi-isomorphisms to bona fide isomorphisms. That is, we would like to form the localization
+The way out of this is to replace the category $\Ch(\mathcal{A})$ by a category in which all quasi-isomorphisms have quasi-inverses. There is a fiddly and conceptually unclear way to do that, namely by forming the categorical localization.
 \begin{equation*}
   \Ch_{\geq 0}(\mathcal{A}) \to \Ch_{\geq 0}(\mathcal{A})[\{\text{quasi-isomorphisms}\}^{-1}].
 \end{equation*}
@@ -1145,9 +2351,34 @@ However, note that we can get what we want by making a more draconian identifica
 \begin{equation*}
   \Ch_{\geq 0}(\mathcal{A}) \to \mathcal{K}(\mathcal{A})
 \end{equation*}
-which is the identity on objects and sends morphisms to their equivalence classes modulo homotopy; this sends precisely homotopy equivalences to isomorphisms.
+which is the identity on objects and sends morphisms to their equivalence classes modulo homotopy; this sends precisely homotopy equivalences to isomorphisms. By
 
-But now we are in a really wonderful position, as long as $\mathcal{A}$ has enough projectives: we can by \hyperref[cor:projective_resolution_functor]{Corollary~\ref*{cor:projective_resolution_functor}} find a projective resolution functor
+\begin{definition}[derived functor]
+  \label{def:derived_functor}
+  Let $F\colon \mathcal{A} \to \mathcal{B}$ be a functor between abelian categories.
+  \begin{itemize}
+    \item If $F$ is right exact and $\mathcal{A}$ has enough projectives, we declare the \defn{left derived functor} to be the homological $\delta$-functor $\{L_{n}F\}$ defined by
+      \begin{equation*}
+        L_{n}F =
+        \begin{tikzcd}
+          \mathcal{A}
+          \arrow[r, "P"]
+          & \mathcal{K}(\Ch_{\geq 0}(\mathcal{A}))
+          \arrow[r, "F"]
+          & \mathcal{K}(\Ch_{\geq 0}(\mathcal{B}))
+          \arrow[r, "H_{n}"]
+          & \mathcal{B}
+        \end{tikzcd}
+      \end{equation*}
+      where $P\colon \mathcal{A} \to \mathcal{K}(\Ch_{\geq 0}(\mathcal{A}))$ is a projective resolution functor.
+
+    \item If $F$ is left exact and $\mathcal{A}$ has enough injectives, we define the \defn{right derived functor} to be the cohomological $\delta$-functor
+      \begin{equation*}
+        R^{n}F(X) = H^{n} \circ F \circ Q
+      \end{equation*}
+      where $Q$ is an injective resolution functor.
+  \end{itemize}
+\end{definition}
 
 \begin{definition}[homological \texorpdfstring{$\delta$}{delta}-functor]
   \label{def:homological_delta_functor}
@@ -1267,32 +2498,7 @@ This seems like an inelegant definition, and indeed it is.
   Dual to \hyperref[def:homological_delta_functor]{Definition~\ref*{def:homological_delta_functor}}.
 \end{definition}
 
-\begin{definition}[derived functor]
-  \label{def:derived_functor}
-  Let $F\colon \mathcal{A} \to \mathcal{B}$ be a functor between abelian categories.
-  \begin{itemize}
-    \item If $F$ is right exact and $\mathcal{A}$ has enough projectives, we declare the \defn{left derived functor} to be the homological $\delta$-functor $\{L_{n}F\}$ defined by
-      \begin{equation*}
-        L_{n}F =
-        \begin{tikzcd}
-          \mathcal{A}
-          \arrow[r, "P"]
-          & \mathcal{K}(\Ch_{\geq 0}(\mathcal{A}))
-          \arrow[r, "F"]
-          & \mathcal{K}(\Ch_{\geq 0}(\mathcal{B}))
-          \arrow[r, "H_{n}"]
-          & \mathcal{B}
-        \end{tikzcd}
-      \end{equation*}
-      where $P\colon \mathcal{A} \to \mathcal{K}(\Ch_{\geq 0}(\mathcal{A}))$ is a projective resolution functor.
 
-    \item If $F$ is left exact and $\mathcal{A}$ has enough injectives, we define the \defn{right derived functor} to be the cohomological $\delta$-functor
-      \begin{equation*}
-        R^{n}F(X) = H^{n} \circ F \circ Q
-      \end{equation*}
-      where $Q$ is an injective resolution functor.
-  \end{itemize}
-\end{definition}
 
 We still need to show that derived functors are in fact homological delta-functors.
 
@@ -1573,7 +2779,7 @@ Such a beast is a lattice of commuting squares.
   \end{tikzcd}
 \end{equation*}
 
-However, it turns out to convenient to do something slightly different, namely work with complexes whose squares anticommute rather than commute. This is not a restriction, as one can make from any lattice of commuting squares a lattice of anticommuting squares by multiplying the differentials of every other column by $-1$. This is known as the \emph{sign trick.}
+However, when manipulating these complexes it turns out to convenient to do something slightly different, namely work with complexes whose squares anticommute rather than commute. This is not a fundamental difference, as one can make from any lattice of commuting squares a lattice of anticommuting squares by multiplying the differentials of every other column by $-1$. This is known as the \emph{sign trick.}
 
 \begin{definition}[double complex]
   \label{def:double_complex}
