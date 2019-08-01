@@ -602,7 +602,7 @@ At least in the case that $g$ is mono, when phrased in terms of elements, this r
     \left\{ \substack{\text{elements of pullback}\\\text{which map to $0$}} \right\}
     \arrow[r, hookrightarrow]
     \arrow[d, equals]
-    & \left\{ \substack{\text{elements of $B$}\\\text{which map to $C$}} \right\}
+    & \left\{ \substack{\text{elements of $B$}\\\text{which map to $D$}} \right\}
     \arrow[r, twoheadrightarrow]
     \arrow[d, hookrightarrow]
     & D
@@ -1104,22 +1104,197 @@ There is another version of the snake lemma which does not have the first and la
 
 \begin{lemma}[four lemmas]
   \label{lemma:four_lemmas}
+  \leavevmode
+  \begin{enumerate}
+    \item Let
+      \begin{equation*}
+        \begin{tikzcd}
+          B
+          \arrow[r]
+          \arrow[d, two heads, swap, "b"]
+          & C
+          \arrow[r]
+          \arrow[d, "c"]
+          & D
+          \arrow[r]
+          \arrow[d, two heads, "d"]
+          & E
+          \arrow[d, hook, "e"]
+          \\
+          B'
+          \arrow[r]
+          & C'
+          \arrow[r]
+          & D'
+          \arrow[r]
+          & E'
+        \end{tikzcd}
+      \end{equation*}
+      be a commutative diagram with exact rows, with monomorphisms and epimorphisms as marked. Then $c$ is an epimorphism.
+
+    \item Let
+      \begin{equation*}
+        \begin{tikzcd}
+          A
+          \arrow[r]
+          \arrow[d, two heads, swap, "a"]
+          & B
+          \arrow[r]
+          \arrow[d, hook, "b"]
+          & C
+          \arrow[r]
+          \arrow[d, "c"]
+          & D
+          \arrow[d, hook, "d"]
+          \\
+          A'
+          \arrow[r]
+          & B'
+          \arrow[r]
+          & C'
+          \arrow[r]
+          & D'
+        \end{tikzcd}
+      \end{equation*}
+      be a commutative diagram with exact rows, with monomorphisms and epimorphisms as marked. Then $c$ is a monomorphism.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \leavevmode
+  \begin{enumerate}
+    \item Expand the diagram with image-kernel factorization as follows.
+      \begin{equation*}
+        \begin{tikzcd}
+          B
+          \arrow[r, two heads]
+          \arrow[d, two heads, "b"]
+          & I_{1}
+          \arrow[r, hook]
+          \arrow[d, "i"]
+          & C
+          \arrow[r, two heads]
+          \arrow[d, "c"]
+          & I_{2}
+          \arrow[r, hook]
+          \arrow[d, "j"]
+          & D
+          \arrow[r, two heads]
+          \arrow[d, two heads, "d"]
+          & I_{3}
+          \arrow[r, hook]
+          \arrow[d, "k"]
+          & E
+          \arrow[d, hook, "e"]
+          \\
+          B'
+          \arrow[r, two heads]
+          & I_{1}'
+          \arrow[r, hook]
+          & C'
+          \arrow[r, two heads]
+          & I_{2}'
+          \arrow[r, hook]
+          & D'
+          \arrow[r, two heads]
+          & I_{3}'
+          \arrow[r, hook]
+          & E'
+        \end{tikzcd}
+      \end{equation*}
+      It is immediate that $i$ is epi, and that $k$ is mono. Now, consider the following morphism of short exact sequences.
+      \begin{equation*}
+        \begin{tikzcd}
+          0
+          \arrow[r]
+          & I_{2}
+          \arrow[r, hook]
+          \arrow[d, "j"]
+          & D
+          \arrow[r, two heads]
+          \arrow[d, two heads, "d"]
+          & I_{3}
+          \arrow[r]
+          \arrow[d, hook, "k"]
+          & 0
+          \\
+          0
+          \arrow[r]
+          & I_{2}'
+          \arrow[r, hook]
+          & D'
+          \arrow[r, two heads]
+          & I_{3}'
+          \arrow[r]
+          & 0
+        \end{tikzcd}
+      \end{equation*}
+      The snake lemma (\hyperref[thm:snake_lemma]{Theorem~\ref*{thm:snake_lemma}}) tells us that we have a short exact sequence
+      \begin{equation*}
+        \begin{tikzcd}
+          0 = \ker k
+          \arrow[r]
+          & \coker j
+          \arrow[r]
+          & \coker d = 0,
+        \end{tikzcd}
+      \end{equation*}
+      implying that $\coker j = 0$, i.e.\ that $j$ is epi.
+
+      We have another morphism of short exact sequences.
+      \begin{equation*}
+        \begin{tikzcd}
+          0
+          \arrow[r]
+          & I_{1}
+          \arrow[r, hook]
+          \arrow[d, two heads, "i"]
+          & C
+          \arrow[r, two heads]
+          \arrow[d, "c"]
+          & I_{2}
+          \arrow[r]
+          \arrow[d, two heads, "j"]
+          & 0
+          \\
+          0
+          \arrow[r]
+          & I_{1}'
+          \arrow[r, hook]
+          & C'
+          \arrow[r, two heads]
+          & I_{2}'
+          \arrow[r]
+          & 0
+        \end{tikzcd}
+      \end{equation*}
+      Using the information that $i$ and $j$ are epi, the snake lemma tells us that $j$ is epi as required.
+
+    \item Dual.
+  \end{enumerate}
+\end{proof}
+\begin{theorem}[five lemma]
+  \label{thm:five_lemma}
   Let
   \begin{equation*}
     \begin{tikzcd}
-      B
+      A
       \arrow[r]
       \arrow[d, two heads]
+      & B
+      \arrow[r]
+      \arrow[d, "\cong"]
       & C
       \arrow[r]
-      \arrow[d]
+      \arrow[d, "c"]
       & D
       \arrow[r]
-      \arrow[d, two heads]
+      \arrow[d, "\cong"]
       & E
       \arrow[d, hook]
       \\
-      B'
+      A'
+      \arrow[r]
+      & B'
       \arrow[r]
       & C'
       \arrow[r]
@@ -1128,20 +1303,137 @@ There is another version of the snake lemma which does not have the first and la
       & E'
     \end{tikzcd}
   \end{equation*}
-  be a commutative diagram with exact rows, with monomorphisms and epimorphisms as marked. Then 
-\end{lemma}
-
-\begin{theorem}[five lemma]
-  \label{thm:five_lemma}
-
+  be a commutative diagram with exact rows, with monomorphisms, epimorphisms, and isomorphisms as marked. Then $c$ is an isomorphism.
 \end{theorem}
+\begin{proof}
+  The first part of \hyperref[lemma:four_lemmas]{Lemma~\ref*{lemma:four_lemmas}} tells us that $c$ is epi, and the second part tells us that $c$ is mono.
+\end{proof}
 
 \subsection{The nine lemma}
 \label{ssc:the_nine_lemma}
 
 \begin{theorem}[nine lemma]
   \label{thm:nine_lemma}
+  Given the following commuting diagram whose rows are exact sequences,
+  \begin{equation*}
+    \begin{tikzcd}
+      & 0
+      \arrow[d]
+      & 0
+      \arrow[d]
+      & 0
+      \arrow[d]
+      \\
+      0
+      \arrow[r]
+      & A_{2}
+      \arrow[r, hook]
+      \arrow[d]
+      & B_{2}
+      \arrow[r, two heads, "p"]
+      \arrow[d]
+      & C_{2}
+      \arrow[r]
+      \arrow[d, "f"]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & A_{1}
+      \arrow[r, hook]
+      \arrow[d]
+      & B_{1}
+      \arrow[r, two heads]
+      \arrow[d]
+      & C_{1}
+      \arrow[r]
+      \arrow[d, "g"]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & A_{0}
+      \arrow[r, hook]
+      \arrow[d]
+      & B_{0}
+      \arrow[r, two heads]
+      \arrow[d]
+      & C_{0}
+      \arrow[r]
+      \arrow[d]
+      & 0
+      \\
+      & 0
+      & 0
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  we have the following results.
+  \begin{enumerate}
+    \item If the first and the second columns $A_{\bullet}$ and $B_{\bullet}$ are exact sequences, then third column $C_{\bullet}$ is also an exact sequence.
+
+    \item If $B_{\bullet}$ and $C_{\bullet}$ are exact sequence, then $A_{\bullet}$ is an exact sequence.
+
+    \item If $A_{\bullet}$ and $C_{\bullet}$ are exact and $B_{\bullet}$ is a chain complex, then $B_{\bullet}$ is exact.
+  \end{enumerate}
 \end{theorem}
+\begin{proof}
+  \leavevmode
+  \begin{enumerate}
+    \item First, we show that $C_{\bullet}$ is a chain complex, i.e.\ that $g \circ f = 0$. Since $p$ is an epimorphism, it suffices to show that $g \circ f \circ p = 0$. But this is zero by commutativity of the diagram and the fact that $B_{\bullet}$ is a chain complex.
+
+      Thus, the diagram above is a short exact sequence
+      \begin{equation*}
+        \begin{tikzcd}
+          0
+          \arrow[r]
+          & A_{\bullet}
+          \arrow[r, hook]
+          & B_{\bullet}
+          \arrow[r, two heads]
+          & C_{\bullet}
+          \arrow[r]
+          & 0
+        \end{tikzcd}
+      \end{equation*}
+      of chain complexes, and we get a long exact sequence on homology.
+      \begin{equation*}
+        \begin{tikzcd}
+          && 0
+          \\
+          H_{2}(A_{\bullet})
+          \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
+          \arrow[r]
+          & H_{2}(B_{\bullet})
+          \arrow[r]
+          & H_{2}(C_{\bullet})
+          \\
+          H_{1}(A_{\bullet})
+          \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
+          \arrow[r]
+          & H_{1}(B_{\bullet})
+          \arrow[r]
+          & H_{1}(C_{\bullet})
+          \\
+          H_{0}(A_{\bullet})
+          \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
+          \arrow[r]
+          & H_{0}(B_{\bullet})
+          \arrow[r]
+          & H_{0}(C_{\bullet})
+          \\
+          0
+          \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
+        \end{tikzcd}
+      \end{equation*}
+
+      If the first two columns are zeroes, then $H_{n}(C_{\bullet}) = 0$ by exactness; that is, $C_{\bullet}$ is exact.
+
+    \item Formally dual.
+      
+    \item Identical.
+  \end{enumerate}
+\end{proof}
 
 \section{Exact functors}
 \label{sec:exact_functors}
@@ -1263,7 +1555,9 @@ The above definitions of left and right exactness are evocative, but one can cas
   \end{enumerate}
 \end{proof}
 
-Astonishingly, the converse is also true.
+Astonishingly, the converse is also true; any functor which is left exact preserves finite limits, and any functor which is right exact preserves finite colimits.
+
+This is a surprise; after all, the above proof makes it seem that left exactness is related only to the preservation of kernels, and one needs also to preserve finite direct sums. However, the structure of an abelian category helps us here, as the following lemma shows.
 
 \begin{lemma}
   Let $F\colon \mathcal{A} \to \mathcal{B}$ be a functor between abelian categories which is either left or right exact. Then $F$ is additive.

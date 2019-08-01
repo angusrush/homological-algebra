@@ -609,7 +609,7 @@ Suppose one has been given a bounded spectral sequence, which we now know eventu
   \begin{equation*}
     0 = F_{s}H_{n} \subset \cdots \subset F_{p-1}H_{n} \subset F_{p}H_{n} \subset \cdots \subset F_{t}H_{n} = H_{n}.
   \end{equation*}
-  We say that $E$ \defn{converges} to $\{H_{i}\}_{i \in \Z}$ if we are given isomorphisms
+  We say that $E$ \defn{converges} to $\{H_{i}\}_{i \in \Z}$ if there exist isomorphisms
   \begin{equation*}
     E^{\infty}_{p,q} \cong F_{p}H_{p+q}/F_{p-1}H_{p+q}.
   \end{equation*}
@@ -710,12 +710,12 @@ We now take a detour to the much simpler, more elegant world of exact couples.
   \label{thm:filtered_spectral_sequence_construction_thereom}
   A filtration $F$ of a chain complex $C_{\bullet}$ naturally determines a spectral sequence starting with
   \begin{equation*}
-    E^{0}_{p,q} = F_{p}C_{p+q}/F_{p-1}C_{p+q},\qquad E^{1}_{p,q} = H_{p+1}(E^{0}_{p,
+    E^{0}_{p,q} = F_{p}C_{p+q}/F_{p-1}C_{p+q},\qquad E^{1}_{p,q} = H_{p+q}(E^{0}_{p,
     \bullet})
   \end{equation*}
 \end{theorem}
 \begin{proof}
-  We construct explicitly the spectral sequence above .Let $C_{\bullet}$ be a chain complex, and $F$ a filtration. We will use the following notation.
+  We construct explicitly the spectral sequence above. Let $C_{\bullet}$ be a chain complex, and $F$ a filtration. We will use the following notation.
   \begin{itemize}
     \item We will denote by $\eta_{p}$ the quotient
       \begin{equation*}
@@ -875,11 +875,86 @@ We now take a detour to the much simpler, more elegant world of exact couples.
 \end{proof}
 
 \begin{theorem}
-  \leavevmode
-  \begin{itemize}
-    \item Let $C_{\bullet}$ be a chain complex, and $F$ a bounded filtration on $C_{\bullet}$.
-  \end{itemize}
+  Let $C_{\bullet}$ be a chain complex, and $F$ a bounded filtration on $C_{\bullet}$. Then the spectral sequence constructed in \hyperref[thm:filtered_spectral_sequence_construction_thereom]{Theorem~\ref*{thm:filtered_spectral_sequence_construction_thereom}} converges to the homology of the homology of $C_{\bullet}$; that is
+  \begin{equation*}
+    E^{1}_{p,q} = H_{p+q}(F_{p}C_{\bullet}/F_{p-1}C_{\bullet}).
+  \end{equation*}
 \end{theorem}
+
+\begin{example}
+  Let $E$ be the spectral sequence associated to a filtered complex $C_{\bullet}$, and suppose that
+  \begin{equation*}
+    E^{r}_{p, q} =
+    \begin{cases}
+      A_{p}, &q = 0 \\
+      0, &q \neq 0
+    \end{cases},\qquad r > 0.
+  \end{equation*}
+
+  Then certainly the spectral sequence collapses.
+
+  The claim is that $A_{p} = H_{p}(C_{\bullet})$; that is, the spectral sequence converges to $A_{p}$. To see this, we need to find filtrations
+  \begin{equation*}
+    0 = F_{s-1}A_{p} \subset F_{s}A_{p} \subset F_{s+1}A_{p} \subset \cdots \subset F_{t}A_{p} \subset F_{t+1}A_{p} = A_{p}
+  \end{equation*}
+  such that, for each $p$ and $q$, we have
+  \begin{equation*}
+    E^{\infty}_{p, q} = F_{p}A_{p+q}/F_{p-1}A_{p+q}.
+  \end{equation*}
+
+  This requires that
+  \begin{align*}
+    0 = F_{s}A_{p}/F_{s-1}A_{p} \\
+    &\vdots \\
+    0 &= F_{p-1}A_{p}/F_{p-2}A_{p} \\
+    A_{p} &= F_{p}A_{p}/F_{p-1}A_{p} \\
+    0 &= F_{p+1}A_{p}/F_{p}A_{p} \\
+    &\vdots \\
+    & 0 = F_{t+1}A_{p}/F_{t}A_{p}.
+  \end{align*}
+  Starting at $F_{s-1}A_{p} = 0$, these equations tell us that
+  \begin{equation*}
+    0 = F_{s-1}A_{p} = F_{s}A_{p} = F_{s+1}A_{p} = \cdots = F_{p-1}A_{p}.
+  \end{equation*}
+  We then have that
+  \begin{equation*}
+    A_{p} = F_{p}A_{p}/0 = F_{p}A_{p}.
+  \end{equation*}
+  Again, our equations tell us that
+  \begin{equation*}
+    F_{p}A_{p} = F_{p+1}A_{p} = \cdots = F_{t}A_{p}.
+  \end{equation*}
+  This tells us that $H_{p}(C_{\bullet}) = A_{p}$.
+
+  Note that we could have taken our filtration to be the one-step filtration
+  \begin{equation*}
+    0 = F_{p-1}A_{p} \subset F_{p}A_{p} = A_{p}.
+  \end{equation*}
+\end{example}
+
+\begin{example}
+  Suppose instead of collapsing to a single row, our spectral sequence stabilizes to two rows:
+  \begin{equation*}
+    E^{\infty}_{p, q} =
+    \begin{cases}
+      A_{p}, &q = 0 \\
+      B_{p}, &q = 1 \\
+      0, &\text{otherwise.}
+    \end{cases}
+  \end{equation*}
+  Identical logic to that above tells us that
+  \begin{align*}
+    F_{p-1}H_{p}/F_{p-2}H_{p} &= 0
+    F_{p}H_{p}/F_{p-1}H_{p} &= A_{p}
+    F_{p+1}H_{p}/F_{p}H_{p} &= B_{p-1}
+    F_{p+2}H_{p}/F_{p+1}H_{p} &= 0,
+  \end{align*}
+  i.e.\ that we have a two-step filtration
+  \begin{equation*}
+    0 = F_{p-2}H_{p} \subset F_{p-1}H_{p} \subset F_{p}H_{p} = H_{p},
+  \end{equation*}
+  with
+\end{example}
 
 \section{The spectral sequence of a double complex}
 \label{sec:the_spectral_sequence_of_a_double_complex}
@@ -1140,7 +1215,7 @@ is defined similarly.
 \end{equation*}
 
 \begin{proposition}
-  We also have that the following are projective resolutions.
+  The following are also projective resolutions.
   \begin{enumerate}
     \item $Z(P_{p,\bullet}, d^{h}) \simto Z(A_{p}, d^{A})$
 
@@ -1276,7 +1351,7 @@ is defined similarly.
       \arrow[r]
       & Z(A_{p}, d^{h})
       \arrow[r, hook]
-      & A(A_{p}, d^{h})
+      & A_{p}
       \arrow[r, two heads]
       & B(A_{p-1}, d^{h})
       \arrow[r]
@@ -1313,7 +1388,8 @@ is defined similarly.
 \end{proof}
 
 \begin{proposition}
-  Let $A_{\bullet}$ and $A'_{\bullet}$ be bounded-below chain complexes, and let $P_{\bullet,\bullet} \simto A_{\bullet}$ and $P'_{\bullet,\bullet} \simto A'_{\bullet}$ be Cartan-Eilenberg resolutions. Then any morphism of chain complexes $f\colon A_{\bullet} \to A'_{\bullet}$ can be lifted to a morphism $\tilde{f}\colon P^{A}_{\bullet,\bullet} \to P^{B}_{\bullet,\bullet}$ of double complex. Furthermore, this lift is unique up to a \emph{homotopy of double complexes,} i.e.\ for any other lift $\tilde{\tilde{f}}$, there exist mapss
+  \label{prop:can_lift_chain_maps_to_cartan_eilenberg_maps}
+  Let $A_{\bullet}$ and $A'_{\bullet}$ be bounded-below chain complexes, and let $P_{\bullet,\bullet} \simto A_{\bullet}$ and $P'_{\bullet,\bullet} \simto A'_{\bullet}$ be Cartan-Eilenberg resolutions. Then any morphism of chain complexes $f\colon A_{\bullet} \to A'_{\bullet}$ can be lifted to a morphism $\tilde{f}\colon P^{A}_{\bullet,\bullet} \to P^{B}_{\bullet,\bullet}$ of double complex. Furthermore, this lift is unique up to a \emph{homotopy of double complexes,} i.e.\ for any other lift $\tilde{\tilde{f}}$, there exist maps
   \begin{equation*}
     s^{h}_{p,q}\colon P_{p,q} \to P'_{p+1,q},\qquad s^{v}_{p,q}\colon P_{p, q} \to E_{p, q+1}
   \end{equation*}
@@ -1517,6 +1593,10 @@ is defined similarly.
 \end{proof}
 
 \begin{proposition}
+  Let $f$, $g$ be chain homotopic maps via the homotopy $f$.
+\end{proposition}
+
+\begin{proposition}
   Let $P^{A}_{\bullet,\bullet}$ be a Cartan-Eilenberg resolution of $A_{\bullet}$. Then the canonical map
   \begin{equation*}
     \Tot(P^{A}_{\bullet,\bullet}) \to A
@@ -1539,6 +1619,8 @@ is defined similarly.
   where $P^{A}_{\bullet, \bullet}$ is a Cartan-Eilenberg resolution of $A_{\bullet}$.
 \end{definition}
 
+Hyper-derived functors are functorial by
+
 \begin{proposition}
   \label{prop:horizontal_and_vertical_filtration}
   Let $A_{\bullet}$ be a bounded below chain complex in an abelian category $\mathcal{A}$. There are two spectral sequences
@@ -1550,7 +1632,11 @@ is defined similarly.
   \end{equation*}
 \end{proposition}
 \begin{proof}
-  Spectral sequence starting from $F(P^{A}_{\bullet,\bullet})$.
+  We use the spectral sequence for the double complex $F(P^{A}_{\bullet,\bullet})$. The horizontal filtration has no surprises. Using the vertical filtration, one must use that 
+  \begin{equation*}
+    H_{p}(F(P^{A}_{\bullet, \bullet})) = F(H_{p}(P^{A}_{\bullet,\bullet})),
+  \end{equation*}
+  which is true because the horizontal cycles and boundaries are
 \end{proof}
 
 This allows us to define the famous \emph{Grothendieck spectral sequence,} which allows us to compute the composition of two derived functors.
@@ -1572,7 +1658,7 @@ This allows us to define the famous \emph{Grothendieck spectral sequence,} which
     L_{q}F(G(P_{\bullet})) =
     \begin{cases}
       F(G(P_{\bullet})), & q = 0 \\
-      0, \text{otherwise}
+      0, &\text{otherwise}
     \end{cases}.
   \end{equation*}
   Taking $p$th homology thus gives us, with $q = 0$,

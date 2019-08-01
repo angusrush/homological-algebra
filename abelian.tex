@@ -8,23 +8,22 @@
 \section{Basics}
 \label{sec:basics}
 
+In this chapter we recall some basic results.
+
 \subsection{Building blocks}
 \label{ssc:building_blocks}
 
-\subsubsection{\texorpdfstring{$\Ab$}{Ab}-enriched categories}
-
-In this chapter we recall some basic results.
+\subsubsection{Additive categories}
 
 \begin{definition}[\texorpdfstring{$\Ab$}{Ab}-enriched category]
   \label{def:ab_enriched_category}
-  A category $\mathcal{C}$ is called \emph{$\Ab$-enriched} if it is enriched over the symmetric monoidal category $(\Ab, \otimes_{\Z})$.  
+  A category $\mathcal{C}$ is called \emph{$\Ab$-enriched} if it is enriched over the symmetric monoidal category $(\Ab, \otimes_{\Z})$.
 \end{definition}
 
-\subsubsection{Additive categories}
 
 \begin{definition}[additive category]
   \label{def:additivecategory}
-  A category $\mathcal{C}$ is \defn{additive} if it has products and is $\mathsf{Ab}$-enriched.
+  A category $\mathcal{C}$ is \defn{additive} if it has products and is $\Ab$-enriched.
 \end{definition}
 
 \begin{proposition}
@@ -87,7 +86,7 @@ In this chapter we recall some basic results.
   \begin{equation*}
     \pi_{B} \circ (i_{A} \circ \pi_{A} + i_{B} \circ \pi_{B}) = \pi_{B},
   \end{equation*}
-  so the map $i_{A} \circ \pi_{A} + i_{B} \circ \pi_{B}$ also does. Thus, 
+  so the map $i_{A} \circ \pi_{A} + i_{B} \circ \pi_{B}$ also does. Thus,
   \begin{equation*}
     \pi_{A} \circ i_{A} + \pi_{B} \circ i_{B} = \id_{A \times B}.
   \end{equation*}
@@ -124,7 +123,7 @@ In this chapter we recall some basic results.
 
 \begin{definition}[direct sum]
   \label{def:direct_sum}
-  Let $\mathcal{C}$ be a category with products and coproducts which agree. Then we say that $\mathcal{C}$ has \defn{direct sums}, and denote the product/coproduct of $A$ and $B$ by $A \oplus B$.
+  Let $\mathcal{C}$ be a category with a zero object $0$, and products and coproducts. If products and coproducts agree in the sense that the canonical map $A \amalg B$ Then we say that $\mathcal{C}$ has \defn{direct sums}, and denote the product/coproduct of $A$ and $B$ by $A \oplus B$.
 \end{definition}
 
 \begin{definition}[additive functor]
@@ -391,12 +390,12 @@ We have seen that in a pre-abelian category, kernels and cokernels more or less 
       \arrow[r, two heads, hook, "f"]
       & B
       \arrow[r]
+      \arrow[dl, dashed, "\exists!f^{-1}_{L}"]
       & 0 = \coker f
       \\
       & A
       \arrow[u, equals]
       \arrow[ul, "0"]
-      \arrow[ur, swap, dashed, "\exists!f^{-1}_{L}"]
     \end{tikzcd}
   \end{equation*}
   This gives us morphisms $f^{-1}_{L}$ and $f^{-1}_{R}$ such that
@@ -414,7 +413,7 @@ As the following proposition shows, additive functors from additive categories p
   Once it is known that a category $\mathcal{A}$ is abelian, a number of other categories are immediately known to be abelian.
   \begin{itemize}
     \item The category $\Ch(\mathcal{A})$ of chain complexes in $\mathcal{A}$ is abelian, as we will see in
-  
+
     \item For any small category $I$, the category $\mathbf{Fun}(I, \mathcal{A})$ of $I$-diagrams in $\mathcal{A}$ is abelian.
   \end{itemize}
 \end{example}
@@ -427,7 +426,7 @@ Our definition of an abelian category, namely an $\Ab$-enriched category with pr
 Not so! It turns out that demanding that finite products and coproducts exist and agree is sufficient to specify the addition law.
 
 \begin{proposition}
-  Let $\mathcal{C}$ be a category with finite direct sums (\hyperref[def:direct_sum]{Definition~\ref*{def:direct_sum}}).\footnote{I.e.\ with finite products and coproducts which agree, including a zero object.} Then $\mathcal{C}$ has a canonical $\Ab$-enrichment.
+  Let $\mathcal{C}$ be a category with finite direct sums\footnote{Including 0-ary direct sums, i.e.\ a zero object.} (\hyperref[def:direct_sum]{Definition~\ref*{def:direct_sum}}). Then $\mathcal{C}$ has a canonical $\Ab$-enrichment.
 \end{proposition}
 \begin{proof}
   Let $A \in \mathcal{C}$ be an object. Denote the diagonal map $A \to A \oplus A$ by $\Delta$, and the codiagonal map $A \oplus A \to A$ by $\nabla$. Let $f$, $g\colon A \to B$. We define

@@ -7,7 +7,46 @@
 
 \epigraph{You know how it is when someone asks you to ride in a terrific sports car, and then you wish you hadn't?}{John Adams}
 
-In this chapter, we will apply homological algebra to the study of various classes of objects. Our main goal will be to implement the following cockamamie scheme in two contexts: quiver representations and groups.
+\section{Syzygy theorem}
+\label{sec:syzygy_theorem}
+
+\begin{definition}[Koszul complex]
+  \label{def:koszul_complex}
+  Let $R$ be a commutative ring, and let $x \in R$ be an element of $R$ such that left multiplication by $x$ is injective on first homology. The \defn{Koszul complex} of $x$ is the complex
+  \begin{equation*}
+    K(x) =
+    \begin{tikzcd}
+      \cdots
+      \arrow[r]
+      & 0
+      \arrow[r]
+      & R
+      \arrow[r, "\cdot x"]
+      & R
+      \arrow[r]
+      & 0
+      \arrow[r]
+      & \cdots
+    \end{tikzcd},
+  \end{equation*}
+  concentrated in degrees 0 and 1. For elements $x_{1}$, \dots, $x_{n}$, we define the Koszul complex of $x_{1}$, \dots, $x_{n}$ to be
+  \begin{equation*}
+    K(x_{1}, \ldots, x_{n}) = K(x_{1}) \otimes_{R} \cdots \otimes_{R} K(x_{n}).
+  \end{equation*}
+\end{definition}
+
+\begin{lemma}
+  \label{lemma:koszul_complex_free_resolution_in_one_step}
+  The Koszul complex $K(x)$ provides a free resolution of $R/(x)$.
+\end{lemma}
+\begin{proof}
+  There is an easy spectral sequence argument.
+\end{proof}
+
+\section{Quiver representations}
+\label{sec:quiver_representations}
+
+In the remainder of this chapter, we will apply homological algebra to the study of various classes of objects. Our main goal will be to implement the following cockamamie scheme in two contexts: quiver representations and groups.
 \begin{scheme}
   \label{scheme:how_to_apply_homological_algebra}
   Given a category of algebraic objects:
@@ -22,8 +61,6 @@ In this chapter, we will apply homological algebra to the study of various class
   \end{enumerate}
 \end{scheme}
 
-\section{Quiver representations}
-\label{sec:quiver_representations}
 
 The first problem to which we will apply \hyperref[scheme:how_to_apply_homological_algebra]{Cockamamie Scheme~\ref*{scheme:how_to_apply_homological_algebra}} is the study of \emph{quiver representations.} Unfortunately, due to time constraints, we will only get as far as step 2.
 
@@ -1378,9 +1415,76 @@ This gives a section of $E$ relative to $G$. Given such a splitting, we can defi
 \begin{equation*}
   f(g, h) = s(g)s(h)s(gh)^{-1}.
 \end{equation*}
-The function $f\colon G \times G \to G$ is called the \emph{factor set} of $G$.
+The function $f\colon G \times G \to G$ is called the \emph{factor set} of $G$. If $s$ were a group homomorphism, the factor set would vanish; in general, the factor set measures how far apart $s(g)s(h)$ and $s(gh)$ are.
 
-After some stuff, we find the following result.
+\begin{lemma}
+  \label{lemma:recover_group_law_on_extension_by_factor_set}
+  Given an extension
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hook, "i"]
+      & E
+      \arrow[r, two heads, "\pi"]
+      & G
+      \arrow[r]
+      \arrow[l, bend left, "s"]
+      & 0
+    \end{tikzcd},
+  \end{equation*}
+  we can completely recover the group law on $E$ from the injection $i$ and the factor set $f$.
+\end{lemma}
+\begin{proof}
+  As a set, $E$ is in bijection with $A \times G$ via
+  \begin{equation*}
+    e \mapsto (e(s\pi(e)^{-1}), \pi(e)).
+  \end{equation*}
+  It is easy to check that this has inverse
+  \begin{equation*}
+    (a, g) \mapsto i(a)s(g).
+  \end{equation*}
+  Let $e, e' \in E$ corresponding to $(a, g)$ and $(a', g')$ respectively. Then
+  \begin{align*}
+    ee' &= i(a)s(g) i(a')s(g') \\
+    &= i(a)s(g)i(a')s(g)^{-1}s(g)s(h) \\
+    &= i(a)i(g\cdot b) s(g) s(h) \\
+    &= i(a + g\cdot b) i(f(g, h))s(gh) \\
+    &= i(a + g\cdot b + f(g, h))s(gh) \\
+  \end{align*}
+  so under the bijection $E \cong A \times G$, $ee'$ corresponds to $(a + g\cdot b + f(g, h), gh)$.
+\end{proof}
+
+Associativity now immediately implies that
+\begin{equation*}
+  ((a, g)(b, h))(c, k) \overset{!}{=} (a, g)((b, h)(c, k));
+\end{equation*}
+expanding, we find that
+\begin{equation*}
+  (a + g\cdot b + f(g, h) + (gh)\cdot c + f(gh, k), ghk)
+\end{equation*}
+must be the same as
+\begin{equation*}
+  (a + g\cdot b + (gh)\cdot c + g f(h, k) + f(g, hk), ghk).
+\end{equation*}
+That means that
+\begin{equation*}
+  g\cdot f(h, k) - f(gh, k) + f(g, hk) - f(g, h) \overset{!}{=} 0.
+\end{equation*}
+Thus, the factor set $f$ must be a 2-cocycle in $C^{\bullet}(G; A)$.
+
+Our construction depends on the choice of section $s$. supposed we had picked a different section $s'$. Then the `difference' $s'(g)s(g)^{-1}$ can be written $i(\phi(a))$ for some $a \in A$. We thus obtain a map $\phi\colon G \to A$.
+
+To warm up, we do a computation.
+\begin{align*}
+  s'(g)s'(h) = \cdots
+\end{align*}
+
+In the end, we find
+\begin{equation*}
+  f_{s'}(g, h) - f_{s}(g, h) = g\cdot \phi(h) - \phi(gh) + \phi(g).
+\end{equation*}
 
 \begin{theorem}
   Let $G$ be a group, and $A$ a $G$-module. Then there is a natural bijection
