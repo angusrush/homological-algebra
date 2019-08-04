@@ -10,6 +10,19 @@
 
 We assume a basic knowledge of simplicial sets just to get the ball rolling.
 
+Singular homology is the study of topological spaces via associated chain complexes via the following functors.
+\begin{equation*}
+  \begin{tikzcd}[column sep=huge]
+    \mathbf{Top}
+    \arrow[r, "\substack{\text{singular}\\\text{nerve}}"]
+    & \mathbf{Set}_{\Delta}
+    \arrow[r, "\substack{\text{free abelian}\\\text{group}}"]
+    & \mathbf{Ab}_{\Delta}
+    \arrow[r, "\substack{\text{Dold-Kan}\\\text{correspondence}}"]
+    & \{\text{chain complexes}\}
+  \end{tikzcd}
+\end{equation*}
+
 \begin{definition}[singular complex, singular homology]
   \label{def:singular_complex_homology}
   Let $X$ be a topological space. The \defn{singular chain complex} $C_{\bullet}(X)$ is defined level-wise by
@@ -1573,7 +1586,7 @@ We can relate homology with integral coefficients (i.e.\ standard homology) and 
 \section{The topological Künneth formula}
 \label{sec:the_topological_kunneth_formula}
 
-Recall that the Künneth formula (\hyperref[sec:the_kunneth_formula]{Section~\ref*{sec:the_kunneth_formula}}) tells us that the following sequence is short exact.
+Recall that the Künneth formula (\hyperref[ssc:the_kunneth_formula]{Section~\ref*{ssc:the_kunneth_formula}}) tells us that the following sequence is short exact.
 \begin{equation*}
   TODO
 \end{equation*}

@@ -10,6 +10,54 @@
 \section{Syzygy theorem}
 \label{sec:syzygy_theorem}
 
+Let $R = \C[x_{1}, \ldots, x_{k}]$. Following Hilbert, we consider a finitely generated\footnote{i.e. expressible as an $R$-linear combination of finitely many generators.} $R$-module $M$.
+
+By Hilbert's basis theorem, $M$ is Noetherian, hence has finitely many generators $a_{1}$, \dots, $a_{k}$.
+
+Denote by $R^{k}$ the free $R$-module with $k$ generators $e_{1}$, \dots, $e_{k}$, and consider
+\begin{equation*}
+  \phi\colon R^{k} \twoheadrightarrow M;\qquad e_{i} \mapsto a_{i}.
+\end{equation*}
+
+This map is surjective, but it may have a kernel, called the \emph{module of first Syzygies}, denoted $\mathrm{Syz}^{1}(M)$. This kernel consists of those $x$ such that
+\begin{equation*}
+  x = \sum_{i = 1}^{k} \lambda_{i} e_{i} \overset{\phi}{\mapsto} \sum_{i = 1}^{k} \lambda_{i} a_{i} = 0.
+\end{equation*}
+This kernel is again a module, the module of relations.
+
+By Hilbert's basis theorem (since polynomial rings over a field are Noetherian), $\mathrm{Syz}^{1}(M)$ is again a finitely generated $R$-module. Hence, pick finite set of generators $b_{i}$, $1 \leq i \leq \ell$, and look at
+\begin{equation*}
+  R^{\ell} \twoheadrightarrow \mathrm{Syz}^{1}(M);\qquad e_{i} \mapsto b_{i}.
+\end{equation*}
+In general, there is non-trivial kernel, denoted $\mathrm{Syz}^{2}(M)$. This consists of relation between relations.
+
+We can keep going. This gives us a sequence $\mathrm{Syz}^{\bullet}(M)$ corresponding to relations between relations between\dots between relations.
+\begin{equation*}
+  \begin{tikzcd}
+    && \Syz^{2}(M)
+    \arrow[dr, hookrightarrow]
+    \\
+    \
+    \arrow[r, dotted, no head]
+    & R^{m}
+    \arrow[ur, twoheadrightarrow]
+    \arrow[rr, "d"]
+    && R^{l}
+    \arrow[dr, twoheadrightarrow]
+    \arrow[rr, "d"]
+    && R^{k}
+    \arrow[r]
+    & M
+    \\
+    \Syz^{3}
+    \arrow[ur, hookrightarrow]
+    &&&& \Syz^{1}(M)
+    \arrow[ur, hookrightarrow]
+  \end{tikzcd}
+\end{equation*}
+From this we build a chain complex $(C_{\bullet}, d)$, where $C_{n}$ corresponds to the $n$th copy of $R^{k}$, known as the \emph{free resolution} of $M$.
+
+\emph{Hilbert's Syzygy theorem} tells us that every finitely generated $\C[x_{1}, \ldots, x_{n}]$-module admits a free resolution of length at most $n$.
 \begin{definition}[Koszul complex]
   \label{def:koszul_complex}
   Let $R$ be a commutative ring, and let $x \in R$ be an element of $R$ such that left multiplication by $x$ is injective on first homology. The \defn{Koszul complex} of $x$ is the complex
@@ -190,7 +238,7 @@ From now on, we fix (arbitrarily) a bijection of $Q$ with $\{1,2,\cdots,n\}$. It
   \begin{equation*}
     A \cong Ae_{i} \oplus A(1 - e_{i}).
   \end{equation*}
-  This means (by \hyperref[prop:projectives_are_direct_summands_of_free]{Proposition~\ref*{prop:projectives_are_direct_summands_of_free}}) that each $Ae_{i}$ is a projective module. The same argument tells us that $e_{i}A$ is projective for all $i$.
+  This means (by \hyperref[prop:projectives_are_direct_summands_of_free]{Example~\ref*{prop:projectives_are_direct_summands_of_free}}) that each $Ae_{i}$ is a projective module. The same argument tells us that $e_{i}A$ is projective for all $i$.
 \end{example}
 
 \begin{proposition}
@@ -868,7 +916,7 @@ Evaluating on a specific $\Z G$-module $M$ then gives a simplicial object in $\Z
   \end{tikzcd}
 \end{equation*}
 
-We are justified in notationally suppressing the last copy of $\Z$.
+Because we are tensoring over $\Z$, we are justified in notationally suppressing the last copy of $\Z$ in our tensor products.
 
 The face map $d_{i}$ removes the $i$th copy of $Z$; on a generator, we have the action of $d_{i}$ given by
 \begin{equation*}
@@ -1096,10 +1144,32 @@ and
 \subsection{Computations in low degrees}
 \label{ssc:computations_in_low_degrees}
 
+It turns out that one can find compelling interpretations of low homology classes. In the course of this section we will find the following interpretations.
+\begin{itemize}
+  \item Taking $\Z$ as a trivial $G$-module, the first homology $H_{1}(G, \Z)$ simply coincides with $G_{\mathrm{ab}}$.
+
+  \item For any $G$-module $A$, the first homology $H^{1}(G; A)$ corresponds to \emph{crossed homomorphisms} $G \to A$ modulo \emph{principal crossed homomorphisms} $G \to A$. In particular, if $A$ is a trivial $G$-module, then $H^{1}(G, A)$ corresponds to $\Hom_{\Ab}(G_{\mathrm{ab}}, A)$.
+
+  \item Second cohomology $H^{2}(A; G)$ controls extensions of $G$ by $A$, i.e.\ short exact sequences of groups
+    \begin{equation*}
+      \begin{tikzcd}
+        0
+        \arrow[r]
+        & A
+        \arrow[r, hook]
+        & E
+        \arrow[r, two heads]
+        & G
+        \arrow[r]
+        & 0
+      \end{tikzcd}.
+    \end{equation*}
+\end{itemize}
+
 \subsubsection{First homology and abelianizations}
 \label{sss:first_homology_and_abelianizations}
 
-Let $G$ be a group, and consider $\Z$ as a free $\Z G$-module. Let us compute $H_{1}(G, \Z)$.
+Let $G$ be a group, and consider $\Z$ as a trivial $\Z G$-module. Let us compute $H_{1}(G, \Z)$.
 
 To compute $H_{1}(G, \Z)$, consider the first few terms in the bar complex for $G$.
 \begin{equation*}
@@ -1143,8 +1213,8 @@ Thus, taking cycles modulo boundaries is the same as
 \end{equation*}
 Thus, $H_{1}(G, \Z)$ is simply the abelianization of $G$.
 
-\subsubsection{First cohomology and semidirect products}
-\label{sss:first_cohomology_and_semidirect_products}
+\subsubsection{First cohomology and abelianizations}
+\label{sss:first_cohomology_and_abelianizations}
 
 To compute $H^{1}(G, A)$, consider the sequence
 \begin{equation*}
@@ -1212,6 +1282,9 @@ Now suppose that $A$ is a trivial $G$-module. In that case, crossed homomorphism
 \begin{equation*}
   H^{1}(G; A) = \Hom_{\Ab}(G_{\mathrm{ab}}, A).
 \end{equation*}
+
+\subsubsection{First cohomology and semidirect products}
+\label{sss:first_cohomology_and_semidirect_products}
 
 \begin{definition}[semidirect product]
   \label{def:semidirect_product}
@@ -1489,7 +1562,7 @@ In the end, we find
 \begin{theorem}
   Let $G$ be a group, and $A$ a $G$-module. Then there is a natural bijection
   \begin{equation*}
-    \left\{ 
+    \left\{
       \substack{\text{Extension classes of $G$ by $A$} \\ \text{such that the action of $G$ on $A$} \\ \text{agrees with the module structure}}
     \right\}
     \overset{\cong}{\longleftrightarrow}

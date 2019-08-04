@@ -49,7 +49,7 @@ Thus, the functor $- \otimes_{R} N$ preserves colimits, hence by \hyperref[prop:
       & 0
     \end{tikzcd}
   \end{equation*}
-  as a free resolution of $R/rR$. Thus we can calculate
+  as a free (hence projective) resolution of $R/rR$. Thus we can calculate
   \begin{equation*}
     \Tor^{R}_{i}(R/rR, N) \simeq H_{i}
     \left(
@@ -68,11 +68,13 @@ Thus, the functor $- \otimes_{R} N$ preserves colimits, hence by \hyperref[prop:
   \begin{equation*}
     \Tor^{R}_{i}(R/rR, N) \simeq
     \begin{cases}
-      N/rN, & n = 0 \\
-      _{r}N, & n = 1 \\
+      N/rN, & i = 0 \\
+      _{r}N, & i = 1 \\
       0, &\text{otherwise}.
     \end{cases}
   \end{equation*}
+
+  In particular, for any abelian group $D$, $\Tor^{\Z}_{1}(\Z/n\Z, D) = _{n}D$, the $n$-torsion elements of $D$.
 \end{example}
 
 There is a worrying asymmetry to our definition of $\Tor$. The tensor product is, morally speaking, symmetric; that is, it should not matter whether we derive the first factor or the second. Pleasingly, $\Tor$ respects this.
@@ -106,7 +108,6 @@ There is a worrying asymmetry to our definition of $\Tor$. The tensor product is
       \arrow[d]
       \\
       & M \otimes_{R} P'_{0}
-      \arrow[dd, dashed]
       && P_{0} \otimes_{R} P'_{0}
       \arrow[ll, dashed]
       \arrow[dd, dashed]
@@ -118,9 +119,7 @@ There is a worrying asymmetry to our definition of $\Tor$. The tensor product is
       \arrow[rrrrr, dotted, no head]
       &&&&& \
       \\
-      & M \otimes_{R} N
-      && P_{0} \otimes_{R} N
-      \arrow[ll, dashed]
+      &&& P_{0} \otimes_{R} N
       & P_{1} \otimes_{R} N
       \arrow[l]
       \\
@@ -158,6 +157,66 @@ There is a worrying asymmetry to our definition of $\Tor$. The tensor product is
   \end{equation*}
 \end{proof}
 
+\begin{example}
+  Let $N$ be an $R$-module. The $\Tor$ functor controls flatness in the sense that the following are equivalent:
+  \begin{enumerate}
+    \item The module $N$ is flat
+
+    \item For all $R$-modules $M$, we have $\Tor^{R}_{1}(M, N) = 0$.
+  \end{enumerate}
+  
+  To see that $1. \Rightarrow 2.$, suppose that $N$ is flat and pick a projective resolution $P_{\bullet} \simto M$. Then
+  \begin{align*}
+    \Tor_{1}(M, N) &= H_{1}(P_{\bullet} \otimes_{R} N) \\
+    &= H_{1}(P_{\bullet}) \otimes_{R} N \\
+    &= 0.
+  \end{align*}
+  Conversely, suppose that for all $M$, $\Tor_{1}(M, N) = 0$. Then for any short exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hook]
+      & B
+      \arrow[r, two heads]
+      & C
+      \arrow[r]
+      & 0
+    \end{tikzcd},
+  \end{equation*}
+  we have a long exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A \otimes_{R} N
+      \arrow[r, hook]
+      & B \otimes_{R} N
+      \arrow[r]
+      & C \otimes_{R} N
+      \arrow[r]
+      & \Tor_{1}(A, N)
+      \arrow[r]
+      & \cdots
+    \end{tikzcd}.
+  \end{equation*}
+  But $\Tor_{1}(A, N) = 0$, so the sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A \otimes_{R} N
+      \arrow[r, hook]
+      & B \otimes_{R} N
+      \arrow[r, two heads]
+      & C \otimes_{R} N
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+  is short exact. Thus, $- \otimes_{R} N$ is exact, which means by definition that $N$ is flat.
+\end{example}
 
 \section{Ext and extensions}
 \label{sec:ext_and_extensions}
@@ -785,6 +844,74 @@ In fact, the group $\Ext^{1}(A, B)$ parametrizes extensions of $A$ by $B$.
   \begin{equation*}
     \beta(a, b) = ax + b.
   \end{equation*}
+  We make the ansatz
+  \begin{equation*}
+    \begin{tikzcd}
+      \alpha =
+      \begin{pmatrix}
+        a & b \\
+        c & d
+      \end{pmatrix}.
+    \end{tikzcd}
+  \end{equation*}
+  \begin{enumerate}[label=(\arabic*)]\setcounter{enumi}{2}
+    \item Taking the high road maps
+      \begin{equation*}
+        1 \mapsto (1, 0) \mapsto (a, c),
+      \end{equation*}
+      while taking the low road maps
+      \begin{equation*}
+        1 \mapsto x \mapsto (x, 0),
+      \end{equation*}
+      so $a = x$ and $c = 0$.
+
+    \item Taking the high road maps
+      \begin{equation*}
+        (0, 1) \mapsto 1 \mapsto x,
+      \end{equation*}
+      and taking the low road maps
+      \begin{equation*}
+        (0, 1) \mapsto (b, d) \mapsto d
+      \end{equation*}
+      so we must have $d = x$.
+  \end{enumerate}
+  Thus, we have
+  \begin{equation*}
+    \alpha =
+    \begin{pmatrix}
+      a & b
+      \\
+      0 & x
+    \end{pmatrix},
+  \end{equation*}
+  where we have not yet fixed $b$. However, we have not yet used that the middle column must be a chain complex, i.e.\ that $\beta \circ \alpha$ must be equal to zero. Multiplying out, we have
+  \begin{equation*}
+    \beta \circ \alpha =
+    \begin{pmatrix}
+      x & 1
+    \end{pmatrix}
+    \begin{pmatrix}
+      x & b
+      \\
+      0 & x
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+      0 & x + bx
+    \end{pmatrix}.
+  \end{equation*}
+  Thus, we must take $b = -1$, fixing
+  \begin{equation*}
+    \alpha =
+    \begin{pmatrix}
+      x & -1 \\
+      0 & x
+    \end{pmatrix}.
+  \end{equation*}
+
+  Applying $\Hom_{\Z[x]}(-, \Z[x])$, we find the following diagram.
+
+  At last, we can calculate $\Theta(\xi)$ as the image of $\id_{\Z} \in \Hom_{\Z[x]}(\Z[x], \Z[x])$ under the connecting homomorphism.
 \end{example}
 
 \subsection{The Baer sum}
@@ -937,7 +1064,7 @@ This means that the Baer sum descends to an addition law on equivalence classes.
   be a split extension. Then for any extension $\xi$, $\eta + \xi \sim \xi$.
 \end{lemma}
 \begin{proof}
-  
+
 \end{proof}
 
 \begin{lemma}
@@ -974,5 +1101,62 @@ This means that the Baer sum descends to an addition law on equivalence classes.
   \end{equation*}
   is the inverse under the Baer sum, i.e. $\xi + (-\xi) \sim \eta$.
 \end{lemma}
+
+\subsection{Higher extensions}
+\label{ssc:higher_extensions}
+
+We can also interpret higher $\Ext$ groups in terms of extensions. Let
+\begin{equation*}
+  \begin{tikzcd}
+    \xi\colon
+    & 0
+    \arrow[r]
+    & B
+    \arrow[r, hook]
+    & X_{0}
+    \arrow[r]
+    & \cdots
+    \arrow[r]
+    & X_{n-1}
+    \arrow[r, two heads]
+    & A
+    \arrow[r]
+    & 0
+  \end{tikzcd}
+\end{equation*}
+be an extension. We define the obstruction class $\Theta(\xi)$ as follows: first, find a projective resolution $P_{\bullet} \to A$, and a lift of the identity $\id_{A}$ as follows.
+\begin{equation*}
+  \begin{tikzcd}
+    P_{n+1}
+    \arrow[r]
+    \arrow[d]
+    & P_{n}
+    \arrow[r]
+    \arrow[d, "f"]
+    & P_{n-1}
+    \arrow[r]
+    \arrow[d]
+    & \cdots
+    \arrow[r]
+    & P_{0}
+    \arrow[r]
+    \arrow[d]
+    & A
+    \arrow[d, equals]
+    \\
+    0
+    \arrow[r]
+    & B
+    \arrow[r]
+    & X_{0}
+    \arrow[r]
+    & \cdots
+    \arrow[r]
+    & X_{n-1}
+    \arrow[r]
+    & A
+  \end{tikzcd}
+\end{equation*}
+Now apply $\Hom(-, B)$, and take $n$th homology. The morphism $f \in \Hom(P_{n}, B)$ descends to an element of $\Ext^{n}(A, B)$ (since we can write it as $f = f^{*} \id_{B}$, implying that it is a cycle). This is what we call $\Theta(\xi)$.
 
 \end{document}

@@ -8,7 +8,7 @@
 \section{Motivation}
 \label{sec:motivation_spectral_sequences}
 
-Let $E_{\bullet,\bullet}$ be a first-quadrant double complex. As we saw in \hyperref[sec:double_complexes]{Section~\ref*{sec:double_complexes}}, computing the homology of the total complex of such a double complex is in general difficult with no further information, for example exactness of rows or columns. Spectral sequences provide a means of calculating, among other things, the building blocks of the homology of the total complex such a double complex.
+Let $E_{\bullet,\bullet}$ be a first-quadrant double complex. As we saw in \hyperref[sec:double_complexes]{Section~\ref*{sec:double_complexes}}, computing the homology of the total complex of such a double complex is in general difficult with no further information, for example exactness of rows or columns. Spectral sequences provide a means of calculating, among other things, the building blocks of the homology of the total complex of such a double complex.
 
 They do this via a series of successive approximations. One starts with a first-quadrant double complex $E_{\bullet,\bullet}$.
 \begin{equation*}
@@ -244,11 +244,7 @@ The claim is that the terms $E^{r}_{p,q}$ are pieces of a successive approximati
   \end{equation*}
   Note that we have multiplied the diferentials of $E_{1, \bullet}$ by $-1$ so that we have a double complex. This does not enter into the discussion.
 
-  Fix some $n \in \Z$, and let $q = n - p$.
-
-  Let $T = \Tot(E)$; that is, let $T = \Cone(f)$.
-
-  Recall that $\Cone(f)$ fits into the following short exact seqence,
+  Fix some $n \in \Z$, and let $q = n - p$. Further, let $T = \Tot(E)$; that is, let $T = \Cone(f)$. Recall that $\Cone(f)$ fits into the following short exact seqence,
   \begin{equation*}
     \begin{tikzcd}
       0
@@ -877,7 +873,7 @@ We now take a detour to the much simpler, more elegant world of exact couples.
 \begin{theorem}
   Let $C_{\bullet}$ be a chain complex, and $F$ a bounded filtration on $C_{\bullet}$. Then the spectral sequence constructed in \hyperref[thm:filtered_spectral_sequence_construction_thereom]{Theorem~\ref*{thm:filtered_spectral_sequence_construction_thereom}} converges to the homology of the homology of $C_{\bullet}$; that is
   \begin{equation*}
-    E^{1}_{p,q} = H_{p+q}(F_{p}C_{\bullet}/F_{p-1}C_{\bullet}).
+    E^{1}_{p,q} = H_{p+q}(F_{p}C_{\bullet}/F_{p-1}C_{\bullet}) \Longrightarrow H_{j+q}(\Tot(C_{\bullet})).
   \end{equation*}
 \end{theorem}
 
@@ -904,7 +900,7 @@ We now take a detour to the much simpler, more elegant world of exact couples.
 
   This requires that
   \begin{align*}
-    0 = F_{s}A_{p}/F_{s-1}A_{p} \\
+    0 &= F_{s}A_{p}/F_{s-1}A_{p} \\
     &\vdots \\
     0 &= F_{p-1}A_{p}/F_{p-2}A_{p} \\
     A_{p} &= F_{p}A_{p}/F_{p-1}A_{p} \\
@@ -944,16 +940,30 @@ We now take a detour to the much simpler, more elegant world of exact couples.
   \end{equation*}
   Identical logic to that above tells us that
   \begin{align*}
-    F_{p-1}H_{p}/F_{p-2}H_{p} &= 0
-    F_{p}H_{p}/F_{p-1}H_{p} &= A_{p}
-    F_{p+1}H_{p}/F_{p}H_{p} &= B_{p-1}
+    F_{p-1}H_{p}/F_{p-2}H_{p} &= 0 \\
+    F_{p}H_{p}/F_{p-1}H_{p} &= A_{p} \\
+    F_{p+1}H_{p}/F_{p}H_{p} &= B_{p-1} \\
     F_{p+2}H_{p}/F_{p+1}H_{p} &= 0,
   \end{align*}
   i.e.\ that we have a two-step filtration
   \begin{equation*}
-    0 = F_{p-2}H_{p} \subset F_{p-1}H_{p} \subset F_{p}H_{p} = H_{p},
+    0 = F_{p-1}H_{p} \subset F_{p}H_{p} \subset F_{p+1}H_{p} = H_{p},
   \end{equation*}
-  with
+  with $F_{p}H_{p} = A_{p}$ and $F_{p+1}H_{p}/A_{p} = B_{p-1}$. This says precisely that we have a short exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A_{p}
+      \arrow[r, hook]
+      & H_{p}
+      \arrow[r, two heads]
+      & B_{p-1}
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+  That is, we know our homology up to an extension problem. This is exactly what happened in \hyperref[eg:cone_spectral_sequence]{Example~\ref*{eg:cone_spectral_sequence}}.
 \end{example}
 
 \section{The spectral sequence of a double complex}
@@ -1004,6 +1014,8 @@ By \hyperref[thm:filtered_spectral_sequence_construction_thereom]{Theorem~\ref*{
     \item The \defn{horizontally filtered spectral sequence associated to a double complex} is the spectral sequence $^{II}E^{0}_{p, q} \Rightarrow H_{p+q}(\Tot(C))$.
   \end{itemize}
 \end{definition}
+
+The vertically filtered spectral sequence associated to a double complex is the one given in \hyperref[sec:motivation_spectral_sequences]{Section~\ref*{sec:motivation_spectral_sequences}}.
 
 \begin{example}[balancing \texorpdfstring{$\Tor$}{Tor} again]
   Let $M$ and $N$ be right and left $R$-modules respectively, and let $P_{\bullet} \simto M$ and $Q_{\bullet} \simto N$ be projective resolutions. We can form the double complex
@@ -1111,6 +1123,23 @@ By \hyperref[thm:filtered_spectral_sequence_construction_thereom]{Theorem~\ref*{
   which says that $\Tor$ is balanced.
 \end{example}
 
+\begin{example}[universal coefficient theorem]
+  Let $X_{\bullet}$ be a chain complex of free abelian groups, and let $A$ be an abelian group. Then there is a short exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & H_{n}(X) \otimes A
+      \arrow[r, hook]
+      & H_{n}(X \otimes A)
+      \arrow[r, two heads]
+      & \Tor_{1}(H_{n-1}(X), A)
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+\end{example}
+
 \section{Hyper-derived functors}
 \label{sec:hyper_derived_functors}
 
@@ -1127,7 +1156,7 @@ Consider abelian categories and right exact functors as follows.
 
 One might wonder about the relationship between $LF$, $LG$, and $L(G \circ F)$.
 
-The problem is that we don't know how to make sense of the composition $LG \circ LF$, since $LF$ lands in $\Ch^{\geq 0}(\mathcal{A})$ rather than $\mathcal{A}$; derived functors go from an abelian category to a category of chain complexes.
+The problem is that we don't know how to make sense of the composition $LG \circ LF$, since $LF$ lands in $\Ch^{\geq 0}(\mathcal{A})$ rather than $\mathcal{A}$; derived functors go from an abelian category to a category of chain complexes. The solution is to define a \emph{projective resolution of a chain complex.}
 
 \subsection{Cartan-Eilenberg resolutions}
 \label{ssc:cartan_eilenberg_resolutions}

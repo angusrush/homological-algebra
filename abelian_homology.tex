@@ -178,40 +178,40 @@ Now we need to figure out what it means to quotient the image of one map by the 
       & C
     \end{tikzcd}
   \end{equation*}
-  be morphisms such that $g \circ f = 0$. We can build the following commutative diagram.
+  be morphisms such that $g \circ f = 0$. Using the universal properties of the kernel and cokernel, we can build the following commutative diagram.
   \begin{equation*}
     \begin{tikzcd}
       & \im f
-      \arrow[d, "i"]
+      \arrow[d, hook, "i"]
       \arrow[dr, "0"]
       \\
       A
       \arrow[r, "f"]
       & B
       \arrow[r, "g"]
-      \arrow[d, "p"]
+      \arrow[d, two heads, "p"]
       & C
       \\
       & \coker f
       \arrow[ur]
     \end{tikzcd}
   \end{equation*}
-  Since $g \circ i = 0$, $i$ factors through $\ker g$, giving us a morphism $\phi\colon \im f \to \ker g$.
+  Since $g \circ i = 0$, $i$ factors through $\ker g$, giving us a monomorphism $\phi\colon \im f \to \ker g$.
   \begin{equation*}
     \begin{tikzcd}[column sep=small]
       & \im f
-      \arrow[dr, "i"]
-      \arrow[r, "\phi"]
+      \arrow[dr, hook, "i"]
+      \arrow[r, hook, "\phi"]
       & \ker g
-      \arrow[d]
-      \arrow[r]
+      \arrow[d, hook]
+      \arrow[r, two heads]
       & H_{n}
       \\
       A
       \arrow[rr, "f"]
       && B
       \arrow[rr, "g"]
-      \arrow[d, "p"]
+      \arrow[d, two heads, "p"]
       && C
       \\
       && \coker f
@@ -219,7 +219,7 @@ Now we need to figure out what it means to quotient the image of one map by the 
     \end{tikzcd}
   \end{equation*}
 
-  The \defn{homology} of the sequence $A \to B \to C$ at $B$ is then $\coker \phi$.
+  The \defn{homology} of the sequence $A \to B \to C$ at $B$ is then $H_{n} = \coker \phi$.
 \end{definition}
 
 \begin{definition}[exact sequence]
@@ -404,51 +404,99 @@ concentrated in degree $n$.
 \label{ssc:the_snake_lemma}
 
 \begin{lemma}
+  Given a square
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[r, "f"]
+      \arrow[d, swap, "g"]
+      & B
+      \arrow[d, "h"]
+      \\
+      C
+      \arrow[r, "k"]
+      & D
+    \end{tikzcd}
+  \end{equation*}
+  in any abelian category, consider the sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[r, "{(f, -g)}"]
+      & B \oplus C
+      \arrow[r, "{(h, k)}"]
+      & D
+    \end{tikzcd}.
+  \end{equation*}
+  We have the following results.
+  \begin{enumerate}
+    \item The composition $(h, k) \circ (f, -g) = 0$ if and only if the square commutes.
+
+    \item The morphism $(f, -g) = \ker(h, k)$ if and only if the square is a pullback.
+
+    \item The morphism $(h, k) = \coker(f, -g)$ if and only if the square is a pushout.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \leavevmode
+  \begin{enumerate}
+    \item Obvious.
+
+    \item 
+  \end{enumerate}
+\end{proof}
+
+\begin{lemma}
+  Let $f\colon A \to C$ be an epimorphism, and let $g\colon B \to C$ be any morphism. Then $(f, g)\colon A \oplus B \to C$ is an epimorphism.
+\end{lemma}
+\begin{proof}
+  Let $\alpha\colon C \to Z$ such that $\alpha \circ (f, g) = 0$. Consider the following diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[r, hook, "i_{A}"]
+      \arrow[dr, swap, two heads, "f"]
+      \arrow[ddr, bend right, swap, "\alpha \circ f"]
+      & A \oplus B
+      \arrow[d, "{(f, g)}"]
+      & B
+      \arrow[dl, "g"]
+      \arrow[l, hook, swap, "i_{C}"]
+      \arrow[ddl, bend left, "\alpha \circ g"]
+      \\
+      & C
+      \arrow[d, "\alpha"]
+      \\
+      & Z
+    \end{tikzcd}
+  \end{equation*}
+  We need to show that $\alpha = 0$. Certainly, we have that
+  \begin{equation*}
+    \alpha \circ (f, g) \circ \iota_{A} = 0.
+  \end{equation*}
+  But this means that $\alpha \circ f = 0$; since $f$ is an epimorphism this means that $\alpha = 0$.
+\end{proof}
+
+\begin{lemma}
   \label{lemma:pullback_of_epi_is_epi}
   Let $\mathcal{A}$ be an abelian category, and let the diagram
   \begin{equation*}
     \begin{tikzcd}
       A \times_{C} B
-      \arrow[r, "\tilde{f}"]
-      \arrow[d, swap, "\tilde{g}"]
+      \arrow[r, "f"]
+      \arrow[d, swap, "g"]
       & B
-      \arrow[d, "g"]
+      \arrow[d, "h"]
       \\
       A
-      \arrow[r, two heads, "f"]
+      \arrow[r, two heads, "k"]
       & C
     \end{tikzcd}
   \end{equation*}
-  be a pullback in $\mathcal{A}$. Then $\tilde{f}$ is an epimorphism.
+  be a pullback in $\mathcal{A}$. Then $f$ is an epimorphism.
 \end{lemma}
 \begin{proof}
-  The pullback is in particular a limit, hence is constructed with products and equalizers as follows.
-  \begin{equation*}
-    \begin{tikzcd}
-      0
-      \arrow[r]
-      & A \times_{C} B
-      \arrow[r, hook, "{(\tilde{f}, \tilde{g})}"]
-      & A \oplus B
-      \arrow[r, "f - g"]
-      & C
-    \end{tikzcd}
-  \end{equation*}
-  Because $f$ is epic, $f - g$ is epic, so we have a bona fide short exact sequence
-  \begin{equation*}
-    \begin{tikzcd}
-      0
-      \arrow[r]
-      & A \times_{C} B
-      \arrow[r, hook, "{(\tilde{f}, \tilde{g})}"]
-      & A \oplus B
-      \arrow[r, two heads, "f - g"]
-      & C
-      \arrow[r]
-      & 0
-    \end{tikzcd}.
-  \end{equation*}
-  This means that the above square is also a pushout square.
+  Since the above square is a pullback, the morphism $(f, -g) = \ker (h, k)$. But $(h, k)$ is an epimorphism, so it is the cokernel of its kernel, implying that the square is also a pushout square. Since pushouts reflect epimorphisms, $f$ is an epimorphism.
 \end{proof}
 
 \begin{lemma}
@@ -1440,7 +1488,7 @@ There is another version of the snake lemma which does not have the first and la
 
 \begin{definition}[exact functor]
   \label{def:exact_functor}
-  Let $F\colon \mathcal{A} \to \mathcal{B}$ be an additive functor, and let
+  Let $F\colon \mathcal{A} \to \mathcal{B}$ be a functor, and let
   \begin{equation*}
     \begin{tikzcd}
       0
@@ -1468,7 +1516,7 @@ There is another version of the snake lemma which does not have the first and la
           & F(C)
         \end{tikzcd}
       \end{equation*}
-      is exact
+      is exact.
 
     \item We call $F$ \defn{right exact} if
       \begin{equation*}
@@ -1482,16 +1530,102 @@ There is another version of the snake lemma which does not have the first and la
           & 0
         \end{tikzcd}
       \end{equation*}
-      is exact
+      is exact.
 
     \item We call $F$ \defn{exact} if it is both left exact and right exact.
   \end{itemize}
 \end{definition}
 
 \begin{example}
-  We showed in \hyperref[prop:hom_functor_left_exact]{Lemma~\ref*{prop:hom_functor_left_exact}} that both hom functors $\Hom(A, -)$ and $\Hom(-, B)$ are left exact.
+  Let
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hookrightarrow, "f"]
+      & B
+      \arrow[r, twoheadrightarrow, "g"]
+      & C
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  be an exact sequence. First, we show that $\Hom(M, -)$ is left exact, i.e.\ that
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \Hom(M, A)
+      \arrow[r, "f_{*}"]
+      & \Hom(M, B)
+      \arrow[r, "g_{*}"]
+      & \Hom(M, C)
+    \end{tikzcd}
+  \end{equation*}
+  is an exact sequence of abelian groups.
+
+  First, we show that $f_{*}$ is injective. To see this, let $\alpha\colon M \to A$ such that $f_{*}(\alpha) = 0$. By definition, $f_{*}(\alpha) = f \circ \alpha$, and 
+  \begin{equation*}
+    f \circ \alpha = 0 \implies \alpha = 0
+  \end{equation*}
+  because $f$ is a monomorphism.
+
+  Similarly, $\im f \subseteq \ker g$ because
+  \begin{equation*}
+    (g_{*} \circ f_{*})(\beta) = g \circ f \circ \beta = 0.
+  \end{equation*}
+
+  It remains only to check that $\ker g \subseteq \im f$. To this end, let $\gamma\colon M \to B$ such that $g_{*}\gamma = 0$.
+  \begin{equation*}
+    \begin{tikzcd}
+      && M
+      \arrow[d, swap, "\gamma"]
+      \arrow[dr, "0"]
+      \arrow[dl, swap, dashed, "\exists!\delta"]
+      \\
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hookrightarrow, "f"]
+      & B
+      \arrow[r, twoheadrightarrow, "g"]
+      & C
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  Then $\im \gamma \subset \ker g = \im f$, so $\gamma$ factors through $A$; that is to say, there exists a $\delta\colon M \to A$ such that $f_{*}\delta = \gamma$.
 \end{example}
 
+One can also check that the functor $\Hom(-, B)$ is left exact via the same sort of arguments. However, we will see in the next section that one can make a much more general statement by relating left and right exactness to preservation of limits. The next theorem gives us a taste of this.
+
+\begin{lemma}
+  Let $F\colon \mathcal{A} \to \mathcal{B}$ be a functor between abelian categories which is either left or right exact. Then $F$ is additive, i.e.\ preserves finite (co)products.
+\end{lemma}
+\begin{proof}
+  First, assume that $F$ is left exact. By \hyperref[cor:functor_additive_iff_preserves_direct_sums]{Corollary~\ref*{cor:functor_additive_iff_preserves_direct_sums}}, it suffices to show that $F$ preserves direct sums. To this end, consider the image of a split exact sequence under a left-exact functor $F$.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & F(A)
+      \arrow[r, "F(i_{A})"]
+      & F(A \oplus B)
+      \arrow[r, "F(\pi_{B})"]
+      & F(B)
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  Because we still have the identities
+  \begin{equation*}
+    F(\pi_{A}) \circ F(i_{A}) = \id_{F(A)},\qquad F(\pi_{B}) \circ F(i_{B}) = \id_{F(B)},
+  \end{equation*}
+  the morphism $F(\pi_{B})$ is still epic; hence the splitting lemma (\hyperref[lemma:splitting_lemma]{Theorem~\ref*{lemma:splitting_lemma}}) implies that the sequence is still split exact. Thus, $F$ preserves direct sums.
+
+  The case in which $F$ is right exact is dual.
+\end{proof}
 
 \subsection{Exactness and preservation of (co)limits}
 \label{ssc:exactness_and_preservation_of_co_limits}
@@ -1555,36 +1689,7 @@ The above definitions of left and right exactness are evocative, but one can cas
   \end{enumerate}
 \end{proof}
 
-Astonishingly, the converse is also true; any functor which is left exact preserves finite limits, and any functor which is right exact preserves finite colimits.
-
-This is a surprise; after all, the above proof makes it seem that left exactness is related only to the preservation of kernels, and one needs also to preserve finite direct sums. However, the structure of an abelian category helps us here, as the following lemma shows.
-
-\begin{lemma}
-  Let $F\colon \mathcal{A} \to \mathcal{B}$ be a functor between abelian categories which is either left or right exact. Then $F$ is additive.
-\end{lemma}
-\begin{proof}
-  First, assume that $F$ is left exact. By \hyperref[cor:functor_additive_iff_preserves_direct_sums]{Corollary~\ref*{cor:functor_additive_iff_preserves_direct_sums}}, it suffices to show that $F$ preserves direct sums. To this end, consider the image of a split exact sequence under a left-exact functor $F$.
-  \begin{equation*}
-    \begin{tikzcd}
-      0
-      \arrow[r]
-      & F(A)
-      \arrow[r, "F(i_{A})"]
-      & F(A \oplus B)
-      \arrow[r, "F(\pi_{B})"]
-      & F(B)
-      \arrow[r]
-      & 0
-    \end{tikzcd}
-  \end{equation*}
-  Because we still have the identities
-  \begin{equation*}
-    F(\pi_{A}) \circ F(i_{A}) = \id_{F(A)},\qquad F(\pi_{B}) \circ F(i_{B}) = \id_{F(B)},
-  \end{equation*}
-  the morphism $F(\pi_{B})$ is still epic; hence the splitting lemma (\hyperref[lemma:splitting_lemma]{Theorem~\ref*{lemma:splitting_lemma}}) implies that the sequence is still split exact. Thus, $F$ preserves direct sums.
-
-  The case in which $F$ is right exact is dual.
-\end{proof}
+As may now be clear, the converse is also true; any functor which is left exact preserves finite limits, and any functor which is right exact preserves finite colimits.
 
 \begin{proposition}
   Let $F\colon \mathcal{A} \to \mathcal{B}$ be a functor between abelian categories.
@@ -1723,13 +1828,13 @@ Our definition of homology now allows us to cleanly note the following.
 
 We have already seen that the hom functor $\Hom_{\mathcal{A}}(-,-)$ is left exact in both slots. Now we understand precisely why this is true: the hom functor preserves limits in both slots!\footnote{In the first slot, one must take the limits in the category $\mathcal{A}\op$.}
 
-Since any functor which is a right adjoint preserves limits, any such functor between abelian categories must be left exact. For example, there is an adjunction
+Since any functor which is a right adjoint preserves limits, any right adjoint functor between abelian categories must be left exact. For example, there is an adjunction
 \begin{equation*}
   - \otimes_{R} N : \mathbf{Mod}\mhyp R \longleftrightarrow \mathbf{Ab} : \Hom_{\mathbf{Ab}}(N, -)
 \end{equation*}
-which comes from replacing a map out of the tensor product by its corresponding bilinear map, and currying\footnote{I see what you mean, but where is this term from?} along the first entry. Thus, the map $- \otimes_{R} N$ is a left adjoint, hence preserves colimits, hence is right exact.
+which comes from replacing a map out of the tensor product by its corresponding bilinear map, and currying along the first entry. Thus, the map $- \otimes_{R} N$ is a left adjoint, hence preserves colimits, hence is right exact.
 
-We can use this to check exactness (hence limit preservation) of other functors using the following beefed-up version of the Yoneda lemma. I don't actually need this right now, but it's a nice result anyway.
+We can use this to check exactness (hence limit preservation) of other functors using the following beefed-up version of the Yoneda lemma.
 
 \begin{lemma}
   \label{lemma:yoneda_reflects_exactness}
@@ -1798,27 +1903,43 @@ We can use this to check exactness (hence limit preservation) of other functors 
 \section{Quasi-isomorphism}
 \label{sec:quasi_isomorphism}
 
-One of the organizing principals of homological algebra is that the fundamental data contained in a chain complex is the level-wise homology of that chain complex, rather than the chain complex itself. We will see many examples (especially in \hyperref[part:algebraic_topology]{Part~\ref*{part:algebraic_topology}}, on algebraic topology) in which one can perform a drastic simplification of a problem by replacing a chain complex by a better-behaved one which has isomorphic homology.
+One of the organizing principals of homological algebra is that the fundamental data contained in a chain complex is the level-wise homology of that chain complex, rather than the chain complex itself. We will see many examples (especially in \hyperref[part:algebraic_topology]{Part~\ref*{part:algebraic_topology}}, on algebraic topology) in which one can perform a drastic simplification of a problem by replacing a chain complex by a better-behaved one, together with a homology-preserving map between them.
 
-Therefore, one would like to pay special attention to morphisms of chain complexes $f_{\bullet}\colon C_{\bullet} \to D_{\bullet}$ which induce isomorphisms on homology. One even has a special name for such a morphism.
+For this reason, one would like to understand morphisms of chain complexes $f_{\bullet}\colon C_{\bullet} \to D_{\bullet}$ which induce isomorphisms on homology. One even has a special name for such a morphism.
 
 \begin{definition}[quasi-isomorphism]
   \label{def:quasi_isomorphism}
   Let $f_{\bullet}\colon C_{\bullet} \to D_{\bullet}$ be a chain map. We say that $f$ is a \defn{quasi-isomorphism} if it induces isomorphisms on homology; that is, if $H_{n}(f)$ is an isomorphism for all $n$.
 \end{definition}
 
-Quasi-isomorphisms are a surprisingly fiddly concept. Since they induce isomorphisms on homology, and isomorphisms are invertible, one might naïvely hope that quasi-isomorphisms themselves were invertible; that is, that one could find a \emph{quasi-inverse.} Unfortunately, we are not so lucky. Consider the following
-
-By \hyperref[eg:compute_homology_in_trivial_situation]{Example~\ref*{eg:compute_homology_in_trivial_situation}}, we
-
-\begin{definition}[resolution]
-  \label{def:resolution}
-  Let $A$ be an object in an abelian category. A \defn{resolution} of $A$ consists of a chain complex $C_{\bullet}$ together with a quasi-isomorphism $C_{\bullet} \to \iota(A)$.
-\end{definition}
-
+Quasi-isomorphisms are a surprisingly fiddly concept. Since they induce isomorphisms on homology, and isomorphisms are invertible, one might naïvely hope that quasi-isomorphisms themselves were invertible; that is, that one could find a \emph{quasi-inverse.} Unfortunately, we are not so lucky. Consider the following morphism of chain complexes.
+\begin{equation*}
+  \begin{tikzcd}
+    0
+    \arrow[r]
+    & \Z
+    \arrow[r, "\times 2"]
+    \arrow[d]
+    & \Z
+    \arrow[r]
+    \arrow[d, "\id"]
+    & 0
+    \\
+    0
+    \arrow[r]
+    & 0
+    \arrow[r]
+    & \Z/2\Z
+    \arrow[r]
+    & 0
+  \end{tikzcd}
+\end{equation*}
+This map induces an isomorphism on homology, but there is no non-trivial map in the other direction.
 
 \section{Chain Homotopies}
 \label{sec:chain_homotopies}
+
+Chain homotopies are, at this point, best thought of as a technical tool which allow us to better understand quasi-isomorphisms. The interested reader should look forward to \hyperref[part:algebraic_topology]{Part~\ref*{part:algebraic_topology}}, where we will reach an understanding of chain homotopies as an algebraic analog of a homotopy between maps of topological spaces.
 
 \begin{definition}[chain homotopy]
   \label{def:chain_homotopy}
@@ -1831,6 +1952,24 @@ By \hyperref[eg:compute_homology_in_trivial_situation]{Example~\ref*{eg:compute_
     d^{D}_{n+1} \circ h_{n} + h_{n-1} \circ d^{C}_{n} = f - g.
   \end{equation*}
 \end{definition}
+
+Chain homotopies will help us to understand the slippery notion of quasi-isomorphism because chain homotopic maps will turn out to induce the same maps on homology.
+
+\begin{proposition}
+  Let $f$, $g\colon C_{\bullet} \to D_{\bullet}$ be chain homotopic maps via a homotopy $h$. Then for all $n$,
+  \begin{equation*}
+    H_{n}(f) = H_{n}(g).
+  \end{equation*}
+\end{proposition}
+\begin{proof}
+  Since homology is additive, it suffices to show that any map which is homotopic to zero induces the zero map on homology, i.e.\ that if we can write
+  \begin{equation*}
+    f = d^{D}_{n+1} \circ h_{n} + h_{n-1} \circ d^{C}_{n},
+  \end{equation*}
+  then $H_{n}(f) = 0$ for all $n$.
+\end{proof}
+
+This is very useful, both theoretically and practically. We will often exploit this in order to prove that a complex is exact by showing that the identity morphism is homotopic to the zero morphism.
 
 \begin{lemma}
   \label{lemma:additive_functors_preserve_homotopy}
@@ -1890,7 +2029,12 @@ One of the drawbacks of diagrammatic reasoning in abelian categories (which is t
     & B
   \end{tikzcd}
 \end{equation*}
-Nowever, certain objects do have this property. For example, if $X$ is a free $R$-module, then we can find a lift by lifting generators; this is always possible. It will be interesting to find objects $X$ which allow this. Such objects are called \emph{projective.}
+Nowever, certain objects $X$ do have this property. For example, if $X$ is a free $R$-module, then we can find a lift by lifting generators; this is always possible. It will be interesting to find objects $X$ which allow this. Such objects are called \emph{projective.}
+
+We will eventually be interested in projective objects because of the control they give us over quasi-isomorphisms.
+
+\subsection{Basic properties}
+\label{ssc:basic_properties}
 
 \begin{definition}[projective, injective]
   \label{def:projective_injective}
@@ -1921,16 +2065,21 @@ Nowever, certain objects do have this property. For example, if $X$ is a free $R
   \end{equation*}
 \end{definition}
 
-Since the hom functor $\Hom(A, -)$ is left exact for every $A$, it is very easy to see that an object $P$ in an abelian category is said to be \defn{projective} if the functor $\Hom(P, -)$ is exact, and \defn{injective} if $\Hom(-, Q)$ is exact.
+Since the hom functor $\Hom(A, -)$ is left exact for every $A$, it is very easy to see simply by unwrapping the definitions that an object $P$ in an abelian category is projective if the functor $\Hom(P, -)$ is exact, and injective if $\Hom(-, Q)$ is exact.
 
-A recurring theme of homological algebra is that projective and injective objects are extremely nice to work with, and whenever possible we would like to be able to trade in an object for equivalent projective data. We will go into more detail about precisely what we mean by this later. This will be possible when our abelian category has \emph{enough projectives.}
+\subsection{Enough projectives}
+\label{ssc:enough_projectives}
+
+A recurring theme of homological algebra is that projective and injective objects are extremely nice to work with, and whenever possible we would like to be able to trade in an object or chain complex for an object or chain complex which is (quasi-)isomorphic. We will go into more detail about precisely what we mean by this later. This will be possible when our abelian category has \emph{enough projectives.} Dually, we can replace objects or chain complexes by injectives when we have \emph{enough injectives.} As the abstract theory of projectives is dual to that of injectives, we will for the remainder of this chapter confine ourselves to the study of projectives.
 
 \begin{definition}[enough projectives]
   \label{def:enough_projectives}
   Let $\mathcal{A}$ be an abelian category. We say that $\mathcal{A}$ has \defn{enough projectives} if for every object $M$ there exists a projective object $P$ and an epimorphism $P \twoheadrightarrow M$.
 \end{definition}
 
-\begin{proposition}
+The category in which we have mainly been interested is $\Rmod$. We will now see that $\Rmod$ has enough projectives; we need only prove the following lemma.
+
+\begin{lemma}
   Let
   \begin{equation*}
     \begin{tikzcd}
@@ -1946,7 +2095,7 @@ A recurring theme of homological algebra is that projective and injective object
     \end{tikzcd}
   \end{equation*}
   be a short exact sequence with $P$ projective. Then the sequence splits.
-\end{proposition}
+\end{lemma}
 \begin{proof}
   We can add another copy of $P$ artfully as follows.
   \begin{equation*}
@@ -1986,57 +2135,94 @@ A recurring theme of homological algebra is that projective and injective object
   But this says precisely that $f \circ g = \id_{P}$, i.e.\ the sequence splits from the right. The result follows from the splitting lemma (\hyperref[lemma:splitting_lemma]{Lemma~\ref*{lemma:splitting_lemma}}).
 \end{proof}
 
-\begin{corollary}
-  Let $F$ be an additive functor, and let
+\begin{proposition}
+  \label{prop:projectives_are_direct_summands_of_free}
+  The category $\Rmod$ has enough projectives.
+
+  We see this by proving the following characterization of projectives in $\Rmod$: $P$ is projective if and only if it is a direct summand of a free module, i.e.\ if there exists an $R$-module $M$ and a free $R$-module $F$ such that
+  \begin{equation*}
+    F \simeq P \oplus M.
+  \end{equation*}
+  This will be sufficient because any module can be written as a quotient of a free module.
+
+  First, suppose that $P$ is projective. We can always express $P$ in terms of a set of generators and relations. Denote by $F$ the free $R$-module over the generators, and consider the following short exact sequence.
   \begin{equation*}
     \begin{tikzcd}
       0
       \arrow[r]
-      & A
+      & \ker \pi
       \arrow[r, hookrightarrow]
-      & B
-      \arrow[r, twoheadrightarrow, "f"]
+      & F
+      \arrow[r, twoheadrightarrow, "\pi"]
       & P
       \arrow[r]
       & 0
     \end{tikzcd}
   \end{equation*}
-  be an exact sequence with $P$ projective. Then $F$ applied to the sequence gives an exact sequence.
-\end{corollary}
-\begin{proof}
-  Applying $F$ to a split sequence gives a split sequence, and all split sequences are exact.
-\end{proof}
+  An easy consequence of the splitting lemma is that any short exact sequence with a projective in the final spot splits, so
+  \begin{equation*}
+    F \simeq P \oplus \ker \pi
+  \end{equation*}
+  as required.
 
-\begin{corollary}
-  The category $\Rmod$ has enough projectives.
-\end{corollary}
-\begin{proof}
-  By \hyperref[prop:projectives_are_direct_summands_of_free]{Proposition~\ref*{prop:projectives_are_direct_summands_of_free}}, free modules are projective, and every module is a quotient of a free module.
-\end{proof}
+  Conversely, suppose that $P \oplus M \simeq F$, for $F$ free, and $P$ and $M$ arbitrary. Certainly, the following lifting problem has a solution (by lifting generators).
+  \begin{equation*}
+    \begin{tikzcd}
+      & P \oplus M
+      \arrow[d, "{(f, g)}"]
+      \arrow[dl, dashed, swap, "\exists {(j, k)}"]
+      \\
+      N
+      \arrow[r, twoheadrightarrow]
+      & M
+    \end{tikzcd}
+  \end{equation*}
 
-\begin{proposition}
-  Let $\mathcal{A}$ be an abelian category with enough projectives. Then every object $A \in \mathcal{A}$ has a projective resolution.
-
-  Dually, any abelian category with enough injectives has injective resolutions.
+  In particular, this gives us the following solution to our lifting problem,
+  \begin{equation*}
+    \begin{tikzcd}
+      & P
+      \arrow[d, "f"]
+      \arrow[dl, dashed, swap, "\exists j"]
+      \\
+      N
+      \arrow[r, twoheadrightarrow]
+      & M
+    \end{tikzcd}
+  \end{equation*}
+  exhibiting $P$ as projective.
 \end{proposition}
-\begin{proof}
-  Pick a projective which surjects onto $A$,
-\end{proof}
+
+\subsection{Projective resolutions}
+\label{ssc:projective_resolutions}
+
+We are now ready to enact a part of our goal of replacing an object or chain complex with a (quasi-)isomorphic chain complex of projectives: if we are working in an abelian category with enough projectives, we can replace an object $A$ with a quasi-isomorphic chain complex of projectives.
+
+More concretely, let $\mathcal{A}$ be an abelian category, and denote by $\iota$ the functor which takes an object of $\mathcal{A}$ and returns a chain complex with that object concentrated in degree zero. Clearly, the homology of $\iota(A)$ is
+\begin{equation*}
+  H_{n}(\iota(A)) =
+  \begin{cases}
+    A, &n = 0 \\
+    0, &n \neq 0
+  \end{cases}.
+\end{equation*}
+
+Our goal, namely replacing $A$ by a chain complex which contains the same homological data, can certainly be achieved by finding a chain complex with the same homology, and a quasi-isomorphism from it to $\iota(A)$. Such an object is known as a \emph{resolution.}
+
+\begin{definition}[resolution]
+  \label{def:resolution}
+  Let $A$ be an object in an abelian category. A \defn{resolution} of $A$ consists of a chain complex $C_{\bullet}$ together with a quasi-isomorphism $C_{\bullet} \simto \iota(A)$.
+\end{definition}
+
+What we want is a \emph{projective resolution,} i.e.\ a resolution made out of projective objects.
 
 \begin{definition}[projective, injective resolution]
   \label{def:projective_injective_resolution}
-  Let $\mathcal{A}$ be an abelian category, and let $A \in \mathcal{A}$. A \defn{projective resolution} of $A$ is a quasi-isomorphism $P_{\bullet} \to \iota(A)$, where $P_{\bullet}$ is a complex of projectives. Similarly, an \defn{injective resolution} is a quasi-isomorphism $\iota(A) \to Q_{\bullet}$ where $Q_{\bullet}$ is a complex of injectives.
+  Let $\mathcal{A}$ be an abelian category, and let $A \in \mathcal{A}$. A \defn{projective resolution} of $A$ is a quasi-isomorphism $P_{\bullet} \simto \iota(A)$, where $P_{\bullet}$ is a complex of projectives. Similarly, an \defn{injective resolution} is a quasi-isomorphism $\iota(A) \simto Q_{\bullet}$ where $Q_{\bullet}$ is a complex of injectives.
 \end{definition}
 
-\begin{lemma}
-  \label{lemma:projective_resolution_epimorphism}
-  Let $f\colon P_{\bullet} \to \iota(M)$ be a projective resolution. Then $f\colon P_{0} \to M$ is an epimorphism.
-\end{lemma}
-\begin{proof}
-  We know that $H_{0}(f)\colon H_{0}(P) \to H_{0}(\iota (M))$ is an isomorphism. But $H_{0}(\iota(m)) \simeq \iota_{M}$, and that
-\end{proof}
 
-In fact, we can say more.
+We said that our success in our goal would be predicated on the existence of enough projectives. Indeed, this is the case. In order to see this, we change our view on projective resolutions. Rather than a quasi-isomorphism between chain complexes whose homology is concentrated in degree zero, we should look at a projective resolution as a single, exact chain complex.
 
 \begin{lemma}
   \label{lemma:equivalent_characterization_of_projective_resolution}
@@ -2058,6 +2244,46 @@ In fact, we can say more.
   \end{equation*}
   is exact.
 \end{lemma}
+
+\begin{proposition}
+  Let $\mathcal{A}$ be an abelian category with enough projectives. Then every object $A \in \mathcal{A}$ has a projective resolution.
+\end{proposition}
+\begin{proof}
+  Pick a projective which surjects onto $A$, and
+\end{proof}
+
+\subsection{Lifting data to projective resolutions}
+\label{ssc:lifting_data_to_projective_resolutions}
+
+We have seen that for every object in in abelian category $\mathcal{A}$ with enough projectives, we can find a \emph{projective resolution,} i.e.\ a complex $P_{\bullet}$ of projectives and a quasi-isomorphism $P_{\bullet} \simto \iota(A)$. We would like to be able to extend this to a functor. This idea turns out not to work precisely as we would like, but it is nonetheless helpful to pursue it for a while.
+
+The first thing we need is a way of lifting morphisms in $\mathcal{A}$ to morphisms between projective resolutions.
+
+\begin{proposition}
+  \label{prop:can_lift_morphisms_to_projective_resolutions}
+  Let $\mathcal{A}$ be an abelian category, let $M$ and $M'$ be objects of $\mathcal{A}$, and
+  \begin{equation*}
+    P_{\bullet} \to M \qquad\text{and}\qquad P'_{\bullet} \to M'
+  \end{equation*}
+  be projective resolutions. Then for every morphism $f\colon M \to M'$ there exists a lift $\tilde{f}\colon P_{\bullet} \to P'_{\bullet}$ making the diagram
+  \begin{equation*}
+    \begin{tikzcd}
+      P_{\bullet}
+      \arrow[r, "\tilde{f}_{\bullet}"]
+      \arrow[d]
+      & P'_{\bullet}
+      \arrow[d]
+      \\
+      \iota M
+      \arrow[r, swap, "\iota f"]
+      & \iota M'
+    \end{tikzcd}
+  \end{equation*}
+  commute, which is unique up to homotopy.
+\end{proposition}
+\begin{proof}
+  We construct a lift inductively.
+\end{proof}
 
 \begin{theorem}[horseshoe lemma]
   \label{thm:horseshoe_lemma}
@@ -2173,7 +2399,7 @@ In fact, we can say more.
       & 0
     \end{tikzcd}
   \end{equation*}
-  We get the (dashed) map $P'_{0} \to M$ by composition, and the (dashed) map $P''_{0} \to M$ by projectivity of $P''_{0}$ (since by \hyperref[lemma:projective_resolution_epimorphism]{Lemma~\ref*{lemma:projective_resolution_epimorphism}} $p''$ is an epimorphism). From these the universal property for coproducts gives us the (dotted) map $p\colon P'_{0} \oplus P''_{0} \to M$.
+  We get the (dashed) map $P'_{0} \to M$ by composition, and the (dashed) map $P''_{0} \to M$ by projectivity of $P''_{0}$ (since $p''$ is an epimorphism). From these the universal property for coproducts gives us the (dotted) map $p\colon P'_{0} \oplus P''_{0} \to M$.
 
   At this point, the innocent reader may believe that we are in the clear, and indeed many books leave it at this. Not so! We don't know that the diagram formed in this way commutes. In fact it does not; there is nothing in the world that tells us that $q \circ \pi = p$.
 
@@ -2282,32 +2508,9 @@ In fact, we can say more.
   \end{equation*}
 \end{theorem}
 
-\begin{proposition}
-  \label{prop:can_lift_morphisms_to_projective_resolutions}
-  Let $\mathcal{A}$ be an abelian category, let $M$ and $M'$ be objects of $\mathcal{A}$, and
-  \begin{equation*}
-    P_{\bullet} \to M \qquad\text{and}\qquad P'_{\bullet} \to M'
-  \end{equation*}
-  be projective resolutions. Then for every morphism $f\colon M \to M'$ there exists a lift $\tilde{f}\colon P_{\bullet} \to P'_{\bullet}$ making the diagram
-  \begin{equation*}
-    \begin{tikzcd}
-      P_{\bullet}
-      \arrow[r, "\tilde{f}_{\bullet}"]
-      \arrow[d]
-      & P'_{\bullet}
-      \arrow[d]
-      \\
-      \iota M
-      \arrow[r, swap, "\iota f"]
-      & \iota M'
-    \end{tikzcd}
-  \end{equation*}
-  commute, which is unique up to homotopy.
-\end{proposition}
-\begin{proof}
-  We construct a lift inductively.
-\end{proof}
-
+\begin{theorem}
+  Let $\mathcal{A}$ be an abelian category with enough projectives, and let $C_{\bullet} \in \Ch_{\geq 0}(\mathcal{A})$. Then there exists a 
+\end{theorem}
 
 \section{The homotopy category}
 \label{sec:the_homotopy_category}
@@ -2356,6 +2559,10 @@ This functor has
 
 \section{Mapping cones}
 \label{sec:mapping_cones}
+
+Mapping cones are a technical tool, borrowd from algebraic topology. We will use them to great profit in the next section. For now, 
+
+%an amazing result: as long as we restrict our attention from bounded below chain complexes to bounded-below chain complexes of projectives, then the pathology associated to quasi-isomorphisms, i.e.\ that we 
 
 \begin{definition}[shift functor]
   \label{def:shift_functor}
@@ -2592,7 +2799,7 @@ This functor has
       \id_{P_{i}}
     \end{pmatrix}
   \end{align*}
-  The first line tells us that $\beta$ is a chain map. The second line tells us that\footnote{Actually, it doesn't tell us this, but I suspect that it would if I were a little better at algebra.}
+  The first line tells us that $\beta$ is a chain map. The second line tells us that
   \begin{equation*}
     d^{P}_{i+1} \circ \gamma_{i} + \gamma_{i-1} \circ d^{P}_{i} = \id_{P_{i}} - f_{i} \circ \beta_{i},
   \end{equation*}
@@ -2607,8 +2814,11 @@ This functor has
 \end{proof}
 
 
-\section{Localization at weak equivalences: a love story}
-\label{sec:localization_at_weak_equivalences_a_love_story}
+\section{Derived functors}
+\label{sec:derived_functors}
+
+\subsection{Derived categories}
+\label{ssc:derived_categories}
 
 %We can embed any abelian category $\mathcal{A}$ into the corresponding category $\Ch_{\geq 0}(\mathcal{A})$ of chain complexes via inclusion into degree zero. This is obviously a lossless procedure, in the sense that we recover $\mathcal{A}$ by restricting to degree $0$.
 %\begin{equation*}
@@ -2634,7 +2844,7 @@ This functor has
 
 Hopefully, the reader will now agree that chain complexes are interesting enough to study, and that given a chain complex, the level-wise homology (and therefore the slippery notion of quasi-isomorphism) is an interesting invariant. Of course, one considers the category of chain complexes, but this category has the annoying feature that quasi-isomorphisms do not necessarily have quasi-inverses. That is, it is difficult to view quasi-isomorphism as a notion of equivalence because is it is not invertible.
 
-The way out of this is to replace the category $\Ch(\mathcal{A})$ by a category in which all quasi-isomorphisms have quasi-inverses. There is a fiddly and conceptually unclear way to do that, namely by forming the categorical localization.
+The way out of this is to replace the category $\Ch_{\geq 0}(\mathcal{A})$ by a category in which all quasi-isomorphisms have quasi-inverses. There is a fiddly and conceptually unclear way to do that, namely by forming the categorical localization.
 \begin{equation*}
   \Ch_{\geq 0}(\mathcal{A}) \to \Ch_{\geq 0}(\mathcal{A})[\{\text{quasi-isomorphisms}\}^{-1}].
 \end{equation*}
@@ -2646,6 +2856,9 @@ However, note that we can get what we want by making a more draconian identifica
   \Ch_{\geq 0}(\mathcal{A}) \to \mathcal{K}(\mathcal{A})
 \end{equation*}
 which is the identity on objects and sends morphisms to their equivalence classes modulo homotopy; this sends precisely homotopy equivalences to isomorphisms. By
+
+\subsection{Derived functors}
+\label{ssc:derived_functors}
 
 \begin{definition}[derived functor]
   \label{def:derived_functor}
@@ -3119,6 +3332,12 @@ Given any complex of complexes, one can construct a double complex by multiplyin
   \end{equation*}
 \end{proof}
 
+\begin{example}
+  Let $C_{\bullet} \in \Ch(\modR)$ and $D_{\bullet} \in \Ch(\Rmod)$ be chain complexes. We can form a double complex by sticking $C_{\bullet}$ into the first slot of the tensor product, $D_{\bullet}$ into the second, and using the sign trick to make the squares anticommute. The total complex of this double complex is known as the \emph{tensor product} of $C_{\bullet}$ and $D_{\bullet}$.
+\end{example}
+
+In general, computing the homology of a double complex is very difficult; we will explore some techniques for this in \hyperref[ch:spectral_sequences]{Chapter~\ref*{ch:spectral_sequences}}. However, under some special conditions, we can say something.
+
 \begin{theorem}
   \label{thm:conditions_total_complex_exact}
   Let $M_{i,j}$ be a first-quadrant double complex. Then if either the rows $M_{\bullet, j}$ or the columns $M_{i, \bullet}$ are exact, then the total complex $\Tot(M)_{\bullet}$ is exact.
@@ -3511,8 +3730,8 @@ Consider any morphism $\alpha$ in $\Ch_{\geq 0}(\Ch_{\geq 0}(\mathcal{A}))$ to a
   Now \hyperref[thm:resolutions_in_double_complexes_are_resolutions_of_total_complex]{Theorem~\ref*{thm:resolutions_in_double_complexes_are_resolutions_of_total_complex}} gives us the result we want.
 \end{proof}
 
-\section{Tensor-hom adjunction for chain complexes}
-\label{sec:tensor_hom_adjunction_for_chain_complexes}
+\subsection{Tensor-hom adjunction for chain complexes}
+\label{ssc:tensor_hom_adjunction_for_chain_complexes}
 
 In a general abelian category, there is no notion of a tensor product. However, many interesting abelian categories carry tensor products, and we would like to be able to talk about them. In this section, we let $\mathcal{A}$ be an abelian category and let
 \begin{equation*}
@@ -3534,8 +3753,8 @@ be an additive functor, where $\mathcal{H}$ is some abelian category equipped wi
   Let $\mathcal{A}$ be an abelian category with an internal hom functor (for example, a category of modules over a commutative ring), and let $C_{\bullet}$, $D_{\bullet}$ be chain complexes in $\mathcal{A}$. We have
 \end{definition}
 
-\section{The Künneth formula}
-\label{sec:the_kunneth_formula}
+\subsection{The Künneth formula}
+\label{ssc:the_kunneth_formula}
 
 This section takes place in $\Rmod$, where $R$ is a PID. For example, everything we are saying holds in $\Ab$.
 

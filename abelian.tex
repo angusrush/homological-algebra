@@ -8,7 +8,7 @@
 \section{Basics}
 \label{sec:basics}
 
-In this chapter we recall some basic results.
+Abelian categories provide a categorical axiomatization of the properties of the category $\Rmod$ of modules over a (not necessarily commutative) ring $R$; in fact, one can show that any small abelian category is a full subcategory of $\Rmod$ for some $R$. Homological is the study of chain complexes of $R$-modules, and hence of the study of chain complexes in an abelian category. One of the benefits of working with abelian categories rather than working directly $\Rmod$ is that many things which are not obviously abelian categories turn out to be abelian categories; for example, the category of chain complexes in an abelian category is itself an abelian category, so when one is studying abelian categories one is already learning something about chain complexes in an abelian category.
 
 \subsection{Building blocks}
 \label{ssc:building_blocks}
@@ -23,14 +23,16 @@ In this chapter we recall some basic results.
 
 \begin{definition}[additive category]
   \label{def:additivecategory}
-  A category $\mathcal{C}$ is \defn{additive} if it has products and is $\Ab$-enriched.
+  A category $\mathcal{C}$ is \defn{additive} if it has finite products (including an initial object) and is $\Ab$-enriched.
 \end{definition}
 
 \begin{proposition}
   \label{prop:in_additive_category_products_coproducts_agree}
-  Let $\mathcal{C}$ be an additive category. Then the product $A \times B$ satisfies the universal property for a coproduct $A \amalg B$.
+  Let $\mathcal{C}$ be an additive category. Then the initial object is also a terminal object (hence a zero object), and the product $A \times B$ satisfies the universal property for a coproduct $A \amalg B$.
 \end{proposition}
 \begin{proof}
+  Denote by $\emptyset$ an initial object in $\mathcal{C}$. The unique morphism $\id_{\emptyset}\colon \emptyset \to \emptyset$ must be the identity element $e_{\emptyset \to \emptyset} \in \Hom(\emptyset, \emptyset)$. Let $X$ be any other object in $\mathcal{C}$, and let $f\colon X \to \emptyset$. Then $f \circ e_{\emptyset \to \emptyset} = f$. However, since composition is bilinear, we also have $f \circ e = e_{X \to \emptyset}$. Thus, there is a unique map $X \to \emptyset$ for all $X$, so $\emptyset$ is a terminal object (hence a zero object). From now on, we will write $0$ for zero objects.
+
   By the universal property for products, we get a unique map $i_{A}\colon A \to A \times B$ making the following diagram commute.
   \begin{equation*}
     \begin{tikzcd}
@@ -448,6 +450,9 @@ In fact, in an abelian category, the $\Ab$-enrichment is completely determined b
   \label{cor:functor_additive_iff_preserves_direct_sums}
   Let $F\colon \mathcal{A} \to \mathcal{B}$  be a functor between abelian categories. Then $F$ is additive if and only if it preserves direct sums.
 \end{corollary}
+
+\section{Basic properties of abelian categories}
+\label{sec:basic_properties_of_abelian_categories}
 
 \section{Embedding theorems}
 \label{sec:embedding_theorems}
