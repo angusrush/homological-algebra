@@ -1903,7 +1903,7 @@ We can use this to check exactness (hence limit preservation) of other functors 
 \section{Quasi-isomorphism}
 \label{sec:quasi_isomorphism}
 
-One of the organizing principals of homological algebra is that the fundamental data contained in a chain complex is the level-wise homology of that chain complex, rather than the chain complex itself. We will see many examples (especially in \hyperref[part:algebraic_topology]{Part~\ref*{part:algebraic_topology}}, on algebraic topology) in which one can perform a drastic simplification of a problem by replacing a chain complex by a better-behaved one, together with a homology-preserving map between them.
+One of the organizing principles of homological algebra is that the fundamental data contained in a chain complex is the level-wise homology of that chain complex, rather than the chain complex itself. We will see many examples (especially in \hyperref[part:algebraic_topology]{Part~\ref*{part:algebraic_topology}}, on algebraic topology) in which one can perform a drastic simplification of a problem by replacing a chain complex by a better-behaved one, together with a homology-preserving map between them.
 
 For this reason, one would like to understand morphisms of chain complexes $f_{\bullet}\colon C_{\bullet} \to D_{\bullet}$ which induce isomorphisms on homology. One even has a special name for such a morphism.
 
@@ -2070,7 +2070,7 @@ Since the hom functor $\Hom(A, -)$ is left exact for every $A$, it is very easy 
 \subsection{Enough projectives}
 \label{ssc:enough_projectives}
 
-A recurring theme of homological algebra is that projective and injective objects are extremely nice to work with, and whenever possible we would like to be able to trade in an object or chain complex for an object or chain complex which is (quasi-)isomorphic. We will go into more detail about precisely what we mean by this later. This will be possible when our abelian category has \emph{enough projectives.} Dually, we can replace objects or chain complexes by injectives when we have \emph{enough injectives.} As the abstract theory of projectives is dual to that of injectives, we will for the remainder of this chapter confine ourselves to the study of projectives.
+A recurring theme of homological algebra is that projective and injective objects are extremely nice to work with, and whenever possible we would like to be able to trade in an object or chain complex for an object or chain complex of projectives which is (quasi-)isomorphic. We will go into more detail about precisely what we mean by this later. This will be possible when our abelian category has \emph{enough projectives.} Dually, we can replace objects or chain complexes by injectives when we have \emph{enough injectives.} As the abstract theory of projectives is dual to that of injectives, we will for the remainder of this chapter confine ourselves to the study of projectives.
 
 \begin{definition}[enough projectives]
   \label{def:enough_projectives}
@@ -2192,6 +2192,16 @@ The category in which we have mainly been interested is $\Rmod$. We will now see
   \end{equation*}
   exhibiting $P$ as projective.
 \end{proposition}
+
+\subsection{Here be dragons}
+\label{ssc:here_be_dragons}
+
+There are a few subtleties to the theory of projectives and injectives of which one should be aware.
+\begin{itemize}
+  \item We have said that the abstract theory of injectives is dual to that of projectives. This is true, but does not imply that projectives and injectives are somehow on equal footing. For example, in $\Rmod$ we have given a complete classification of projective modules: they are direct summands of free modules. There is no such classification of injective modules. Despite this, $\Rmod$ does turn out to have enough injectives.
+
+  \item We have so far mostly avoided the use of element-theoretic arguments, which are possible thanks to the Freyd-Mitchell embedding theorem. This is partially due to an aesthetic distaste, and partially because they can be tricky.
+\end{itemize}
 
 \subsection{Projective resolutions}
 \label{ssc:projective_resolutions}
@@ -2560,7 +2570,7 @@ This functor has
 \section{Mapping cones}
 \label{sec:mapping_cones}
 
-Mapping cones are a technical tool, borrowd from algebraic topology. We will use them to great profit in the next section. For now, 
+Mapping cones are a technical tool, borrowed from algebraic topology. We will use them to great profit in the next section. For now, 
 
 %an amazing result: as long as we restrict our attention from bounded below chain complexes to bounded-below chain complexes of projectives, then the pathology associated to quasi-isomorphisms, i.e.\ that we 
 
