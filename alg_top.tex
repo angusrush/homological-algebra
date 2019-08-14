@@ -8,9 +8,10 @@
 \section{Basic definitions and examples}
 \label{sec:basic_definitions}
 
-We assume a basic knowledge of simplicial sets just to get the ball rolling.
+\subsection{Ordinary homology}
+\label{ssc:ordinary_homology}
 
-Singular homology is the study of topological spaces via associated chain complexes via the following functors.
+Singular homology is the study of topological spaces by associating to them chain complexes in the following way.
 \begin{equation*}
   \begin{tikzcd}[column sep=huge]
     \mathbf{Top}
@@ -19,31 +20,37 @@ Singular homology is the study of topological spaces via associated chain comple
     \arrow[r, "\substack{\text{free abelian}\\\text{group}}"]
     & \mathbf{Ab}_{\Delta}
     \arrow[r, "\substack{\text{Dold-Kan}\\\text{correspondence}}"]
-    & \{\text{chain complexes}\}
+    & \Ch(\Ab)
   \end{tikzcd}
 \end{equation*}
 
 \begin{definition}[singular complex, singular homology]
   \label{def:singular_complex_homology}
-  Let $X$ be a topological space. The \defn{singular chain complex} $C_{\bullet}(X)$ is defined level-wise by
+  Let $X$ be a topological space. The \defn{singular chain complex} $S_{\bullet}(X)$ is defined level-wise by
   \begin{equation*}
-    C_{n}(X) = M(\mathcal{F}(\Sing(X)))
+    S_{n}(X) = M(\mathcal{F}(\Sing(X)))
   \end{equation*}
   where $\mathcal{F}$ denotes the free group functor and $M$ is the Moore functor (\hyperref[def:moore_complex]{Definition~\ref*{def:moore_complex}}). That is, it has differentials
   \begin{equation*}
-    d_{n}\colon C_{n} \to C_{n-1};\qquad (\alpha\colon \Delta^{n} \to X) \mapsto \sum_{i = 0}^{n} \partial^{i} \alpha.
+    d_{n}\colon S_{n} \to S_{n-1};\qquad (\alpha\colon \Delta^{n} \to X) \mapsto \sum_{i = 0}^{n} \partial^{i} \alpha.
   \end{equation*}
 
   The \defn{singular homology} of $X$ is the homology
   \begin{equation*}
-    H_{n}(X) = H_{n}(C_{\bullet}(X)).
+    H_{n}(X) = H_{n}(S_{\bullet}(X)).
   \end{equation*}
 \end{definition}
 
-Note that the singular chain complex construction is functorial: any map $f\colon X \to Y$ gives a chain map $C(f)\colon C(X) \to C(Y)$. This immediately implies that the $n$th homology of a space $X$ is invariant under homeomorphism.
+Note that the singular chain complex construction is functorial: any map $f\colon X \to Y$ gives a chain map $S(f)\colon S(X) \to S(Y)$. This immediately implies that the $n$th homology of a space $X$ is invariant under homeomorphism.
 
 \begin{example}
-  Denote by $\mathrm{pt}$ the one-point topological space. Then $C(\mathrm{pt})_{\bullet}$ is given level-wise as follows.
+  Denote by $\pt$ the one-point topological space. Then $\Sing(\pt)_{n} = \{*\}$, and the chain complex $S_{\bullet}(\pt)$ is at each level simply $\Z$.
+
+  The differential $d_{n}$ is given by
+  \begin{equation*}
+    d_{n} = \sum_{i = 0}^{n} (-1)^{i}\partial^{i};\qquad * \mapsto \sum_{i = 0}^{n} (-1)^{i} *.
+  \end{equation*}
+  If $n$ is odd, then there are as many summands with even sign as there are with odd sign, and they cancel each other out. If $n$ is even, then there is one more term with positive sign than with negative sign, and one ends up with the identity. Thus $S(\mathrm{pt})_{\bullet}$ is given level-wise as follows.
   \begin{equation*}
     \begin{tikzcd}
       \cdots
@@ -67,15 +74,15 @@ Note that the singular chain complex construction is functorial: any map $f\colo
       \\
       \cdots
       \arrow[r, swap, "d_{4}"]
-      & C_{3}
+      & S_{3}
       \arrow[r, swap, "d_{3}"]
-      & C_{2}
+      & S_{2}
       \arrow[r, swap, "d_{2}"]
-      & C_{1}
+      & S_{1}
       \arrow[r, swap, "d_{1}"]
-      & C_{0}
+      & S_{0}
       \arrow[r, swap, "d_{0}"]
-      & C_{-1}
+      & S_{-1}
       \arrow[r, swap, "d_{-1}"]
       & \cdots
     \end{tikzcd}
@@ -91,14 +98,105 @@ Note that the singular chain complex construction is functorial: any map $f\colo
   \end{equation*}
 \end{example}
 
+\subsection{Reduced homology}
+\label{ssc:reduced_homology}
+
+Recall that in addition to the \emph{ordinary}, or \emph{topologist's simplex category} $\Delta$, there is the so-called \emph{extended}, or \emph{algebraist's simplex category} $\Delta_{+}$, which includes the object $[-1] = \emptyset$. If we use this category to index our simplicial sets, our chain complexes have a term $\tilde{S}_{-1} = \Z$. It is traditional to denote the differential $d_{0}\colon \tilde{S}_{0} \to \tilde{S}_{-1}$ by $\varepsilon$, and call it the \emph{augmentation map.}
+\begin{equation*}
+  \begin{tikzcd}
+    \cdots
+    \arrow[r]
+    & \tilde{S}_{2}
+    \arrow[r, "d_{2}"]
+    & \tilde{S}_{1}
+    \arrow[r, "d_{1}"]
+    & \tilde{S}_{0}
+    \arrow[r, "\varepsilon"]
+    & \Z
+    \arrow[r]
+    & 0
+  \end{tikzcd}
+\end{equation*}
+
+\begin{definition}[reduced singular chain complex]
+  \label{def:reduced_singular_chain_complex}
+  The chain complex $\tilde{S}$ is called the \defn{reduced singular chain complex} of $X$.
+\end{definition}
+
+We see immediately that 
+\begin{equation*}
+  S_{i}(X) = \tilde{S}_{i}(X),\qquad i \geq 0,
+\end{equation*}
+implying
+\begin{equation*}
+  H_{i}(X) = \tilde{H}_{i}(X),\qquad i \geq 1.
+\end{equation*}
+
+Clearly, there is not so much difference between singular and reduced homology. The difference is that, as one might suspect, ordinary homology is better-behaved from a topological point of view, and reduced homology is better behaved algebraically (for example, it turns wedge products into direct sums).
+
+There is also another interpretation of reduced homology. Recall that we have used the name \emph{augmentation map} before, when dealing with resolutions. There we reinterpreted the augmentation map $\varepsilon$ as a chain map to a complex concentrated in degree zero. We can pull exactly the same trick here, viewing the reduced singular complex as a map of chain complexes.
+\begin{equation*}
+  \begin{tikzcd}
+    \cdots
+    \arrow[r]
+    & S_{2}
+    \arrow[r, "d_{2}"]
+    \arrow[d]
+    & S_{1}
+    \arrow[r, "d_{1}"]
+    \arrow[d]
+    & S_{0}
+    \arrow[r]
+    \arrow[d, "\varepsilon"]
+    & \cdots
+    \\
+    \cdots
+    \arrow[r]
+    & 0
+    \arrow[r]
+    & 0
+    \arrow[r]
+    & \Z
+    \arrow[r]
+    & \cdots
+  \end{tikzcd}
+\end{equation*}
+
 \begin{example}
-  Let $X$ be a path-connected topological space. Then $H_{0}(X) = \Z$. To see this, consider a general element of $H_{0}(X)$. Because $d_{0}$ is the zero map, $H_{n}(X)$ is simply the free group generated by the collection of points of $X$ modulo the relation ``there is a path from $x$ to $y$.'' However, path-connectedness implies that every two points of $X$ are connected by a path, so every point of $X$ is equivalent to any other. Thus, $H_{0}(X)$ has only one generator.
+  Let $X$ be a nonempty path-connected topological space. Then $H_{0}(X) \cong \Z$. Specifically, 
+  \begin{equation*}
+    \varepsilon\colon H_{0}(X) \to \Z
+  \end{equation*}
+  is an isomorphism.
+  
+  To see this, let $x \in S_{0}(X)$ be a point. Since $\varepsilon(nx) = n$ for any $n \in \Z$, we know that $\varepsilon$ is surjective. If we can show that $\varepsilon$ is injective, then we are done.
+
+  At face value, $\varepsilon$ does not look injective; after all, there are as many elements of $S_{0}(X)$
+  
+  consider a general element of $H_{0}(X)$. Because $d_{0}$ is the zero map, $H_{n}(X)$ is simply the free group generated by the collection of points of $X$ modulo the relation ``there is a path from $x$ to $y$.'' However, path-connectedness implies that every two points of $X$ are connected by a path, so every point of $X$ is equivalent to any other. Thus, $H_{0}(X)$ has only one generator.
 
   More generally,
   \begin{equation*}
     H_{n}(X) = \Z^{\pi_{0}(X)}.
   \end{equation*}
 \end{example}
+
+Suppose that $X$ can be written as a disjoint union
+\begin{equation*}
+  X = \coprod_{i} X_{i}.
+\end{equation*}
+Then, since a map
+\begin{equation*}
+  \sigma\colon \Delta^{n} \to X
+\end{equation*}
+cannot hit more that one of the $X_{i}$, we have
+\begin{equation*}
+  \Top(\Delta^{n}, \coprod_{i} X_{i}) \cong \coprod_{i} \Top(\Delta^{n}, X_{i}).
+\end{equation*}
+Thus, since the free abelian group functor $\mathcal{F}$ and the Moore functor $M$ are left adjoint, they preserve colimits and we have
+\begin{equation*}
+  C_{n}(\coprod_{i} X_{i}) \cong \bigoplus_{i} C_{n}(X_{i}).
+\end{equation*}
 
 \section{The Hurewicz homomorphism}
 \label{sec:the_hurewicz_homomorphism}
@@ -504,7 +602,7 @@ That is, when considering relative homology $H_{n}(X, A)$, we may cut away a sub
 
   Thus, for $i > 1$, we have
   \begin{equation*}
-    H_{i}(\S^{j}) \equiv H_{i-1}(\S^{j-1}).
+    H_{i}(\S^{j}) \cong H_{i-1}(\S^{j-1}).
   \end{equation*}
 
   We have already noted the following facts.
@@ -1668,7 +1766,7 @@ Our goal is to find a way of making a $p$-simplex in $X$ and a $q$-simplex in $Y
       & S_{p+q}(X \times Y)
     \end{tikzcd}
   \end{equation*}
-  tells us that 
+  tells us that
   \begin{align*}
     S_{p+q}(\alpha, \beta)(\id_{\Delta^{p}} \times \id_{\Delta^{q}}) &= S_{p}(\alpha)(\id_{\Delta^{p}}) \times S_{q}(\beta)(\id_{\Delta^{q}}) \\
     S_{p+q}(\alpha, \beta)(c) &= \alpha \times \beta.
