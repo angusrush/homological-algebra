@@ -416,7 +416,14 @@ As the following proposition shows, additive functors from additive categories p
   \begin{itemize}
     \item The category $\Ch(\mathcal{A})$ of chain complexes in $\mathcal{A}$ is abelian, as we will see in
 
-    \item For any small category $I$, the category $\mathbf{Fun}(I, \mathcal{A})$ of $I$-diagrams in $\mathcal{A}$ is abelian.
+    \item For any small category $I$, the category $\mathbf{Fun}(I, \mathcal{A})$ of $I$-diagrams in $\mathcal{A}$ is abelian. To see this, note the following.
+      \begin{itemize}
+        \item Addition of natural transformations, defined pointwise, is an $\Ab$-enrichment.
+
+        \item Finite products exist because limits in functor categories are taken pointwise.
+
+        \item Every morphism has a kernel and cokernel; and every monomorphism is the kernel of its cokernel; and every epimorphism is the cokernel of its kernel; because limits and colimits in functor categories are taken pointwise.
+      \end{itemize}
   \end{itemize}
 \end{example}
 

@@ -1416,7 +1416,7 @@ There is another version of the snake lemma which does not have the first and la
       & 0
     \end{tikzcd}
   \end{equation*}
-  we have the following results.
+  we have the following results. Note that we do not assume that the columns are chain complexes.
   \begin{enumerate}
     \item If the first and the second columns $A_{\bullet}$ and $B_{\bullet}$ are exact sequences, then third column $C_{\bullet}$ is also an exact sequence.
 
@@ -1823,6 +1823,11 @@ Our definition of homology now allows us to cleanly note the following.
   Note that the data of a kernel 
 \end{example}
 
+\begin{example}
+  Let $J$ be a filtered category, and let $\mathcal{A}$ be an abelian category. Then the category $\mathcal{A}^{J}$ is abelian (see \hyperref[eg:examples_of_abelian_categories]{Example~\ref*{eg:examples_of_abelian_categories}}).
+\end{example}
+
+
 \subsection{Exactness of the hom functor and tensor products}
 \label{ssc:exactness_of_the_hom_functor_and_tensor_products}
 
@@ -1956,6 +1961,7 @@ Chain homotopies are, at this point, best thought of as a technical tool which a
 Chain homotopies will help us to understand the slippery notion of quasi-isomorphism because chain homotopic maps will turn out to induce the same maps on homology.
 
 \begin{proposition}
+  \label{prop:chain_homotopic_maps_induce_same_map_on_homology}
   Let $f$, $g\colon C_{\bullet} \to D_{\bullet}$ be chain homotopic maps via a homotopy $h$. Then for all $n$,
   \begin{equation*}
     H_{n}(f) = H_{n}(g).
@@ -2029,7 +2035,7 @@ One of the drawbacks of diagrammatic reasoning in abelian categories (which is t
     & B
   \end{tikzcd}
 \end{equation*}
-Nowever, certain objects $X$ do have this property. For example, if $X$ is a free $R$-module, then we can find a lift by lifting generators; this is always possible. It will be interesting to find objects $X$ which allow this. Such objects are called \emph{projective.}
+However, certain objects $X$ do have this property. For example, if $X$ is a free $R$-module, then we can find a lift by lifting generators; this is always possible. It will be interesting to find objects $X$ which allow this. Such objects are called \emph{projective.}
 
 We will eventually be interested in projective objects because of the control they give us over quasi-isomorphisms.
 
@@ -2268,6 +2274,23 @@ We said that our success in our goal would be predicated on the existence of eno
 We have seen that for every object in in abelian category $\mathcal{A}$ with enough projectives, we can find a \emph{projective resolution,} i.e.\ a complex $P_{\bullet}$ of projectives and a quasi-isomorphism $P_{\bullet} \simto \iota(A)$. We would like to be able to extend this to a functor. This idea turns out not to work precisely as we would like, but it is nonetheless helpful to pursue it for a while.
 
 The first thing we need is a way of lifting morphisms in $\mathcal{A}$ to morphisms between projective resolutions.
+
+\begin{lemma}
+  \label{lemma:lift_of_zero_morphism_homotopic_to_zero}
+  Let $P_{\bullet}$ be a chain complex of projectives with $P_{n} = 0$ for $n \leq 0$, and let $D_{\bullet}$ be a chain complex with $D_{n} = 0$ for $n \leq 0$ such that $H_{n}(D) = 0$ for $n > 0$. Let $f\colon P_{\bullet} \to D_{\bullet}$ such that $f_{0} = 0$.
+  \begin{enumerate}
+    \item For any $f_{0}\colon P_{0} \to D_{0}$, there exists a lift to a chain map $f\colon P \to D$.
+
+    \item Any such lifts $f$, $f'\colon P \to D$ are chain homotopic.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \begin{enumerate}
+    \item We construct such a lift inductively.
+
+    \item It suffices to show that any lift of the zero morphism is chain homotopic to zero.
+  \end{enumerate}
+\end{proof}
 
 \begin{proposition}
   \label{prop:can_lift_morphisms_to_projective_resolutions}
@@ -3743,11 +3766,9 @@ Consider any morphism $\alpha$ in $\Ch_{\geq 0}(\Ch_{\geq 0}(\mathcal{A}))$ to a
 \subsection{Tensor-hom adjunction for chain complexes}
 \label{ssc:tensor_hom_adjunction_for_chain_complexes}
 
-In a general abelian category, there is no notion of a tensor product. However, many interesting abelian categories carry tensor products, and we would like to be able to talk about them. In this section, we let $\mathcal{A}$ be an abelian category and let
-\begin{equation*}
-  -\otimes -\colon \mathcal{A}\op \otimes \mathcal{A} \to \mathcal{H},
-\end{equation*}
-be an additive functor, where $\mathcal{H}$ is some abelian category equipped with an exact functor to $\Ab$. Further suppose that
+In a general abelian category, there is no notion of a tensor product. However, in the category $\Rmod$, there \emph{is} a canonical tensor product, and we would like to be able to use homological algebra to understand it.
+
+One of the fundamental properties of the tensor product (indeed, the property that justifies giving a universal construction the name tensor product) is that there is an adjunction between the tensor product and the hom functor. In this section, we will define that the tensor product on $\Rmod$ extends to a tensor product on $\Ch(\Rmod)$, and that this is left adjoint to an internal hom functor on $\Ch(\Rmod)$.
 
 \begin{definition}[tensor product of chain complexes]
   \label{def:tensor_product_of_chain_complexes}
@@ -3758,74 +3779,325 @@ be an additive functor, where $\mathcal{H}$ is some abelian category equipped wi
   where $\Tot(C_{\bullet} \otimes D_{\bullet})$ is the totalization of the double complex $C_{\bullet} \otimes D_{\bullet}$.
 \end{definition}
 
+The next step is to introduce the notion of the internal hom. The way to do this is the obvious one: we should have
+\begin{equation*}
+  \mathbf{Hom}(C_{\bullet}, D_{\bullet}) = \Tot(\Hom(C_{\bullet}, D_{\bullet})).
+\end{equation*}
+Unfortunately, even if $C_{\bullet}$ and $D_{\bullet}$ are bounded below, the double complex above will be second-quadrant rather than first, so our definition \hyperref[def:total_complex]{Definition~\ref*{def:total_complex}} of the total complex will not do. The reason for this mismatch is that, for double complexes which are not first quadrant, one must choose between the product and the coproduct, which no longer agree for infinite indexing sets.
+
+In our case, the product will be the correct choice. For this reason, we make the following definition.
+
 \begin{definition}[internal hom]
   \label{def:internal_hom}
-  Let $\mathcal{A}$ be an abelian category with an internal hom functor (for example, a category of modules over a commutative ring), and let $C_{\bullet}$, $D_{\bullet}$ be chain complexes in $\mathcal{A}$. We have
+  Let $C_{\bullet}$, $D_{\bullet}$ be chain complexes in $\mathcal{A}$. The \defn{internal hom functor} on $\Ch(\mathcal{A})$ is the functor
+  \begin{equation*}
+    \HOM_{\mathcal{A}}\colon \Ch(\mathcal{A})\op \times \Ch(\mathcal{A}) \to \Ch(\mathcal{A})
+  \end{equation*}
+  is defined by
+  \begin{equation*}
+    (\HOM_{\mathcal{A}})_{n} = \prod_{p+q=n} \Hom(C_{-p}, D_{q}),
+  \end{equation*}
+  and
+  \begin{equation*}
+    d = d^{C} + (-1)^{p} d^{D},
+  \end{equation*}
+  where the factor of $(-1)^{p}$ implements the sign trick.
 \end{definition}
+
+\begin{theorem}
+  There is an isomorphism
+  \begin{equation*}
+    \Hom_{\mathcal{A}}(C_{\bullet} \otimes_{R} D_{\bullet}, E_{\bullet}) \cong \Hom_{\mathcal{A}}(C_{\bullet}, \HOM(D_{\bullet}, E_{\bullet})),
+  \end{equation*}
+  natural in everything.
+\end{theorem}
+\begin{proof}
+  This is clear level-wise, since
+  \begin{align*}
+    \Hom((C_{\bullet} \otimes_{R} D_{\bullet})_{-n}, E_{m}) &\cong \Hom(\coprod_{p + q = -n}C_{p} \otimes_{R} D_{q}, E_{m}) \\
+    &\cong \prod_{p+q=-n} \Hom(C_{p} \otimes_{R} D_{q}, E_{m}) \\
+    &\cong \prod_{p+q=-n} \Hom(C_{p}, \Hom(D_{q}, E_{m})) \\
+  \end{align*}
+\end{proof}
 
 \subsection{The Künneth formula}
 \label{ssc:the_kunneth_formula}
 
-This section takes place in $\Rmod$, where $R$ is a PID. For example, everything we are saying holds in $\Ab$.
+This section takes place in $\Ab$. The same result holds in $\Rmod$, for $R$ a PID, but we will only need the $\Ab$ case.
 
-\begin{lemma}
-  \label{lemma:stepping_stone_to_kunneth}
-  Let $C_{\bullet}$ be a chain complex of free $R$-modules with trivial differential, and let $C'_{\bullet}$ be an arbitrary chain complex. Then there is an isomorphism
+\begin{theorem}[Künneth]
+  \label{thm:kunneth_formula}
+  Let $C_{\bullet}$, $D_{\bullet} \in \Ch(\Ab)$, and suppose that $C_{\bullet}$ is free, that is, that $C_{n}$ is free for all $n$. Then there is a short exact sequence
   \begin{equation*}
-    \lambda\colon \bigoplus_{p + q = n} H_{p}(C_{\bullet}) \otimes H_{q}(C'_{\bullet}) \cong H_{n}(C_{\bullet} \otimes C'_{\bullet}).
+    \begin{tikzcd}[column sep=small]
+      0
+      \arrow[r]
+      & \displaystyle\bigoplus\limits_{p+q=n} H_{p}(C_{\bullet}) \otimes H_{q}(D_{\bullet})
+      \arrow[r, hook]
+      & H_{n}(C_{\bullet} \otimes D_{\bullet})
+      \arrow[r, two heads]
+      & \displaystyle\bigoplus\limits_{p+q=n-1} \Tor_{1}(H_{p}(C_{\bullet}), H_{q}(D_{\bullet}))
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
   \end{equation*}
-\end{lemma}
+\end{theorem}
 \begin{proof}
-  We write
-  \begin{equation*}
-    Z_{p} = Z_{p}(C_{\bullet}),\qquad B_{p} = B_{p}(C_{\bullet}),\qquad Z'_{p} = Z_{p}(C'_{\bullet}),\qquad B'_{p} = B_{p}(C'_{\bullet}),
-  \end{equation*}
-  The sequence
+  Denote by $Z^{C}_{\bullet}$ the chain complex given level-wise by $Z^{C}_{n} = Z_{n}(C_{\bullet})$, and with trivial differentials. Define $B^{C}_{\bullet}$ and $H^{C}_{\bullet}$ similarly. Then, essentially by definition, we have the following short exact sequences of chain complexes.
+  \begin{equation}
+    \label{eq:seq1}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & Z^{C}_{\bullet}
+      \arrow[r, hook]
+      & C_{\bullet}
+      \arrow[r, two heads]
+      & B^{C}[-1]_{\bullet}
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation}
+  \begin{equation}
+    \label{eq:seq2}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & B^{C}_{\bullet}
+      \arrow[r, hook]
+      & Z^{C}_{\bullet}
+      \arrow[r, two heads]
+      & H^{C}_{\bullet}
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation}
+
+  We happily note that \hyperref[eq:seq2]{Sequence~\ref*{eq:seq2}}, taken level-wise, gives a free resolution of $H^{C}_{\bullet}$.
+
+  Since \hyperref[eq:seq1]{Sequence~\ref*{eq:seq1}} is level-wise split, applying $- \otimes D$ takes the rows to short exact sequences. Since a short exact sequence of chain complexes is simply a sequence of chain complexes whose rows are short exact, the following sequence of chain complexes is short exact.
   \begin{equation*}
     \begin{tikzcd}
       0
       \arrow[r]
-      & Z_{q}'
+      & (Z^{C} \otimes D)_{\bullet}
       \arrow[r, hook]
-      & C_{q}'
+      & (C \otimes D)_{\bullet}
       \arrow[r, two heads]
-      & B_{q-1}'
+      & (B^{C}[-1] \otimes D)_{\bullet}
       \arrow[r]
       & 0
-    \end{tikzcd}
+    \end{tikzcd}.
   \end{equation*}
-  is exact by definition, and since $Z_{p} = C_{p}$ is by assumption free, the sequence
-
-  By definition, $Z_{p} = C_{p}$ is free. Thus the sequence
+  Thus, we get a long exact sequence on homology. 
   \begin{equation*}
     \begin{tikzcd}
-      0
+      & \cdots
       \arrow[r]
-      & Z_{p} \otimes Z_{q}'
-      \arrow[r, hook]
-      & Z_{p} \otimes C_{q}'
-      \arrow[r, two heads]
-      & Z_{p} \otimes B_{q-1}'
+      & H_{n+1}(B^{C}[-1] \otimes D)
+      \arrow[dll, out=-22, in=157, looseness=1, overlay, "\delta" description]
+      \\
+      H_{n}(Z^{C} \otimes D)
       \arrow[r]
-      & 0
+      & H_{n}(C \otimes D)
+      \arrow[r]
+      & H_{n}(B^{C}[-1] \otimes D)
+      \arrow[dll, out=-22, in=157, looseness=1, overlay, "\delta" description]
+      \\
+      H_{n-1}(Z^{C} \otimes D)
+      \arrow[r]
+      & \cdots
     \end{tikzcd}
   \end{equation*}
-  is exact.
 
-  The differential of the tensor product complex $C_{\bullet} \otimes C'_{\bullet}$ is
+  Consider several terms of the chain complex $(B^{C}[-1] \otimes D)_{\bullet}$.
+  \begin{equation*}
+    \begin{tikzcd}
+      \cdots
+      \arrow[r]
+      & \displaystyle\bigoplus\limits_{p+q=n+1} B^{C}_{p-1} \otimes D_{q}
+      \arrow[r]
+      & \displaystyle\bigoplus\limits_{p+q=n} B^{C}_{p-1} \otimes D_{q}
+      \arrow[r]
+      & \cdots
+    \end{tikzcd}
+  \end{equation*}
+  Because of the triviality of the differential of $B^{C}[-1]$, the above morphisms are a direct sum of morphisms
+  \begin{equation*}
+    \begin{tikzcd}
+      B^{C}_{p-1} \otimes D_{q} 
+      \arrow[r, "\id_{B} \otimes d^{D}"]
+      & B^{C}_{p-1} \otimes D_{q-1} 
+    \end{tikzcd}.
+  \end{equation*}
+  Hence, because $B^{C}_{p-1}$ is free, the homology of $(B^{C}[-1] \otimes D)_{\bullet}$ is
   \begin{align*}
-    d^{\mathrm{tot}}_{n} &= \sum_{i = 0}^{n} d^{C}_{i} \otimes \id_{C_{n-i}} + (-1)^{i} \id_{C_{i}} \otimes d^{C'}_{n-i} \\
-    &= \sum_{i = 0}^{n} (-1)^{i}\id_{C_{i}} \otimes d^{C}_{n-i}.
+    H_{n}(B[-1] \otimes D) &= \bigoplus_{p+q=n} B_{p-1} \otimes H_{n}(D) \\
+    &= \bigoplus_{p+q=n=1} B_{p} \otimes H_{n}(D) \\
+    &= (B^{C} \otimes H^{D})_{n-1}, \\
   \end{align*}
-  Since $C_{i}$ is by assumption free, tensoring with it doesn't change homology, and we have
+  where we have defined $H^{D}_{\bullet}$ in analogy with $H^{C}_{\bullet}$.
+
+  Exactly the same reasoning as above shows that
   \begin{equation*}
-    Z_{n}(C_{\bullet} \otimes C'_{\bullet}) = \bigoplus_{p + q = n} Z_{p} \otimes Z'_{q},
-  \end{equation*}
-  and
-  \begin{equation*}
-    Z_{n}(C_{\bullet} \otimes C'_{\bullet}) = \bigoplus_{p + q = n} Z_{p} \otimes Z'_{q},
+    H_{n}(Z \otimes D) = (Z \otimes H^{D})_{n}.
   \end{equation*}
 
+  Making these replacements in our long exact sequence gives us the following.
+  \begin{equation*}
+    \begin{tikzcd}
+      & \cdots
+      \arrow[r]
+      & (B^{C} \otimes H^{D})_{n}
+      \arrow[dll, out=-22, in=157, looseness=1, overlay, "\delta" description]
+      \\
+      (Z^{C} \otimes H^{D})_{n}
+      \arrow[r]
+      & H_{n}(C \otimes D)
+      \arrow[r]
+      & (B^{C} \otimes H^{D})_{n-1}
+      \arrow[dll, out=-22, in=157, looseness=1, overlay, "\delta" description]
+      \\
+      (Z^{C} \otimes H^{D})_{n-1}
+      \arrow[r]
+      & \cdots
+    \end{tikzcd}
+  \end{equation*}
+
+  A quick computation shows that
+  \begin{equation*}
+    \delta = \bigoplus_{p+q=n}(B^{C}_{p} \hookrightarrow Z_{p}^{C}) \otimes \id_{H^{D}_{q}}.
+  \end{equation*}
+  The kernel and cokernel of the connecting homomorphism are refreshingly familiar. The kernel corresponds precisely to our definition of $\Tor$ coming from the projective resolution from \hyperref[eq:seq2]{Sequence~(\ref*{eq:seq2})}, and the cokernel is the definition of $n$th homology.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=small]
+      \displaystyle\bigoplus\limits_{p+q=n}\Tor_{1}^{\Z}(H_{p}(C), H^{D}_{q})
+      \arrow[d, equals]
+      &&& \displaystyle\bigoplus\limits_{p+q=n} H_{p}(C) \otimes H_{q}^{D}
+      \arrow[d, equals]
+      \\
+      \ker \delta
+      \arrow[r, hook]
+      & \displaystyle\bigoplus\limits_{p+q=n} B^{C}_{p} \otimes H^{D}_{q}
+      \arrow[r, "\delta"]
+      & \displaystyle\bigoplus\limits_{p+q=n} Z^{C}_{p} \otimes H^{D}_{q}
+      \arrow[r, two heads]
+      & \coker \delta
+    \end{tikzcd}.
+  \end{equation*}
+
+  We can decorate our long exact sequence with these to find the following solid short exact sequence.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=tiny]
+      & 0
+      \arrow[dr]
+      \\
+      && \displaystyle\bigoplus\limits_{p+q=n} H_{p}(C) \otimes H_{q}^{D}
+      \arrow[dr, hook]
+      \\
+      \cdots
+      \arrow[r, dashed]
+      & (Z^{C} \otimes H^{D})_{n}
+      \arrow[ur, dashed]
+      \arrow[rr, dashed]
+      && H_{n}(C \otimes D)
+      \arrow[rr, dashed]
+      \arrow[dr, two heads]
+      && (B^{C} \otimes H^{D})_{n-1}
+      \arrow[r, dashed]
+      & \cdots
+      \\
+      &&&& \displaystyle\bigoplus\limits_{p+q=n-1}\Tor_{1}^{\Z}(H_{p}(C), H^{D}_{q})
+      \arrow[ur, dashed]
+      \arrow[dr]
+      \\
+      &&&&& 0
+    \end{tikzcd}
+  \end{equation*}
+
+  Replacing $H^{C}_{n}$ by $H_{n}(C)$ and $H^{D}_{n}$ by $H_{n}(D)$, we find precisely the sequence we were looking for.
 \end{proof}
+
+\begin{proposition}
+  The short exact sequence in the Künneth formula splits, but not canonically.
+\end{proposition}
+
+\begin{corollary}[universal coefficient theorem]
+  \label{cor:universal_coefficient_theorem}
+  Let $C_{\bullet}$ be a chain complex of free abelian groups, and let $A$ be an abelian group. Then there is a short exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & H_{n}(C) \otimes A
+      \arrow[r, hook]
+      & H_{n}(C \otimes A)
+      \arrow[r, two heads]
+      & \Tor(H_{n-1}(C), A)
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+\end{corollary}
+
+%\begin{lemma}
+%  \label{lemma:stepping_stone_to_kunneth}
+%  Let $C_{\bullet}$ be a chain complex of free $R$-modules with trivial differential, and let $C'_{\bullet}$ be an arbitrary chain complex. Then there is an isomorphism
+%  \begin{equation*}
+%    \lambda\colon \bigoplus_{p + q = n} H_{p}(C_{\bullet}) \otimes H_{q}(C'_{\bullet}) \cong H_{n}(C_{\bullet} \otimes C'_{\bullet}).
+%  \end{equation*}
+%\end{lemma}
+%\begin{proof}
+%  We write
+%  \begin{equation*}
+%    Z_{p} = Z_{p}(C_{\bullet}),\qquad B_{p} = B_{p}(C_{\bullet}),\qquad Z'_{p} = Z_{p}(C'_{\bullet}),\qquad B'_{p} = B_{p}(C'_{\bullet}),
+%  \end{equation*}
+%  The sequence
+%  \begin{equation*}
+%    \begin{tikzcd}
+%      0
+%      \arrow[r]
+%      & Z_{q}'
+%      \arrow[r, hook]
+%      & C_{q}'
+%      \arrow[r, two heads]
+%      & B_{q-1}'
+%      \arrow[r]
+%      & 0
+%    \end{tikzcd}
+%  \end{equation*}
+%  is exact by definition, and since $Z_{p} = C_{p}$ is by assumption free, the sequence
+%
+%  By definition, $Z_{p} = C_{p}$ is free. Thus the sequence
+%  \begin{equation*}
+%    \begin{tikzcd}
+%      0
+%      \arrow[r]
+%      & Z_{p} \otimes Z_{q}'
+%      \arrow[r, hook]
+%      & Z_{p} \otimes C_{q}'
+%      \arrow[r, two heads]
+%      & Z_{p} \otimes B_{q-1}'
+%      \arrow[r]
+%      & 0
+%    \end{tikzcd}
+%  \end{equation*}
+%  is exact.
+%
+%  The differential of the tensor product complex $C_{\bullet} \otimes C'_{\bullet}$ is
+%  \begin{align*}
+%    d^{\mathrm{tot}}_{n} &= \sum_{i = 0}^{n} d^{C}_{i} \otimes \id_{C_{n-i}} + (-1)^{i} \id_{C_{i}} \otimes d^{C'}_{n-i} \\
+%    &= \sum_{i = 0}^{n} (-1)^{i}\id_{C_{i}} \otimes d^{C}_{n-i}.
+%  \end{align*}
+%  Since $C_{i}$ is by assumption free, tensoring with it doesn't change homology, and we have
+%  \begin{equation*}
+%    Z_{n}(C_{\bullet} \otimes C'_{\bullet}) = \bigoplus_{p + q = n} Z_{p} \otimes Z'_{q},
+%  \end{equation*}
+%  and
+%  \begin{equation*}
+%    Z_{n}(C_{\bullet} \otimes C'_{\bullet}) = \bigoplus_{p + q = n} Z_{p} \otimes Z'_{q},
+%  \end{equation*}
+%
+%\end{proof}
 
 \end{document}
