@@ -1,0 +1,384 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Cohomology}
+\label{ch:cohomology}
+
+\section{Axiomatic description of a cohomology theory}
+\label{sec:axiomatic_description_of_a_cohomology_theory}
+
+There are dual axioms to the Eilenberg-Steenrod axioms (introduced in \hyperref[def:homology_theory]{Definition~\ref*{def:homology_theory}}) which govern cohomology theories.
+
+\begin{definition}[cohomology theory]
+  \label{def:cohomology_theory}
+  Let $A$ be an abelian group. A \defn{cohomology theory with coefficients in $A$} is a series of functors
+  \begin{equation*}
+    H^{n}\colon \Pair\op \to \Ab;\qquad n \geq 0
+  \end{equation*}
+  together with natural transformations
+  \begin{equation*}
+    \partial\colon H^{n} \circ T\op \Rightarrow H^{n+1}
+  \end{equation*}
+  satisfying the following conditions.
+  \begin{enumerate}
+    \item \textbf{Homotopy:} If $f$ and $g$ are homotopic maps of pairs, then $H^{n}(f) = H^{n}(g)$ for all $n$.
+
+    \item \textbf{Excision:} If $(X, A)$ is a pair with $U \subset X$ such that $\bar{U} \subset \mathring{A}$, then the inclusion $i\colon (X\smallsetminus U, A \smallsetminus U) \hookrightarrow (X, A)$ induces an isomorphism
+      \begin{equation*}
+        H^{n}(i)\colon H^{n}(X, A) \cong H^{n}(X \smallsetminus U, A \smallsetminus U)
+      \end{equation*}
+      for all $n$.
+
+    \item \textbf{Dimension:} We have
+      \begin{equation*}
+        H^{n}(\pt) =
+        \begin{cases}
+          A, &n = 0 \\
+          0, &\text{otherwise}.
+        \end{cases}
+      \end{equation*}
+
+    \item \textbf{Additivity:} If $X = \coprod_{\alpha} X_{\alpha}$ is a disjoint union of topological spaces, then
+      \begin{equation*}
+        H^{n}(X) = \prod_{\alpha} H^{n}(X_{\alpha}).
+      \end{equation*}
+
+    \item \textbf{Exactness:} Each pair $(X, A)$ induces a long exact sequence on cohomology.
+  \end{enumerate}
+\end{definition}
+
+\section{Singular cohomology}
+\label{sec:singular_cohomology}
+
+\begin{definition}[singular cohomology]
+  \label{def:singular_cohomology}
+  Let $G$ be an abelian group. The \defn{singular cochain complex of $X$ with coefficients in $G$} is the cochain complex
+  \begin{equation*}
+    S^{\bullet}(X; G) = \Hom(S_{\bullet}, G)
+  \end{equation*}
+\end{definition}
+
+We will denote the evaluation map $\Hom(A, G) \otimes A \to G$ using angle brackets $\langle \cdot,\cdot \rangle$. In this form, it is usually called the \emph{Kroenecker pairing.}
+
+\begin{lemma}
+  \label{lemma:kroenecker_pairing_descends_to_homology}
+  Let $C_{\bullet}$ be a chain complex. The evaluation map (also known as the \emph{Kroenecker pairing})
+  \begin{equation*}
+    \langle \cdot,\cdot \rangle\colon C^{n}(X; G) \otimes C_{n}(X) \to G
+  \end{equation*}
+  descends to a map on homology
+  \begin{equation*}
+    \langle \cdot,\cdot \rangle\colon H^{n}(C^{\bullet}) \otimes H_{n}(C_{\bullet}) \to G.
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  Let $\alpha\colon C_{n} \to G \in C^{n}$ be a cocycle and $a \in C_{n}$ a cycle, and let $d b \in C_{n}$ be a boundary. Then
+  \begin{align*}
+    \langle \alpha, a + db \rangle &= \langle \alpha, a \rangle + \langle \alpha, db \rangle \\
+    &= \langle \alpha, a \rangle + \langle \delta \alpha, b \rangle \\
+    &= \langle \alpha, a \rangle.
+  \end{align*}
+
+  Furthermore, if $\delta \beta \in C^{n}$ is a cocycle, then
+  \begin{align*}
+    \langle \alpha + \delta \beta, a \rangle &= \langle \alpha, a \rangle + \langle \delta \beta, a \rangle \\
+    &= \langle \alpha, a \rangle + \langle \beta, d a \rangle \\
+    &= \langle \alpha, a \rangle
+  \end{align*}
+\end{proof}
+
+Via $\otimes$-hom adjunction, we get a map
+\begin{equation*}
+  \kappa\colon H^{n}(C^{\bullet}) \to \Hom(H_{n}(C_{\bullet}), G).
+\end{equation*}
+
+\begin{theorem}[universal coefficient theorem for singular cohomology]
+  Let $X$ be a topological space, and $G$ an abelian group. There is a split exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \Ext(H_{n-1}(X), G)
+      \arrow[r, hook]
+      & H^{n}(X; G)
+      \arrow[r, two heads]
+      & \Hom(H_{n}(X), G)
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+\end{theorem}
+\begin{proof}
+  We now
+\end{proof}
+
+\begin{example}
+  We have seen (in \hyperref[eg:homology_of_complex_projective_space]{Example~\ref*{eg:homology_of_complex_projective_space}}) that the homology of $\C P^{n}$ is
+  \begin{equation*}
+    H_{k}(\C P^{n}) =
+    \begin{cases}
+      \Z, &0 \leq k \leq 2n,\ k \text{ even},\\
+      0, &\text{otherwise}.
+    \end{cases}
+  \end{equation*}
+
+  Thus, for $0 \leq k \leq n$, $k$ even, we find
+  \begin{align*}
+    H^{k}(\C P^{n}; \Z) &\cong \Ext^{1}(0, \Z) \oplus \Hom(\Z,\Z) \\
+    &\cong \Z.
+  \end{align*}
+  For $k$ odd with $0 \leq k \leq n$, we have
+  \begin{align*}
+    H^{k}(\C P^{n}; \Z) &\cong \Ext^{1}(\Z, \Z) \oplus \Hom(0,\Z) \\
+    &\cong 0.
+  \end{align*}
+
+  For $k > n$, we get $H^{k}(\C P^{n}; \Z) = 0$.
+\end{example}
+
+\section{The cap product}
+\label{sec:the_cap_product}
+
+The Kroenecker pairing gives us a natural evaluation map
+\begin{equation*}
+  S^{n}(X) \otimes S_{n}(X) \to \Z,
+\end{equation*}
+allowing an $n$-cochain to eat an $n$-chain. A cochain of order $q$ cannot directly act on a chain of degree $n > q$, but we can split such a chain up into a singular $q$-simplex, on which our cochain can act, and a singular $n-q$-simplex, which is along for the ride.
+
+\begin{definition}[front, rear face]
+  \label{def:front_rear_face}
+  Let $a\colon \Delta^{n} \to X$ be a singular $n$-simplex, and let $0 \leq q \leq n$.
+  \begin{itemize}
+    \item The \defn{$(n-q)$-dimensional front face} of $a$ is given by
+      \begin{equation*}
+        F^{n-q}(a) =
+        \begin{tikzcd}
+          \Delta^{n-q}
+          \arrow[r, "i"]
+          & \Delta^{tn}
+          \arrow[r, "a"]
+          & X
+        \end{tikzcd},
+      \end{equation*}
+      where $i$ is induced by the inclusion
+      \begin{equation*}
+        \{0, \ldots, n-q\} \hookrightarrow \{1, \ldots, n \};\qquad k \mapsto k.
+      \end{equation*}
+
+    \item The \defn{$q$-dimensional rear face} of $a$ is given by
+      \begin{equation*}
+        R^{q}(a) =
+        \begin{tikzcd}
+          \Delta^{q}
+          \arrow[r, "r"]
+          & \Delta^{n}
+          \arrow[r, "a"]
+          & X
+        \end{tikzcd},
+      \end{equation*}
+      where $r$ is the map
+      \begin{equation*}
+        \{0, \ldots q\} \to \{0, \ldots, n\};\qquad k \mapsto n-q+k.
+      \end{equation*}
+  \end{itemize}
+\end{definition}
+
+Note that for $a \in S_{n}(X)$, we can write
+\begin{equation*}
+  F^{n-q}(a) = (\partial_{n-q+1} \circ \partial_{n-q+2} \circ \cdots \circ \partial_{n})(a)
+\end{equation*}
+and
+\begin{equation*}
+  R^{q}(a) = (\overbrace{\partial_{0} \circ \partial_{0} \circ \cdots \circ \partial_{0}}^{q\text{ times}}) (a).
+\end{equation*}
+
+The cap product will be a map
+\begin{equation*}
+  \frown\colon S^{q}(X) \otimes S_{n}(X) \to S_{n-q}(X);\qquad \alpha \otimes a \mapsto F^{n-q}(a)\langle a, R^{q}(a) \rangle.
+\end{equation*}
+However, we will want to generalize slightly, to arbitrary coefficient systems and relative homology.
+
+\begin{definition}[cap product]
+  \label{def:cap_product}
+  The \defn{cap product} is the map
+  \begin{equation*}
+    \frown\colon S^{q}(X, A; R) \otimes S_{n}(X, A; R) \to S_{n-q}(X; R); \qquad \alpha \otimes a \otimes r \mapsto F^{n-q}(a) \otimes \langle \alpha, R^{q}(a) \rangle r.
+  \end{equation*}
+\end{definition}
+
+Of course, we need to check that this is well-defined, i.e.\ that for $b \in S_{n}(A) \subset S_{n}(X)$, we have $\alpha \frown b = 0$. We compute
+\begin{equation*}
+  \alpha \frown b = F^{n-1}(b) \otimes \langle \alpha, R^{q}(b) \rangle.
+\end{equation*}
+Since $b \in S_{n}(A)$, we certainly have that $R^{q}(b) \in S_{n}(A)$. But then $\langle\alpha, R^{q}(b)\rangle = 0$ by definition of relative cohomology.
+
+\begin{lemma}
+  \label{lemma:cap_product_leibniz_rule}
+  The cap product obeys the Leibniz rule, in the sense that
+  \begin{equation*}
+    \partial(\alpha \frown (a \otimes r)) = (\delta \alpha) \frown (a \otimes r) + (-1)^{q} \alpha \frown (\partial \alpha \otimes r).
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  We do three calculations.
+  \begin{align*}
+    \partial( \alpha \frown a ) &= \partial(F^{n-q}(\alpha) \otimes \langle \alpha, R(a) \rangle) \\
+    &= \partial(F^{n-q}(a)) \otimes \langle \alpha, R^{q}(a) \rangle \\
+    &= \sum_{i = 0}^{n-q} (-1)^{i} \partial_{i} (\partial_{n-q+1} \circ \cdots \circ \partial_{n})(a) \otimes\langle \alpha, R^{q}(a) \rangle
+  \end{align*}
+
+  \begin{align*}
+    (\delta \alpha) \frown a &= F^{q}(a) \otimes \langle \delta \alpha, R^{q}(a) \rangle \\
+    &= F^{n-q}(a) \otimes \langle \delta \alpha, R^{q}(a) \rangle \\
+    &= F^{n-q}(a) \otimes \langle \alpha, \partial R^{q}(a) \rangle \\
+    &= \sum_{i = 0}^{q} (-1)^{i} F^{n-q}(a) \otimes \langle \alpha, \partial_{i} \circ \partial_{0}^{q} a \rangle
+  \end{align*}
+
+  \begin{align*}
+    \alpha \frown (\partial a) =
+  \end{align*}
+\end{proof}
+
+\begin{proposition}
+  The cap product descends to a map on homology; that is, we get a map
+  \begin{equation*}
+    \frown\colon H^{q}(X, A; R) \otimes H_{n}(X, A; R) \to H_{n-q}(X; R); \qquad [\alpha] \otimes [a \otimes r] \mapsto [F^{n-q}(a) \otimes \langle \alpha, R^{q}(a) \rangle r].
+  \end{equation*}
+\end{proposition}
+
+\section{The cup product}
+\label{sec:the_cup_product}
+
+Recall that we have constructed an \emph{Eilenberg-Zilber} map
+\begin{equation*}
+  H_{i}(X) \otimes H_{j}(X) \to H_{i+j}(X \times X)
+\end{equation*}
+in \hyperref[ssc:eilenberg_zilber_high_brow]{Subsection~\ref*{ssc:eilenberg_zilber_high_brow}}. By
+
+\section{Manifold orientations}
+\label{sec:manifold_orientations}
+
+Let \(M\) be an \(n\)-dimensional topological manifold. Without loss of generality, we may choose an atlas for \(M\) such that each each point \(x \in M\) has a chart \((U_{x}, \phi_{x})\) such that \(U_{x} \cong \R^{n}\) and \(\phi_{x}(x) = 0 \in \R^{n}\).
+
+Let \(x \in M\). Then
+\begin{align*}
+  H_{n}(M, M\smallsetminus\{x\}) &\cong H_{n}(M \smallsetminus (M \smallsetminus U_{x}), M\smallsetminus \{x\} \smallsetminus (M \smallsetminus U_{x})) &(\text{excision}) \\
+  &\cong H_{n}(U_{x}, U_{x} \smallsetminus \{x\}) \\
+  &\cong H_{n}(\D^{n}, \S^{n-1}) &(\text{homotopy}) \\
+  &\cong H_{n-1}(\S^{n-1}) &(\text{\hyperref[eg:sphere_modulo_boundary]{Example~\ref*{eg:sphere_modulo_boundary}}})\\
+  &\cong \Z.
+\end{align*}
+
+For any other point \(y \in U_{x}\), an orientation at \(x\) gives an orientation at \(y\) via the composition
+\begin{equation*}
+  H_{n}(X, X\smallsetminus \{x\}) \cong H_{n}(X, X\smallsetminus U_{x}) \cong H_{n}(X, X\smallsetminus \{y\}).
+\end{equation*}
+
+We call a choice of generator of \(H_{n}(X, X \smallsetminus \{x\} )\) a \emph{local orientation} on \(M\) at \(x\).
+
+We will use the following notation: for a pair \(X, A\), we will write
+\begin{equation*}
+  H_{n}(X, A \smallsetminus X) = H_{n}(X \mid A).
+\end{equation*}
+Furthermore, if \(A = \{x\}\), we will write \(H_{n}(X \mid x)\) instead of \(H_{n}(X \mid \{x\})\).
+
+We think of \(H_{n}(X \mid A)\) as the \emph{local homology} of \(A\) in \(X\), since it depends (by excision) only on the closure of \(A\) in \(X\).
+
+\begin{definition}[orientation cover]
+  \label{def:orientation_cover}
+  Let \(M\) be an \(n\)-dimensional manifold. The \defn{orientation cover} of \(M\) is, as a set,
+  \begin{equation*}
+    \tilde{M} = \{\mu_{x} \mid x \in M,\ \mu_{x} \text{ is a local orientation of }M \text{ at }x\}.
+  \end{equation*}
+\end{definition}
+
+There is a clear surjection from \(\tilde{M}\) to \(M\) as follows.
+\begin{equation*}
+  \begin{tikzcd}
+    \tilde{M}
+    \arrow[d]
+    & \mu_{x}
+    \arrow[d, mapsto]
+    \\
+    M
+    & x
+  \end{tikzcd}
+\end{equation*}
+
+The set \(\tilde{M}\) turns out to be a topological manifold, and the surjection \(\tilde{M} \to M\) turns out to be a double cover.
+
+\begin{definition}[orientation]
+  \label{def:orientation}
+  Let \(M\) be an \(n\)-dimensional manifold. An \defn{orientation} on \(M\) is a set-section \(\sigma\) of the bundle \(\tilde{M} \to M\) satisfying the following condition: for any \(x \in M\) and any \(y \in U_{x}\), the induced local orientation at \(y\) is equal to \(\sigma(y)\).
+\end{definition}
+
+For a triple \(B \subset A \subset X\) denote the canonical map on pairs \((X, X\smallsetminus A) \to (X, X\smallsetminus B)\) by \(\rho_{B, A}\).
+
+\begin{lemma}
+  \label{lemma:manifold_induction_for_compacta}
+  Let \(M\) be a connected, orientable topological manifold of dimension \(m\), and let \(K s\{ M\}\) be a compact subset.
+  \begin{enumerate}
+    \item For all \(q > m\), \(H_{q}(M \mid K) = 0\).
+
+    \item If \(a \in H_{m}(M \mid k)\), then \(a = 0\) if and only if \((\rho_{x, K})_{*}a = 0\) for all \(x \in X\).
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  We prove the lemma in several steps.
+  \begin{enumerate}
+    \item First take \(M = \R^{m}\) and \(K \subset M\) compact and convex, so that any \(x \in K\) is a deformation retract of \(K\). Then, since \(K\) is closed and bounded, we can find an open ball \(\mathring{\D}^{m}\) with \(K \subset \mathring{\D}^{m}\). Then certainly
+      \begin{equation*}
+        \overline{M \smallsetminus \mathring{\D}^{m}} = M \smallsetminus \D^{m} \subset \mathring{(M \smallsetminus K)} = M \smallsetminus K,
+      \end{equation*}
+      so by excision and deformation retractness we have
+      \begin{align*}
+        H_{q}(M, M \smallsetminus K) &\cong H_{q}(M \smallsetminus (M \smallsetminus \mathring{\D}^{m}), (M \smallsetminus K) \smallsetminus (M \smallsetminus \mathring{\D}^{m})) \\
+        &= H_{q}(\D^{m}, \D^{m} \smallsetminus K) \\
+        &\cong H_{q}(\D^{m}, \D^{m} \smallsetminus \{x\}) \\
+        &\cong H_{q}(\D^{m}, \S^{m-1}) \\
+        &\cong H_{q-1}(\S^{m-1}).
+      \end{align*}
+      For \(q > m\), this is \(0\), and for \(q = m\) we note that similar reasoning provides an isomorphism
+      \begin{equation*}
+        H_{q}(M, M \smallsetminus K) \cong H_{q}(M, M \smallsetminus \{x\})\text{ for all } x \in X.
+      \end{equation*}
+
+    \item Now let \(M = \R^{n}\) and \(K = K_{1} \cup K_{2}\), where \(K_{i}\) is compact and convex. Note that \(K_{1} \cap K_{2}\) is also compact and convex. Consider the following relative Mayer-Vietoris sequence.
+      \begin{equation*}
+        \begin{tikzcd}
+          & \cdots
+          \arrow[r]
+          & H_{q+1}(M\mid K_{1} \cap K_{2})
+          \\
+          H_{q}(M\mid K_{1} \cup K_{2})
+          \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
+          \arrow[r]
+          & H_{q}(M\mid K_{1}) \oplus H_{q}(M\mid K_{2})
+          \arrow[r]
+          & H_{q}(M\mid K_{1} \cap K_{2})
+          \\
+          H_{q-1}(M\mid K_{1} \cup K_{2})
+          \arrow[r]
+          \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
+          & \cdots
+        \end{tikzcd}
+      \end{equation*}
+
+      For \(q > n\), Part 1.\ implies that
+      \begin{equation*}
+        H_{q+1}(M\mid K_{1} \cap K_{2}) = H_{q}(M \mid K_{1}) = H_{q}(M \mid K_{2}) = 0,
+      \end{equation*}
+      so by exactness \(H_{q}(M \mid K_{1} \cup K_{2}) = 0\).
+
+    \item For \(M = \R^{n}\), \(K = \bigcup_{i} K_{i}\) for \(K_{i}\) compact and contractible, we get the result by induction.
+
+    \item
+  \end{enumerate}
+\end{proof}
+
+\begin{proposition}
+  Let \(K \subset M\) be compact, and assume that \(M\) is connected and oriented via an orientation \(x \mapsto o_{x} \in H_{m}(X \mid x)\).
+\end{proposition}
+
+\end{document}
