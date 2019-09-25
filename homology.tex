@@ -200,7 +200,7 @@ There is also another interpretation of reduced homology. Recall that we have us
   \begin{equation*}
     \Top\left(\Delta^{n}, \coprod_{i} X_{i}\right) \cong \coprod_{i} \Top(\Delta^{n}, X_{i}).
   \end{equation*}
-  Thus, since the free abelian group functor $\mathcal{F}$ and the Moore functor $M$ are left adjoint, they preserve colimits and we have
+  Thus, since the free abelian group functor $\mathcal{F}$ and the Moore functor $M$ are both left adjoints, they preserve colimits and we have
   \begin{equation*}
     S_{n}\left(\coprod_{i} X_{i}\right) \cong \bigoplus_{i} S_{n}(X_{i}).
   \end{equation*}
@@ -438,9 +438,9 @@ The freeness condition can be interpreted as telling us that in order to know ho
   \label{thm:acyclic_model_theorem}
   Let $(\mathcal{C}, \mathcal{M})$ be a category with models, and let $F$, $G$ be functors $\mathcal{C} \to \Ch_{\geq 0}(\Rmod)$ such that $F$ is free on $\mathcal{M}$ and $G$ is acyclic on $\mathcal{M}$.
   \begin{enumerate}
-    \item Any natural transformation $\bar{\tau}_{0}\colon H_{0}(F) \to H_{0}(G)$ is induced by a natural chain map $\tau\colon F \to G$.
+    \item Any natural transformation $\bar{\tau}_{0}\colon H_{0}(F) \to H_{0}(G)$ can be extended to a natural chain map $\tau\colon F \to G$.
 
-    \item Two natural chain maps $\tau$, $\tau'\colon F \to G$ inducing the same natural transformation $H_{0}(G) \to H_{0}(G')$ are naturally chain homotopic.
+    \item This extendsion is unique up to homotopy in the sense that two natural chain maps $\tau$, $\tau'\colon F \to G$ inducing the same natural transformation $H_{0}(G) \to H_{0}(G')$ are naturally chain homotopic.
   \end{enumerate}
 \end{theorem}
 \begin{proof}
@@ -506,9 +506,8 @@ The freeness condition can be interpreted as telling us that in order to know ho
 
 We would like that two maps which are homotopic induce the same maps on homology. As alluded to in \hyperref[sec:chain_homotopies]{Section~\ref*{sec:chain_homotopies}}, we will see that a homotopy $H$ between maps $f$, $g\colon X \to Y$ induces a chain homotopy $h$ between $S_{n}(f)$ and $S_{n}(g)$.
 
-\subsection{Homotopy invariance: the high brow approach}
-\label{ssc:homotopy_invariance_the_high_brow_approach}
-
+\subsection{Homotopy invariance: with acyclic models}
+\label{ssc:homotopy_invariance_with_acyclic_models}
 
 \begin{proposition}
   Let $f$, $g\colon X \to Y$ be continuous maps between topological spaces, and let $H\colon X \times [0, 1] \to Y$ be a homotopy between them. Then $H$ induces a homotopy between $C(f)$ and $C(g)$.
@@ -571,8 +570,8 @@ We would like that two maps which are homotopic induce the same maps on homology
   \end{equation*}
 \end{example}
 
-\subsection{Homotopy-invariance: the low-brow approach}
-\label{ssc:homotopy_invariance_the_low_brow_approach}
+\subsection{Homotopy-invariance: without acyclic models}
+\label{ssc:homotopy_invariance_without_acyclic_models}
 
 
 Such a homotopy $H$ is a map
@@ -621,6 +620,88 @@ Here is the game plan.
 
   \item This tells us that \emph{homotopic maps between topological spaces induce the same map between homotopy groups.}
 \end{itemize}
+
+\begin{definition}[prism maps]
+  \label{def:prism_maps}
+  The \(i\)th \defn{prism map} is the map
+  \begin{equation*}
+    p_{i}\colon \Delta^{n+1} \to \Delta^{n} \times I;\qquad (t_{0}, \ldots, t_{n+1}) \mapsto \left((t_{0}, \ldots, t_{i} + t_{i+1}, \ldots, t_{n}), \sum_{j = i+1}^{n} t_{j}\right)
+  \end{equation*}
+\end{definition}
+
+The \(i\)th prism map sends the vertices \(\{0, \ldots, n + 1\} \in \Delta^{n}\) to the vertices of the prism as follows.
+\begin{equation*}
+  \begin{tikzcd}[column sep=tiny]
+    0
+    \arrow[d, mapsto]
+    & 1
+    \arrow[d, mapsto]
+    & 2
+    \arrow[d, mapsto]
+    & \cdots
+    & i
+    \arrow[d, mapsto]
+    & i+1
+    \arrow[d, mapsto]
+    & \cdots
+    & n+1
+    \arrow[d, mapsto]
+    \\
+    (0, 0)
+    & (1, 0)
+    & (2, 0)
+    & \cdots
+    & (i, 0)
+    & (i, 1)
+    & \cdots
+    & (n, 1)
+  \end{tikzcd}
+\end{equation*}
+
+We will denote the vertex \((j, 0)\) by \(a_{j}\) and \((j, 1)\) by \(b_{j}\). We can thus summarize the situation by saying that
+\begin{equation*}
+  p_{i}\colon (0, \ldots, n+1) \to (a_{1}, \ldots, a_{i}, b_{i}, \ldots, b_{n}),
+\end{equation*}
+where the \(i\)th element of the last tuple corresponds to the location of the \(i\)th vertex in the prism \(\Delta^{n} \times I\).
+
+\begin{definition}[prism operator]
+  \label{def:prism_operator}
+  We define maps
+  \begin{equation*}
+    P_{i}\colon S_{n}(X) \to S_{n+1}(X \times I)
+  \end{equation*}
+  which send \(\alpha\colon \Delta^{n} \to X\) to the composition
+  \begin{equation*}
+    \begin{tikzcd}
+      \Delta^{n+1}
+      \arrow[r, "p_{i}"]
+      & \Delta^{n} \times I
+      \arrow[r, "\alpha \times \id_{I}"]
+      & X \times I
+    \end{tikzcd}.
+  \end{equation*}
+
+  The \defn{prism operator} is the alternating sum
+  \begin{equation*}
+    \sum_{i = 0}^{n} P_{i}\colon S_{n}(X) \to S_{n+1}(X \times I).
+  \end{equation*}
+\end{definition}
+
+Given an \(n\)-simplex \(\sigma\), the prism operator \(P_{i}\) creates an \(n+1\)-simplex \((\alpha \times \id) \circ p_{i}\). To keep track of the indices of the \(n+1\)-simplex we are using, we notate this by
+\begin{equation*}
+  \left. (\sigma \times \id) \right|_{[a_{0}, \ldots, a_{i}, b_{i}, \ldots, b_{n}]}.
+\end{equation*}
+
+\begin{proposition}
+  Denote by \(j_{i}\), for \(i = 0\), \(1\), the map
+  \begin{equation*}
+    j_{i}\colon X \to X \times I;\qquad x \mapsto (x, i).
+  \end{equation*}
+  The prism operator is a chain homotopy between \(S_{\bullet}(j_{0})\) and \(S_{\bullet}(j_{1})\).
+\end{proposition}
+\begin{proof}
+  We
+\end{proof}
 
 \section{Relative homology}
 \label{sec:relative_homology}
@@ -949,48 +1030,171 @@ We can put all four of these together in the following handsome commutative diag
 \section{Barycentric subdivision}
 \label{sec:barycentric_subdivision}
 
+\begin{definition}[cone maps]
+  \label{def:cone_maps}
+  Let \(v \in \Delta^{p}\) be a point, and let \(\alpha\colon \Delta^{n} \to \Delta^{p}\) be a singular \(n\)-simplex. The \defn{cone} of \(\alpha\) with respect to \(v\) is
+  \begin{equation*}
+    K_{v}(\alpha)\colon \Delta^{n+1} \to \Delta^{p}
+  \end{equation*}
+  defined by sending
+  \begin{equation*}
+    (t_{0}, \ldots, t_{n}) \mapsto
+    \begin{cases}
+      (1 - t_{n+1})\, \alpha(\frac{t_{0}}{1-t_{n+1}}, \ldots, \frac{t_{n}}{1-t_{n+1}}) + t_{n+1}v, &t_{n+1} < 1 \\
+      v, & t_{n+1} = 1.
+    \end{cases}
+  \end{equation*}
+  This is well-defined and continuous.
+
+  We extend \(K_{v}\) linearly to \(S_{\bullet}(\Delta^{p})\).
+\end{definition}
+
+
+\begin{lemma}
+  \label{lemma:cone_map_identities}
+  The map \(K_{v}\colon S_{n}(\Delta^{p}) \to S_{n+1}(\Delta^{p})\) satisfies the following identities.
+  \begin{enumerate}
+    \item For a zero-simplex \(c \in S_{0}(\Delta^{p})\), we have
+      \begin{equation*}
+        \partial K_{v}(c) = \epsilon(c)\kappa_{v} - c,
+      \end{equation*}
+      where \(\kappa_{v}(e_{0}) = v\), and \(\epsilon\colon S_{0}(\Delta^{p}) \to \Z\) is the augmentation map.
+
+    \item For \(n > 0\), we have the equality
+      \begin{equation*}
+        \partial \circ K_{v} - K_{v} \circ \partial = (-1)^{n+1}\id
+      \end{equation*}
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \leavevmode
+  \begin{enumerate}
+    \item It suffices to show the claim on generators, i.e.\ singular \(0\)-simplices \(\Delta^{0} \to \Delta^{p}\). Let \(\alpha\colon \Delta^{0} \to \Delta^{p}\). Then \(\epsilon(\alpha) = 1\), and
+      \begin{align*}
+        \partial K_{v}(\alpha)(e_{0}) &= \partial_{0} K_{v}(\alpha)(e_{0}) - \partial_{1} K_{v}(\alpha)(e_{0}) \\
+        &= \kappa_{v}(\alpha)(d_{0}e_{0}) - \kappa_{v}(\alpha)(d_{1}e_{0}) \\
+        &= \kappa_{v}(\alpha)(e_{1}) - \kappa_{v}(\alpha)(e_{0}) \\
+        &= v - \alpha(e_{0})
+      \end{align*}
+
+    \item An easy calculation shows that
+      \begin{equation*}
+        \partial_{i} K_{v}(\alpha) = k_{v}(\partial_{i}\alpha),\qquad i < n+1,
+      \end{equation*}
+      and
+      \begin{equation*}
+        \partial_{n+1} K_{v}(\alpha) = \alpha.
+      \end{equation*}
+      Thus,
+      \begin{equation*}
+        \partial K_{v} - K_{v}\partial = (-1)^{n+1}\id
+      \end{equation*}
+      as required.
+  \end{enumerate}
+\end{proof}
+
+We first define \emph{Barycentric subdivision} on models \(\{\Delta^{n}\}\): it is a chain map
+\begin{equation*}
+  B\colon S_{\bullet}(\Delta^{p}) \to S_{\bullet}(\Delta^{p})
+\end{equation*}
+defined on an \(0\)-simplex \(\alpha\colon \Delta^{0} \to \Delta^{p}\) by
+\begin{equation*}
+  B(\alpha) = \alpha,
+\end{equation*}
+and for \(\sigma\colon \Delta^{n} \to \Delta^{p}\) inductively by
+\begin{equation*}
+  B(\sigma) = (-1)^{n}(K_{v})(B(\partial \sigma)).
+\end{equation*}
+This is a bona-fide chain map because\dots
+
+Since the functor \(S_{\bullet}\) is \(\{\Delta^{n}\}\)-free, we can extend \(B\) to a natural chain map \(S_{\bullet} \to S_{\bullet}\) via
+\begin{equation*}
+  B_{X}(\alpha) = S_{n}(\alpha)(B_{\Delta^{n}}(\id_{\Delta^{n}})),\qquad \alpha\colon \Delta^{n} \to X.
+\end{equation*}
+
+\begin{theorem}
+  The chain map \(B\colon S_{\bullet}(X)\) is chain homotopic to the identity.
+\end{theorem}
+\begin{proof}
+  For a zero-simplex \(\alpha\colon \Delta^{0} \to X\)
+  \begin{align*}
+    B_{X}(\alpha) &= S_{0}(\alpha)(B_{\Delta^{0}}(\id_{\Delta^{o}})) \\
+    &= S_{0}(\alpha)(\id_{\Delta^{0}}) \\
+    &= \alpha,
+  \end{align*}
+  so \(B\) and \(\id_{S_{\bullet}}\) agree on \(H_{0}(S_{\bullet})\). The claim follows from \hyperref[thm:acyclic_model_theorem]{Theorem~\ref*{thm:acyclic_model_theorem}}.
+\end{proof}
+
+Let $X$ be a topological space, and let $\mathfrak{U} = \{U_{i} \mid i \in I\}$ be an open cover of $X$. Denote by
+\begin{equation*}
+  S^{\mathfrak{U}}_{n}(X)
+\end{equation*}
+the free group generated by those continuous functions
+\begin{equation*}
+  \alpha\colon \Delta^{n} \to X
+\end{equation*}
+whose images are completely contained in some open set in the open cover $\mathfrak{U}$. That is, such that there exists some $i$ such that $\alpha(\Delta^{n}) \subset U_{i}$. The inclusion $S^{\mathfrak{U}}_{n}(X) \hookrightarrow S_{n}(X)$ induces a chain structure on $S^{\mathfrak{U}}_{\bullet}(X)$.
+\begin{equation*}
+  \begin{tikzcd}
+    \cdots
+    \arrow[r]
+    & S^{\mathfrak{U}}_{2}(X)
+    \arrow[r]
+    \arrow[d, hook]
+    & S^{\mathfrak{U}}_{1}(X)
+    \arrow[r]
+    \arrow[d, hook]
+    & S^{\mathfrak{U}}_{0}(X)
+    \arrow[r]
+    \arrow[d, hook]
+    & 0
+    \\
+    \cdots
+    \arrow[r]
+    & S_{2}(X)
+    \arrow[r]
+    & S_{1}(X)
+    \arrow[r]
+    & S_{0}(X)
+    \arrow[r]
+    & 0
+  \end{tikzcd}
+\end{equation*}
+
 \begin{fact}
   \label{fact:barycentric_subdivision}
-  Let $X$ be a topological space, and let $\mathfrak{U} = \{U_{i} \mid i \in I\}$ be an open cover of $X$. Denote by
-  \begin{equation*}
-    S^{\mathfrak{U}}_{n}(X)
-  \end{equation*}
-  the free group generated by those continuous functions
-  \begin{equation*}
-    \alpha\colon \Delta^{n} \to X
-  \end{equation*}
-  whose images are completely contained in some open set in the open cover $\mathfrak{U}$. That is, such that there exists some $i$ such that $\alpha(\Delta^{n}) \subset U_{i}$. The inclusion $S^{\mathfrak{U}}_{n}(X) \hookrightarrow S_{n}(X)$ induces a chain structure on $S^{\mathfrak{U}}_{\bullet}(X)$.
-  \begin{equation*}
-    \begin{tikzcd}
-      \cdots
-      \arrow[r]
-      & S^{\mathfrak{U}}_{2}(X)
-      \arrow[r]
-      \arrow[d, hook]
-      & S^{\mathfrak{U}}_{1}(X)
-      \arrow[r]
-      \arrow[d, hook]
-      & S^{\mathfrak{U}}_{0}(X)
-      \arrow[r]
-      \arrow[d, hook]
-      & 0
-      \\
-      \cdots
-      \arrow[r]
-      & S_{2}(X)
-      \arrow[r]
-      & S_{1}(X)
-      \arrow[r]
-      & S_{0}(X)
-      \arrow[r]
-      & 0
-    \end{tikzcd}
-  \end{equation*}
-  In fact, this inclusion is homotopic to the identity, hence induces an isomorphism
-  \begin{equation*}
-    H^{\mathfrak{U}}_{n}(X) := H_{n}(S^{\mathfrak{U}}(X)_{\bullet}) \equiv H_{n}(X).
-  \end{equation*}
+  For any open cover \(\mathfrak{U}\) of a topological space \(X\), for every simplex \(\alpha\colon \Delta^{n} \to X\), there exists some \(n \geq 0\) such that \(B^{n}\alpha \in S^{\mathfrak{U}}(X)\).
 \end{fact}
+\begin{proof}[Sketch of proof]
+  This is really just some messing with Lebesgue numbers. One first shows that for any \emph{affine simplex}\footnote{I.e.\ a singular simplex which comes from an affine map \(\R^{n+1} \to \R^{p+1}\)} \(\alpha\colon \Delta^{n} \to \Delta^{p}\),
+  \begin{equation*}
+    \max_{\sigma}\mathrm{diam}(\sigma) \leq \left( \frac{n}{n+1} \right)^{k} \mathrm{diam}(\alpha),
+  \end{equation*}
+  where \(\sigma\) runs over all simplices in \(B^{k}\alpha\). Thus, for any \(n\),
+  \begin{equation*}
+    \lim_{k \to \infty} \max \mathrm{diam}(B^{k} \alpha) = 0.
+  \end{equation*}
+
+  \emph{Lebesgue's number lemma} tells us that for any compact metric space \(X\) and any open cover \(\mathfrak{U} = \{U_{i}\}\) of \(X\), there is some \(\delta > 0\) such that any subset \(S \subset X\) with \(\mathrm{diam}(S) < \delta\) is completely contained in some \(U_{i}\).
+
+  Now let \(X\) be any topological space, and let \(\alpha\colon\Delta^{n} \to X\). Let \(\mathfrak{U}\) be an open cover of \(X\). Then the preimages of the open cover under \(\alpha\) form an open cover of \(\Delta^{n}\). Since \(\Delta^{n}\) is a compact metric space, Lebesgue's number lemma tells us that there exists \(k \geq 0\) such that every simplex in \(B^{k}\id_{\Delta^{m}}\) is completely contained in the preimage of at least one of the \(U_{i} \in \mathfrak{U}\). Mapping everything forward with \(S_{\bullet}(\alpha)\) gives us the result we want.
+\end{proof}
+
+We have proved the following.
+\begin{corollary}
+  \label{cor:replace_chains_by_homologous_chains_in_open_cover}
+  Every chain in \(S_{n}(X)\) is homologous to a chain in \(S^{\mathfrak{U}}(X)\)
+\end{corollary}
+
+\begin{proposition}
+  There is a natural homotopy equivalence \(S^{\mathfrak{U}}_{\bullet} \cong S_{\bullet} \).
+\end{proposition}
+
+\begin{corollary}
+  \begin{equation*}
+    H_{n}(X) \cong H^{\mathfrak{U}}_{n}(X).
+  \end{equation*}
+\end{corollary}
 
 This fact allows us almost immediately to read of two important theorems.
 
@@ -1018,7 +1222,33 @@ This fact allows us almost immediately to read of two important theorems.
   \end{equation*}
 \end{theorem}
 \begin{proof}
-  First, we show that \(H_{n}(i)\) is a surjection.
+  Consider the open cover \(\mathfrak{U} = (\mathring{A}, X \smallsetminus \bar{W} )\) of \(X\).
+
+  First, we show that \(H_{n}(i)\) is surjective. Let \(c \in S_{n}(X, A)\) be a relative cycle. By \hyperref[cor:replace_chains_by_homologous_chains_in_open_cover]{Corollary~\ref*{cor:replace_chains_by_homologous_chains_in_open_cover}}, we can replace (not uniquely, but who cares) \(c\) by a homologous sum \(c' + c''\) with \(c' \in S_{n}(\mathring{A})\) and \(c'' \in S_{n}(X \smallsetminus \bar{W})\). 
+
+  NOTE: THIS IS WRONG. NEED TO FIX.
+
+  But \(c' \sim 0\) in \(H_{n}(X, A)\), so we have found \(c \sim c''\), with \(c'' \in S_{n}(X \smallsetminus \bar{W})\).
+
+  Now we compute a boundary:
+  \begin{equation*}
+    \partial c \sim \partial c''.
+  \end{equation*}
+  By definition, 
+  \begin{equation*}
+    \partial c'' \in S_{n-1}(X \smallsetminus \bar{W}) \subset S_{n-1}(X \smallsetminus W).
+  \end{equation*}
+  However, \(c'' \in S_{n-1}(A)\), so
+  \begin{equation*}
+    c'' \in S_{n-1}(X \smallsetminus W) \cap S_{n-1}(A) = S_{n-1}(A \smallsetminus W).
+  \end{equation*}
+  Therefore, \(c\) is homologous to a relative cycle in \(S_{n}(X \smallsetminus W, A \smallsetminus W)\).
+
+  Now we show that \(H_{n}(i)\) is injective. Suppose that \(c \in S_{n}(X \  W)\) such that \(\partial c \in S_{n}(A \smallsetminus W )\). Further suppose that \(H_{n}(i)[c] = 0\), i.e.\ that we can write
+  \begin{equation*}
+    i(c) = \partial b + a'
+  \end{equation*}
+  with \(b \in S_{n+1}(X)\) and \(a' \in S_{n}(A)\). Then \(i(c)\) is homologous to
 \end{proof}
 
 That is, when considering relative homology $H_{n}(X, A)$, we may cut away a subspace from the interior of $A$ without harming anything. This gives us a hint as to the interpretation of relative homology: $H_{n}(X, A)$ can be interpreted the part of $H_{n}(X)$ which does not come from $A$.
@@ -1571,7 +1801,27 @@ since the empty topological space is initial in $\Top$. Passing through $\mathca
 
 These all have the desired effect, and which method one uses is a matter of preference. To see this, note the following.
 \begin{itemize}
-  \item $(1 \Leftrightarrow 2)$: Applying the functor $H_{n} \circ S$ to the diagram
+  \item $(1 \Leftrightarrow 2)$: 
+    Since \(H_{n}(P)\) is free for all \(n\), the sequence
+    \begin{equation*}
+      \begin{tikzcd}
+        0
+        \arrow[r]
+        & \ker H_{n}(\epsilon)
+        \arrow[r, hook]
+        & H_{n}(X)
+        \arrow[r, two heads]
+        & H_{n}(\{x\})
+        \arrow[r]
+        & 0
+      \end{tikzcd}
+    \end{equation*}
+    splits, telling us that
+    \begin{equation*}
+      H_{n}(X) \cong \ker H_{n}(\epsilon) \oplus H_{n}(\{X\}).
+    \end{equation*}
+
+    Applying the functor $H_{n} \circ S$ to the diagram
     \begin{equation*}
       \begin{tikzcd}
         \{x\}
@@ -1610,7 +1860,56 @@ These all have the desired effect, and which method one uses is a matter of pref
         & 0
       \end{tikzcd}
     \end{equation*}
-    is exact. However, we can say more: thanks again to to
+    is exact. Thus, \(H_{n}(X, x) \cong H_{n}(X) \oplus H_{n}(X, x)\). But
+    \begin{equation*}
+      H_{n}(X) \oplus H_{n}(X, x) \cong H_{n}(X) \oplus \ker H_{n}(\epsilon),
+    \end{equation*}
+    so \(H_{n}(X, x) \cong \ker H_{n}(\epsilon)\).
+
+  \item $(2 \Leftrightarrow 3)$: Consider the chain map \(S_{\bullet}(X) \to S_{\bullet}(P)\).
+    \begin{equation*}
+      \begin{tikzcd}
+        \cdots
+        \arrow[r]
+        & S_{2}(X)
+        \arrow[r, "d_{2}"]
+        \arrow[d]
+        & S_{1}(X)
+        \arrow[r, "d_{1}"]
+        \arrow[d]
+        & S_{0}(X)
+        \arrow[r]
+        \arrow[d, "\varepsilon"]
+        & 0
+        \\
+        \cdots
+        \arrow[r]
+        & 0
+        \arrow[r]
+        & 0
+        \arrow[r]
+        & \Z
+        \arrow[r]
+        & 0
+      \end{tikzcd}.
+    \end{equation*}
+    Considering this as a chain complex
+    \begin{equation*}
+      \begin{tikzcd}
+        \cdots
+        \arrow[r]
+        & S_{2}
+        \arrow[r]
+        & S_{1}
+        \arrow[r]
+        & S_{0}
+        \arrow[r, two heads]
+        & \Z
+        \arrow[r]
+        & 0
+      \end{tikzcd},
+    \end{equation*}
+    the homology \(H_{0}(S_{\bullet}(X))\) is given by \(\ker \epsilon /\im d_{1} \). But \(d_{1}\) is epi, so \(H_{0}(\tilde{C}_{\bullet}) \cong \ker \epsilon\).
 \end{itemize}
 
 \begin{proposition}
@@ -1622,16 +1921,6 @@ These all have the desired effect, and which method one uses is a matter of pref
 \end{proposition}
 \begin{proof}
   Trivial from algebraic definition.
-\end{proof}
-
-\begin{proposition}
-  Let $A \subset X$ be a closed subspace, and suppose that $A$ is a deformation retract of an open neighborhood $A \subset U$. Then
-  \begin{equation*}
-    H_{n}(X, A) \cong \tilde{H}_{n}(X/A).
-  \end{equation*}
-\end{proposition}
-\begin{proof}
-  Let $\pi\colon X \to X/A$ be the canonoical projection, and $b = \pi(A)$.
 \end{proof}
 
 \subsection{Deja vu all over again}
@@ -1764,15 +2053,6 @@ We're now ready to prove quite a nice theorem.
     \item $A$ is closed inside $X$.
 
     \item There exists an open set $U$ with $A \subset U$ such that $A$ is a deformation retract of $U$.
-      \begin{equation*}
-        \begin{tikzcd}
-          A
-          \arrow[r, hook]
-          & U
-          \arrow[r, two heads, "r"]
-          & A
-        \end{tikzcd}
-      \end{equation*}
   \end{enumerate}
 \end{definition}
 
@@ -2449,8 +2729,8 @@ Let $X$ and $Y$ be topological spaces. Plugging $C = S(X)$ and $D = S(Y)$ into \
 \end{equation*}
 It turns out that we can relate $H_{n}(S(X)_{\bullet} \otimes S(Y)_{\bullet})$ and $H_{n}(X \times Y)$. In fact, they turn out to be isomorphic; this is known as the \emph{Eilenberg-Zilber theorem.}
 
-\subsection{The Eilenberg-Zilber theorem: the high-brow approach}
-\label{ssc:eilenberg_zilber_high_brow}
+\subsection{The Eilenberg-Zilber theorem: with acyclic models}
+\label{ssc:eilenberg_zilber_with_acyclic_models}
 
 This turns out to be a direct consequence of the acyclic model theorem (\hyperref[thm:acyclic_model_theorem]{Theorem~\ref*{thm:acyclic_model_theorem}}).
 
@@ -2489,8 +2769,8 @@ This turns out to be a direct consequence of the acyclic model theorem (\hyperre
   We can find lifts\dots
 \end{proof}
 
-\subsection{The Eilenberg-Zilber theorem: the low-brow approach}
-\label{ssc:eilenberg_zilber_low_brow}
+\subsection{The Eilenberg-Zilber theorem: without acyclic models}
+\label{ssc:eilenberg_zilber_without_acyclic_models}
 
 We first define a so-called \emph{homology cross product}
 \begin{equation*}
