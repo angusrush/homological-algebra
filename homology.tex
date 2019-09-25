@@ -404,7 +404,7 @@ We need to break the flow here for a theorem which will show up several times, c
   \begin{enumerate}
     \item We say that $F$ is \defn{acyclic on $\mathcal{M}$} if for each $M \in \mathcal{M}$, $F(M)$ is acyclic in positive degree, i.e.\ if $H_{n}(F(M)) = 0$ for $n > 0$.
 
-    \item Let $J$ be a set, and $\mathcal{M}_{J} \subset \mathcal{M}$ a $J$-indexed set of objects in $\mathcal{M}$. Note that we allow the possibility that each $M \in \mathcal{M}$ can appear more than once, or not at all.
+    \item Let $J$ be a set, and $\mathcal{M}_{J} \subset \mathcal{M}$ a $J$-indexed set of objects in $\mathcal{M}$. Note that we allow the possibility that each $M \in \mathcal{M}$ can appear more than once in \(\mathcal{M}_{J}\), or not at all.
 
       Let $F_{*}\colon \mathcal{C} \to \Rmod$ be a functor. An \defn{$\mathcal{M}_{J}$-basis} for $F_{*}$ is, for each $j \in J$ an element $m_{j} \in F_{*}(M_{j})$ (forming an indexed collection $\{m_{j} \in F_{*}(M_{j})\}_{j \in J}$) such that for any $X \in \mathcal{C}$ the indexed collection
       \begin{equation*}
@@ -1017,6 +1017,9 @@ This fact allows us almost immediately to read of two important theorems.
     H_{n}(i)\colon H_{n}(X \smallsetminus W, A \smallsetminus W) \cong H_{n}(X, A).
   \end{equation*}
 \end{theorem}
+\begin{proof}
+  First, we show that \(H_{n}(i)\) is a surjection.
+\end{proof}
 
 That is, when considering relative homology $H_{n}(X, A)$, we may cut away a subspace from the interior of $A$ without harming anything. This gives us a hint as to the interpretation of relative homology: $H_{n}(X, A)$ can be interpreted the part of $H_{n}(X)$ which does not come from $A$.
 
@@ -1502,7 +1505,21 @@ That is, when considering relative homology $H_{n}(X, A)$, we may cut away a sub
     \end{tikzcd}
   \end{equation*}
 
-  We have seen (in \hyperref[fact:barycentric_subdivision]{Fact~\ref*{fact:barycentric_subdivision}}) that $H_{i}(\phi)$ is an isomorphism for all $i$. Thus, the five lemma (\hyperref[thm:five_lemma]{Theorem~\ref*{thm:five_lemma}}) tells us that $H_{n}(\psi)$ is an isomorphism.
+  We have seen (in \hyperref[fact:barycentric_subdivision]{Fact~\ref*{fact:barycentric_subdivision}}) that $H_{i}(\phi)$ is an isomorphism for all $i$. Thus, the five lemma (\hyperref[thm:five_lemma]{Theorem~\ref*{thm:five_lemma}}) tells us that $H_{n}(\psi)$ is an isomorphism. Thus, the bottom row of our grid can be written
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & S_{n}(X, A \cap B)
+      \arrow[r, hook]
+      & S_{n}(X, A) \oplus S_{n}(X, B)
+      \arrow[r, two heads]
+      & S_{n}(X, A \cup B)
+      \arrow[r]
+      & 0
+    \end{tikzcd},
+  \end{equation*}
+  and taking the long exact sequence on homology gives the result.
 \end{proof}
 
 \section{Reduced homology}
@@ -1644,6 +1661,40 @@ Many of our results for regular homology hold also for reduced homology.
     \end{tikzcd}
   \end{equation*}
 \end{proposition}
+
+We're now ready to prove quite a nice theorem.
+\begin{proposition}[Brouwer]
+  For any \(n \geq 1\), any continuous bijective map \(f\colon \D^{n} \to \D^{n}\) has at least one fixed point.
+\end{proposition}
+\begin{proof}
+  Suppose we have such a map. Then \(x\) and \(f(x)\) are different for all \(x\), and we can draw a ray starting at \(f(x)\) and passing through \(f(x)\). This ray intersects \(\partial \D^{n} \cong \S^{n-1}\) at exactly one place \(r(x)\), giving us a map
+  \begin{equation*}
+    r\colon \D^{n} \to \S^{n-1};\qquad x \mapsto r(x).
+  \end{equation*}
+  This is clearly continuous, and it fixes \(\partial \D^{n} \subset \D^{n}\). Thus, we have the following commutative diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      \S^{n-1}
+      \arrow[r, hook, "\text{incl.}"]
+      \arrow[rr, bend right, swap, "\id_{\S^{n-1}}"]
+      &\D^{n}
+      \arrow[r, two heads, "r"]
+      & \S^{n-1}
+    \end{tikzcd}
+  \end{equation*}
+  Applying \(\tilde{H}_{n}\) gives the following commutative diagram.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=huge]
+      \tilde{H}_{n-1}(\S^{n-1})
+      \arrow[r, hook, "\tilde{H}_{n-1}(\text{incl.})"]
+      \arrow[rr, bend right, swap, "\id_{\tilde{H}_{n}(\S^{n-1})}"]
+      & \tilde{H}_{n-1}(\D^{n})
+      \arrow[r, two heads, "\tilde{H}_{n-1}(r)"]
+      & \tilde{H}_{n-1}\S^{n-1})
+    \end{tikzcd}
+  \end{equation*}
+  But \(\tilde{H}_{n-1}(\S^{n-1}) \cong \Z\) and \(\tilde{H}_{n-1}(\D^{n}) \cong 0\) for all \(n \geq 1\), so \(\tilde{H}_{n-1}(r)\) cannot be surjective.
+\end{proof}
 
 \begin{proposition}
   \label{prop:reduced_mayer_vietoris}
@@ -2249,6 +2300,92 @@ and $\delta \circ \varrho$ is a composition in the long exact sequence on the pa
 
   Unlike the complex case, we don't know how the differentials behave, so we can't calculate the homology directly.
 \end{example}
+
+\subsection{Euler characteristic}
+\label{ssc:euler_characteristic}
+
+Here's one last application of CW stuff: euler characteristic.
+
+\begin{definition}[Euler characteristic]
+  \label{def:euler_characteristic}
+  Let \(X\) be a finite CW complex. The \defn{Euler characteristic} of \(X\) is defined to be
+  \begin{equation*}
+    \chi(X) = \sum_{n \geq 0} (-1)^{n}\,\rk(H_{n}(X; \Z))
+  \end{equation*}
+  where for an abelian group \(A\), \(\rk(A)\) denotes the number of free summands.
+\end{definition}
+Note that the above sum must be finite since there is some simplex of highest degree, say \(k\), so \(H_{k'}(X; \Z) \cong 0\) for all \(k' > k\).
+
+\begin{proposition}
+  For \(X\) a finite CW complex, denote by \(c_{n}(X)\) the number of \(n\)-cells. Then
+  \begin{equation*}
+    \chi(X) = \sum_{n \geq 0} (-1)^{n}\,c_{n}(X).
+  \end{equation*}
+\end{proposition}
+\begin{proof}
+  We will use the following fact. For any short exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & A
+      \arrow[r, hook]
+      & B
+      \arrow[r, two heads]
+      & C
+      \arrow[r]
+      & 0
+    \end{tikzcd},
+  \end{equation*}
+  we have the equality
+  \begin{equation*}
+    \rk(B) = \rk(A) + \rk(C).
+  \end{equation*}
+
+  Consider the short exact sequences
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & Z_{n}
+      \arrow[r, hook]
+      & C_{n}
+      \arrow[r, two heads]
+      & B_{n-1}
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  and
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & B_{n}
+      \arrow[r, hook]
+      & Z_{n}
+      \arrow[r, two heads]
+      & H_{n}
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+  Applying our rank formula to both and summing leads to the equation
+  \begin{equation*}
+    \rk(C_{n}) = \rk(B_{n-1}) + \rk(B_{n}) + \rk(H_{n}).
+  \end{equation*}
+  Substituting \(C_{n}(X)\) by the above and summing results in the \(B_{i}\) terms cancelling each other in the alternating sum, giving us the result we want.
+\end{proof}
+
+\begin{proposition}
+  For finite CW complexes \(X\) and \(Y\), we have
+  \begin{equation*}
+    \chi(X \times Y) \cong \chi(X) \times \chi(Y).
+  \end{equation*}
+\end{proposition}
+\begin{proof}
+  First, note that for \(\S^{n}\)
+\end{proof}
 
 \section{Homology with coefficients}
 \label{sec:homology_with_coefficients}

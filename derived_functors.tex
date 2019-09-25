@@ -1233,7 +1233,7 @@ Now apply $\Hom(-, B)$, and take $n$th homology. The morphism $f \in \Hom(P_{n},
   Let $X$ be a set, and consider the poset of finite subsets $\mathcal{P}_{\mathrm{fin}}(X)$. This is a filtered poset since every finite collection $X_{i} \in \mathcal{P}_{\mathrm{fin}}(X)$ is contained in the set $\bigcup_{i} X_{i}$, which is again finite.
 \end{example}
 
-Let $I$ be a filtered poset, and let $F\colon I \to \Ab$ be a functor. Using the description of a colimit as a coequalizer, we can calculate that
+Let $I$ be a filtered poset, and let $F\colon I \to \Rmod$ be a functor. Using the description of a colimit as a coequalizer, we can calculate that
 \begin{equation*}
   \colim F \cong \left( \coprod_{i \in I} F(i) \right) / E,
 \end{equation*}
@@ -1263,7 +1263,7 @@ That is, two elements of $\coprod_{i \in I} F(i)$ are identified if they `eventu
 
 \begin{lemma}
   \label{lemma:properties_of_filtered_colimit}
-  Let $I$ be a filtered poset, and let $A\colon I \to \Ab$ be a functor.
+  Let $I$ be a filtered poset, and let $A\colon I \to \Rmod$ be a functor.
   \begin{enumerate}
     \item Every element $a \in \colim$ is the image of some $a_{i} \in A_{i}$ (for some $i \in I$) under the canonical map $A_{i} \to \colim A$.
 
@@ -1291,18 +1291,30 @@ That is, two elements of $\coprod_{i \in I} F(i)$ are identified if they `eventu
   \label{thm:filtered_colimit_left_exact}
   Let $I$ be a filtered poset. The colimit functor
   \begin{equation*}
-    \colim\colon \Ab^{I} \to \Ab
+    \colim\colon \Rmod^{I} \to \Rmod
   \end{equation*}
   is exact.
 \end{theorem}
 \begin{proof}
   By general abstract nonsense, we know that colimits commute with colimits, and thus that the colimit functor preserves colimits, hence is right exact. We need only show that $\colim$ preserves monics.
 
-  To this end, let $t \in \Hom_{\Ab^{I}}(A, B)$ be monic, and choose some \(a \in \colim A\) such that \(t(a) = 0\) in \(\colim B\). By \hyperref[lemma:properties_of_filtered_colimit]{Lemma~\ref*{lemma:properties_of_filtered_colimit}}, there exists some \(a_{i} \in A_{i}\) which maps to \(a\) under the canonical map \(A_{i} \to \colim A\). Since each \(t_{i}\colon A_{i} \to B_{i}\) is monic this maps to some \(t_{i}(a_{i}) \neq 0\) in \(B_{i}\). The element \(t_{i}(a_{i})\) vanishes in \(\colim B\), so there exists some \(j \in I\) and \(\phi\colon i \to j\) such that 
+  To this end, let $t \in \Hom_{\Rmod^{I}}(A, B)$ be monic, and choose some \(a \in \colim A\) such that \(t(a) = 0\) in \(\colim B\). By \hyperref[lemma:properties_of_filtered_colimit]{Lemma~\ref*{lemma:properties_of_filtered_colimit}}, there exists some \(a_{i} \in A_{i}\) which maps to \(a\) under the canonical map \(A_{i} \to \colim A\). Since each \(t_{i}\colon A_{i} \to B_{i}\) is monic this maps to some \(t_{i}(a_{i}) \neq 0\) in \(B_{i}\). The element \(t_{i}(a_{i})\) vanishes in \(\colim B\), so there exists some \(j \in I\) and \(\phi\colon i \to j\) such that 
   \begin{equation*}
     0 = B(\phi)(t_{i}(a_{i})) = t_{j}(A(\phi)(a_{i}))\qquad\text{in }B_{j}.
   \end{equation*}
   However, \(t_{j}\) is monic, so \(A(\phi)(a_{i}) = 0\) in \(A_{j}\). Thus \(a\) maps to zero in \(\colim A\).
+\end{proof}
+
+\begin{corollary}
+  \label{cor:filtered_colimits_into_chain_complexes}
+  The functor
+  \begin{equation*}
+    \colim\colon \Ch(\Rmod)^{I} \to \Ch(\Rmod)
+  \end{equation*}
+  is exact.
+\end{corollary}
+\begin{proof}
+  Colimits are computed level-wise.
 \end{proof}
 
 Since direct limits are exact, there is no need to take derived functors. However, the situation for limits is not so pretty.

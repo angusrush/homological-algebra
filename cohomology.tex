@@ -55,7 +55,11 @@ There are dual axioms to the Eilenberg-Steenrod axioms (introduced in \hyperref[
   \label{def:singular_cohomology}
   Let $G$ be an abelian group. The \defn{singular cochain complex of $X$ with coefficients in $G$} is the cochain complex
   \begin{equation*}
-    S^{\bullet}(X; G) = \Hom(S_{\bullet}, G)
+    S^{\bullet}(X; G) = \Hom(S_{\bullet}(X), G).
+  \end{equation*}
+  We also define relative homology:
+  \begin{equation*}
+    S^{\bullet}(X, A; G) = \Hom(S_{\bullet}(X, A), G).
   \end{equation*}
 \end{definition}
 
@@ -241,6 +245,50 @@ Since $b \in S_{n}(A)$, we certainly have that $R^{q}(b) \in S_{n}(A)$. But then
 \end{proof}
 
 \begin{proposition}
+  \label{prop:cup_product_natural}
+  The cup product is natural in the sense that for any \(f\colon X \to X\) inducing a map of pairs \((X, A) \to (X, B)\), the diagram
+  \begin{equation*}
+    \begin{tikzcd}
+      H^{q}(X, A; R) \otimes H^{n}(X, A; R)
+      \arrow[rrr, "\frown"]
+      \arrow[ddd]
+      &&& H_{n-q}(X; R)
+      \arrow[ddd]
+      \\
+      & (f^{*}\beta, a)
+      \arrow[r, mapsto]
+      \arrow[d, mapsto]
+      & F(a) \otimes \langle f^{*}\beta, R(a) \rangle
+      \arrow[d, mapsto]
+      \\
+      & (\beta, f_{*}a)
+      \arrow[r, mapsto]
+      & \star
+      \\
+      H^{q}(X, B; R) \otimes H^{n}(X, B; R)
+      \arrow[rrr, "\frown"]
+      &&& H_{n-q}(X; R)
+    \end{tikzcd}
+  \end{equation*}
+  commutes, i.e.\
+  \begin{equation*}
+    f_{*}(F(a) \otimes \langle f^{*} \beta, R(a) \rangle) = F(f_{*}a) \otimes \langle \beta, R(f_{*}a) \rangle.
+  \end{equation*}
+\end{proposition}
+\begin{proof}
+  \begin{align*}
+    f_{*}(F(a) \otimes \langle f^{*} \beta, R(a) \rangle) &= f_{*}(F(a) \otimes \langle f^{*}\beta, R(\alpha) \rangle) \\
+    &= f_{*}(F(a) \otimes \langle \beta, f_{*}(R(a)) \rangle) \\
+    &= f_{*}(F(a) \otimes \langle \beta, R(f_{*}a) \rangle) \\
+    &= F(f_{*}a) \otimes \langle \beta, R(f_{*}a) \rangle.
+  \end{align*}
+\end{proof}
+We can write this in a prettier way as
+\begin{equation*}
+  f_{*}(f^{*}\beta \frown a) = \beta \frown f_{*}(a).
+\end{equation*}
+
+\begin{proposition}
   The cap product descends to a map on homology; that is, we get a map
   \begin{equation*}
     \frown\colon H^{q}(X, A; R) \otimes H_{n}(X, A; R) \to H_{n-q}(X; R); \qquad [\alpha] \otimes [a \otimes r] \mapsto [F^{n-q}(a) \otimes \langle \alpha, R^{q}(a) \rangle r].
@@ -344,7 +392,7 @@ For a triple \(B \subset A \subset X\) denote the canonical map on pairs \((X, X
         H_{q}(M, M \smallsetminus K) \cong H_{q}(M, M \smallsetminus \{x\})\text{ for all } x \in X.
       \end{equation*}
 
-    \item Now let \(M = \R^{n}\) and \(K = K_{1} \cup K_{2}\), where \(K_{i}\) is compact and convex. Note that \(K_{1} \cap K_{2}\) is also compact and convex. Consider the following relative Mayer-Vietoris sequence.
+    \item Now let \(M = \R^{n}\) and \(K = K_{1} \cup K_{2}\), where both \(K_{i}\) are compact and convex. Note that \(K_{1} \cap K_{2}\) is also compact and convex. Consider the following relative Mayer-Vietoris sequence.
       \begin{equation*}
         \begin{tikzcd}
           & \cdots
@@ -378,7 +426,322 @@ For a triple \(B \subset A \subset X\) denote the canonical map on pairs \((X, X
 \end{proof}
 
 \begin{proposition}
-  Let \(K \subset M\) be compact, and assume that \(M\) is connected and oriented via an orientation \(x \mapsto o_{x} \in H_{m}(X \mid x)\).
+  \label{prop:orientation_class_for_compacta}
+  Let \(K \subset M\) be compact, and assume that \(M\) is connected and oriented via an orientation \(x \mapsto o_{x} \in H_{m}(X \mid x)\). Then there exists a unique orientation class \(o_{K} \in H_{m}(M | K)\) such that \((\rho_{x, K})_{*}o_{K} = o_{x}\) for all \(x \in K\).
 \end{proposition}
+\begin{proof}
+  First we show uniqueness, as we will need it later. Suppose that there exist two orientation classes \(o_{K}\), \(o'_{K}\) such that
+  \begin{equation*}
+    (\rho_{x, K})_{*}o_{K} = (\rho_{x, K})_{*}o'_{K} = o_{x}.
+  \end{equation*}
+  Taking a difference, we find
+  \begin{equation*}
+    (\rho_{x, K})_{*}(o_{K} - o'_{K}) = 0,
+  \end{equation*}
+  so by \hyperref[lemma:manifold_induction_for_compacta]{Lemma~\ref*{lemma:manifold_induction_for_compacta}}, we get uniqueness.
+
+  As a first step towards proving existence, suppose that \(K\) is contained in the domain \(U_{\alpha} \cong \R^{n}\) of a single chart. Pick some \(x \in K\), and consider the following morphisms in \(\Pair\)
+  \begin{equation*}
+    \begin{tikzcd}
+      M \smallsetminus U_{\alpha}
+      \arrow[r, hook]
+      \arrow[d, hook]
+      & M
+      \arrow[d, equals]
+      \\
+      M \smallsetminus K
+      \arrow[r, hook]
+      \arrow[d, hook]
+      & M
+      \arrow[d, equals]
+      \\
+      M \smallsetminus \{x\}
+      \arrow[r, hook]
+      & M
+      \\
+    \end{tikzcd}
+  \end{equation*}
+  which correspond to the commuting diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      H_{m}(M \mid U_{\alpha})
+      \arrow[r, equals]
+      \arrow[d, swap, "\phi"]
+      & H_{m}(M \mid x)
+      \\
+      H_{m}(M \mid K)
+      \arrow[ur]
+    \end{tikzcd}
+  \end{equation*}
+  Pulling \(o_{x} \in H_{m}(M \mid x)\) back to \(H_{m}(M \mid U_{\alpha})\), then mapping it to \(H_{m}(M | K)\) with \(\phi\) gives an orientation class \(o_{K} \in H_{m}(M \mid K)\). The commutativity of the diagram ensures that \((\rho_{x, K})_{*}o_{K} = o_{x}\).
+
+  Now suppose that \(K\) is not contained in a single chart. We can find an open cover of \(K\) by charts, and since \(K\) is compact, there exists a finite subcover.
+
+  Suppose \(K\) is contained in two charts \(U_{1}\) and \(U_{2}\); the general case follows by induction. Then we can express \(K\) as a union of compacta \(K =  K_{1} \cup K_{2}\), where \(K_{i} \subset U_{i} \). Consider the relative Mayer-Vietoris sequence
+  \begin{equation*}
+    \begin{tikzcd}[column sep=small]
+      0
+      \arrow[r]
+      & H_{m}(M\mid K_{1} \cup K_{2})
+      \arrow[r, hook, "i"]
+      & H_{m}(M\mid K_{1}) \oplus H_{m}(M\mid K_{2})
+      \arrow[r, "\kappa"]
+      & H_{m}(M\mid K_{1} \cap K_{2})
+      \arrow[r]
+      & \cdots
+    \end{tikzcd}
+  \end{equation*}
+  By our above work, we get unique orientation classes \(o_{K_{i}} \in H_{m}(M | K_{i})\) such that \((\rho_{x, K_{i}})_{*} = o_{x}\) for all \(x \in K_{i}\), \(i = 1\), \(2\). Applying \(\kappa\), we find
+  \begin{equation*}
+    \kappa(o_{K_{1}}, o_{K_{2}}) = \rho_{K_{1} \cap K_{2}, K_{1}}o_{K_{1}} - \rho_{K_{1} \cap K_{2}, K_{2}}o_{K_{2}}.
+  \end{equation*}
+  But by uniqueness, these must be equal, so there exists a unique \(o_{K}\) in \(H_{m}(M \mid K)\) as in the theorem.
+\end{proof}
+
+\begin{definition}[orientation class]
+  \label{def:orientation_class}
+  Let \(M\) be a connected, orientable, compact manifold of dimension \(m\). An \defn{orientation class} on \(M\) is an element \(o_{m} \in H_{m}(M\colon \Z)\) such that \(o_{x} = (\rho_{x, M})_{*} o_{m}\)  is an orientation.
+\end{definition}
+
+\begin{theorem}
+  Let \(M\) be a compact, connected manifold of dimension \(m\). The following are equivalent.
+  \begin{enumerate}
+    \item \(M\) is (\(\Z\)-)orientable.
+
+    \item There exists an orientation class \(o_{M} \in H_{m}(M; \Z)\).
+
+    \item \(H_{m}(M; \Z) \cong \Z\).
+  \end{enumerate}
+\end{theorem}
+\begin{proof}
+  \leavevmode
+  \begin{enumerate}[leftmargin=4em]
+    \item[\((1 \Rightarrow 2)\)] Consequence of \hyperref[prop:orientation_class_for_compacta]{Proposition~\ref*{prop:orientation_class_for_compacta}}.
+
+    \item[\((2 \Rightarrow 3)\)] Let \(a \in H_{m}(M)\), and let \(x \in M\). Then \((\rho_{x, M})_{*}a = k_{x} o_{x}\) for some \(k_{x} \in \Z\). This defines a function \(M \to \Z\), \(x \mapsto k_{x}\).
+
+      We aim to show that this function is constant. Choose a chart \(U_{x}\) around \(x\), and let \(y \in U_{x}\). Then the outside of the following diagram commutes by functoriality of \(H_{m}\), and the lower triangle commutes by definition of an orientation class, so the upper triangle commutes.
+      \begin{equation*}
+        \begin{tikzcd}[column sep=small]
+          & H_{n}(M)
+          \arrow[dr]
+          \arrow[dl]
+          \\
+          H_{m}(M \mid x)
+          \arrow[dr, equals]
+          \arrow[rr, "\phi"]
+          && H_{m}(M \mid y)
+          \arrow[dl, equals]
+          \\
+          & H_{m}(X \mid U_{x})
+        \end{tikzcd}
+      \end{equation*}
+      This means in particular that
+      \begin{equation*}
+        \phi(k_{x} o_{x}) = k_{x} \phi(o_{x}) = k_{x} o_{y}
+      \end{equation*}
+      must be equal to \(k_{y} o_{y}\), so \(k_{x} = k_{y}\). Thus, the function \(x \mapsto k_{x}\) is locally constant, hence constant. Call this constant \(k\).
+
+      Thus, \(ka - o_{M}\) is zero when restricted to any \(x \in M\), implying by \hyperref[prop:orientation_class_for_compacta]{Proposition~\ref*{prop:orientation_class_for_compacta}} that \(a = k o_{M}\). \(o_{M}\) generates \(H_{m}(M)\).
+
+      We know that \(o_{M}\) is non-trivial because \((\rho_{x, M})_{*} o_{M}\) generates \(H_{m}(M | x)\), and that it has infinite order because if \(\ell o_{M} = 0\) for some \(\ell \neq 0 \in \Z\) \(H_{m}(M)\), then \(\ell (\rho_{x, M})_{*}o_{M} = \ell o_{x} = 0\). This shows that \(H_{m}(M)\) has a single generator of infinite order, i.e.\ is isomorphic to \(\Z\).
+
+
+    \item[\((2 \Rightarrow 3)\)] Pick a generator \(o_{M} \in \Z\), and define an orientation by
+      \begin{equation*}
+        o_{x} = (\rho_{x, M})_{*} o_{M}.
+      \end{equation*}
+  \end{enumerate}
+\end{proof}
+
+From now, we will sometimes denote an orientation class on \(M\) by \([M]\).
+
+\begin{definition}[degree]
+  \label{def:degree}
+  Let \(M\) and \(N\) be oriented, connected, compact manifolds of the same dimension \(m \geq 1\), and let \(g\colon M \to N\) be continuous. The \defn{degree} of \(f\) is the integer \(d\) such that
+  \begin{equation*}
+    f(o_{M}) = d o_{N}.
+  \end{equation*}
+\end{definition}
+
+\begin{proposition}
+  Let \(M\) and \(N\) be oriented, connected, compact manifolds of the same dimension \(m \geq 1\), and let \(f,\) \(g\colon M \to N\) be continuous.
+  \begin{enumerate}
+    \item The degree is multiplicative, i.e.
+      \begin{equation*}
+        \deg(f \circ g) = \deg(f) \circ \deg(g)
+      \end{equation*}
+
+    \item If \(\bar{M}\) is the same manifold as \(M\) but with the opposite orientation, then
+      \begin{equation*}
+        \deg (f\colon M \to N) = - \deg(f\colon \bar{M} \to N).
+      \end{equation*}
+
+    \item If the degree of \(f\) is not trivial, then \(f\) is surjective.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  All obvious.
+\end{proof}
+
+\section{Cohomology with compact support}
+\label{sec:cohomology_with_compact_support}
+
+For this section, let \(R\) be a commutative ring with unit \(1_{R}\). For most of this section, we will work with cohomology over \(R\), but notationally suppress this.
+
+\begin{definition}[singular cochains with compact support]
+  \label{def:singular_cochains_with_compact_support}
+  Let \(X\) be a topological space, and let \(R\) be a commutative ring with unit \(1_{R}\). The \defn{singular $n$-cochains with compact support} are the set
+  \begin{equation*}
+    S^{n}_{c}(X ; R) = \left\{ \phi\colon S_{n}(X) \to R \mid \substack{\text{there exists } K_{\phi} \subset X \text{ compact such that } \\ \phi(\sigma) = 0 \text{ for all }\sigma\colon \Delta^{n} \to X \text{ with }\sigma(\Delta^{n}) \cap K_{\phi} = \emptyset } \right\}.
+  \end{equation*}
+\end{definition}
+That is, singular cochains with compact support are those \(\phi\) which ignore simplices which do not hit some compact subset \(K_{\phi}\).
+
+Clearly \(S^{n}_{c}(X) \subset S^{n}(X)\), and since the boundary of any simplex with compact support clearly has compact support, there is an induced chain complex structure
+\begin{equation*}
+  S^{*}_{c}(X).
+\end{equation*}
+
+However, there is a more categorical description of this chain complex coming from relative cohomology.
+
+Let \(X\) be a topological space. Denote by \(\mathcal{K}\) the set of compact subsets of \(X\). This is clearly a poset under
+\begin{equation*}
+  K \leq K' \iff K \subseteq K',
+\end{equation*}
+and it is filtered because for a finite set \(I\), \(\bigcup_{i} K_{i}\) is an upper bound for \(\{K_{i}\}_{i \in I}\).
+
+Fixing some \(X\), consider the functor
+\begin{equation*}
+  \mathcal{K}\op \to \Pair;\qquad K \mapsto (X, X \smallsetminus K).
+\end{equation*}
+
+We get a functor \(\mathcal{K} \to \mathbf{Coch}_{\geq 0}(\Rmod)\) via the composition
+\begin{equation*}
+  \begin{tikzcd}
+    \mathcal{K}
+    \arrow[r]
+    & \Pair\op
+    \arrow[r, "S^{\bullet}"]
+    & \mathbf{Coch}_{\geq 0}(\Rmod)
+  \end{tikzcd}.
+\end{equation*}
+For obvious reasons, we call this functor \(S^{\bullet}(X \mid -)\)
+
+\begin{proposition}
+  The colimit
+  \begin{equation*}
+    \colim_{K} S^{\bullet}(X \mid K)
+  \end{equation*}
+  agrees with cohomology with compact support \(S^{\bullet}_{c}(X)\).
+\end{proposition}
+\begin{proof}
+  Let \(f \in S^{n}(X \mid K)\). Then by definition, \(f\) is a map \(S_{n}(X \mid K) \to R\), i.e.\ a map \(S_{n}(X) \to R\) such that for any \(\sigma\colon \Delta^{n} \to X\) such that \(\sigma(\Delta^{n}) \cap K = \emptyset\), \(f(\sigma) = 0\). Thus, \(f \in S^{n}_{c}(X)\).
+
+  This inclusion gives a chain map \(S^{\bullet}(X \mid K) \hookrightarrow S^{\bullet}_{c}(X)\), and these together induce an inclusion\footnote{This is a monomorphism because the components are monomorphisms, and by \hyperref[cor:filtered_colimits_into_chain_complexes]{Corollary~\ref*{cor:filtered_colimits_into_chain_complexes}} filtered colimits are exact, hence preserve monomorphisms.} \(\colim_{K} S^{\bullet}(X \mid K) \to S^{\bullet}_{c}(X)\). In fact, this is a level-wise epimorphsim since any \(g \in S^{\bullet}_{c}(X)\) is of the above form.
+\end{proof}
+
+\begin{corollary}
+  We have an isomorphism
+  \begin{equation*}
+    H^{n}_{c}(X) \cong \colim_{K} H^{n}(X \mid K).
+  \end{equation*}
+\end{corollary}
+\begin{proof}
+  Filtered colimits are exact by \hyperref[cor:filtered_colimits_into_chain_complexes]{Corollary~\ref*{cor:filtered_colimits_into_chain_complexes}}.
+\end{proof}
+
+\section{Poincaré duality}
+\label{sec:poincare_duality}
+
+This section takes place over a ring \(R\) with unit \(1_{R}\). We will usually notationally suppress \(R\).
+
+Let \(M\) be a connected, \(m\)-dimensional manifold with \(R\)-orientation \(x \mapsto o_{x}\), and let \(K \subset M\) be a compact subset. By \hyperref[prop:orientation_class_for_compacta]{Proposition~\ref*{prop:orientation_class_for_compacta}}, there exists an orientation class \(o_{K} \in H_{m}(M \mid K)\) compatible with the orientation \(o_{x}\).
+
+Consider the cap product
+\begin{equation*}
+  \begin{tikzcd}
+    H^{q}(M \mid K) \otimes H_{m}(M \mid K)
+    \arrow[r, "\frown"]
+    & H_{m-q}(M)
+  \end{tikzcd}.
+\end{equation*}
+Sticking \(o_{K} \in H_{m}(M \mid K)\) into the second slot of the cap product and setting \(p = n-q\), we find a map
+\begin{equation*}
+  \begin{tikzcd}[column sep=large]
+    H^{m - p}(M \mid K)
+    \arrow[r, "(-) \frown o_{K}"]
+    & H_{p}(M)
+  \end{tikzcd}
+\end{equation*}
+
+\begin{proposition}
+  \label{prop:poincare_duality_well_defined}
+  The maps
+  \begin{equation*}
+    (-) \frown o_{K}\colon H^{m-p}(M | K) \to H_{p}(M)
+  \end{equation*}
+  descend to a map
+  \begin{equation*}
+    H^{m-p}_{c}(M) \to H_{p}(M).
+  \end{equation*}
+\end{proposition}
+\begin{proof}
+  By \hyperref[prop:cup_product_natural]{Proposition~\ref*{prop:cup_product_natural}}, the identity \(\id_{M}\colon M \to M\) makes the following diagram commute.
+  \begin{equation*}
+    \begin{tikzcd}
+      H^{m-p}(M \mid L) \otimes H_{m}(M \mid L)
+      \arrow[r, "(-)\frown(-)"]
+      \arrow[d]
+      & H_{p}(M)
+      \arrow[d, "(\id_{M})_{*}"]
+      \\
+      H^{m-p}(M \mid K) \otimes H_{m}(M \mid K)
+      \arrow[r, swap, "(-)\frown(-)"]
+      & H_{p}(M)
+    \end{tikzcd}
+  \end{equation*}
+  Since
+  \begin{equation*}
+    (\id_{M})_{*} = \id_{H_{p}(M)},
+  \end{equation*}
+  this in particular means that the triangles
+  \begin{equation*}
+    \begin{tikzcd}[row sep=small]
+      H^{m-p}(M \mid L)
+      \arrow[dr, "(-) \frown o_{L}"]
+      \arrow[dd]
+      \\
+      & H_{p}(M)
+      \\
+      H^{m-p}(M \mid K)
+      \arrow[ur, swap, "(-) \frown o_{K}"]
+    \end{tikzcd}
+  \end{equation*}
+  commute. But this says that the maps \((-) \frown o_{K}\) form a cocone under \(H^{m-p}(M \mid -)\).
+\end{proof}
+
+\begin{definition}[Poincaré duality]
+  \label{def:poincare_duality}
+  The map defined in \hyperref[prop:poincare_duality_well_defined]{Proposition~\ref*{prop:poincare_duality_well_defined}} is called the \defn{Poincar\'{e} Duality} map, and denoted
+  \begin{equation*}
+    \PD\colon H^{m-q}_{c}(M) \to H_{m}(M).
+  \end{equation*}
+\end{definition}
+
+\begin{theorem}[Poincaré duality]
+  Let \(M\) be a connected manifold of dimension \(m\) with an \(R\)-orientation \(x \mapsto o_{x}\). Then
+  \begin{equation*}
+    \PD\colon H^{m-p}_{c}(M; R) \to H_{p}(M; R)
+  \end{equation*}
+  is an isomorphism for all \(p \in \Z\).
+\end{theorem}
+\begin{proof}
+  Manifold induction!
+\end{proof}
+
+\section{Alexander-Lefschetz duality}
+\label{sec:alexander_lefschetz_duality}
+
 
 \end{document}
