@@ -227,13 +227,13 @@ Since $b \in S_{n}(A)$, we certainly have that $R^{q}(b) \in S_{n}(A)$. But then
 \begin{proof}
   We do three calculations.
   \begin{align*}
-    \partial( \alpha \frown a ) &= \partial(F^{n-q}(\alpha) \otimes \langle \alpha, R(a) \rangle) \\
+    \partial( \alpha \frown a ) &= \partial(F^{n-q}(\alpha) \otimes \langle \alpha, R^{q}(a) \rangle) \\
     &= \partial(F^{n-q}(a)) \otimes \langle \alpha, R^{q}(a) \rangle \\
     &= \sum_{i = 0}^{n-q} (-1)^{i} \partial_{i} (\partial_{n-q+1} \circ \cdots \circ \partial_{n})(a) \otimes\langle \alpha, R^{q}(a) \rangle
   \end{align*}
 
   \begin{align*}
-    (\delta \alpha) \frown a &= F^{q}(a) \otimes \langle \delta \alpha, R^{q}(a) \rangle \\
+    (\delta \alpha) \frown a &= F^{n-q}(a) \otimes \langle \delta \alpha, R^{q}(a) \rangle \\
     &= F^{n-q}(a) \otimes \langle \delta \alpha, R^{q}(a) \rangle \\
     &= F^{n-q}(a) \otimes \langle \alpha, \partial R^{q}(a) \rangle \\
     &= \sum_{i = 0}^{q} (-1)^{i} F^{n-q}(a) \otimes \langle \alpha, \partial_{i} \circ \partial_{0}^{q} a \rangle
@@ -245,8 +245,50 @@ Since $b \in S_{n}(A)$, we certainly have that $R^{q}(b) \in S_{n}(A)$. But then
 \end{proof}
 
 \begin{proposition}
+  The cap product descends to a map on homology
+  \begin{equation*}
+    \frown\colon H^{q}(X, A; R) \otimes H_{n}(X, A; R) \to H^{n-q}(X, A; R)
+  \end{equation*}
+  via the formula
+  \begin{equation*}
+    [\alpha] \cap [a] := [\alpha \cap a].
+  \end{equation*}
+\end{proposition}
+\begin{proof}
+  Let us first collect some general results. Consider the formula
+  \begin{equation*}
+    \partial(\alpha \frown a) = (\delta \alpha) \frown a + (-1)^{q} \alpha \frown \partial a.
+  \end{equation*}
+  \begin{enumerate}
+    \item Let \(\alpha\) be a cocycle and \(a\) be a cycle. Then each term on the right-hand side is zero, so
+      \begin{equation*}
+        \text{cocycle} \frown \text{cycle} = \text{cycle}.
+      \end{equation*}
+
+    \item Let \(\alpha\) be arbitrary, so \(\delta \alpha\) is a coboundary, and let \(a\) be a cycle. Then the above formula, read backwards, tells us that
+      \begin{equation*}
+        \text{coboundary} \frown \text{cycle} = \text{boundary}.
+      \end{equation*}
+
+    \item Let \(a\) be arbitrary, so \(\partial a\) is a cycle, and let \(\alpha\) be a coboundary. Then we get
+      \begin{equation*}
+        \text{cocycle} \frown \text{boundary} = \text{boundary}.
+      \end{equation*}
+  \end{enumerate}
+
+  Point 1.\ tells us that the formula is well-defined to begin with: \(\alpha \cap a\) is really a cycle. Now suppose we had picked different representatives \(\alpha + \delta \beta\) and \(a + \partial b\). Then
+  \begin{align*}
+    [\alpha + \delta \beta] \frown [a + \partial b] &= [(\alpha + \delta \beta) \frown (a + \partial b)] \\
+    &= [\alpha \frown a] + [\delta \beta \frown a] + [\alpha \frown \partial b] + [\delta \beta \frown \partial b] \\
+    &= [\alpha \frown a] \\
+    &= [\alpha] \frown [a],
+  \end{align*}
+  where the the second term is zero because of 2.\ and the third term is zero because of 3.
+\end{proof}
+
+\begin{proposition}
   \label{prop:cup_product_natural}
-  The cup product is natural in the sense that for any \(f\colon X \to X\) inducing a map of pairs \((X, A) \to (X, B)\), the diagram
+  The cap product is natural in the sense that for any \(f\colon X \to X\) inducing a map of pairs \((X, A) \to (X, B)\), the diagram
   \begin{equation*}
     \begin{tikzcd}
       H^{q}(X, A; R) \otimes H^{n}(X, A; R)
@@ -288,24 +330,181 @@ We can write this in a prettier way as
   f_{*}(f^{*}\beta \frown a) = \beta \frown f_{*}(a).
 \end{equation*}
 
-\begin{proposition}
-  The cap product descends to a map on homology; that is, we get a map
-  \begin{equation*}
-    \frown\colon H^{q}(X, A; R) \otimes H_{n}(X, A; R) \to H_{n-q}(X; R); \qquad [\alpha] \otimes [a \otimes r] \mapsto [F^{n-q}(a) \otimes \langle \alpha, R^{q}(a) \rangle r].
-  \end{equation*}
-\end{proposition}
+\begin{example}
+  Suppose \(X\) is simply connected, and let
+\end{example}
 
 \section{The cup product}
 \label{sec:the_cup_product}
 
-Recall that we have constructed an \emph{Eilenberg-Zilber} map
+This section takes place over a commutative ring with unit \(R\). We will notationally suppress \(R\).
+
+Recall that we have constructed an Eilenberg-Zilber map
 \begin{equation*}
-  H_{i}(X) \otimes H_{j}(X) \to H_{i+j}(X \times X)
+  S_{\bullet}(X \times Y) \to S_{\bullet}(X) \otimes S_{\bullet}(Y).
 \end{equation*}
-in \hyperref[ssc:eilenberg_zilber_with_acyclic_models]{Subsection~\ref*{ssc:eilenberg_zilber_with_acyclic_models}}. By
+in \hyperref[ssc:eilenberg_zilber_with_acyclic_models]{Subsection~\ref*{ssc:eilenberg_zilber_with_acyclic_models}}. There exist generalizations, which we will not construct explicitly.
+
+\begin{definition}[Eilenberg-Zilber map]
+  \label{def:eilenberg_zilber_map}
+  An \defn{Eilenberg-Zilber map} is a natural chain map
+  \begin{equation*}
+    S_{\bullet}(X \times Y, X \times B \cup A \times Y) \to S_{\bullet}(X, A) \otimes S_{\bullet}(Y, B).
+  \end{equation*}
+\end{definition}
+
+\begin{definition}[cohomology cross product]
+  \label{def:cohomology_cross_product}
+  Let \(\mathrm{EZ}\) be any Eilenberg-Zilber map. For any \(\alpha \in S^{p}(X, A)\) and \(\beta \in S^{q}(Y, B)\), a \defn{cohomology cross product} of \(\alpha\) and \(\beta\) is the \((p + q)\)-cochain \(\alpha \times \beta\) defined by making the below diagram commute.
+  \begin{equation*}
+    \begin{tikzcd}
+      S_{n}(X \times Y; X \times B \cup A \times Y)
+      \arrow[ddrr, "\alpha \times \beta"]
+      \arrow[d, swap, "\mathrm{EZ}"]
+      \\
+      \displaystyle\bigoplus\limits_{p + q = n} S_{p}(X) \otimes S_{q}(Y)
+      \arrow[d, swap, "\mathrm{proj}"]
+      \\
+      S_{p}(X, A) \otimes S_{q}(Y, B)
+      \arrow[r, swap, "\alpha \otimes \beta"]
+      & R \otimes R
+      \arrow[r, swap, "\mu"]
+      & R
+    \end{tikzcd}
+  \end{equation*}
+\end{definition}
+
+\begin{fact}
+  \label{fact:homology_cross_product_is_natural_chain_map}
+  Any homology cross product extends to a natural chain map
+  \begin{equation*}
+    S^{\bullet}(X, A) \otimes S^{\bullet}(Y, B) \to S^{\bullet}(X \times Y, X \times B \cup A \times Y).
+  \end{equation*}
+\end{fact}
+
+Note that since the Eilenberg-Zilber map is natural by assumption, projection is natural for any product, and evaluation is natural by definition of the tensor product, the homology cross product is natural in that the diagram
+\begin{equation*}
+  \begin{tikzcd}
+    S^{p}(X) \otimes S^{q}(Y)
+    \arrow[r]
+    \arrow[d]
+    & S^{p+q}(X \times Y)
+    \arrow[d]
+    \\
+    S^{p}(X') \otimes S^{q}(Y')
+    \arrow[r]
+    & S^{p+q}(X' \times Y')
+  \end{tikzcd}
+\end{equation*}
+commutes; that is
+\begin{equation*}
+  (f, g)^{*}(\alpha \times \beta) = (f^{*}\alpha) \times (g^{*}\beta).
+\end{equation*}
+
+\begin{fact}
+  \label{fact:properties_of_homology_corss_product}
+  The homology cross product has the following properties.
+  \begin{enumerate}
+    \item The Leibniz rule holds, i.e.\
+      \begin{equation*}
+        \delta(\alpha \times \beta) = (\delta \alpha) \times \beta + (-1)^{\abs{\alpha}} \times (\delta \beta).
+      \end{equation*}
+
+    \item For the Kroenecker pairing we have for homology classes \(a\), \(b\), and cohomology classes \(\alpha\), \(\beta\) of corresponding degree
+      \begin{equation*}
+        \langle \alpha \times \beta, a \times b \rangle = \langle \alpha, a \rangle\langle \beta, b \rangle.
+      \end{equation*}
+
+    \item For \(1 \in R\) and thus \(1 \in S^{0}(X, A)\), we have
+      \begin{equation*}
+        1 \times \beta = p_{2}^{*}(\beta), \qquad \alpha \times 1 = p^{*}_{1}(\alpha),
+      \end{equation*}
+      where \(p_{i}\) denotes the projection onto the \(i\)th factor of \(X \times Y\).
+
+    \item The cohomology cross product is associative.
+
+    \item The cohomology cross product satisfies a graded version of commutativity: the twist map \(\tau\colon X \times Y \to Y \times X\) yields on homology
+      \begin{equation*}
+        \alpha \times \beta = (-1)^{\abs{\alpha}\abs{\beta}} \tau^{*}(\beta \times \alpha).
+      \end{equation*}
+  \end{enumerate}
+\end{fact}
+
+\begin{definition}[cup product]
+  \label{def:cup_product}
+  Denote by \(\Delta\colon X \to X \times X\) the diagonal map. The cup product is the composition
+  \begin{equation*}
+    H^{p}(X, A) \otimes H^{q}(X, B) \to H^{p+q}(X \times X, X \times B \cup A \times X) \to H^{p+q}(X, A \cup B),
+  \end{equation*}
+  where the first map is the cross product, and the second map is the pullback along the diagonal. That is,
+  \begin{equation*}
+    \alpha \cup \beta = \Delta^{*}(\alpha \times \beta).
+  \end{equation*}
+\end{definition}
+
+\begin{proposition}
+  The cup product satisifes the following identities.
+  \begin{enumerate}
+    \item \(\alpha \cup (\beta \cup \gamma) = (\alpha \cup \beta) \cup \gamma\)
+
+    \item \(\alpha \cup \beta = (-1)^{\abs{\alpha}\abs{\beta}}\).
+
+    \item For \(\partial\colon H^{*}(A) \to H^{*+1}(X, A)\), \(\alpha \in H^{*}(A)\), \(\beta \in H^{*}(X)\), we have
+      \begin{equation*}
+        \partial(\alpha \cup i^{*}\beta) = (\partial \alpha) \cup \beta \in H^{*}(X, A).
+      \end{equation*}
+
+    \item For \(f\colon X \to Y\), we have
+      \begin{equation*}
+        f^{*}(\alpha \cup \beta) = f^{*}\alpha \cup f^{*}\beta.
+      \end{equation*}
+
+    \item We can express the cohomology cross product via the cup product using the formula
+      \begin{equation*}
+        \alpha \times \beta = p_{1}^{*}(\alpha) \cup p_{2}^{*}(\beta).
+      \end{equation*}
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  \leavevmode
+  \begin{enumerate}
+    \item Consequence of associativity of the cross product.
+
+    \item
+
+    \item
+
+    \item
+
+    \item
+  \end{enumerate}
+\end{proof}
+
+\begin{definition}[diagonal approximation]
+  \label{def:diagonal_approximation}
+  A \defn{diagonal approximation} is a natural chain map
+  \begin{equation*}
+    D\colon S_{\bullet}(X) \to S_{\bullet}(X) \otimes S_{\bullet}(X)
+  \end{equation*}
+  with \(D(x) = x \otimes x\) for \(x \in S_{0}(X)\).
+\end{definition}
+
+\hyperref[thm:acyclic_model_theorem]{Theorem~\ref*{thm:acyclic_model_theorem}} tells us immediately that any two diagonal approximations are naturally homotopic.
+
+\begin{example}[Alexander-Whitney map]
+  \label{eg:alexander_whitney_map}
+  Consider the map
+  \begin{equation*}
+    \mathrm{AW}\colon S_{n}(X) \to (S_{\bullet}(X) \times S_{\bullet}(X))_{n},\qquad a \mapsto \sum_{p + q = n} F^{p}(A) \otimes R^{q}(a).
+  \end{equation*}
+  This is a chain map because
+\end{example}
 
 \section{Manifold orientations}
 \label{sec:manifold_orientations}
+
+\subsection{Basic definitions and results}
+\label{ssc:basic_definitions_and_results}
 
 Let \(M\) be an \(n\)-dimensional topological manifold. Without loss of generality, we may choose an atlas for \(M\) such that each each point \(x \in M\) has a chart \((U_{x}, \phi_{x})\) such that \(U_{x} \cong \R^{n}\) and \(\phi_{x}(x) = 0 \in \R^{n}\).
 
@@ -318,12 +517,10 @@ Let \(x \in M\). Then
   &\cong \Z.
 \end{align*}
 
-For any other point \(y \in U_{x}\), an orientation at \(x\) gives an orientation at \(y\) via the composition
+We call a choice of generator of \(H_{n}(X, X \smallsetminus \{x\} )\) a \emph{local orientation} on \(M\) at \(x\). For any other point \(y \in U_{x}\), a local orientation at \(x\) gives a local orientation at \(y\) via the composition
 \begin{equation*}
   H_{n}(X, X\smallsetminus \{x\}) \cong H_{n}(X, X\smallsetminus U_{x}) \cong H_{n}(X, X\smallsetminus \{y\}).
 \end{equation*}
-
-We call a choice of generator of \(H_{n}(X, X \smallsetminus \{x\} )\) a \emph{local orientation} on \(M\) at \(x\).
 
 We will use the following notation: for a pair \(X, A\), we will write
 \begin{equation*}
@@ -354,7 +551,7 @@ There is a clear surjection from \(\tilde{M}\) to \(M\) as follows.
   \end{tikzcd}
 \end{equation*}
 
-The set \(\tilde{M}\) turns out to be a topological manifold, and the surjection \(\tilde{M} \to M\) turns out to be a double cover.
+The set \(\tilde{M}\) turns out to be a topological manifold, and the surjection \(\tilde{M} \to M\) turns out to be a double cover. We will show this later.
 
 \begin{definition}[orientation]
   \label{def:orientation}
@@ -372,8 +569,24 @@ For a triple \(B \subset A \subset X\) denote the canonical map on pairs \((X, X
     \item If \(a \in H_{m}(M \mid k)\), then \(a = 0\) if and only if \((\rho_{x, K})_{*}a = 0\) for all \(x \in X\).
   \end{enumerate}
 \end{lemma}
+\begin{proof}[Sketch of proof]
+  The proof uses manifold induction, which consists of the following steps.
+  \begin{enumerate}
+    \item Prove the result the special case that our manifold \(M\) is simply \(\R^{n}\) and \(K\) is a convex compact subset.
+
+    \item Using Mayer-Vietoris, show that the result holds when \(K\) is a union of two compact, convex subsets.
+
+    \item The case of \(M = \R^{n}\) \(K\) a union of \(n\) compact, convex subsets follows by induction.
+
+    \item For \(K\) an arbitrary compact subset of \(\R^{m}\), we cover \(K\) by finitely many closed balls \(B_{i}\), then show that every cycle on \(H_{q}(\R^{m} \mid K)\) comes from a cycle on \( H_{q}(\R^{m} \mid \bigcup_{i} B_{i})\). Since \(\bigcup_{i} B_{i}\) is a finite union of compact, convex subsets, there are no non-trivial cycles, implying the claim.
+
+    \item For an arbitrary compact subset contained in a single chart, the claim reduces to the \(\R^{m}\) case above.
+
+    \item For an arbitrary compact subset contained in two charts, the result follows from the Mayer-Vietoris sequence. The general claim follows by induction.
+  \end{enumerate}
+\end{proof}
 \begin{proof}
-  We prove the lemma in several steps.
+  \leavevmode
   \begin{enumerate}
     \item First take \(M = \R^{m}\) and \(K \subset M\) compact and convex, so that any \(x \in K\) is a deformation retract of \(K\). Then, since \(K\) is closed and bounded, we can find an open ball \(\mathring{\D}^{m}\) with \(K \subset \mathring{\D}^{m}\). Then certainly
       \begin{equation*}
@@ -421,7 +634,126 @@ For a triple \(B \subset A \subset X\) denote the canonical map on pairs \((X, X
 
     \item For \(M = \R^{n}\), \(K = \bigcup_{i} K_{i}\) for \(K_{i}\) compact and contractible, we get the result by induction.
 
-    \item
+    \item Let \(M = \R^{n}\), and let \(K\) be an arbitrary compact subset.
+
+      Choose some \(a \in H_{q}(\R^{n} \mid K)\), and choose \(\psi \in S_{q}(\R^{m})\) representing \(a\). Then because \(\psi\) is a relative cycle, \(\partial \psi \in S_{q-1}(\R^{n} \smallsetminus K)\).
+
+      This means that we can express \(\partial \psi\) as
+      \begin{equation*}
+        \sum_{j = 1}^{\ell} \lambda_{j} \tau_{j},\qquad \tau_{j}\colon \Delta^{q-1} \to \R^{m} \smallsetminus K.
+      \end{equation*}
+      Since \(\Delta^{q-1}\) is compact, the images \(\tau(\Delta^{q-1})\) are compact, and their union
+      \begin{equation*}
+        T = \bigcup_{j = 1}^{\ell} \tau_{j}(\Delta^{q-1})
+      \end{equation*}
+      is compact.
+
+      There exists an open set \(U \subset \R^{m}\) with \(K \subset U\) and \(T \cap U = \emptyset\). Thus, we know that
+      \begin{equation*}
+        \partial \psi \in \R^{m} \smallsetminus U \implies \psi \in Z_{q}(\R^{m} \mid U).
+      \end{equation*}
+      Denote the representative of \(\psi\) in \(H_{q}(\R^{m} \mid U)\) by \([\psi] = a'\).
+
+      Due to general topology stuff, we can always find finitely many closed balls \(B_{i}\) satisfying the following conditions.
+      \begin{enumerate}
+        \item \(B_{i} \subset U\) for all \(i\)
+
+        \item \(B_{i} \cap K \neq \emptyset\)
+
+        \item \(K \subset \bigcup_{i} B_{i}\)
+      \end{enumerate}
+      Then \(K \subset \bigcup_{i} B_{i} \subset U\), and we have restriction maps as follows.
+      \begin{equation*}
+        \begin{tikzcd}[row sep=small, column sep=huge]
+          S_{q}(\R^{m} \mid U)
+          \arrow[r, "{(\rho_{\bigcup_{i} U_{i}, U})_{*}}"]
+          & S_{q}(\R^{m} \mid \bigcup_{i} B_{i})
+          \arrow[r, "{(\rho_{K, \bigcup_{i}U_{i}})_{*}}"]
+          & S_{q}(\R^{m} \mid K)
+          \\
+          a'
+          \arrow[r, mapsto]
+          & (\rho_{\bigcup_{i}B_{i}, U})_{*}(a') = a''
+          \arrow[r, mapsto]
+          & a
+        \end{tikzcd}
+      \end{equation*}
+      Suppose \(q > m\). We have already showed that \(H_{q}(\R^{m} \mid \bigcup_{i} B_{i}) = 0\), so \(a'' = 0\). Hence \(a = 0\).
+
+      Now suppose \(q = m\). We will provide running commentary on the following commutative diagram.
+      \begin{equation*}
+        \begin{tikzcd}[column sep=small]
+          H_{m}(X \mid U)
+          \arrow[rr]
+          && H_{m}(X \mid \bigcup_{i} B_{i})
+          \arrow[rr]
+          \arrow[d]
+          \arrow[ddl]
+          \arrow[ddr]
+          && H_{m}(X \mid K)
+          \\
+          && H_{m}(X \mid B_{i})
+          \arrow[dl]
+          \arrow[dr]
+          \\
+          & H_{m}(X \mid y)
+          && H_{m}(X \mid x)
+        \end{tikzcd}
+      \end{equation*}
+      We have shown that given \(a \in H_{m}(X \mid K)\), one can find \(a' \in H_{m}(X \mid U)\) and \(a'' \in H_{m}(X \mid \bigcup_{i} B_{i})\) which map to each other as follows. By assumption, \(a''\) maps to zero in \(H_{m}(X \mid x)\).
+      \begin{equation*}
+        \begin{tikzcd}
+          a'
+          \arrow[rr, mapsto]
+          && a''
+          \arrow[rr, mapsto]
+          \arrow[ddr, mapsto]
+          && a
+          \\
+          \\
+          &&& 0
+        \end{tikzcd}
+      \end{equation*}
+      Pick some \(B_{i}\) containing \(x\). Since \((\rho_{x, B_{i}})_{*}\) is an isomorphism, we have that \((\rho_{B_{i}, \bigcup_{i} B_{i}})_{*}(a'') = 0\).
+      \begin{equation*}
+        \begin{tikzcd}
+          a'
+          \arrow[rr, mapsto]
+          && a''
+          \arrow[rr, mapsto]
+          \arrow[ddr, mapsto]
+          \arrow[d, mapsto]
+          && a
+          \\
+          && 0
+          \arrow[dr, mapsto]
+          \\
+          &&& 0
+        \end{tikzcd}
+      \end{equation*}
+      For any \(y \in B_{i}\), we know that \((\rho_{y, B_{i}})_{*}\) is an isomorphism.
+      \begin{equation*}
+        \begin{tikzcd}
+          a'
+          \arrow[rr, mapsto]
+          && a''
+          \arrow[rr, mapsto]
+          \arrow[ddr, mapsto]
+          \arrow[d, mapsto]
+          \arrow[ddl, mapsto]
+          && a
+          \\
+          && 0
+          \arrow[dr, mapsto]
+          \arrow[dl, mapsto]
+          \\
+          & 0
+          && 0
+        \end{tikzcd}
+      \end{equation*}
+      Thus \((\rho_{y, \bigcup_{i}B_{i}})_{*}(a'') = 0\) for all \(y \in \bigcup_{i} B_{i}\), so the result is implied by work above.
+
+    \item Mayer-Vietoris and induction.
   \end{enumerate}
 \end{proof}
 
@@ -498,6 +830,16 @@ For a triple \(B \subset A \subset X\) denote the canonical map on pairs \((X, X
   But by uniqueness, these must be equal, so there exists a unique \(o_{K}\) in \(H_{m}(M \mid K)\) as in the theorem.
 \end{proof}
 
+
+In order to give \(\tilde{M}\) a manifold structure, we define a topology on \(\tilde{M}\) as follows. Let \(B \subset \R^{n} \subset M\) be a ball of finite radius, and choose a generator \(\mu_{B} \in H_{n}(M \mid B)\). Let \(U(\mu_{B})\) be the subset consisting of elements \(\mu_{x} \in \tilde{M}\) such that \(x \in B\) and \((\rho_{x,B})_{*}(\mu_{B}) = \mu_{x}\). These form a basis for a topology; to see this note that
+
+Relative to this topology, the projection \(\tilde{M} \to M\) is two-sheeted covering. This immediately imples that \(\tilde{M}\) is a manifold. In fact, \(\tilde{M}\) is an oriented manifold. To see this, note that we have isomorphisms
+\begin{equation*}
+  H_{n}(\tilde{M} \mid \mu_{b}) \cong H_{n}(U(\mu_{B}) \mid \mu_{b}) \cong H_{n}(B \mid x),
+\end{equation*}
+where
+
+
 \begin{definition}[orientation class]
   \label{def:orientation_class}
   Let \(M\) be a connected, orientable, compact manifold of dimension \(m\). An \defn{orientation class} on \(M\) is an element \(o_{m} \in H_{m}(M\colon \Z)\) such that \(o_{x} = (\rho_{x, M})_{*} o_{m}\)  is an orientation.
@@ -555,6 +897,24 @@ For a triple \(B \subset A \subset X\) denote the canonical map on pairs \((X, X
 \end{proof}
 
 From now, we will sometimes denote an orientation class on \(M\) by \([M]\).
+
+\subsection{The orientation cover}
+\label{ssc:the_orientation_cover}
+
+Let \(M\) be an \(n\)-dimensional manifold, not necessarily orientable.
+
+In order to give \(\tilde{M}\) a manifold structure, we define a topology on \(\tilde{M}\) as follows. Let \(D\colon \D^{m} \hookrightarrow M\) be a compact subset of \(M\) homeomorphic to the closed ball, and pick \(\mu_{D} \in H_{m}(M \mid \mathring{\D})\). We define a subset \(U_{B} \subset \tilde{M}\) by
+
+Let \(\D^{n} \subset \R^{n} \subset M\) be a closed ball of finite radius and, and choose a generator \(\mu_{B} \in H_{n}(M \mid B)\). Let \(U(\mu_{B})\) be the subset consisting of elements \(\mu_{x} \in \tilde{M}\) such that \(x \in B\) and \((\rho_{x,B})_{*}(\mu_{B}) = \mu_{x}\). These form a basis for a topology; to see this note that
+
+Relative to this topology, the projection \(\tilde{M} \to M\) is two-sheeted covering. This immediately imples that \(\tilde{M}\) is a manifold. In fact, \(\tilde{M}\) is an oriented manifold. To see this, note that we have isomorphisms
+\begin{equation*}
+  H_{n}(\tilde{M} \mid \mu_{b}) \cong H_{n}(U(\mu_{B}) \mid \mu_{b}) \cong H_{n}(B \mid x),
+\end{equation*}
+where
+
+\subsection{Degree}
+\label{ssc:degree}
 
 \begin{definition}[degree]
   \label{def:degree}
@@ -725,14 +1085,14 @@ Sticking \(o_{K} \in H_{m}(M \mid K)\) into the second slot of the cap product a
   \label{def:poincare_duality}
   The map defined in \hyperref[prop:poincare_duality_well_defined]{Proposition~\ref*{prop:poincare_duality_well_defined}} is called the \defn{Poincar\'{e} Duality} map, and denoted
   \begin{equation*}
-    \PD\colon H^{m-q}_{c}(M) \to H_{m}(M).
+    \PD_{M}\colon H^{m-q}_{c}(M) \to H_{m}(M).
   \end{equation*}
 \end{definition}
 
 \begin{theorem}[Poincaré duality]
   Let \(M\) be a connected manifold of dimension \(m\) with an \(R\)-orientation \(x \mapsto o_{x}\). Then
   \begin{equation*}
-    \PD\colon H^{m-p}_{c}(M; R) \to H_{p}(M; R)
+    \PD_{M}\colon H^{m-p}_{c}(M; R) \to H_{p}(M; R)
   \end{equation*}
   is an isomorphism for all \(p \in \Z\).
 \end{theorem}
@@ -742,6 +1102,114 @@ Sticking \(o_{K} \in H_{m}(M \mid K)\) into the second slot of the cap product a
 
 \section{Alexander-Lefschetz duality}
 \label{sec:alexander_lefschetz_duality}
+
+\section{The Milnor sequence}
+\label{sec:the_milnor_sequence}
+
+In \hyperref[ssc:inverse_limits]{Subsection~\ref*{ssc:inverse_limits}}, we showed that for any tower of cochain complexes of abelian groups \(\{C_{i}\}\) satisfying the Mittag-Leffler condition\footnote{i.e.\ satisfying it level-wise} and any \(q \in \Z\), we have a short exact sequence
+\begin{equation*}
+  \begin{tikzcd}
+    0
+    \arrow[r]
+    & \Lim^{1} H^{q-1}(C_{i})
+    \arrow[r, hook]
+    & H^{q}(\lim_{i} C_{i})
+    \arrow[r, two heads]
+    & \lim H_{q}(C_{i})
+    \arrow[r]
+    & 0
+  \end{tikzcd}.
+\end{equation*}
+
+\begin{theorem}[Milnor sequence for CW complexes]
+  Let \(X\) be a CW complex with filtration
+  \begin{equation*}
+    X_{0} \subset X_{1} \subset \cdots,\qquad \text{so}\quad X \cong \bigcup_{i \geq 0} X_{i}.
+  \end{equation*}
+  Then for any abelian group \(G\) there is a short exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \Lim^{1} H^{m-1}(X_{n}; G)
+      \arrow[r, hook]
+      & H^{m}(X;G)
+      \arrow[r, two heads]
+      & \lim H^{m}(X_{m}; G)
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+\end{theorem}
+\begin{proof}
+  The tower of chain complexes \(C^{\bullet}_{n} = \Hom(S_{\bullet}(X_{n}), G)\) satisfies the Mittag-Leffler condition (\hyperref[def:mittag_leffler_condition]{Definition~\ref*{def:mittag_leffler_condition}}) because the maps \(C^{\bullet}_{n} \to C^{\bullet}_{n-1}\) dual to the inclusions \(S_{\bullet}(X_{n-1}) \hookrightarrow S_{\bullet}(X_{n})\) are epimorphisms (because the exact sequence on the pair splits).
+
+  Plugging this into in \hyperref[thm:milnor_sequence]{Theorem~\ref*{thm:milnor_sequence}}. we find that the sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \Lim^{1} H^{q-1}(X_{i})
+      \arrow[r, hook]
+      & H^{q}(\lim \Hom(S_{\bullet}(X_{i}), G))
+      \arrow[r, two heads]
+      & \lim H_{q}(X_{i})
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+  It remains only to show that
+  \begin{equation*}
+    H^{q}(\lim \Hom(S_{\bullet}(X_{i}), G)) \cong H^{q}(X; G),
+  \end{equation*}
+  i.e.\ that
+  \begin{equation*}
+    \lim \Hom(S_{\bullet}(X_{i}), G) \cong \Hom(S_{\bullet}(X); G).
+  \end{equation*}
+  But this is true because \(\Hom\) turns limits into colimits in the first slot, and \(S_{\bullet}\) commutes with colimits because reasons.
+\end{proof}
+
+\begin{example}
+  Consider the tower (in \(\Top\)!)
+  \begin{equation*}
+    \C P^{0} \hookrightarrow \C P^{1} \hookrightarrow \C P^{2} \hookrightarrow \cdots.
+  \end{equation*}
+  Denote
+  \begin{equation*}
+    \C P^{\infty} := \lim_{i} \C P^{i}.
+  \end{equation*}
+
+  The above tower is the CW filtration of \(\C P^{\infty}\), including only even levels. Because the sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & S_{\bullet}(\C P^{n-1})
+      \arrow[r, hook]
+      & S_{\bullet}(\C P^{n})
+      \arrow[r, two heads]
+      & S_{\bullet}(\C P^{n}, \C P^{n-1})
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  splits and \(\Hom\) and \(H_{q}\) are additive, we get that the maps
+  \begin{equation*}
+    H_{q}(\C P^{n}) \to H_{q}(\C P^{n-1})
+  \end{equation*}
+  are epimorphisms. Thus, the tower \(H^{q-1}(\C P^{n})\) also satisfies the Mittag-Leffler condition, and we get that
+  \begin{equation*}
+    H^{q}(\C P^{\infty}) \cong \lim_{i} H^{q}(\C P^{i}) \cong
+    \begin{cases}
+      \Z, &q \text{ even} \\
+      0, &q \text{ odd}.
+    \end{cases}
+  \end{equation*}
+\end{example}
+
+\section{Lens spaces}
+\label{sec:lens_spaces}
+
 
 
 \end{document}

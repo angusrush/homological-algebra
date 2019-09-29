@@ -237,7 +237,10 @@ We can view $\gamma$ either as a singular 1-simplex in $X$, or as a representati
 
   First, suppose that $\gamma_{1} \overset{H}{\sim} \gamma_{2}$, i.e.\
 
-  In order to see that
+  Proof: one can fill the simplex
+  \begin{equation*}
+    (\gamma_{2}, \gamma_{1}, \gamma_{1} * \gamma_{2}).
+  \end{equation*}
 \end{proof}
 
 The map $\tilde{h}_{X}$ is very well-behaved.
@@ -432,7 +435,15 @@ We need to break the flow here for a theorem which will show up several times, c
   \end{equation*}
 \end{example}
 
-The freeness condition can be interpreted as telling us that in order to know how the functor $F$ behaves on any object, it is enough to know how it behaves on the $M_{\alpha}$.
+The freeness condition can be interpreted as telling us that in order to know how the functor $F$ behaves on any object, it is enough to know how it behaves on the $M_{\alpha}$. In fact, this is sufficiently precise that it can be made into a theorem.
+
+\begin{proposition}
+  Let \((\mathcal{C}, \mathcal{M})\) be a category with models, and let \(F\), \(G\colon \mathcal{C} \to \Ab\) be functors, with \(F\) \(\mathcal{M}\)-free. Then specifying a natural transformation \(\eta\colon F \Rightarrow G\) is equivalent to specifying only the values
+  \begin{equation*}
+    \eta_{M_{i}}(m_{i}),
+  \end{equation*}
+
+\end{proposition}
 
 \begin{theorem}[acyclic model theorem]
   \label{thm:acyclic_model_theorem}
@@ -629,7 +640,7 @@ Here is the game plan.
   \end{equation*}
 \end{definition}
 
-The \(i\)th prism map sends the vertices \(\{0, \ldots, n + 1\} \in \Delta^{n}\) to the vertices of the prism as follows.
+The \(i\)th prism map sends the vertices \(\{0, \ldots, n + 1\} \in \Delta^{n+1}\) to the vertices of the prism as follows.
 \begin{equation*}
   \begin{tikzcd}[column sep=tiny]
     0
@@ -700,7 +711,7 @@ Given an \(n\)-simplex \(\sigma\), the prism operator \(P_{i}\) creates an \(n+1
   The prism operator is a chain homotopy between \(S_{\bullet}(j_{0})\) and \(S_{\bullet}(j_{1})\).
 \end{proposition}
 \begin{proof}
-  We
+  We simply do the horrible computations.
 \end{proof}
 
 \section{Relative homology}
@@ -808,6 +819,55 @@ and the morphisms are commuting squares
       & C_{\bullet}(X, A)
       \arrow[r]
       & 0
+    \end{tikzcd}
+  \end{equation*}
+\end{proof}
+
+\begin{proposition}
+  The connecting homomorphism
+  \begin{equation*}
+    \delta\colon H_{n}(X, A) \to H_{n-1}(A)
+  \end{equation*}
+  maps a class represented by a relative cycle \([\sigma]\) to its boundary class \([\partial \sigma]\).
+\end{proposition}
+\begin{proof}
+  We simply trace \(\sigma\) through the zig-zag defining the connecting homomorphism.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & S_{n}(X)
+      \arrow[r]
+      \arrow[d]
+      & S_{n}(A)
+      \arrow[r]
+      \arrow[d]
+      & S_{n}(X, A)
+      \arrow[r]
+      \arrow[d]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & S_{n-1}(X)
+      \arrow[r]
+      & S_{n-1}(A)
+      \arrow[r]
+      & S_{n-1}(X, A)
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  \begin{equation*}
+    \begin{tikzcd}
+      & \sigma
+      \arrow[r, mapsto]
+      \arrow[d, mapsto]
+      & \sigma
+      \\
+      \partial \sigma
+      \arrow[r, mapsto]
+      & \partial \sigma
     \end{tikzcd}
   \end{equation*}
 \end{proof}
@@ -932,6 +992,51 @@ and the morphisms are commuting squares
 \begin{corollary}
   If $i\colon X \to A$ is a deformation retract, then $H_{n}(X, A) = 0$ for all $n$.
 \end{corollary}
+
+These results may not seem like much, but we are now in a position to show a truly fundamental result: invariance of dimension.
+\begin{example}
+  Let \(A \subset \R^{m}\) and \(B \subset \R^{n}\) be open subsets, and let \(f\colon A \to B\) be a homeomorphism. Then \(m = n\).
+
+  To see this, let \(a \in A\). Then
+  \begin{equation*}
+    \left. f \right|_{A \smallsetminus \{a\}} = \bar{f}\colon A \smallsetminus \{a\} \to B \smallsetminus \{f(a)\}
+  \end{equation*}
+  is a homeomorphism, so there is an isomorphism of pairs
+  \begin{equation*}
+    (A, A \smallsetminus \{a\}) \cong (B, B \smallsetminus \{f(a)\}).
+  \end{equation*}
+  Thus
+  \begin{equation*}
+    H_{q}(A, A \smallsetminus \{a\}) \cong H_{q}(B, B \smallsetminus \{f(a)\}).
+  \end{equation*}
+  By excision, we have
+  \begin{equation*}
+    H_{q}(\R^{m}, \R^{m} \smallsetminus \{a\}) \cong H_{q}(\R^{n}, \R^{n} \smallsetminus \{f(a)\}).
+  \end{equation*}
+  But we have a homotopy equivalence of pairs
+  \begin{equation*}
+    (\R^{m}, \R^{m} \smallsetminus \{a\}) \cong (\D^{m}, \S^{m-1}),\qquad (\R^{n}, \R^{n} \smallsetminus \{f(a)\}) \cong (\D^{m}, \S^{n-1}),
+  \end{equation*}
+  so we have
+  \begin{equation*}
+    H_{q}(A, A \smallsetminus \{a\}) \cong
+    \begin{cases}
+      \Z, & q = 0,\ m \\
+      0, &\text{otherwise}
+    \end{cases}
+  \end{equation*}
+  and
+  \begin{equation*}
+    H_{q}(B, B \smallsetminus \{f(a)\}) \cong
+    \begin{cases}
+      \Z, & q = 0,\ n \\
+      0, &\text{otherwise}.
+    \end{cases}
+  \end{equation*}
+
+  For these homologies to agree for all \(q\) we must have \(m = n\).
+\end{example}
+
 
 \subsection{The braided monstrosity on a triple of spaces}
 \label{ssc:the_braided_monstrosity_on_a_triple_of_spaces}
@@ -2498,7 +2603,7 @@ and $\delta \circ \varrho$ is a composition in the long exact sequence on the pa
   \label{eg:homology_of_complex_projective_space}
   Consider the complex projective space $\C P^{n}$. We know that $\C P^{0} = \mathrm{pt}$, and from the homogeneous coordinates
   \begin{equation*}
-    [x_{0} : \cdots | x_{n}]
+    [x_{0} : \cdots : x_{n}]
   \end{equation*}
   on $\C P^{n}$, we have a decomposition
   \begin{equation*}
@@ -2937,6 +3042,49 @@ Our goal is to find a way of making a $p$-simplex in $X$ and a $q$-simplex in $Y
   \begin{equation*}
     H_{n}(X \times \S^{n}) \cong H_{q}(X) \oplus H_{q-n}(X).
   \end{equation*}
+\end{example}
+
+\begin{example}[products of Moore spaces]
+  Let \(A\) be an abelian group. For \(n \geq 1\), the \(n\)th \emph{Moore space} of \(A\) is the space \(M(A, n)\) such that
+  \begin{equation*}
+    H_{r}(M(A, n)) \cong
+    \begin{cases}
+      \Z, &r = 0 \\
+      A, &r = n \\
+      0, &\text{otherwise}
+    \end{cases}.
+  \end{equation*}
+
+  For example, \(M(\Z, n) \cong \S^{n}\).
+
+  The topological Künneth formula allows us to compute products of Moore spaces. More specifically, it tells us that that we can express \(H_{r}(M(A, n) \times M(B, m))\) as a direct sum
+  \begin{equation*}
+    \left( \bigoplus_{p + q = r} H_{p}(M(A, n)) \otimes H_{q}(M(B, m)) \right) \oplus \left( \bigoplus_{p + q = r-1} \Tor_{1}(H_{p}(M(A, n)), M(B, m)) \right).
+  \end{equation*}
+
+  First, assume that \(m \neq n\). Then
+  \begin{equation*}
+    H_{0}(M(A, m) \times M(B, n)) \cong H_{0}(M(A, n)) \otimes H_{0}(M(B, m)) \cong \Z.
+  \end{equation*}
+
+  For \(1 \geq r < \min(m, n)\), we have no non-trivial terms. Taking \(m < n\) without loss of generality, the only non-trivial
+
+  Therefore, for \(m \neq n\), we have that\dots
+
+  Thus,
+  \begin{equation*}
+    H_{r}(M(A, m) \times M(B, n)) \cong
+    \begin{cases}
+      \Z, &r = 0 \\
+      A, & r = m \\
+      B, &r = n \\
+      A \otimes B, &r = n+m \\
+      \Tor_{1}(A, B), &r = n+m+1 \\
+      0, & \text{otherwise}.
+    \end{cases}
+  \end{equation*}
+
+  For example,
 \end{example}
 
 

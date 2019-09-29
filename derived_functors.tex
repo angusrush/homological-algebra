@@ -164,7 +164,7 @@ There is a worrying asymmetry to our definition of $\Tor$. The tensor product is
 
     \item For all $R$-modules $M$, we have $\Tor^{R}_{1}(M, N) = 0$.
   \end{enumerate}
-  
+
   To see that $1. \Rightarrow 2.$, suppose that $N$ is flat and pick a projective resolution $P_{\bullet} \simto M$. Then
   \begin{align*}
     \Tor_{1}(M, N) &= H_{1}(P_{\bullet} \otimes_{R} N) \\
@@ -279,7 +279,7 @@ it doesn't matter whether we take an projective resolution of $N$ or a injectiv 
   and $\Ext^{i}(\Z/(p), \Z) = 0$ for $i > 1$.
 \end{example}
 
-Note that balancedness immediately 
+Note that balancedness immediately
 
 \subsection{Ext and extensions}
 \label{ssc:ext_and_extensions}
@@ -707,7 +707,7 @@ In fact, the group $\Ext^{1}(A, B)$ parametrizes extensions of $A$ by $B$.
       \arrow[r]
       & 0
     \end{tikzcd}.
-  \end{equation*}  
+  \end{equation*}
   Using the connecting homomorphism, we get a representative for the obstruction class $e = \delta(\id_{B}) \in \Ext^{1}(A, B)$. Using our short exact sequence from \hyperref[eq:ses_with_projective_and_kernel]{Equation~\ref*{eq:ses_with_projective_and_kernel}}, we can find the fo
 \end{proof}
 
@@ -869,7 +869,7 @@ In fact, the group $\Ext^{1}(A, B)$ parametrizes extensions of $A$ by $B$.
       \begin{equation*}
         1 \mapsto (1, 0) \mapsto \beta(1, 0).
       \end{equation*}
-      Thus, 
+      Thus,
       \begin{equation*}
         \beta\colon (1, 0) \mapsto x
       \end{equation*}
@@ -882,7 +882,7 @@ In fact, the group $\Ext^{1}(A, B)$ parametrizes extensions of $A$ by $B$.
       \begin{equation*}
         (0, 1) \mapsto \beta(0, 1) \mapsto \beta(0, 1).
       \end{equation*}
-      Thus, 
+      Thus,
       \begin{equation*}
         \beta\colon (0, 1) \mapsto 1.
       \end{equation*}
@@ -1283,7 +1283,7 @@ That is, two elements of $\coprod_{i \in I} F(i)$ are identified if they `eventu
       \end{equation*}
       where the sum is over elements of \(A_{j}\), and hence itself belongs to \(A_{j}\).
 
-    \item 
+    \item
   \end{enumerate}
 \end{proof}
 
@@ -1298,7 +1298,7 @@ That is, two elements of $\coprod_{i \in I} F(i)$ are identified if they `eventu
 \begin{proof}
   By general abstract nonsense, we know that colimits commute with colimits, and thus that the colimit functor preserves colimits, hence is right exact. We need only show that $\colim$ preserves monics.
 
-  To this end, let $t \in \Hom_{\Rmod^{I}}(A, B)$ be monic, and choose some \(a \in \colim A\) such that \(t(a) = 0\) in \(\colim B\). By \hyperref[lemma:properties_of_filtered_colimit]{Lemma~\ref*{lemma:properties_of_filtered_colimit}}, there exists some \(a_{i} \in A_{i}\) which maps to \(a\) under the canonical map \(A_{i} \to \colim A\). Since each \(t_{i}\colon A_{i} \to B_{i}\) is monic this maps to some \(t_{i}(a_{i}) \neq 0\) in \(B_{i}\). The element \(t_{i}(a_{i})\) vanishes in \(\colim B\), so there exists some \(j \in I\) and \(\phi\colon i \to j\) such that 
+  To this end, let $t \in \Hom_{\Rmod^{I}}(A, B)$ be monic, and choose some \(a \in \colim A\) such that \(t(a) = 0\) in \(\colim B\). By \hyperref[lemma:properties_of_filtered_colimit]{Lemma~\ref*{lemma:properties_of_filtered_colimit}}, there exists some \(a_{i} \in A_{i}\) which maps to \(a\) under the canonical map \(A_{i} \to \colim A\). Since each \(t_{i}\colon A_{i} \to B_{i}\) is monic this maps to some \(t_{i}(a_{i}) \neq 0\) in \(B_{i}\). The element \(t_{i}(a_{i})\) vanishes in \(\colim B\), so there exists some \(j \in I\) and \(\phi\colon i \to j\) such that
   \begin{equation*}
     0 = B(\phi)(t_{i}(a_{i})) = t_{j}(A(\phi)(a_{i}))\qquad\text{in }B_{j}.
   \end{equation*}
@@ -1347,9 +1347,9 @@ We will call functors $\N \to \Ab$ \emph{towers,} and denote \(A\colon \N \to \A
     \begin{tikzcd}
       \ker \Delta
       \arrow[r, hook]
-      & \prod_{i = 0} A_{i} 
+      & \prod_{i = 0} A_{i}
       \arrow[r, "\Delta"]
-      & \prod_{i = 0} A_{i} 
+      & \prod_{i = 0} A_{i}
     \end{tikzcd}
   \end{equation*}
   where \(\Delta\) is the map
@@ -1430,5 +1430,358 @@ be a short exact sequence of towers, and consider the following morphism of shor
 \end{equation*}
 
 The snake lemma gives us a long exact sequence
+\begin{equation*}
+  0 \to \ker \Delta_{A} \to \ker \Delta_{B} \to \ker \Delta_{C} \to \coker \Delta_{A} \to \coker \Delta_{B} \to \coker \Delta_{C} \to 0.
+\end{equation*}
+We have already seen that \(\ker \Delta_{A} = \lim \{A_{i}\}\). This tells us that
+\begin{equation*}
+  \Lim^{i} =
+  \begin{cases}
+    \lim, &i = 0 \\
+    \coker \Delta & i = 1 \\
+    0, &\text{otherwise}
+  \end{cases}
+\end{equation*}
+is a homological \(\delta\)-functor. In fact, it turns out to be universal, hence the derived functor of \(\lim\).
+
+\begin{lemma}
+  \label{lemma:limit_of_tower_exact_when_all_maps_onto}
+  Suppose all the maps \(\lambda_{i, i+1}\colon A_{i+1} \to A_{i}\) are epimorphisms. Then \(\Lim^{1} A_{i} = 0\).
+
+  We need to show that \(\Delta\) is an epimorphism. To that end, let
+  \begin{equation*}
+    (\cdots, a_{i}, \cdots) \in \prod_{i} A_{i}.
+  \end{equation*}
+  Let \(b_{0} = a_{0}\) Define \(b_{i+1}\) inductively as a lift of \(b_{i} - a_{i}\). Then \(\Delta\) maps \((\cdots, b_{i}, \cdots)\) to
+  \begin{equation*}
+    (\cdots, b_{i} - (b_{i} - a_{i}), \cdots) = (\cdots, a_{i}, \cdots).
+  \end{equation*}
+\end{lemma}
+
+\begin{definition}[Mittag-Leffler condition]
+  \label{def:mittag_leffler_condition}
+  Let \(\{A_{i}\}\) be a tower of abelian groups. We say that \(\{A_{i}\}\) satisfies the \defn{Mittag-Leffler condition} if for each \(n \geq 0\) there exists a \(N = N(n) > n\) such that the for all \(m \geq N\), the image of \(A_{m} \to A_{n}\) is equal to the image of \(A_{N} \to A_{n}\).
+
+  We say that \(\{A_{i}\}\) satisfies the \defn{trivial Mittag-Leffler condition} if for all \(n \geq 0\) there exists \(N(n) > n\) such that \(\im(A_{N(n)} \to A_{n}) = 0\).
+\end{definition}
+
+\begin{example}
+  If all the maps \(A_{n} \to A_{n-1}\) are epimorphisms, then \(\{A_{i}\}\) satisfies the Mittag-Leffler condition with \(N(n) = n+1\).
+\end{example}
+
+\begin{proposition}
+  Suppose \(\{A_{i}\}\) is a tower of abelian groups satisfying the Mittag-Leffler condition. Then
+  \begin{equation*}
+    \Lim^{1} A_{i} = 0.
+  \end{equation*}
+\end{proposition}
+\begin{proof}
+  First, suppose that \(A_{i}\) satisfies the trivial Mittag-Leffler condition. We need to show that \(\Lim^{1} A_{i} = 0\), i.e.\ that \(\Delta\) is epi.
+
+  To that end, choose some \(a_{i} \in A_{i}\), \(i \geq 0\). We need to find \(b_{i} \in A_{i}\), \(i \geq 0\) such that
+  \begin{equation*}
+    \Delta\colon (\ldots, b_{1}, b_{0}) \mapsto (\ldots, a_{1}, a_{0}).
+  \end{equation*}
+
+  Define
+  \begin{equation*}
+    b_{n} = \sum_{m \geq n} \lambda_{n,m}a_{m}.
+  \end{equation*}
+  Note that this is a finite sum because \(\lambda_{n, m} = 0\) for large enough \(m\). Then
+  \begin{align*}
+    \Delta(\cdots, b_{n}, \cdots) &= \left( \cdots, \sum_{m' \geq n} \lambda_{n, m'} a_{m'} - \lambda_{n, n+1} \sum_{m \geq n + 1} \lambda_{m, n+1} a_{m} \right) \\
+    &= \left(\cdots, \sum_{m' \geq n} \lambda_{n, m'} a_{m'} - \sum_{m \geq n+1} \lambda_{n, m} a_{m} \right) \\
+    &= (\cdots, a_{n}, \cdots).
+  \end{align*}
+
+  Now suppose that \(A_{i}\) satisfies the ordinary Mittag-Leffler condition. Without loss of generality we may assume that \(N(n)\) is nondecreasing. Define
+
+  \begin{equation*}
+    B_{i} = \lambda_{i, N(i)}(A_{N(i)}).
+  \end{equation*}
+  Consider the following short exact sequences.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & B_{i+1}
+      \arrow[r, hook]
+      & A_{i+1}
+      \arrow[r, two heads]
+      \arrow[d, swap, "\lambda_{i, i+1}"]
+      & A_{i+1}/B_{i+1}
+      \arrow[r]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & B_{i}
+      \arrow[r, hook]
+      & A_{i}
+      \arrow[r, two heads]
+      & A_{i}/B_{i}
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  Because \(N\) is nondecreasing, the \(\lambda\)s give us a map \(B_{i+1} \to B_{i}\) making the diagram commute. The universal property for cokernels gives us an induced map \(A_{i+1}/B_{i+1} \to A_{i}/B_{i}\) making the diagram commute.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & B_{i+1}
+      \arrow[r, hook]
+      \arrow[d]
+      & A_{i+1}
+      \arrow[r, two heads]
+      \arrow[d, swap, "\lambda_{i, i+1}"]
+      & A_{i+1}/B_{i+1}
+      \arrow[r]
+      \arrow[d, dashed]
+      & 0
+      \\
+      0
+      \arrow[r]
+      & B_{i}
+      \arrow[r, hook]
+      & A_{i}
+      \arrow[r, two heads]
+      & A_{i}/B_{i}
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  This defines a tower \(\{C_{i}\}\) with \(C_{i} = A_{i}/B_{i}\). By definition, this satisfies the trivial Mittag-Leffler condition.
+
+  Note that by definition, the maps of the tower \(\{B_{i}\}\) are onto, so
+  \begin{equation*}
+    \Lim^{1} B_{i} = 0.
+  \end{equation*}
+  The long exact sequence associated to the short exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & B_{i}
+      \arrow[r, hook]
+      & A_{i}
+      \arrow[r, two heads]
+      & A_{i}/B_{i}
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  thus tells us that \(\Lim^{1} A_{i} = 0\), as it is sandwiched between two things which are zero.
+\end{proof}
+
+\begin{example}
+  Consider the tower
+  \begin{equation*}
+    \begin{tikzcd}
+      \cdots
+      \arrow[r]
+      & \Z/(p^{3})
+      \arrow[r]
+      & \Z/(p^{2})
+      \arrow[r]
+      & \Z/(p)
+    \end{tikzcd}
+  \end{equation*}
+\end{example}
+
+\begin{theorem}[Milnor sequence]
+  \label{thm:milnor_sequence}
+  Let
+  \begin{equation*}
+    \begin{tikzcd}
+      \cdots
+      \arrow[r]
+      & C_{1}
+      \arrow[r]
+      & C_{0}
+    \end{tikzcd}
+  \end{equation*}
+  be a tower of cochain complexes of abelian groups such that the Mittag-Leffler condition is satisfied (i.e.\ satisfied level-wise). Let \(C = \lim C_{i}\). Then for each \(q\) there is an exact sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \Lim^{1} H^{q-1}(C_{i})
+      \arrow[r, hook]
+      & H^{q}(C)
+      \arrow[r, two heads]
+      & \lim H_{q}(C_{i})
+      \arrow[r]
+      & 0
+    \end{tikzcd}.
+  \end{equation*}
+\end{theorem}
+\begin{proof}
+  We first fix notation. Let
+  \begin{equation*}
+    B_{i} \subset Z_{i} \subset C_{i}
+  \end{equation*}
+  be the subcomplexes of \(C_{i}\) on boundaries and cycles, with trivial differentials; then
+  \begin{equation*}
+    H^{\bullet}(C_{i}) = \coker (B_{i} \to Z_{i}).
+  \end{equation*}
+  Let \(B\) denote the level-wise coboundaries of \(C\), and \(Z\) the level-wise cocycles, again with trivial differentials.
+  \begin{itemize}
+    \item Consider the exact sequence
+      \begin{equation*}
+        \begin{tikzcd}
+          0
+          \arrow[r]
+          & \{Z_{i}\}
+          \arrow[r, hook]
+          & \{C_{i}\}
+          \arrow[r]
+          & \{C_{i}[1]\}
+        \end{tikzcd}.
+      \end{equation*}
+      Applying the left exact functor \(\lim\), we find that
+      \begin{equation*}
+        \lim Z_{i} \cong \ker(d\colon C \to C[1]),
+      \end{equation*}
+      i.e.\ that \(\lim Z_{i}\) is the subcomplex of cycles in \(C\); that is, that
+      \begin{equation*}
+        Z = \lim Z_{i}.
+      \end{equation*}
+
+    \item Consider the short exact sequence
+      \begin{equation*}
+        \begin{tikzcd}
+          0
+          \arrow[r]
+          & \{Z_{i}\}
+          \arrow[r, hook]
+          & \{C_{i}\}
+          \arrow[r, two heads]
+          & \{B_{i}[1]\}
+          \arrow[r]
+          & 0
+        \end{tikzcd}.
+      \end{equation*}
+      The long exact sequence corresponding to \(\Lim^{i}\) is
+      \begin{equation*}
+        \begin{tikzcd}
+          0
+          \arrow[r]
+          & Z
+          \arrow[r]
+          & C
+          \arrow[r]
+          & \lim B_{i}[1]
+          \arrow[dll, out=-22, in=157, looseness=1, overlay, "\delta" description]
+          \\
+          & \Lim^{1} Z_{i}
+          \arrow[r]
+          & \Lim^{1} C^{i}
+          \arrow[r]
+          & \Lim^{1} B^{i}[1]
+          \arrow[r]
+          & 0
+        \end{tikzcd}
+      \end{equation*}
+      But since \(C_{i}\) satisfies the Mittag-Leffler condition, \(\Lim^{1} C_{i} = 0\), implying that
+      \begin{equation*}
+        \Lim^{1} B^{i} = 0.
+      \end{equation*}
+      Furthermore, \(B[1] \cong \coker (Z \hookrightarrow C)\), so image-kernel factorization gives us
+      \begin{equation*}
+        \begin{tikzcd}
+          0
+          \arrow[r]
+          & B[1]
+          \arrow[r, hook]
+          & \lim B_{i}[1]
+          \arrow[r, two heads]
+          & \Lim^{1}(Z_{i})
+          \arrow[r]
+          & 0
+        \end{tikzcd}
+      \end{equation*}
+
+    \item The long exact sequence on homology corresponding to
+      \begin{equation*}
+        \begin{tikzcd}
+          0
+          \arrow[r]
+          & \{B^{i}\}
+          \arrow[r, hook]
+          & \{Z^{i}\}
+          \arrow[r, two heads]
+          & \{H^{i}\}
+          \arrow[r]
+          & 0
+        \end{tikzcd}
+      \end{equation*}
+      is
+      \begin{equation*}
+        \begin{tikzcd}
+          0
+          \arrow[r]
+          & \lim B_{i}
+          \arrow[r]
+          & Z
+          \arrow[r]
+          & \lim H_{i}
+          \arrow[dll, out=-22, in=157, looseness=1, overlay, "\delta" description]
+          \\
+          & 0
+          \arrow[r]
+          & \Lim^{1} Z^{i}
+          \arrow[r]
+          & \Lim^{1} H^{i}
+          \arrow[r]
+          & 0
+        \end{tikzcd}
+      \end{equation*}.
+
+      This tells us both that
+      \begin{equation*}
+        \begin{tikzcd}
+          0
+          \arrow[r]
+          & \lim B_{i}
+          \arrow[r, hook]
+          & Z
+          \arrow[r, two heads]
+          & \lim H_{i}
+          \arrow[r]
+          & 0
+        \end{tikzcd}
+      \end{equation*}
+      is short exact, \emph{and} that
+      \begin{equation*}
+        \Lim^{1} Z^{i} \cong \Lim^{1} H_{i}.
+      \end{equation*}
+  \end{itemize}
+
+  The exact sequences we have discovered give us the chain of inclusions
+  \begin{equation*}
+    0 \subset B \subset \lim B_{i} \subset Z \subset C.
+  \end{equation*}
+
+  The third isomorphism theorem or one of the axioms for triangulated categories or whatever gives that the sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & \frac{\lim B_{i}}{B}
+      \arrow[r, hook]
+      & \frac{Z}{B}
+      \arrow[r, two heads]
+      & \frac{Z}{\lim B_{i}}
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+  is short exact. However,
+  \begin{equation*}
+    \frac{\lim B_{i}}{B} \cong \Lim^{1} Z_{i} \cong \Lim^{1} H_{i}\qquad \frac{Z}{B} \cong H,\qquad \frac{Z}{\lim B_{i}} \cong \lim H_{i}.
+  \end{equation*}
+  As every chain complex we are working with has trivial differentials, this amounts to the statement needed.
+\end{proof}
 
 \end{document}
