@@ -8,7 +8,9 @@
 \section{Basics}
 \label{sec:basics}
 
-Abelian categories provide a categorical axiomatization of the properties of the category $\Rmod$ of modules over a (not necessarily commutative) ring $R$; in fact, one can show that any small abelian category is a full subcategory of $\Rmod$ for some $R$. Homological is the study of chain complexes of $R$-modules, and hence of the study of chain complexes in an abelian category. One of the benefits of working with abelian categories rather than working directly $\Rmod$ is that many things which are not obviously abelian categories turn out to be abelian categories; for example, the category of chain complexes in an abelian category is itself an abelian category, so when one is studying abelian categories one is already learning something about chain complexes in an abelian category.
+Abelian categories provide a categorical axiomatization of the properties of the category $\Rmod$ of modules over a (not necessarily commutative) ring $R$; in fact, one can show that any small abelian category is a full subcategory of $\Rmod$ for some $R$. Homological is the study of chain complexes of $R$-modules, and hence of the study of chain complexes in an abelian category. 
+
+One of the benefits of working with abelian categories rather than working directly $\Rmod$ is that many things which are not obviously abelian categories turn out to be abelian categories; for example, the category of chain complexes in an abelian category is itself an abelian category, so when one is studying abelian categories one is already learning something about chain complexes in an abelian category.
 
 \subsection{Building blocks}
 \label{ssc:building_blocks}
@@ -23,15 +25,15 @@ Abelian categories provide a categorical axiomatization of the properties of the
 
 \begin{definition}[additive category]
   \label{def:additivecategory}
-  A category $\mathcal{C}$ is \defn{additive} if it has finite products (including an initial object) and is $\Ab$-enriched.
+  A category $\mathcal{C}$ is \defn{additive} if it has finite products (including a terminal object) and is $\Ab$-enriched.
 \end{definition}
 
 \begin{proposition}
   \label{prop:in_additive_category_products_coproducts_agree}
-  Let $\mathcal{C}$ be an additive category. Then the initial object is also a terminal object (hence a zero object), and the product $A \times B$ satisfies the universal property for a coproduct $A \amalg B$.
+  Let $\mathcal{C}$ be an additive category. Then any terminal object is also an initial object, and the product $A \times B$ satisfies the universal property for a coproduct $A \amalg B$.
 \end{proposition}
 \begin{proof}
-  Denote by $\emptyset$ an initial object in $\mathcal{C}$. The unique morphism $\id_{\emptyset}\colon \emptyset \to \emptyset$ must be the identity element $e_{\emptyset \to \emptyset} \in \Hom(\emptyset, \emptyset)$. Let $X$ be any other object in $\mathcal{C}$, and let $f\colon X \to \emptyset$. Then $f \circ e_{\emptyset \to \emptyset} = f$. However, since composition is bilinear, we also have $f \circ e = e_{X \to \emptyset}$. Thus, there is a unique map $X \to \emptyset$ for all $X$, so $\emptyset$ is a terminal object (hence a zero object). From now on, we will write $0$ for zero objects.
+  Denote by $*$ a terminal object in $\mathcal{C}$. The unique morphism $\id_{*}\colon * \to *$ must be the identity element $e_{* \to *} \in \Hom(*, *)$. Let $X$ be any other object in $\mathcal{C}$, and let $f\colon * \to X$. Then $e_{* \to *} \circ f = f$. However, since composition is bilinear, we also have $e_{* \to *} \circ f = e_{* \to X}$. Thus, there is a unique map $* \to X$ for all $X$, so $*$ is an initial object. Hence it is a zero object. From now on, we will write $0$ for zero objects.
 
   By the universal property for products, we get a unique map $i_{A}\colon A \to A \times B$ making the following diagram commute.
   \begin{equation*}
@@ -125,16 +127,7 @@ Abelian categories provide a categorical axiomatization of the properties of the
 
 \begin{definition}[direct sum]
   \label{def:direct_sum}
-  Let $\mathcal{C}$ be a category with a zero object $0$, and products and coproducts. If products and coproducts agree in the sense that the canonical map $A \amalg B$ Then we say that $\mathcal{C}$ has \defn{direct sums}, and denote the product/coproduct of $A$ and $B$ by $A \oplus B$.
-\end{definition}
-
-\begin{definition}[additive functor]
-  \label{def:additivefunctor}
-  Let $F\colon \mathcal{C} \rightarrow \mathcal{D}$ be a functor between additive categories. We say that $F$ is \defn{additive} if for each $X$, $Y \in \Obj(\mathcal{C})$ the map
-  \begin{equation*}
-    \Hom_{\mathcal{C}}(X, Y) \to \Hom_{\mathcal{D}}(F(X), F(Y))
-  \end{equation*}
-  is a homomorphism of abelian groups.
+  Let $\mathcal{C}$ be a category with products \(\times\) (including a terminal object \(*\)) and coproducts \(\amalg\) (including an initial object \(\emptyset\)). If products and coproducts agree in the sense that the canonical map $A \amalg B \to A \times B$ is an isomorphism, then we say that $\mathcal{C}$ has \defn{direct sums}, and denote the (co)product of $A$ and $B$ by $A \oplus B$.
 \end{definition}
 
 \begin{lemma}
@@ -191,6 +184,16 @@ Abelian categories provide a categorical axiomatization of the properties of the
   \end{align*}
   It is easy to check that $\phi$ defined in this way \emph{does} make the diagram commute, so $\phi$ exists and is unique.
 \end{proof}
+
+\begin{definition}[additive functor]
+  \label{def:additivefunctor}
+  Let $F\colon \mathcal{C} \rightarrow \mathcal{D}$ be a functor between additive categories. We say that $F$ is \defn{additive} if for each $X$, $Y \in \Obj(\mathcal{C})$ the map
+  \begin{equation*}
+    \Hom_{\mathcal{C}}(X, Y) \to \Hom_{\mathcal{D}}(F(X), F(Y))
+  \end{equation*}
+  is a homomorphism of abelian groups.
+\end{definition}
+
 
 \begin{corollary}
   Let $F\colon \mathcal{A} \to \mathcal{B}$ be an additive functor between additive categories. Then $F$ preserves direct sums in the sense that there is a natural isomorphism
@@ -363,12 +366,25 @@ Here are some equivalent ways of defining the kernel of a morphism $f\colon A \t
 \subsection{Abelian categories}
 \label{ssc:abelian_categories}
 
-We have seen that in a pre-abelian category, kernels and cokernels more or less behave as they do in the category of modules over some ring $R$. However, the first isomorphism theorem tells us that every submodule is the kernel of some module homomorphism (namely the cokernel), and every quotient module of some module homomorphism (namely the kernel).
+We have seen that in a pre-abelian category, kernels and cokernels more or less behave as they do in the category of modules over some ring $R$. However, the first isomorphism theorem tells us that every submodule is the kernel of some module homomorphism (namely the cokernel), and every quotient module of some module homomorphism (namely the kernel). We therefore add an extra axiom to enforce this behavior.
 
 \begin{definition}[abelian category]
   \label{def:abelian_cateogry}
   A pre-abelian category is said to be \defn{abelian} if every monomorphism is the kernel of its cokernel, and every epimorphism is the cokernel of its kernel.
 \end{definition}
+
+The above definition is equivalent to the following: an abelian category is:
+\begin{itemize}
+  \item a category \(\mathcal{A}\)
+
+  \item enriched over \((\Ab, \otimes_{\Z})\)
+
+  \item with finite products (hence direct sums)
+
+  \item such that every morphism has a kernel and a cokernel
+
+  \item such that every monomorphism is the kernel of its cokernel, and every epimorphism is the cokernel of its kernel.
+\end{itemize}
 
 \begin{proposition}
   Let $\mathcal{A}$ be an abelian category, and let $f\colon A \to B$ be a morphism in $\mathcal{A}$. Then $f$ is an isomorphism if and only if $\ker f = 0$ and $\coker f = 0$.
@@ -435,14 +451,14 @@ Our definition of an abelian category, namely an $\Ab$-enriched category with pr
 Not so! It turns out that demanding that finite products and coproducts exist and agree is sufficient to specify the addition law.
 
 \begin{proposition}
-  Let $\mathcal{C}$ be a category with finite direct sums\footnote{Including 0-ary direct sums, i.e.\ a zero object.} (\hyperref[def:direct_sum]{Definition~\ref*{def:direct_sum}}). Then $\mathcal{C}$ has a canonical $\Ab$-enrichment.
+  Let $\mathcal{C}$ be a category with finite direct sums\footnote{Including 0-ary direct sums, i.e.\ a zero object.} (\hyperref[def:direct_sum]{Definition~\ref*{def:direct_sum}}). Then $\mathcal{C}$ has a canonical enrichment in commutative monoids.
 \end{proposition}
 \begin{proof}
   Let $A \in \mathcal{C}$ be an object. Denote the diagonal map $A \to A \oplus A$ by $\Delta$, and the codiagonal map $A \oplus A \to A$ by $\nabla$. Let $f$, $g\colon A \to B$. We define
   \begin{equation*}
     f + g = \nabla \circ (f \oplus g) \circ \Delta.
   \end{equation*}
-  To see that this is an $\Ab$-enrichment, note the following.
+  To see that this is an enrichment in commutative monoids, note the following.
   \begin{enumerate}
     \item With $0$ the zero morphism, we have
       \begin{equation*}
@@ -451,15 +467,12 @@ Not so! It turns out that demanding that finite products and coproducts exist an
   \end{enumerate}
 \end{proof}
 
-In fact, in an abelian category, the $\Ab$-enrichment is completely determined by the direct sum structure. Thus, we have the following.
+We can then define an abelian category to be a category with finite direct sums such that the canonical enrichment in commutative monoids happens to be an \(\Ab\)-enrichment. Thus, we have the following.
 
 \begin{corollary}
   \label{cor:functor_additive_iff_preserves_direct_sums}
   Let $F\colon \mathcal{A} \to \mathcal{B}$  be a functor between abelian categories. Then $F$ is additive if and only if it preserves direct sums.
 \end{corollary}
-
-\section{Basic properties of abelian categories}
-\label{sec:basic_properties_of_abelian_categories}
 
 \section{Embedding theorems}
 \label{sec:embedding_theorems}
@@ -468,7 +481,7 @@ In ordinary category theory, when manipulating a locally small category it is of
 
 This sort of procedure, namely embedding a category which is difficult to work with into one with more desirable properties and then translating results back and forth, is very powerful. In the context of (small) Abelian categories one has essentially the best possible such embedding, known as the Freyd-Mitchell embedding theorem, which we will revisit at the end of this section. However, for now we will content ourselves with a simpler categorical embedding, one which we can work with easily.
 
-In abelian categories, one can defines kernels and cokernels slickly, as for example the equalizer along the zero morphism. However, in full generality, we can define both kernels and cokernels in any category with a zero obect: $f$ is a kernel for $g$ if and only the diagram below is a pullback, and a $g$ is a cokernel of $f$ if and only if the diagram below is a pullback.
+In abelian categories, one can defines kernels and cokernels slickly, as for example the equalizer along the zero morphism. However, in full generality, we can define both kernels and cokernels in any category with a zero obect: $f$ is a kernel for $g$ if and only the diagram below is a pullback, and a $g$ is a cokernel of $f$ if and only if the diagram below is a pushout.
 \begin{equation*}
   \begin{tikzcd}
     A

@@ -50,7 +50,7 @@ Note that the singular chain complex construction is functorial: any map $f\colo
   \begin{equation*}
     d_{n} = \sum_{i = 0}^{n} (-1)^{i}\partial^{i};\qquad * \mapsto \sum_{i = 0}^{n} (-1)^{i} *.
   \end{equation*}
-  If $n$ is odd, then there are as many summands with even sign as there are with odd sign, and they cancel each other out. If $n$ is even, then there is one more term with positive sign than with negative sign, and one ends up with the identity. Thus $S(\mathrm{pt})_{\bullet}$ is given level-wise as follows.
+  If $n$ is odd, then \(n+1\) is even, and there are as many summands with a positive sign as there are with negative sign, and they cancel each other out. If $n$ is even, then there is one more term with positive sign than with negative sign. Thus $S(\mathrm{pt})_{\bullet}$ is given level-wise as follows.
   \begin{equation*}
     \begin{tikzcd}
       \cdots
@@ -102,6 +102,8 @@ Note that the singular chain complex construction is functorial: any map $f\colo
 \label{ssc:reduced_homology}
 
 Recall that in addition to the \emph{ordinary}, or \emph{topologist's simplex category} $\Delta$, there is the so-called \emph{extended}, or \emph{algebraist's simplex category} $\Delta_{+}$, which includes the object $[-1] = \emptyset$. If we use this category to index our simplicial sets, our chain complexes have a term $\tilde{S}_{-1} = \Z$. It is traditional to denote the differential $d_{0}\colon \tilde{S}_{0} \to \tilde{S}_{-1}$ by $\varepsilon$, and call it the \emph{augmentation map.}
+
+That is, the chain complex \(\tilde{S}_{\bullet}\) agrees with the chan complex \(S_{\bullet}\) in all degrees except \(-1\), where \(\tilde{S}_{-1} = \Z\) and \(S_{-1} = 0\).
 \begin{equation*}
   \begin{tikzcd}
     \cdots
@@ -131,8 +133,6 @@ implying
 \begin{equation*}
   H_{i}(X) = \tilde{H}_{i}(X),\qquad i \geq 1.
 \end{equation*}
-
-The difference between ordinary and reduced homology is that, as one might suspect, ordinary homology is better-behaved from a topological point of view, and reduced homology is better behaved algebraically (for example, as a functor reduced homology turns wedge products into direct sums).
 
 There is also another interpretation of reduced homology. Recall that we have used the name \emph{augmentation map} before, when dealing with resolutions. There we reinterpreted the augmentation map $\varepsilon$ as a chain map to a complex concentrated in degree zero. We can pull exactly the same trick here, viewing the augmentation map as a map of chain complexes
 \begin{equation*}
@@ -169,6 +169,7 @@ There is also another interpretation of reduced homology. Recall that we have us
   \end{equation*}
 \end{example}
 
+One of the benefits of reduced homology is that it can be used to prove facts about ordinary homology.
 \begin{example}
   Let $X$ be a nonempty path-connected topological space. Then $H_{0}(X) \cong \Z$. Specifically,
   \begin{equation*}
@@ -211,7 +212,9 @@ We will come back to reduced homology in \hyperref[sec:reduced_homology]{Section
 \section{The Hurewicz homomorphism}
 \label{sec:the_hurewicz_homomorphism}
 
-Let $X$ be a topological space, and let $x \in X$. Let $\gamma$ be a loop in $X$ which starts and ends at $x$, i.e.\
+It turns out that, for path connected spaces \(X\), knowledge of \(\pi_{1}(X)\) allows us to compute \(H_{1}(X)\).
+
+Let $X$ be a path-connected topological space, and let $x \in X$. Let $\gamma$ be a loop in $X$ which starts and ends at $x$, i.e.\
 \begin{equation*}
   \gamma\colon \Delta^{1} \to X;\qquad \gamma(0) = x = \gamma(1).
 \end{equation*}
@@ -233,69 +236,50 @@ We can view $\gamma$ either as a singular 1-simplex in $X$, or as a representati
   \end{equation*}
 \end{lemma}
 \begin{proof}
+  First, let \(\kappa_{x}\) be the constant 1-simplex at \(x\), and let \(\sigma_{x}\) be the constant 2-simplex. Then
+  \begin{equation*}
+    \partial \sigma_{x} = \kappa_{x} - \kappa_{x} + \kappa_{x} = \kappa_{x},
+  \end{equation*}
+  so \(\kappa_{x}\) is a boundary.
+
   Let $\gamma_{1}$ and $\gamma_{2}$ be loops based at $x$.
 
-  First, suppose that $\gamma_{1} \overset{H}{\sim} \gamma_{2}$, i.e.\
-
-  Proof: one can fill the simplex
+  Next, suppose that $\gamma_{1} \overset{H}{\sim} \gamma_{2}$, i.e.\ let
   \begin{equation*}
-    (\gamma_{2}, \gamma_{1}, \gamma_{1} * \gamma_{2}).
+    H\colon \Delta^{1} \times [0, 1] \to X
   \end{equation*}
+  be a homotopy such that
+  \begin{equation*}
+    H(t, 0) = \gamma_{1}\quad H(t, 1) = \gamma_{2},\quad H(0, s) = H(1, s) = x.
+  \end{equation*}
+
+  Since \(H\) is constant along \(H(0, s)\), it descends to a map out of
+  \begin{equation*}
+    \Delta^{1} \times [0, 1] / \{ (0, s) \mid s \in [0, 1] \} \cong \Delta^{2}.
+  \end{equation*}
+  The boundary of this 2-simplex is
+  \begin{equation*}
+    \gamma_{1} - \gamma_{2} + \kappa_{x}.
+  \end{equation*}
+  Thus, \(\gamma_{1}\) is homologous to \(\gamma_{2}\).
 \end{proof}
 
-The map $\tilde{h}_{X}$ is very well-behaved.
-
+The map \(\pi_{1}(X, x) \to H_{1}(x)\) we have constructed turns out, somewhat astonishingly, to be a group homomorphism.
 \begin{lemma}
   \label{lemma:hurewicz_is_homomorphism}
-  For a topological space $X$ and point $x \in X$, the map
+  For a path-connected topological space $X$ and point $x \in X$, the map
   \begin{equation*}
     \tilde{h}_{X}\colon \pi_{1}(X, x) \to H_{1}(X)
   \end{equation*}
   is a group homomorphism.
 \end{lemma}
 \begin{proof}
-  We need to show that it sends the identity to the identity and respects composition.
+  We need to show that it sends the identity to the identity and respects the group law. The identity element of \(\pi_{1}(X, x)\) is represented by \(\kappa_{x}\), which we have already seen is homologous to zero. To see that it respects the group law, let \(\gamma_{1}\) and \(\gamma_{2}\) be loops. Then there is a 2-simplex with boundary
+  \begin{equation*}
+    (\gamma_{2}, \gamma_{1} * \gamma_{2}, \gamma_{1}),
+  \end{equation*}
+  showing that \(\gamma_{1} + \gamma_{2}\) is homologous to \(\gamma_{1}*\gamma_{2}\).
 \end{proof}
-
-%\begin{lemma}
-%  \label{lemma:prep_for_hurewicz}
-%  Let $X$ be a path-connected topological space, and let $x \in X$. Let
-%  \begin{equation*}
-%    \omega_{1}, \omega_{2},\omega\colon \Delta^{1} \to X
-%  \end{equation*}
-%  be paths.
-%  \begin{enumerate}
-%    \item The constant path
-%      \begin{equation*}
-%        \omega\colon \Delta^{1} \to X;\qquad t \mapsto x \text{ const.}
-%      \end{equation*}
-%      is null-homologous.
-%
-%    \item If $\omega_{1}(1) = \omega_{2}(0)$, then
-%      \begin{equation*}
-%        \omega_{1} * \omega_{2} - \omega_{1} - \omega_{2}
-%      \end{equation*}
-%      is a boundary, where $\omega_{1} * \omega_{2}$ is the concatenation of $\omega_{1}$ and $\omega_{2}$.
-%
-%    \item Suppose
-%      \begin{equation*}
-%        \omega_{1}(0) = \omega_{2}(0),\qquad \omega_{1}(1) = \omega_{2}(1),
-%      \end{equation*}
-%      and that $\omega_{1}$ is homotopic to $\omega_{2}$ relative $\{0, 1\}$. Then $\omega_{1}$ and $\omega_{2}$ are homologous as singular 1-chains.
-%
-%    \item Any 1-chain of the form $\bar{\omega} * \omega$ is a boundary. Here $\bar{\omega}(t) = \omega(1-t)$.
-%  \end{enumerate}
-%\end{lemma}
-%\begin{proof}
-%  \leavevmode
-%  \begin{enumerate}
-%    \item Consider the map
-%      \begin{equation*}
-%        \Delta^{2} \to X;\qquad t \mapsto x \text{ const.}
-%      \end{equation*}
-%  \end{enumerate}
-%\end{proof}
-
 
 Because $H_{1}(X)$ is abelian, $\tilde{h}_{X}$ descends to a map out of $\pi_{1}(X, x)_{\mathrm{ab}}$.
 
@@ -333,7 +317,7 @@ Because $H_{1}(X)$ is abelian, $\tilde{h}_{X}$ descends to a map out of $\pi_{1}
   \end{equation*}
   connecting $x_{0}$ to $x$. For $x = x_{0}$, choose $\gamma_{x_{0}}$ to be the constant path.
 
-  For each generator $\alpha\colon \Delta^{1} \to X$ in $H_{1}(X)$, the concatenation
+  For each generator $\alpha\colon \Delta^{1} \to X$ in $S_{1}(X)$, the concatenation
   \begin{equation*}
     \gamma_{\alpha(0)} * \alpha * \overline{\gamma_{\alpha(1)}}
   \end{equation*}
@@ -380,13 +364,17 @@ Because $H_{1}(X)$ is abelian, $\tilde{h}_{X}$ descends to a map out of $\pi_{1}
   \begin{equation*}
     \pi_{1}(X \times Y) \equiv \pi_{1}(X) \times \pi_{1}(Y)
   \end{equation*}
-  and
+  we have that
+  \begin{equation*}
+    H_{1}(X \times Y) \cong H_{1}(X) \times H_{1}(Y).
+  \end{equation*}
+  For nice\footnote{The more technical condition comes from Van Kampen's theorem.} \(X\) and \(Y\), e.g.\ \(X = Y = \S^{1}\), we have that
   \begin{equation*}
     \pi_{1}(X \vee Y) \equiv \pi_{1}(X) * \pi_{1}(Y),
   \end{equation*}
   we have that
   \begin{equation*}
-    H_{1}(X \times Y) \cong H_{1}(X) \times H_{1}(Y) \cong H_{1}(X \vee Y).
+    H_{1}(X \vee Y) \cong H_{1}(X) \times H_{1}(Y).
   \end{equation*}
 \end{example}
 
@@ -508,14 +496,17 @@ The freeness condition can be interpreted as telling us that in order to know ho
       \end{equation*}
       since $\tau_{q-1}$ is by assumption a chain map and $G$ is by assumption acyclic on $\mathcal{M}$.
 
-    \item One defines a chain homotopy inductively using the same trick.
+    \item One defines a chain homotopy \(D\colon \tau \to \tau'\) inductively using the same trick: one defines
+      \begin{equation*}
+        \partial D_{q}(M_{j})(m_{j}) = \tau_{q}(M_{j})(m_{j}) - \tau'_{q}(M_{j})(M_{j}) - D_{q-1}(M_{j}) \partial m_{j}.
+      \end{equation*}
   \end{enumerate}
 \end{proof}
 
 \section{Homotopy equivalence}
 \label{sec:homotopy_equivalence}
 
-We would like that two maps which are homotopic induce the same maps on homology. As alluded to in \hyperref[sec:chain_homotopies]{Section~\ref*{sec:chain_homotopies}}, we will see that a homotopy $H$ between maps $f$, $g\colon X \to Y$ induces a chain homotopy $h$ between $S_{n}(f)$ and $S_{n}(g)$.
+In this section, we will see that homotopic maps induce the same map on homology. As alluded to in \hyperref[sec:chain_homotopies]{Section~\ref*{sec:chain_homotopies}}, we will do this by showing that a homotopy $H$ between maps $f$, $g\colon X \to Y$ induces a chain homotopy $h$ between $S_{n}(f)$ and $S_{n}(g)$.
 
 \subsection{Homotopy invariance: with acyclic models}
 \label{ssc:homotopy_invariance_with_acyclic_models}
@@ -533,7 +524,7 @@ We would like that two maps which are homotopic induce the same maps on homology
       \\
       X \times I
       \arrow[r, "H"]
-      & X
+      & Y
       \\
       X
       \arrow[u, "\id \times \{1\}"]
@@ -720,7 +711,7 @@ Given an \(n\)-simplex \(\sigma\), the prism operator \(P_{i}\) creates an \(n+1
 \subsection{Relative homology}
 \label{ssc:relative_homology}
 
-Denote by $\Pair$ the category whose objects are pairs $(X, A)$, where $X$ is a topological space and $A \hookrightarrow X$ is a subspace, and whose morphisms $(X, A) \to (Y, B)$ are maps $f\colon X \to Y$ such that $F(A) \subset B$. That is, the category \(\Pair\) is the full subcategory on the category \(\Fun(I, \Top)\) on monomorphisms; the objects are diagrams
+Denote by $\Pair$ the category whose objects are pairs $(X, A)$, where $X$ is a topological space and $A \hookrightarrow X$ is a subspace, and whose morphisms $(X, A) \to (Y, B)$ are maps $f\colon X \to Y$ such that $F(A) \subset B$. That is, the category \(\Pair\) is the full subcategory on the category \(\Fun(I, \Top)\) on monomorphisms; the objects \((X, A)\) are diagrams
 \begin{equation*}
   \begin{tikzcd}
     A
@@ -728,7 +719,7 @@ Denote by $\Pair$ the category whose objects are pairs $(X, A)$, where $X$ is a 
     & X
   \end{tikzcd}
 \end{equation*}
-and the morphisms are commuting squares
+and morphisms \((A, X) \to (B, Y)\) are commuting squares
 \begin{equation*}
   \begin{tikzcd}
     A
@@ -836,10 +827,10 @@ and the morphisms are commuting squares
     \begin{tikzcd}
       0
       \arrow[r]
-      & S_{n}(X)
+      & S_{n}(A)
       \arrow[r]
       \arrow[d]
-      & S_{n}(A)
+      & S_{n}(X)
       \arrow[r]
       \arrow[d]
       & S_{n}(X, A)
@@ -849,9 +840,9 @@ and the morphisms are commuting squares
       \\
       0
       \arrow[r]
-      & S_{n-1}(X)
-      \arrow[r]
       & S_{n-1}(A)
+      \arrow[r]
+      & S_{n-1}(X)
       \arrow[r]
       & S_{n-1}(X, A)
       \arrow[r]
@@ -1049,6 +1040,7 @@ These results may not seem like much, but we are now in a position to show a tru
 A triple of spaces is in particular three pairs of spaces: $(X, A)$, $(X, B)$, and $(A, B)$. All of these have associated long exact sequences. There is also a fourth long exact sequence.
 
 \begin{proposition}
+  \label{prop:long_exact_sequence_on_triple}
   There is a long exact sequence
   \begin{equation*}
     \begin{tikzcd}
@@ -2165,7 +2157,7 @@ We're now ready to prove quite a nice theorem.
   \label{prop:relation_between_relative_reduced_homology}
   Let $(X, A)$ be a good pair. Let $\pi\colon X \to X/A$ be the canonical projection. Then
   \begin{equation*}
-    H(X, A) \cong \tilde{H}_{n}(X/A) \qquad \text{for all }n \geq 0.
+    H_{n}(X, A) \cong \tilde{H}_{n}(X/A) \qquad \text{for all }n \geq 0.
   \end{equation*}
 \end{proposition}
 \begin{proof}
@@ -2191,7 +2183,69 @@ We're now ready to prove quite a nice theorem.
   \begin{equation*}
     H_{n}(\Sigma X, \Sigma A) \cong \tilde{H}_{n-1}(X, A),\qquad \text{for all }n > 0.
   \end{equation*}
+
+  This is natural in pairs \((A, X)\).
 \end{theorem}
+\begin{proof}
+  Consider the following horizontal pairs. These are good pairs.
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[r, hook]
+      \arrow[d, hook]
+      & X
+      \arrow[d, hook]
+      \\
+      CA
+      \arrow[r, hook]
+      \arrow[d, hook]
+      & CX
+      \arrow[d, hook]
+      \\
+      \Sigma A
+      \arrow[r, hook]
+      & \Sigma X
+    \end{tikzcd}
+  \end{equation*}
+
+  Drawing diagrams should convince the ambivalent reader that
+  \begin{equation*}
+    CA \cup X \hookrightarrow CX\qquad\text{and}\qquad CA \hookrightarrow X \cup CA
+  \end{equation*}
+  are also good pairs.
+
+  Consider the long exact sequence on the triple \(CA \subset X \cup CA \subset CX\) (coming from \hyperref[prop:long_exact_sequence_on_triple]{Proposition~\ref*{prop:long_exact_sequence_on_triple}}).
+  \begin{equation*}
+    \begin{tikzcd}
+      & \cdots
+      \arrow[r]
+      & H_{n+1}(CX, CA \cup X)
+      \\
+      H_{n}(X \cup CA, CA)
+      \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
+      \arrow[r]
+      & H_{n}(CX, CA)
+      \arrow[r]
+      & H_{n}(CX, CA \cup X)
+      \\
+      H_{n-1}(X \cup CA, CA)
+      \arrow[r]
+      \arrow[from=urr, out=-22, in=157, looseness=1, overlay, "\delta" description]
+      & \cdots
+    \end{tikzcd}.
+  \end{equation*}
+  By \hyperref[prop:relation_between_relative_reduced_homology]{Proposition~\ref*{prop:relation_between_relative_reduced_homology}}, 
+  \begin{equation*}
+    H_{n}(X \cup CA, CA) \cong \tilde{H}_{n}((X \cup CA)/CA),\qquad \tilde{H}_{n}(CX, (CA \cup X)) \cong \tilde{H}_{n}(CX / (CA \cup X)).
+  \end{equation*}
+  But (as another sketch should convince you), \((X \cup CA)/CA \cong X/A\), and \(CX/(CA \cup X) \cong \Sigma X/ \Sigma A\).
+  Reading \hyperref[prop:relation_between_relative_reduced_homology]{Proposition~\ref*{prop:relation_between_relative_reduced_homology}} backwards then tells us that
+  \begin{equation*}
+    \tilde{H}_{n}((X \cup CA)/CA) \cong H_{n}(X, A),\qquad \tilde{H}_{n}(CX / (CA \cup X)) \cong H_{n}(\Sigma X, \Sigma A).
+  \end{equation*}
+
+  Note finally that \(H_{n}(CX, CA) \cong 0\) because \(CX\) is contractible. Making these replacements in the long exact sequence on homology, the result follows. Naturality follows from the naturality of the connecting homomorphism.
+\end{proof}
 
 \section{Mapping degree}
 \label{sec:mapping_degree}
@@ -2210,6 +2264,24 @@ Thus, we may pick in each $H_{n}(\S^{n})$ a generator $\mu_{n}$. Let $f\colon \S
   H_{n}(f)(\mu_{n}) = d\, \mu_{n},\qquad \text{for some }d \in \Z.
 \end{equation*}
 
+\begin{example}
+  Consider the map
+  \begin{equation*}
+    \omega\colon [0, 1] \to \S^{1};\qquad t \mapsto e^{2 \pi i t}.
+  \end{equation*}
+  The 1-simplex $\omega$ generates the fundamental group $\pi_{1}(\S^{1})$, so by the Hurewicz isomorphism (\hyperref[thm:hurewicz]{Theorem~\ref*{thm:hurewicz}}), the class $[\omega]$ generates $H_{1}(\S^{1})$. We can think of $[\omega]$ as $1 \in \Z$.
+\end{example}
+
+In fact, there is a way of constructing inductively a generator. Recall the Mayer-Vietoris sequence we used to construct the homotopy groups of spheres in \hyperref[eg:homology_groups_of_spheres]{Example~\ref*{eg:homology_groups_of_spheres}}. This provided an isomoprhism
+\begin{equation*}
+  \delta\colon H_{n}(\S^{n}) \cong H_{n-1}(\S^{n} \smallsetminus \{N, S\}).
+\end{equation*}
+However, \(\S^{n}\smallsetminus\{N, S\} \simeq \S^{n-1}\). Thus, we have a chain of isomorphisms
+\begin{equation*}
+  H_{1}(\S^{1}) \overset{D}{\cong} H_{2}(\S^{2}) \overset{D}{\cong} \cdots.
+\end{equation*}
+We can use these isomorphisms to transport the generator \([\omega] \in H_{1}(\S^{1})\) up the line.
+
 \begin{definition}[mapping degree]
   \label{def:mapping_degree}
   We call $d \in \Z$ as above the \defn{mapping degree} of $f$, and denote it by $\deg(f)$.
@@ -2217,12 +2289,6 @@ Thus, we may pick in each $H_{n}(\S^{n})$ a generator $\mu_{n}$. Let $f\colon \S
 
 \begin{example}
   Consider the map
-  \begin{equation*}
-    \omega\colon [0, 1] \to \S^{1};\qquad t \mapsto e^{2 \pi i t}.
-  \end{equation*}
-  The 1-simplex $\omega$ generates the fundamental group $\pi_{1}(\S^{1})$, so by the Hurewicz homomorphism (\hyperref[thm:hurewicz]{Theorem~\ref*{thm:hurewicz}}), the class $[\omega]$ generates $H_{1}(\S^{1})$. We can think of $[\omega]$ as $1 \in \Z$.
-
-  Now consider the map
   \begin{equation*}
     f_{n}\colon \S^{1} \to \S^{1};\qquad x \mapsto x^{n}.
   \end{equation*}
@@ -2247,7 +2313,45 @@ Thus, we may pick in each $H_{n}(\S^{n})$ a generator $\mu_{n}$. Let $f\colon \S
       & H_{1}(\S^{1})
     \end{tikzcd}
   \end{equation*}
+  Thus, \(H_{1}(f_{n})[\omega] = n[\omega]\).
 \end{example}
+
+\begin{proposition}
+  The following are immediate consequences of the definition of degree.
+  \begin{enumerate}
+    \item If \(f\) is homotopic to \(g\), then \(\deg f = \deg g\).
+
+    \item The degree of \(\id_{\S^{n}}\) is 1.
+
+    \item Degree is multiplicative, i.e.\ \(\deg(g \circ f) = \deg g \deg f\).
+
+    \item If \(f\) is not surjective, then \(\deg f = 0\).
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  The only non-trivial one is 4., which is true because any non-surjective map to \(\S^{n}\) is homotopic to a constant map.
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:suspension_preserves_mapping_degree}
+  Let \(f\colon \S^{n} \to \S^{n}\). Then \(\deg f = \deg \Sigma f\).
+\end{lemma}
+\begin{proof}
+  The suspension isomorphism of \hyperref[thm:suspension_isomorphism]{Theorem~\ref*{thm:suspension_isomorphism}} is natural, so the following square commutes.
+  \begin{equation*}
+    \begin{tikzcd}
+      H_{n}(\Sigma \S^{n-1})
+      \arrow[r, "H_{n}(\Sigma f)"]
+      \arrow[d, equals]
+      & H_{n}(\Sigma \S^{n-1})
+      \arrow[d, equals]
+      \\
+      H_{n-1}(S_{n-1})
+      \arrow[r, "H_{n}(f)"]
+      & H_{n-1}(S_{n-1})
+    \end{tikzcd}
+  \end{equation*}
+\end{proof}
 
 \section{CW Complexes}
 \label{sec:cw_complexes}
@@ -2280,7 +2384,7 @@ CW complexes are a class of particularly nicely-behaved topological spaces.
 
     \item \label{CW2} For every $n$-cell $\sigma$, the closure $\bar{\sigma} \subset X$ has a non-trivial intersection with at most finitely many cells of $X$.
 
-    \item \label{CW3} A subset $A \subset X$ is closed if and only if $A \cap \bar{\sigma}$ is closed for all cells $\sigma \in X$.
+    \item \label{CW3} A subset $A \subset X$ is closed if and only if $A \cap \bar{\sigma}$ is closed for all cells $\sigma \in X$; that is, it is a colimit over its cells.
   \end{enumerate}
 \end{definition}
 
@@ -2326,7 +2430,7 @@ At this point, we define some terminology.
 \begin{note}
   \hyperref[CW3]{Axiom~\ref*{CW3}} implies that $X$ carries the direct limit topology, i.e.\ that
   \begin{equation*}
-    X \cong \lim_{\rightarrow} X^{n}.
+    X \cong \colim X^{n}.
   \end{equation*}
 \end{note}
 
@@ -2541,7 +2645,8 @@ At this point, we define some terminology.
 
   Thus,
   \begin{align*}
-    [\alpha] = \left[ \sum_{i} \alpha^{i} i_{n} \circ \sigma \right]
+    [\alpha] &= \left[ \sum_{i} \alpha^{i} i_{N} \circ \tilde{\sigma}_{i} \right] \\
+    &= H_{n}(i_{n})\left[ \sum_{i} \alpha^{i} \tilde{\sigma}_{i} \right].
   \end{align*}
 \end{proof}
 
@@ -2598,6 +2703,63 @@ and $\delta \circ \varrho$ is a composition in the long exact sequence on the pa
     \Upsilon_{n}\colon H_{n}(C_{\bullet}(X), d) \cong H_{n}(X).
   \end{equation*}
 \end{theorem}
+\begin{proof}
+  Consider the following diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      C_{n+1}(X)
+      \arrow[dd, swap, "d_{n+1}"]
+      \arrow[r, equals]
+      & H_{n+1}(X^{n+1}, X^{n})
+      \arrow[dr, "\delta"]
+      \\
+      && H_{n}(X)
+      \arrow[dl, hook, "\varrho"]
+      \\
+      C_{n}(X)
+      \arrow[r, equals]
+      \arrow[dd, swap, "d_{n}"]
+      & H_{n}(X^{n}, X^{n-1})
+      \arrow[dr, "\delta"]
+      \\
+      && H_{n-1}(X)
+      \arrow[dl, hook, "\varrho"]
+      \\
+      C_{n-1}(X)
+      \arrow[r, equals]
+      & H_{n-1}(X^{n-1}, X^{n-2})
+    \end{tikzcd}
+  \end{equation*}
+  \begin{enumerate}
+    \item Note that \(\rho\) is injective because \(H_{k}(X^{k-1}) \cong 0\) for all \(k\). In fact, \(H_{n}(X) = \ker d_{n}\). To see this, let \(c \in C_{n}(X)\) be a cycle. Then
+      \begin{equation*}
+        dc = \varrho \delta c = 0 \implies \delta c = 0,
+      \end{equation*}
+      since \(\varrho\) is injective.
+  \end{enumerate}
+
+  Computation\dots
+
+  For \(n\) even, we find
+  \begin{equation*}
+    H_{k}(\R P^{n}) \cong
+    \begin{cases}
+      \Z, &k = 0 \\
+      \Z/(2), & 1 \leq k \leq n-1,\ k \text{ odd} \\
+      0, &\text{otherwise}.
+    \end{cases}
+  \end{equation*}
+
+  For \(n\) odd, we find
+  \begin{equation*}
+    H_{k}(\R P^{n}) \cong
+    \begin{cases}
+      \Z, &k = 0, n \\
+      \Z/(2), & 1 \leq k \leq n-2,\ k \text{ odd} \\
+      0, &\text{otherwise}.
+    \end{cases}
+  \end{equation*}
+\end{proof}
 
 \begin{example}[complex projective space]
   \label{eg:homology_of_complex_projective_space}

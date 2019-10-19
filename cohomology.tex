@@ -590,7 +590,7 @@ For a triple \(B \subset A \subset X\) denote the canonical map on pairs \((X, X
   \begin{enumerate}
     \item First take \(M = \R^{m}\) and \(K \subset M\) compact and convex, so that any \(x \in K\) is a deformation retract of \(K\). Then, since \(K\) is closed and bounded, we can find an open ball \(\mathring{\D}^{m}\) with \(K \subset \mathring{\D}^{m}\). Then certainly
       \begin{equation*}
-        \overline{M \smallsetminus \mathring{\D}^{m}} = M \smallsetminus \D^{m} \subset \mathring{(M \smallsetminus K)} = M \smallsetminus K,
+        \overline{M \smallsetminus \mathring{\D}^{m}} = M \smallsetminus \D^{m} \subset M \smallsetminus K = \mathring{(M \smallsetminus K)},
       \end{equation*}
       so by excision and deformation retractness we have
       \begin{align*}
@@ -759,7 +759,7 @@ For a triple \(B \subset A \subset X\) denote the canonical map on pairs \((X, X
 
 \begin{proposition}
   \label{prop:orientation_class_for_compacta}
-  Let \(K \subset M\) be compact, and assume that \(M\) is connected and oriented via an orientation \(x \mapsto o_{x} \in H_{m}(X \mid x)\). Then there exists a unique orientation class \(o_{K} \in H_{m}(M | K)\) such that \((\rho_{x, K})_{*}o_{K} = o_{x}\) for all \(x \in K\).
+  Let \(K \subset M\) be compact, and assume that \(M\) is connected and oriented via an orientation \(x \mapsto o_{x} \in H_{m}(X \mid x)\). Then there exists a unique orientation class \(o_{K} \in H_{m}(M \mid K)\) such that \((\rho_{x, K})_{*}o_{K} = o_{x}\) for all \(x \in K\).
 \end{proposition}
 \begin{proof}
   First we show uniqueness, as we will need it later. Suppose that there exist two orientation classes \(o_{K}\), \(o'_{K}\) such that
@@ -805,7 +805,7 @@ For a triple \(B \subset A \subset X\) denote the canonical map on pairs \((X, X
       \arrow[ur]
     \end{tikzcd}
   \end{equation*}
-  Pulling \(o_{x} \in H_{m}(M \mid x)\) back to \(H_{m}(M \mid U_{\alpha})\), then mapping it to \(H_{m}(M | K)\) with \(\phi\) gives an orientation class \(o_{K} \in H_{m}(M \mid K)\). The commutativity of the diagram ensures that \((\rho_{x, K})_{*}o_{K} = o_{x}\).
+  Pulling \(o_{x} \in H_{m}(M \mid x)\) back to \(H_{m}(M \mid U_{\alpha})\), then mapping it to \(H_{m}(M \mid K)\) with \(\phi\) gives an orientation class \(o_{K} \in H_{m}(M \mid K)\). The commutativity of the diagram ensures that \((\rho_{x, K})_{*}o_{K} = o_{x}\).
 
   Now suppose that \(K\) is not contained in a single chart. We can find an open cover of \(K\) by charts, and since \(K\) is compact, there exists a finite subcover.
 
@@ -823,7 +823,7 @@ For a triple \(B \subset A \subset X\) denote the canonical map on pairs \((X, X
       & \cdots
     \end{tikzcd}
   \end{equation*}
-  By our above work, we get unique orientation classes \(o_{K_{i}} \in H_{m}(M | K_{i})\) such that \((\rho_{x, K_{i}})_{*} = o_{x}\) for all \(x \in K_{i}\), \(i = 1\), \(2\). Applying \(\kappa\), we find
+  By our above work, we get unique orientation classes \(o_{K_{i}} \in H_{m}(M \mid K_{i})\) such that \((\rho_{x, K_{i}})_{*} = o_{x}\) for all \(x \in K_{i}\), \(i = 1\), \(2\). Applying \(\kappa\), we find
   \begin{equation*}
     \kappa(o_{K_{1}}, o_{K_{2}}) = \rho_{K_{1} \cap K_{2}, K_{1}}o_{K_{1}} - \rho_{K_{1} \cap K_{2}, K_{2}}o_{K_{2}}.
   \end{equation*}
@@ -884,9 +884,9 @@ where
       \end{equation*}
       must be equal to \(k_{y} o_{y}\), so \(k_{x} = k_{y}\). Thus, the function \(x \mapsto k_{x}\) is locally constant, hence constant. Call this constant \(k\).
 
-      Thus, \(ka - o_{M}\) is zero when restricted to any \(x \in M\), implying by \hyperref[prop:orientation_class_for_compacta]{Proposition~\ref*{prop:orientation_class_for_compacta}} that \(a = k o_{M}\). \(o_{M}\) generates \(H_{m}(M)\).
+      Thus, \(ka - o_{M}\) is zero when restricted to any \(x \in M\), implying by \hyperref[prop:orientation_class_for_compacta]{Proposition~\ref*{prop:orientation_class_for_compacta}} that \(a = k o_{M}\). Thus, \(o_{M}\) generates \(H_{m}(M)\).
 
-      We know that \(o_{M}\) is non-trivial because \((\rho_{x, M})_{*} o_{M}\) generates \(H_{m}(M | x)\), and that it has infinite order because if \(\ell o_{M} = 0\) for some \(\ell \neq 0 \in \Z\) \(H_{m}(M)\), then \(\ell (\rho_{x, M})_{*}o_{M} = \ell o_{x} = 0\). This shows that \(H_{m}(M)\) has a single generator of infinite order, i.e.\ is isomorphic to \(\Z\).
+      We know that \(o_{M}\) is non-trivial because \((\rho_{x, M})_{*} o_{M}\) generates \(H_{m}(M \mid x)\), and that it has infinite order because if \(\ell o_{M} = 0\) for some \(\ell \neq 0 \in \Z\) \(H_{m}(M)\), then \(\ell (\rho_{x, M})_{*}o_{M} = \ell o_{x} = 0\). This shows that \(H_{m}(M)\) has a single generator of infinite order, i.e.\ is isomorphic to \(\Z\).
 
 
     \item[\((2 \Rightarrow 3)\)] Pick a generator \(o_{M} \in \Z\), and define an orientation by
@@ -1039,7 +1039,7 @@ Sticking \(o_{K} \in H_{m}(M \mid K)\) into the second slot of the cap product a
   \label{prop:poincare_duality_well_defined}
   The maps
   \begin{equation*}
-    (-) \frown o_{K}\colon H^{m-p}(M | K) \to H_{p}(M)
+    (-) \frown o_{K}\colon H^{m-p}(M \mid K) \to H_{p}(M)
   \end{equation*}
   descend to a map
   \begin{equation*}
@@ -1102,6 +1102,26 @@ Sticking \(o_{K} \in H_{m}(M \mid K)\) into the second slot of the cap product a
 
 \section{Alexander-Lefschetz duality}
 \label{sec:alexander_lefschetz_duality}
+
+\section{Application of duality}
+\label{sec:application_of_duality}
+
+\section{Duality and cup products}
+\label{sec:duality_and_cup_products}
+
+\begin{definition}[cup pairing]
+  \label{def:cup_pairing}
+  Let \(M\) be a connected closed \(m\)-manifold with an \(R\)-orientation for some commutative ring \(R\). The \defn{cup pairing} is the composition
+  \begin{equation*}
+    \begin{tikzcd}
+      H^{k}(M; R) \otimes_{R} H^{m-k}(M; R)
+      \arrow[r, "\smile"]
+      & H^{m}(M; R)
+      \arrow[r, "\PD_{M}"]
+      & H_{0}(M; R)
+    \end{tikzcd}.
+  \end{equation*}
+\end{definition}
 
 \section{The Milnor sequence}
 \label{sec:the_milnor_sequence}
