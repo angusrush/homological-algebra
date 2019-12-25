@@ -8,7 +8,7 @@
 \section{Basics}
 \label{sec:basics}
 
-Abelian categories provide a categorical axiomatization of the properties of the category $\Rmod$ of modules over a (not necessarily commutative) ring $R$; in fact, one can show that any small abelian category is a full subcategory of $\Rmod$ for some $R$. Homological is the study of chain complexes of $R$-modules, and hence of the study of chain complexes in an abelian category. 
+Abelian categories provide a categorical axiomatization of the properties of the category $\Rmod$ of modules over a (not necessarily commutative) ring $R$; in fact, one can show that any small abelian category is a full subcategory of $\Rmod$ for some $R$. Homological is the study of chain complexes of $R$-modules, and hence of the study of chain complexes in an abelian category.
 
 One of the benefits of working with abelian categories rather than working directly $\Rmod$ is that many things which are not obviously abelian categories turn out to be abelian categories; for example, the category of chain complexes in an abelian category is itself an abelian category, so when one is studying abelian categories one is already learning something about chain complexes in an abelian category.
 
@@ -33,9 +33,9 @@ One of the benefits of working with abelian categories rather than working direc
   Let $\mathcal{C}$ be an additive category. Then any terminal object is also an initial object, and the product $A \times B$ satisfies the universal property for a coproduct $A \amalg B$.
 \end{proposition}
 \begin{proof}
-  Denote by $*$ a terminal object in $\mathcal{C}$. The unique morphism $\id_{*}\colon * \to *$ must be the identity element $e_{* \to *} \in \Hom(*, *)$. Let $X$ be any other object in $\mathcal{C}$, and let $f\colon * \to X$. Then $e_{* \to *} \circ f = f$. However, since composition is bilinear, we also have $e_{* \to *} \circ f = e_{* \to X}$. Thus, there is a unique map $* \to X$ for all $X$, so $*$ is an initial object. Hence it is a zero object. From now on, we will write $0$ for zero objects.
+  First we show that any terminal object is also initial. Denote by $*$ a terminal object in $\mathcal{C}$. The unique morphism $\id_{*}\colon * \to *$ must be the additive identity $e_{* \to *}$ in the abelian group $\Hom(*, *)$. Let $X$ be any other object in $\mathcal{C}$, and let $f\colon * \to X$. Then $e_{* \to *} \circ f = f$. However, since composition is bilinear, we also have $e_{* \to *} \circ f = e_{* \to X}$. Thus, there is a unique map $* \to X$ for all $X$, so $*$ is an initial object. Hence it is a zero object. From now on, we will write $0$ for zero objects.
 
-  By the universal property for products, we get a unique map $i_{A}\colon A \to A \times B$ making the following diagram commute.
+  Now we show that binary products are also coproducts. By the universal property for products, we get a unique map $i_{A}\colon A \to A \times B$ making the following diagram commute.
   \begin{equation*}
     \begin{tikzcd}
       & A
@@ -375,13 +375,13 @@ We have seen that in a pre-abelian category, kernels and cokernels more or less 
 
 The above definition is equivalent to the following: an abelian category is:
 \begin{itemize}
-  \item a category \(\mathcal{A}\)
+  \item a category \(\mathcal{A}\);
 
-  \item enriched over \((\Ab, \otimes_{\Z})\)
+  \item enriched over \((\Ab, \otimes_{\Z})\);
 
-  \item with finite products (hence direct sums)
+  \item with finite products (hence direct sums);
 
-  \item such that every morphism has a kernel and a cokernel
+  \item such that every morphism has a kernel and a cokernel;
 
   \item such that every monomorphism is the kernel of its cokernel, and every epimorphism is the cokernel of its kernel.
 \end{itemize}
@@ -416,7 +416,7 @@ The above definition is equivalent to the following: an abelian category is:
       \arrow[ul, "0"]
     \end{tikzcd}
   \end{equation*}
-  This gives us morphisms $f^{-1}_{L}$ and $f^{-1}_{R}$ such that
+  The universal properties for kernels and cokernels give us respectively morphisms $f^{-1}_{L}$ and $f^{-1}_{R}$ such that
   \begin{equation*}
     \begin{tikzcd}
       f \circ f^{-1}_{R} = \id_{A},\qquad f^{-1}_{L} \circ f = \id_{B}.
@@ -446,15 +446,122 @@ As the following proposition shows, additive functors from additive categories p
 \subsection{Abelian-ness is a property, not a structure}
 \label{ssc:abelian_ness_is_a_property_not_a_structure}
 
-Our definition of an abelian category, namely an $\Ab$-enriched category with products, kernels, and cokernels, such that every monomorphism is the kernel of its cokernel and every epimorphism is the cokernel of its kernel, makes it sound like ordinary categories could never aspire to be abelian categories. After all, in an ordinary category, one has to provide extra structure, namely an addition law on morphisms, to get an $\Ab$-enriched category.
+Our definition of an abelian category, namely an $\Ab$-enriched category with products, kernels, and cokernels, such that every monomorphism is the kernel of its cokernel and every epimorphism is the cokernel of its kernel, makes it sound like ordinary categories could never aspire to be abelian categories. After all, an addition law on morphisms is extra structure, which one would have to provide to get an $\Ab$-enriched category from an ordinary category.
 
-Not so! It turns out that demanding that finite products and coproducts exist and agree is sufficient to specify the addition law.
+Not so! It turns out that demanding that a category $\mathcal{C}$ admit finite direct sums is sufficient to uniquely determine the structure of a commutative monoid on each hom-set, as will follow from the Eckmann-Hilton argument. Furthermore, the axioms regarding the existence and properties of kernels and cokernels are enough to imply that each commutative monoid is an abelian group.
+
+\begin{proposition}[Eckmann-Hilton]
+  Let $S$ be a set and let $\bullet$ and $\star$ be two unital binary operations on $S$, with units $0_{\bullet}$ and $0_{\star}$, satisfying the \emph{interchange rule}
+  \begin{equation*}
+    (a \bullet b) \star (c \bullet d) = (a \star c) \bullet (b \star d) .
+  \end{equation*}
+  Then the operations $\bullet$ and $\star$ coincide, and they are (it is) associative and commutative.
+\end{proposition}
+\begin{proof}
+  We immediately invent new notation, writing
+  \begin{equation*}
+    a \bullet b = (a\ b), \qquad \text{and}\qquad
+    a \star b =
+    \begin{pmatrix}
+      a \\ b
+    \end{pmatrix}.
+  \end{equation*}
+  Then the interchange rule can be written
+  \begin{equation*}
+    \begin{pmatrix}
+      (a\ b)
+      \\
+      (c\ d)
+    \end{pmatrix}
+    =
+    \left(
+    \begin{pmatrix}
+      a \\ c
+    \end{pmatrix}
+    \
+    \begin{pmatrix}
+      b \\ d
+    \end{pmatrix}
+    \right).
+  \end{equation*}
+  We will therefore without fear of confusion denote this operation by
+  \begin{equation*}
+    \begin{pmatrix}
+      a & b
+      \\
+      c & d
+    \end{pmatrix}.
+  \end{equation*}
+  First, we note that the units $0_{\bullet}$ and $0_{\star}$ are equal since
+  \begin{equation*}
+    0_{\bullet} = (0_{\bullet}\ 0_{\bullet}) =
+    \begin{pmatrix}
+      0_{\bullet} & 0_{\star}
+      \\
+      0_{\star} & 0_{\bullet}
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+      0_{\star}
+      \\
+      0_{\star}
+    \end{pmatrix}
+    = 0_{\star}.
+  \end{equation*}
+  From now on, we will write $0_{\bullet} = 0_{\star} = 0$. To see that $\star$ and $\bullet$ are equal and commutative, note that
+  \begin{equation*}
+    (a\ b) =
+    \begin{pmatrix}
+      a & 0 \\
+      0 & b
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+      a \\ b
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+      0 & a \\
+      b & 0
+    \end{pmatrix}
+    = (b\ a).
+  \end{equation*}
+\end{proof}
+
+For any object $A$, denote the diagonal map $A \to A \oplus A$ by $\Delta$, and the codiagonal map $A \oplus A \to A$ by $\nabla$. 
+
+\begin{definition}
+  Let $\mathcal{A}$ be an abelian category, and let $A$, $B$ in $\mathcal{A}$. Define the following operations on the set $\Hom_{\mathcal{A}}(A, B)$.
+  \begin{enumerate}
+    \item Define $f \plusl g$ to be the composition
+      \begin{equation*}
+        \begin{tikzcd}
+          A
+          \arrow[r, "\Delta"]
+          & A \oplus A
+          \arrow[r, "{(f, g)}"]
+          & B
+        \end{tikzcd}.
+      \end{equation*}
+      
+    \item Define $f \plusr g$ to be the composition
+      \begin{equation*}
+        \begin{tikzcd}
+          A
+          \arrow[r, "{(f, g)}"]
+          & B \oplus B
+          \arrow[r, "\nabla"]
+          & B
+        \end{tikzcd}.
+      \end{equation*}
+  \end{enumerate}
+\end{definition}
 
 \begin{proposition}
   Let $\mathcal{C}$ be a category with finite direct sums\footnote{Including 0-ary direct sums, i.e.\ a zero object.} (\hyperref[def:direct_sum]{Definition~\ref*{def:direct_sum}}). Then $\mathcal{C}$ has a canonical enrichment in commutative monoids.
 \end{proposition}
 \begin{proof}
-  Let $A \in \mathcal{C}$ be an object. Denote the diagonal map $A \to A \oplus A$ by $\Delta$, and the codiagonal map $A \oplus A \to A$ by $\nabla$. Let $f$, $g\colon A \to B$. We define
+  Let $A \in \mathcal{C}$ be an object. Let $f$, $g\colon A \to B$. We define
   \begin{equation*}
     f + g = \nabla \circ (f \oplus g) \circ \Delta.
   \end{equation*}
@@ -471,7 +578,7 @@ We can then define an abelian category to be a category with finite direct sums 
 
 \begin{corollary}
   \label{cor:functor_additive_iff_preserves_direct_sums}
-  Let $F\colon \mathcal{A} \to \mathcal{B}$  be a functor between abelian categories. Then $F$ is additive if and only if it preserves direct sums.
+  Let $F\colon \mathcal{A} \to \mathcal{B}$  be a functor between additive categories. Then $F$ is additive if and only if it preserves direct sums.
 \end{corollary}
 
 \section{Embedding theorems}
