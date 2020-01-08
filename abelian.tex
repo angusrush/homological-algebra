@@ -446,14 +446,15 @@ As the following proposition shows, additive functors from additive categories p
 \subsection{Abelian-ness is a property, not a structure}
 \label{ssc:abelian_ness_is_a_property_not_a_structure}
 
-Our definition of an abelian category, namely an $\Ab$-enriched category with products, kernels, and cokernels, such that every monomorphism is the kernel of its cokernel and every epimorphism is the cokernel of its kernel, makes it sound like ordinary categories could never aspire to be abelian categories. After all, an addition law on morphisms is extra structure, which one would have to provide to get an $\Ab$-enriched category from an ordinary category.
+We have defined an abelian category to be an $\Ab$-enriched category with products, kernels, and cokernels, such that every monomorphism is the kernel of its cokernel and every epimorphism is the cokernel of its kernel. This makes it sound like an ordinary category could never aspire to be an abelian category. After all, an addition law on morphisms is extra structure, which one would have to provide to get an $\Ab$-enriched category from an ordinary category.
 
 Not so! It turns out that demanding that a category $\mathcal{C}$ admit finite direct sums is sufficient to uniquely determine the structure of a commutative monoid on each hom-set, as will follow from the Eckmann-Hilton argument. Furthermore, the axioms regarding the existence and properties of kernels and cokernels are enough to imply that each commutative monoid is an abelian group.
 
 \begin{proposition}[Eckmann-Hilton]
+  \label{prop:eckmann-hilton}
   Let $S$ be a set and let $\bullet$ and $\star$ be two unital binary operations on $S$, with units $0_{\bullet}$ and $0_{\star}$, satisfying the \emph{interchange rule}
   \begin{equation*}
-    (a \bullet b) \star (c \bullet d) = (a \star c) \bullet (b \star d) .
+    (a \bullet b) \star (c \bullet d) = (a \star c) \bullet (b \star d).
   \end{equation*}
   Then the operations $\bullet$ and $\star$ coincide, and they are (it is) associative and commutative.
 \end{proposition}
@@ -484,7 +485,7 @@ Not so! It turns out that demanding that a category $\mathcal{C}$ admit finite d
     \end{pmatrix}
     \right).
   \end{equation*}
-  We will therefore without fear of confusion denote this operation by
+  We will therefore without fear of confusion omit parentheses, denoting this operation by
   \begin{equation*}
     \begin{pmatrix}
       a & b
@@ -528,7 +529,7 @@ Not so! It turns out that demanding that a category $\mathcal{C}$ admit finite d
   \end{equation*}
 \end{proof}
 
-For any object $A$, denote the diagonal map $A \to A \oplus A$ by $\Delta$, and the codiagonal map $A \oplus A \to A$ by $\nabla$. 
+For any object $A$, denote the diagonal map $A \to A \oplus A$ by $\Delta$, and the codiagonal map $A \oplus A \to A$ by $\nabla$.
 
 \begin{definition}
   Let $\mathcal{A}$ be an abelian category, and let $A$, $B$ in $\mathcal{A}$. Define the following operations on the set $\Hom_{\mathcal{A}}(A, B)$.
@@ -543,7 +544,7 @@ For any object $A$, denote the diagonal map $A \to A \oplus A$ by $\Delta$, and 
           & B
         \end{tikzcd}.
       \end{equation*}
-      
+
     \item Define $f \plusr g$ to be the composition
       \begin{equation*}
         \begin{tikzcd}
@@ -561,25 +562,125 @@ For any object $A$, denote the diagonal map $A \to A \oplus A$ by $\Delta$, and 
   Let $\mathcal{C}$ be a category with finite direct sums\footnote{Including 0-ary direct sums, i.e.\ a zero object.} (\hyperref[def:direct_sum]{Definition~\ref*{def:direct_sum}}). Then $\mathcal{C}$ has a canonical enrichment in commutative monoids.
 \end{proposition}
 \begin{proof}
-  Let $A \in \mathcal{C}$ be an object. Let $f$, $g\colon A \to B$. We define
+  We show that $\plusl$ and $\plusr$ are unital with unit $0$, and satisfy the exchange law. This suffices by \hyperref[prop:eckmann-hilton]{Proposition~\ref*{prop:eckmann-hilton}}. To see that $\plusl$ is unital, note that the compositions
   \begin{equation*}
-    f + g = \nabla \circ (f \oplus g) \circ \Delta.
+    \begin{tikzcd}
+      A \oplus A
+      \arrow[r, "{(f, 0)}"]
+      & B
+    \end{tikzcd}
+    \qquad\text{and}\qquad
+    \begin{tikzcd}
+      A \oplus A
+      \arrow[r, "\pi_{1}"]
+      & A
+      \arrow[r, "f"]
+      & B
+    \end{tikzcd}
   \end{equation*}
-  To see that this is an enrichment in commutative monoids, note the following.
-  \begin{enumerate}
-    \item With $0$ the zero morphism, we have
-      \begin{equation*}
-        f + 0
-      \end{equation*}
-  \end{enumerate}
+  agree since there is a unique horizontal morphism making the diagram
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[drr, bend left, "f"]
+      \arrow[d, swap, "i_{1}"]
+      \\
+      A \oplus A
+      \arrow[r, "\pi_{1}"]
+      & A
+      \arrow[r, "f"]
+      & B
+      \\
+      A
+      \arrow[urr, bend right, swap, "0"]
+      \arrow[u, "i_{2}"]
+    \end{tikzcd}
+  \end{equation*}
+  commute. Thus, $f \plusl 0$ is given by
+  \begin{align*}
+    (f, 0) \circ \Delta &= f \circ \pi_{1} \circ \Delta \\
+    &= f \circ \id_{A} \\
+    &= f.
+  \end{align*}
+  The case $0 \plusl f = f$ is exactly analogous. The case of $\plusr$ is dual.
+
+  Now we show that $\plusl$ and $\plusr$ obey the interchange law. Consider the composition
+  \begin{equation*}
+    \begin{tikzcd}[ampersand replacement=\&]
+      A
+      \arrow[r, "\Delta"]
+      \& A \oplus A
+      \arrow[r, "{\begin{pmatrix}a & b \\ c & d\end{pmatrix}}"]
+      \& B \oplus B
+      \arrow[r, "\nabla"]
+      \& B
+    \end{tikzcd},
+  \end{equation*}
+  where we have employed the matrix shorthand for the following map given to us by the universal properties for products and coproducts.
+  \begin{equation*}
+    \begin{pmatrix}
+      a & b
+      \\
+      c & d
+    \end{pmatrix}
+    \quad = \quad
+    \begin{tikzcd}[row sep=large, column sep=large]
+      A
+      \arrow[r, "a"]
+      \arrow[dr, very near start, swap, "c"]
+      & B
+      \\
+      A
+      \arrow[ur, very near start, crossing over, "b"]
+      \arrow[r, swap, "d"]
+      & B
+    \end{tikzcd}.
+  \end{equation*}
+
+  Consider composition of the first two maps
+  \begin{equation*}
+    \begin{tikzcd}[ampersand replacement=\&]
+      A
+      \arrow[r, "\Delta"]
+      \& A \oplus A
+      \arrow[r, "{\begin{pmatrix}a & b \\ c & d\end{pmatrix}}"]
+      \& B \oplus B
+    \end{tikzcd}.
+  \end{equation*}
+  Writing $B \oplus B = B'$, we can write this as
+  \begin{equation*}
+    \begin{tikzcd}[ampersand replacement=\&]
+      A
+      \arrow[r, "\Delta"]
+      \& A \oplus A
+      \arrow[r, "{\left( \begin{pmatrix}a \\ c\end{pmatrix},\ \begin{pmatrix}b \\ d\end{pmatrix} \right)}"]
+      \& B'
+    \end{tikzcd}.
+  \end{equation*}
+  This composition is nothing else but
+  \begin{equation*}
+     \begin{pmatrix}a \\ c\end{pmatrix} \plusl \begin{pmatrix}b \\ d\end{pmatrix}.
+  \end{equation*}
+
+  Post-composing with $\nabla$ then gives
+  \begin{equation*}
+    (a \plusr c) \plusl (b \plusr d),
+  \end{equation*}
+  and composing in the other direction gives
+  \begin{equation*}
+    (a \plusl b) \plusr (c \plusl d).
+  \end{equation*}
 \end{proof}
 
-We can then define an abelian category to be a category with finite direct sums such that the canonical enrichment in commutative monoids happens to be an \(\Ab\)-enrichment. Thus, we have the following.
+Already we have shown the following.
 
 \begin{corollary}
   \label{cor:functor_additive_iff_preserves_direct_sums}
   Let $F\colon \mathcal{A} \to \mathcal{B}$  be a functor between additive categories. Then $F$ is additive if and only if it preserves direct sums.
 \end{corollary}
+\begin{proof}
+  Suppose $F$ preserves direct sums. Then
+\end{proof}
 
 \section{Embedding theorems}
 \label{sec:embedding_theorems}
